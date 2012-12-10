@@ -1,0 +1,25 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	renamed:    New Folder/RobotTemplate_Dec8/src/edu/wpi/first/wpilibj/templates/RobotMain.java -> New Folder/RobotTemplate_Dec8/src/robot/RobotMain.java
+#
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    New Folder/RobotTemplate_Dec8/BSD_License_for_WPILib_code.txt
+#	deleted:    New Folder/RobotTemplate_Dec8/build.properties
+#	deleted:    New Folder/RobotTemplate_Dec8/build.xml
+#	deleted:    New Folder/RobotTemplate_Dec8/nbproject/project.xml
+#	deleted:    New Folder/RobotTemplate_Dec8/resources/META-INF/MANIFEST.MF
+#	deleted:    New Folder/RobotTemplate_Dec8/src/robot/RobotMain.java
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	Templates/
+

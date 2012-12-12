@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Victor;
  * Wrapper class for motors.  Controls motor access and makes limit switches
  * easier to implement.
  * @author Ben
+ * @modified Steven Ploog added comments to test git
  */
 public class FancyMotor {
     //// CONSTANTS -------------------------------------------------------------
@@ -29,6 +30,7 @@ public class FancyMotor {
     // Limit Switches
     private DigitalInput _upperLimit = null;
     private DigitalInput _lowerLimit = null;
+    private int _middleLimit = 245; //This was created to test git. YOU DO NOT DO THIS AT HOME KIDS
     
     //// CONSTRUCTOR -----------------------------------------------------------
     

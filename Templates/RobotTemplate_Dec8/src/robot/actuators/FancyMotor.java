@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.Victor;
  * easier to implement.
  * @author Ben
  * @modified Steven Ploog added comments to test git
- * @modified Jon Zarger added comment to test git.
  */
 public class FancyMotor {
     //// CONSTANTS -------------------------------------------------------------

@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
 
     This is a sample netbeans project file for a Sun Spot Application project.
     You may edit it freely, it doesn't affect the ant-powered build.
 
- --><project xmlns="http://www.netbeans.org/ns/project/1">
+ -->
+<project xmlns="http://www.netbeans.org/ns/project/1">
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
         <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
@@ -81,8 +83,8 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="boot">${sunspot.bootclasspath}</classpath>
-                <classpath mode="compile">${wpilibj.home}/classes.jar</classpath>
+                <classpath mode="boot">${sunspot.home}\lib\squawk.jar</classpath>
+                <classpath mode="compile">${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar</classpath>
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>

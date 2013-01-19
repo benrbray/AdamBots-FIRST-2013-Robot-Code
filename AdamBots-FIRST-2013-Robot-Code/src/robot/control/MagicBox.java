@@ -13,7 +13,13 @@ import edu.wpi.first.wpilibj.DriverStation;
  */
 public class MagicBox extends DriverStation {
     
+    //// MAGIC BOX CONSTANTS ---------------------------------------------------
+    
+    //// MAGIC BOX VARIABLES ---------------------------------------------------
+    
     private DriverStation _ds;
+    
+    //// BODY OF CLASS ---------------------------------------------------------
     
     public MagicBox() {
 	_ds = DriverStation.getInstance();

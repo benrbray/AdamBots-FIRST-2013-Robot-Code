@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class MagicBox extends DriverStation {
     
     //// MAGIC BOX CONSTANTS ---------------------------------------------------
+    public static final int NUM_BUTTONS = 0;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
     

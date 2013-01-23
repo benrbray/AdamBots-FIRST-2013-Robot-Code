@@ -20,6 +20,13 @@ public class TeleopLogic {
     private FancyJoystick _secondaryJoy;
     private MagicBox _magicBox;
     
+    private boolean _primaryButtons[];
+    private boolean _secondaryButtons[];
+    private boolean _magicBoxButtons[];
+    
+    private double _primaryAxis[];
+    private double _secondaryAxis[];
+    
     /**
      * Creates an instance of TeleopLogic.
      */
@@ -31,6 +38,13 @@ public class TeleopLogic {
      * Initializes variables, objects, etc to their starting states.
      */
     public void teleopInit() {
+	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
+	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
+	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
+	_magicBoxButtons = new boolean[MagicBox.NUM_BUTTONS];
+	
+	_primaryAxis = new double[FancyJoystick.XBOX_BUTTONS];
+	_secondaryAxis = new double[FancyJoystick.XBOX_AXES];
 	
     }
     
@@ -42,17 +56,18 @@ public class TeleopLogic {
     }
     
     /**
-     * Gathers primary joystick values.
+     * Gathers joystick button and axis values and stores them in their respective arrays.
      */
-    private void updatePrimaryJoystick() {
+    private void updateJoystickValues() {
+	for (int i = 1; i < FancyJoystick.XBOX_BUTTONS; i++) {
+	    _primaryButtons[i] = _primaryJoy.getRawButton(i);
+	    _secondaryButtons[i] = _secondaryJoy.getRawButton(i);
+	}
 	
-    }
-    
-    /**
-     * Gathers secondary joystick values.
-     */
-    private void updateSecondaryJoystick() {
-	
+	for (int i = 0; i < FancyJoystick.XBOX_AXES; i++) {
+	    _primaryAxis[i] = _primaryJoy.getDeadAxis(i);
+	    _secondaryAxis[i] = _secondaryJoy.getDeadAxis(i);
+	}
     }
     
     /**

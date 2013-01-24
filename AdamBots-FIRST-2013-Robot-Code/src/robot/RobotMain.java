@@ -9,6 +9,11 @@ package robot;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import robot.behavior.RobotClimb;
+import robot.behavior.RobotDrive;
+import robot.behavior.RobotPickup;
+import robot.behavior.RobotShoot;
+import robot.sensors.RobotCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,12 +23,36 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class RobotMain extends IterativeRobot {
+    //// STATIC INSTANCE VARIABLES ---------------------------------------------
+    
+    /*
+     * RobotMain includes these static instances because they will be commonly
+     * referenced elsewhere, and we don't want to pass them as arguments all
+     * over the place.
+     * 
+     * (Ben 1/23/13)
+     */
+    
+    public static RobotDrive robotDrive;
+    public static RobotPickup robotPickup;
+    public static RobotShoot robotShoot;
+    public static RobotCamera robotCamera;
+    public static RobotClimb robotClimb;
+    
+    //// ITERATIVE ROBOT METHODS -----------------------------------------------
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-
+	
+    }
+    
+    //// AUTONOMOUS ------------------------------------------------------------
+    
+    public void autonomousInit() {
+	
     }
 
     /**
@@ -32,7 +61,16 @@ public class RobotMain extends IterativeRobot {
     public void autonomousPeriodic() {
 
     }
+    
+    //// TELEOP ----------------------------------------------------------------
 
+    /**
+     * Initialization code for teleop mode should go here
+     */
+    public void teleopInit() {
+	
+    }
+    
     /**
      * This function is called periodically during operator control
      */
@@ -40,11 +78,36 @@ public class RobotMain extends IterativeRobot {
         
     }
     
+    //// TEST ------------------------------------------------------------------
+    
+    /**
+     * Initialization code for test mode should go here
+     */
+    public void testInit() {
+	
+    }
+    
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
     
+    }
+    
+    //// DISABLED --------------------------------------------------------------
+
+    /**
+     * Initialization code for disabled mode should go here
+     */
+    public void disabledInit() {
+	
+    }
+
+    /**
+     *  Periodic code for disabled mode should go here.
+     */
+    public void disabledPeriodic() {
+	
     }
     
 }

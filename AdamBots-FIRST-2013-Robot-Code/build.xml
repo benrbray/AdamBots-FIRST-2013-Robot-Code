@@ -26,7 +26,8 @@
     <property name="user.properties.file" value="build.properties"/>
     <property file="${user.home}/.sunspotfrc.properties"/>
     <import file="${sunspot.home}/build.xml"/>
-
+<!--
+-->
     <!--
 
     This file imports the master build file for compiling and deploying sunspot

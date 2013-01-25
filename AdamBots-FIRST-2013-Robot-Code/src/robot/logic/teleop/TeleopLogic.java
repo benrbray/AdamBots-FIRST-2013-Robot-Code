@@ -34,6 +34,11 @@ public class TeleopLogic {
     private double _primaryAxis[];
     private double _secondaryAxis[];
     
+    //// DRIVE VARIABLES -------------------------------------------------------
+    // Chassis drive
+    private double _leftDrive;
+    private double _rightDrive;
+    
     /**
      * Creates an instance of TeleopLogic.
      */
@@ -69,6 +74,60 @@ public class TeleopLogic {
      */
     public void tick() {
 	
+	//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
+	updateJoystickValues();
+	updateMagicBox();
+	
+	//// DRIVE CHASSIS -----------------------------------------------------
+	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
+	
+	//_robotDrive.drive(left, right);
+	
+	/* REFERENCE MAIN DRIVER CODE
+	// Chassis drive motor math
+        _triggers = _main.getRawAxis(FancyJoystick.AXIS_TRIGGERS);
+        _leftX = _main.getDeadAxis(FancyJoystick.AXIS_LEFT_X);
+        _bridgeTipperSpeed = _main.getDeadAxis(FancyJoystick.AXIS_RIGHT_Y) * -1;
+        
+        _leftDrive = -_leftX + _triggers;
+        _rightDrive = -(_leftX + _triggers);
+        
+        // Restrict
+        double limit = 1;
+        _leftDrive = Math.max(-limit, Math.min(limit, _leftDrive));
+        _rightDrive = Math.max(-limit, Math.min(limit, _rightDrive));
+        
+        _leftDriveMotors.set(_leftDrive);
+        _rightDriveMotors.set(_rightDrive);
+        
+        // Main driver elevator control
+        if (_main.getRawButton(FancyJoystick.BUTTON_X)) {
+            _elevatorSpeedMain = -1;
+        } else {
+            _elevatorSpeedMain = 0;
+        }
+        
+        // Bridge tipper logic
+        if (!_bridgeLimitUp.get() && _bridgeTipperSpeed < 0) {
+            _bridgeTipper.set(_bridgeTipperSpeed);
+        } else if (!_bridgeLimitDown.get() && _bridgeTipperSpeed > 0) {
+            _bridgeTipper.set(_bridgeTipperSpeed);
+        } else {
+            _bridgeTipper.set(0);
+        }
+        
+        // Shifter logic
+        if (_main.getRawButton(FancyJoystick.BUTTON_LB)) {
+            //Handle shifting
+            if (_main.getRawButton(FancyJoystick.BUTTON_A)) {
+                selectGear(SHIFTER_LOW);
+                _dbBooleanPack[DB_CURRENT_GEAR] = false;
+            } else if (_main.getRawButton(FancyJoystick.BUTTON_Y)) {
+                selectGear(SHIFTER_HIGH);
+                _dbBooleanPack[DB_CURRENT_GEAR] = true;
+            }
+        }
+	*/
     }
     
     /**

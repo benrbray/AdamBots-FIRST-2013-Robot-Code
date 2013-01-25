@@ -102,7 +102,7 @@
     </condition>
     
     <!-- Run Batch File to Publish Javadoc to GitHub Pages -->
-    <target name="javadoc-publish" if="is.windows">
+    <target name="javadoc-publish" if="is.windows" depends="javadoc">
 
 	<exec executable="cmd.exe">
 	    <arg line="cd .."/>

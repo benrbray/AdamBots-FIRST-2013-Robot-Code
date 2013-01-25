@@ -1,17 +1,14 @@
-#!/bin/sh
-# Push javadoc files to a website hosted by github <http://pages.github.com/>.
-# Before executing this script, generate the javadoc files into build/docs/javadoc/.
-git checkout gh-pages || exit $?
-
-# Clear out the old files:
-rm -rf docs/* 
-# Replace them with new files and commit them:
-cp -pr AdamBots-FIRST-2013-Robot-Code/docs/* javadoc \
-&& git add javadoc \
-&& git commit -a -m "generated javadoc"
-ERROR=$?
-
-git checkout master || exit $?
-[ $ERROR -eq 0 ] || exit $ERROR
-git push github master || exit $?
-git push github gh-pages || exit $?
+TEMP_JAVADOC="temp-javadoc"
+GHPAGES_JAVADOC="javadoc"
+set -v
+git commit -a
+git push
+rm -rf ../$TEMP_JAVADOC
+cp -r ./AdamBots-FIRST-2013-Robot-Code/doc ../$TEMP_JAVADOC
+git checkout gh-pages
+git rm -rf ./$GHPAGES_JAVADOC
+cp -r ../$TEMP_JAVADOC ./$GHPAGES_JAVADOC
+git add $GHPAGES_JAVADOC
+git commit -a -m "new javadoc published."
+git push
+git checkout master

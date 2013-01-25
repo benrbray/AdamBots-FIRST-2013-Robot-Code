@@ -90,4 +90,27 @@
     For more information on using ant, see http://ant.apache.org.
 
     -->
+    
+    
+    
+    <!--
+	javadoc-publish
+    -->
+    
+    <condition property="is.windows">
+	<os family="windows"/>
+    </condition>
+    
+    <!-- Run Batch File to Publish Javadoc to GitHub Pages -->
+    <target name="javadoc-publish" if="is.windows">
+
+	<exec executable="cmd.exe">
+	    <arg line="cd .."/>
+	</exec>
+	
+	<exec executable="powershell.exe">
+	    <arg line=".\publish-javadoc.ps1"/>
+	</exec>
+	
+    </target>
 </project>

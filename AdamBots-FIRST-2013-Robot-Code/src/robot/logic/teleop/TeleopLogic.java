@@ -1,21 +1,28 @@
 /**
  * This class handles the updateJoystick Methods as well as the update magic box methods from last year.
+ * @author Steven
+ * @team-members Steven, Haden
  */
 
 package robot.logic.teleop;
 
-import robot.control.FancyJoystick;
-import robot.control.MagicBox;
+import robot.RobotMain;
+import robot.behavior.*;
+import robot.control.*;
+import robot.sensors.*;
 
-/**
- *
- * @author Steven
- */
 public class TeleopLogic {
     
     //// CONSTANTS -------------------------------------------------------------
     
     //// VARIABLES -------------------------------------------------------------
+    private RobotDrive _robotDrive;
+    private RobotPickup _robotPickup;
+    private RobotShoot _robotShoot;
+    private RobotClimb _robotClimb;
+    private RobotCamera _robotCamera;
+    private RobotSensors _robotSensors;
+    
     private FancyJoystick _primaryJoy;
     private FancyJoystick _secondaryJoy;
     private MagicBox _magicBox;
@@ -38,6 +45,15 @@ public class TeleopLogic {
      * Initializes variables, objects, etc to their starting states.
      */
     public void teleopInit() {
+	
+	//// INITIALIZE ROBOT CONTROL AND SENSOR CLASS REFERENCES --------------
+	_robotDrive = RobotMain.robotDrive;
+	_robotPickup = RobotMain.robotPickup;
+	_robotShoot = RobotMain.robotShoot;
+	_robotClimb = RobotMain.robotClimb;
+	_robotCamera = RobotMain.robotCamera;
+	//_robotSensors = RobotMain.robotSensors;
+	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
 	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
 	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
@@ -74,6 +90,8 @@ public class TeleopLogic {
      * Gathers magic box values.
      */
     private void updateMagicBox() {
-	
+	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
+	    _magicBoxButtons[i] = _magicBox.getDigitalIn(i);
+	}
     }
 }

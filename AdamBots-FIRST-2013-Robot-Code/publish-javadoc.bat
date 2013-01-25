@@ -1,2 +1,1 @@
 powershell.exe
-pwd

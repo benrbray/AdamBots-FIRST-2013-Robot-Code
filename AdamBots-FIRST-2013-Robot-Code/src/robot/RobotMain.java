@@ -33,10 +33,15 @@ public class RobotMain extends IterativeRobot {
      * (Ben 1/23/13)
      */
     
+    /** Statically accessible instance of RobotDrive. */
     public static RobotDrive robotDrive;
+    /** Statically accessible instance of RobotPickup. */
     public static RobotPickup robotPickup;
+    /** Statically accessible instance of RobotShoot. */
     public static RobotShoot robotShoot;
+    /** Statically accessible instance of RobotCamera. */
     public static RobotCamera robotCamera;
+    /** Statically accessible instance of RobotClimb. */
     public static RobotClimb robotClimb;
     
     //// ITERATIVE ROBOT METHODS -----------------------------------------------

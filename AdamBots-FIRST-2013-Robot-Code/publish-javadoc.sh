@@ -15,21 +15,13 @@ OLD_BRANCH=`git branch --no-color | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
 
 echo $OLD_BRANCH
 
-# Copy Javadoc to Temporary Directory out of
-cp -pr javadoc/* ~/adambots-temp-javadoc
-ls ~/adambots-temp-javadoc
-
 git checkout gh-pages || exit $?
 
 # Clear out the old files: (files which will be served)
 rm -rf ./javadoc/* 
 
-# Replace them with new files and commit them:
-cp -pr ~/adambots-temp-javadoc/* ./javadoc
-rm -rf ~/adambots-temp-javadoc/*
-
-# debug
-git status
+# Copy files to this branch
+git checkout $OLD_BRANCH ./javadoc
 
 # Add and Commit Javadoc
 git add -A

@@ -103,10 +103,6 @@
     
     <!-- Run Batch File to Publish Javadoc to GitHub Pages -->
     <target name="javadoc-publish" if="is.windows" depends="javadoc">
-
-	<exec executable="cmd.exe">
-	    <arg line="cd .."/>
-	</exec>
 	
 	<exec executable="powershell.exe">
 	    <arg line=".\publish-javadoc.ps1"/>

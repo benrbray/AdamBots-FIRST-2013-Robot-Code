@@ -38,6 +38,7 @@ public class TeleopLogic {
     // Chassis drive
     private double _leftDrive;
     private double _rightDrive;
+    private boolean _highGear;
     
     /**
      * Creates an instance of TeleopLogic.
@@ -80,8 +81,19 @@ public class TeleopLogic {
 	
 	//// DRIVE CHASSIS -----------------------------------------------------
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
-	
+	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
+	//restricts the motion of the drive variables between 1 & -1
+	_leftDrive = Math.max(-1, Math.min(1, _leftDrive));
+        _rightDrive = Math.max(-1, Math.min(1, _rightDrive));
 	_robotDrive.drive(left, right);
+	//Handle shifting
+	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
+            if (_primaryButtons[FancyJoystick.BUTTON_A]) {
+		_highGear=false;
+            } else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
+		_highGear=true;
+            }
+        }
 	
 	/* REFERENCE MAIN DRIVER CODE
 	// Chassis drive motor math

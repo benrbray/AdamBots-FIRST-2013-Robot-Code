@@ -1,2 +1,5 @@
 . (Resolve-Path "$env:LOCALAPPDATA\GitHub\shell.ps1")
-sh publish-javadoc.sh
+cd ..
+cd ..
+ls
+sh .\publish-javadoc.sh

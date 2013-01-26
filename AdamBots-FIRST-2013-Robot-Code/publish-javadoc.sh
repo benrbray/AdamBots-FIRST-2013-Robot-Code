@@ -3,6 +3,9 @@
 # Before executing this script, generate the javadoc files into 
 # AdamBots-FIRST-2013-Robot-Code/javadoc
 
+# verbose output
+set -v
+
 # commit changes
 git commit -a
 git push

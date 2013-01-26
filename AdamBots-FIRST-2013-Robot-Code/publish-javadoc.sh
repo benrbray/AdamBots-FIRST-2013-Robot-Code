@@ -22,21 +22,20 @@ ls ~/adambots-temp-javadoc
 git checkout gh-pages || exit $?
 
 # Clear out the old files: (files which will be served)
-#rm -rf ./javadoc/* 
+rm -rf ./javadoc/* 
 
 # Replace them with new files and commit them:
-#cp -pr ~/adambots-temp-javadoc/* ./javadoc
-#rm -rf ~/adambots-temp-javadoc/*
+cp -pr ~/adambots-temp-javadoc/* ./javadoc
+rm -rf ~/adambots-temp-javadoc/*
 
-#git status
+# debug
+git status
 
-#git add javadoc
-#git commit -a -m "generated javadoc"
+# Add and Commit Javadoc
+git add -A
+git commit -a -m "generated javadoc"
 
-#Remove the generated doc
-#rm -rf pcdoc/*
-
-#git push origin gh-pages || exit $?
+git push origin gh-pages || exit $?
 
 # Switch back to the old branch
-#git checkout $OLD_BRANCH || exit $?
+git checkout $OLD_BRANCH || exit $?

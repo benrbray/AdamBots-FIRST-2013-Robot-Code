@@ -81,7 +81,7 @@ public class TeleopLogic {
 	//// DRIVE CHASSIS -----------------------------------------------------
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 	
-	//_robotDrive.drive(left, right);
+	_robotDrive.drive(left, right);
 	
 	/* REFERENCE MAIN DRIVER CODE
 	// Chassis drive motor math
@@ -99,22 +99,6 @@ public class TeleopLogic {
         
         _leftDriveMotors.set(_leftDrive);
         _rightDriveMotors.set(_rightDrive);
-        
-        // Main driver elevator control
-        if (_main.getRawButton(FancyJoystick.BUTTON_X)) {
-            _elevatorSpeedMain = -1;
-        } else {
-            _elevatorSpeedMain = 0;
-        }
-        
-        // Bridge tipper logic
-        if (!_bridgeLimitUp.get() && _bridgeTipperSpeed < 0) {
-            _bridgeTipper.set(_bridgeTipperSpeed);
-        } else if (!_bridgeLimitDown.get() && _bridgeTipperSpeed > 0) {
-            _bridgeTipper.set(_bridgeTipperSpeed);
-        } else {
-            _bridgeTipper.set(0);
-        }
         
         // Shifter logic
         if (_main.getRawButton(FancyJoystick.BUTTON_LB)) {

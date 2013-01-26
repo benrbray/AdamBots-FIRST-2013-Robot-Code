@@ -11,7 +11,6 @@ git push
 OLD_BRANCH=`git branch --no-color | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
 
 # Copy Javadoc to Temporary Directory out of
-mkdir ~/adambots-temp-javadoc
 cp -pr javadoc/* ~/adambots-temp-javadoc
 
 git checkout gh-pages || exit $?

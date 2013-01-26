@@ -21,7 +21,7 @@ git checkout gh-pages || exit $?
 rm -rf ./javadoc/* 
 
 # Copy files to this branch
-git checkout $OLD_BRANCH ./javadoc
+git checkout $OLD_BRANCH ./javadoc/*
 
 # Add and Commit Javadoc
 git add -A

@@ -40,6 +40,10 @@ public class TeleopLogic {
     private double _rightDrive;
     private boolean _highGear;
     
+    // Secondary drive
+    private double _shooterAngleChangerDrive;
+    private double _elevatorDrive;
+    
     /**
      * Creates an instance of TeleopLogic.
      */
@@ -79,14 +83,22 @@ public class TeleopLogic {
 	updateJoystickValues();
 	updateMagicBox();
 	
-	//// DRIVE CHASSIS -----------------------------------------------------
+	//// PRIMARY DRIVER ----------------------------------------------------
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
-	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
-	//restricts the motion of the drive variables between 1 & -1
+	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
+	
+	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
+	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
+	    //TODO: Implement auto targeting, values will be assigned to right and left drive here.
+	}
+	
+	// Keeps the drive variables in their -1 to 1 range
 	_leftDrive = Math.max(-1, Math.min(1, _leftDrive));
-        _rightDrive = Math.max(-1, Math.min(1, _rightDrive));
-	_robotDrive.drive(left, right);
-	//Handle shifting
+	_rightDrive = Math.max(-1, Math.min(1, _rightDrive));
+	
+	_robotDrive.drive(_leftDrive, _rightDrive);
+	
+	// Handle shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
@@ -95,35 +107,37 @@ public class TeleopLogic {
             }
         }
 	
-	/* REFERENCE MAIN DRIVER CODE
-	// Chassis drive motor math
-        _triggers = _main.getRawAxis(FancyJoystick.AXIS_TRIGGERS);
-        _leftX = _main.getDeadAxis(FancyJoystick.AXIS_LEFT_X);
-        _bridgeTipperSpeed = _main.getDeadAxis(FancyJoystick.AXIS_RIGHT_Y) * -1;
-        
-        _leftDrive = -_leftX + _triggers;
-        _rightDrive = -(_leftX + _triggers);
-        
-        // Restrict
-        double limit = 1;
-        _leftDrive = Math.max(-limit, Math.min(limit, _leftDrive));
-        _rightDrive = Math.max(-limit, Math.min(limit, _rightDrive));
-        
-        _leftDriveMotors.set(_leftDrive);
-        _rightDriveMotors.set(_rightDrive);
-        
-        // Shifter logic
-        if (_main.getRawButton(FancyJoystick.BUTTON_LB)) {
-            //Handle shifting
-            if (_main.getRawButton(FancyJoystick.BUTTON_A)) {
-                selectGear(SHIFTER_LOW);
-                _dbBooleanPack[DB_CURRENT_GEAR] = false;
-            } else if (_main.getRawButton(FancyJoystick.BUTTON_Y)) {
-                selectGear(SHIFTER_HIGH);
-                _dbBooleanPack[DB_CURRENT_GEAR] = true;
-            }
-        }
-	*/
+	// Infeed roller for pickup mechanism
+	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
+	    //TODO: Run pickup roller
+	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
+	    //TODO: Reverse pickup roller
+	} else {
+	    //TODO: Pickup roller off
+	}
+	
+	//// SECONDARY DRIVER --------------------------------------------------
+	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
+	
+	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
+	    if (_shooterAngleChangerDrive == 0) { // && _magicBoxButtons[MagicBox.SHOOTER_ENABLED]) {
+		//TODO: Add automatic shooter angle adjustment
+	    }
+	    //TODO: Add automatic shooter speed calls
+	}
+	
+	//TODO: Run shooter angle changer
+	
+	// Drive elevator
+	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
+	//TODO: Drive elevator
+	
+	// Disk fire control
+	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
+	    //TODO: Extend firing solenoid
+	} else {
+	    //TODO: Retract firing solenoid
+	}
     }
     
     /**

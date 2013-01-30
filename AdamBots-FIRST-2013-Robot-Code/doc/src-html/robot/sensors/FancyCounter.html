@@ -1,0 +1,114 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * To change this template, choose Tools | Templates<a name="line.2"></a>
+<FONT color="green">003</FONT>     * and open the template in the editor.<a name="line.3"></a>
+<FONT color="green">004</FONT>     */<a name="line.4"></a>
+<FONT color="green">005</FONT>    package robot.sensors;<a name="line.5"></a>
+<FONT color="green">006</FONT>    <a name="line.6"></a>
+<FONT color="green">007</FONT>    import edu.wpi.first.wpilibj.Counter;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import edu.wpi.first.wpilibj.PIDSource;<a name="line.8"></a>
+<FONT color="green">009</FONT>    <a name="line.9"></a>
+<FONT color="green">010</FONT>    /**<a name="line.10"></a>
+<FONT color="green">011</FONT>     *<a name="line.11"></a>
+<FONT color="green">012</FONT>     * @author Adambots 245<a name="line.12"></a>
+<FONT color="green">013</FONT>     */<a name="line.13"></a>
+<FONT color="green">014</FONT>    public class FancyCounter extends Counter implements PIDSource{<a name="line.14"></a>
+<FONT color="green">015</FONT>        double lastRpm;<a name="line.15"></a>
+<FONT color="green">016</FONT>        int errorVal;<a name="line.16"></a>
+<FONT color="green">017</FONT>        <a name="line.17"></a>
+<FONT color="green">018</FONT>        public FancyCounter(int channel){<a name="line.18"></a>
+<FONT color="green">019</FONT>            super(channel);<a name="line.19"></a>
+<FONT color="green">020</FONT>            lastRpm = 0;<a name="line.20"></a>
+<FONT color="green">021</FONT>            errorVal = 0;<a name="line.21"></a>
+<FONT color="green">022</FONT>        }<a name="line.22"></a>
+<FONT color="green">023</FONT>        <a name="line.23"></a>
+<FONT color="green">024</FONT>        public int getError () {<a name="line.24"></a>
+<FONT color="green">025</FONT>            <a name="line.25"></a>
+<FONT color="green">026</FONT>            return errorVal;<a name="line.26"></a>
+<FONT color="green">027</FONT>        }<a name="line.27"></a>
+<FONT color="green">028</FONT>        <a name="line.28"></a>
+<FONT color="green">029</FONT>        public void resetError () {<a name="line.29"></a>
+<FONT color="green">030</FONT>            errorVal = 0;<a name="line.30"></a>
+<FONT color="green">031</FONT>        }<a name="line.31"></a>
+<FONT color="green">032</FONT>        <a name="line.32"></a>
+<FONT color="green">033</FONT>        public double pidGet () {<a name="line.33"></a>
+<FONT color="green">034</FONT>            // double time = getPeriod()<a name="line.34"></a>
+<FONT color="green">035</FONT>            double time = getPeriod() * 2;       // might be wrong, not sure if the * 2 is needed<a name="line.35"></a>
+<FONT color="green">036</FONT>            double rpm = 60 / time;<a name="line.36"></a>
+<FONT color="green">037</FONT>            <a name="line.37"></a>
+<FONT color="green">038</FONT>            // if (rom &gt; 5000)  // was that before, but i thought i might need something different that wasn't 5000<a name="line.38"></a>
+<FONT color="green">039</FONT>            if (rpm &gt; 10000) {<a name="line.39"></a>
+<FONT color="green">040</FONT>                errorVal++;<a name="line.40"></a>
+<FONT color="green">041</FONT>                rpm = lastRpm;<a name="line.41"></a>
+<FONT color="green">042</FONT>            }<a name="line.42"></a>
+<FONT color="green">043</FONT>            <a name="line.43"></a>
+<FONT color="green">044</FONT>            lastRpm = rpm;<a name="line.44"></a>
+<FONT color="green">045</FONT>            <a name="line.45"></a>
+<FONT color="green">046</FONT>            return rpm;<a name="line.46"></a>
+<FONT color="green">047</FONT>        }<a name="line.47"></a>
+<FONT color="green">048</FONT>    }<a name="line.48"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

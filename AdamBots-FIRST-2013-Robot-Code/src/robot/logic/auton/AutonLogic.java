@@ -4,10 +4,21 @@
  */
 package robot.logic.auton;
 
+import robot.logic.ILogicPhase;
+
 /**
- *
+ * Performs logic 
  * @author Ben
  */
-public class AutonLogic {
+public class AutonLogic implements ILogicPhase {
+
+    public void init() {
+    }
+
+    public void update() {
+    }
+
+    public void finish() {
+    }
     
 }

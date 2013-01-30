@@ -62,7 +62,7 @@ public class TeleopLogic {
 	_robotShoot = RobotMain.robotShoot;
 	_robotClimb = RobotMain.robotClimb;
 	_robotCamera = RobotMain.robotCamera;
-	//_robotSensors = RobotMain.robotSensors;
+	_robotSensors = RobotMain.robotSensors;
 	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
 	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
@@ -120,10 +120,13 @@ public class TeleopLogic {
 	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 	
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
-	    if (_shooterAngleChangerDrive == 0) { // && _magicBoxButtons[MagicBox.SHOOTER_ENABLED]) {
+	    if (_shooterAngleChangerDrive == 0 && _magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
 		//TODO: Add automatic shooter angle adjustment
 	    }
-	    //TODO: Add automatic shooter speed calls
+	    
+	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
+		//TODO: Add automatic shooter speed calls
+	    }
 	}
 	
 	//TODO: Run shooter angle changer

@@ -91,6 +91,20 @@
 
     -->
     
+    <!--
+	javadoc
+    -->
+    
+    <target name="javadoc">
+	<delete dir="javadoc"/>
+	<mkdir dir="javadoc"/>
+	<javadoc verbose="true" author="true" destdir="doc" link="file:///${sunspot.home}/doc/javadoc" linksource="true">
+	    <classpath path="${full.classpath}:${full.bootclasspath}"/>
+	    <fileset dir="src" >
+		<filename name="**/*.java"/>
+	    </fileset>
+	</javadoc>
+    </target>
     
     
     <!--

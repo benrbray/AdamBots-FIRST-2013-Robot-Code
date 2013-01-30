@@ -25,6 +25,7 @@ public class MagicBox extends DriverStation {
     public static final int ANGLE_OFFSET_DOWN = 0;
     
     public static final double SHOOTER_MULTIPLIER_INCREMENT = .05;
+    public static final double ANGLE_OFFSET_INCREMENT = 2.5;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
     private double _shooterMultiplier;
@@ -54,10 +55,23 @@ public class MagicBox extends DriverStation {
 	if (!getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;
 	    _shooterMultiplierButtonReleased = false;
+	    
 	} else if (!getDigitalIn(SHOOTER_MULTIPLIER_DOWN) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplierButtonReleased = false;
+	    
 	} else if (getDigitalIn(SHOOTER_MULTIPLIER_UP) && getDigitalIn(SHOOTER_MULTIPLIER_DOWN)) {
 	    _shooterMultiplierButtonReleased = true;
+	}
+	
+	if (!getDigitalIn(ANGLE_OFFSET_UP) && _angleOffsetButtonReleased) {
+	    _angleOffset += ANGLE_OFFSET_INCREMENT;
+	    _angleOffsetButtonReleased = false;
+	    
+	} else if (!getDigitalIn(ANGLE_OFFSET_DOWN) && _angleOffsetButtonReleased) {
+	    _angleOffsetButtonReleased = false;
+	
+	} else if (getDigitalIn(ANGLE_OFFSET_UP) && getDigitalIn(ANGLE_OFFSET_DOWN)) {
+	    _angleOffsetButtonReleased = true;
 	}
     }
     

@@ -1,4 +1,6 @@
 . (Resolve-Path "$env:LOCALAPPDATA\GitHub\shell.ps1")
 cd ..
 cd ..
-sh .\publish-javadoc.sh
+if(Test-Path publish-javadoc.sh){
+	sh .\publish-javadoc.sh
+}

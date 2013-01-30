@@ -16,7 +16,22 @@ public class MagicBox extends DriverStation {
     //// MAGIC BOX CONSTANTS ---------------------------------------------------
     public static final int NUM_BUTTONS = 0;
     
+    public static final int AUTO_SHOOTER_SPEED_ENABLED = 0;
+    public static final int SHOOTER_MULTIPLIER_UP = 0;
+    public static final int SHOOTER_MULTIPLIER_DOWN = 0;
+    
+    public static final int AUTO_ANGLE_ENABLED = 0;
+    public static final int ANGLE_OFFSET_UP = 0;
+    public static final int ANGLE_OFFSET_DOWN = 0;
+    
+    public static final double SHOOTER_MULTIPLIER_INCREMENT = .05;
+    
     //// MAGIC BOX VARIABLES ---------------------------------------------------
+    private double _shooterMultiplier;
+    private double _angleOffset;
+    
+    private boolean _shooterMultiplierButtonReleased;
+    private boolean _angleOffsetButtonReleased;
     
     private DriverStation _ds;
     
@@ -24,6 +39,33 @@ public class MagicBox extends DriverStation {
     
     public MagicBox() {
 	_ds = DriverStation.getInstance();
+	
+	_shooterMultiplier = 1.0;
+	_angleOffset = 0;
+	
+	_shooterMultiplierButtonReleased = false;
+	_angleOffsetButtonReleased = false;
+    }
+    
+    /**
+     * Update method to be called periodically.
+     */
+    public void tick() {
+	if (!getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
+	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;
+	    _shooterMultiplierButtonReleased = false;
+	} else if (!getDigitalIn(SHOOTER_MULTIPLIER_DOWN) && _shooterMultiplierButtonReleased) {
+	    _shooterMultiplierButtonReleased = false;
+	} else if (getDigitalIn(SHOOTER_MULTIPLIER_UP) && getDigitalIn(SHOOTER_MULTIPLIER_DOWN)) {
+	    _shooterMultiplierButtonReleased = true;
+	}
+    }
+    
+    /**
+     * @return The current value of the shooter multiplier.
+     */
+    public double getShooterMultiplier() {
+	return _shooterMultiplier;
     }
     
     /**

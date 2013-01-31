@@ -7,7 +7,7 @@ package robot.logic.auton;
 import robot.logic.ILogicPhase;
 
 /**
- * Performs logic 
+ * Performs logic during the autonomous period of gameplay.
  * @author Ben
  */
 public class AutonLogic implements ILogicPhase {

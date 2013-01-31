@@ -13,25 +13,26 @@ import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
+import robot.logic.ILogicPhase;
+import robot.logic.TeleopLogic;
+import robot.logic.auton.AutonLogic;
+import robot.logic.climb.ClimbLogic;
 import robot.sensors.RobotCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * documentation.
+ * 
+ * RobotMain includes static instances of each behavior class, because they will
+ * be commonly referenced elsewhere, and we don't want to pass them as arguments
+ * all over the place.
+ * 
+ * @author Ben Bray
+ * @author Steven Ploog
  */
 public class RobotMain extends IterativeRobot {
     //// STATIC INSTANCE VARIABLES ---------------------------------------------
-    
-    /*
-     * RobotMain includes these static instances because they will be commonly
-     * referenced elsewhere, and we don't want to pass them as arguments all
-     * over the place.
-     * 
-     * (Ben 1/23/13)
-     */
     
     /** Statically accessible instance of RobotDrive. */
     public static RobotDrive robotDrive;
@@ -43,6 +44,13 @@ public class RobotMain extends IterativeRobot {
     public static RobotCamera robotCamera;
     /** Statically accessible instance of RobotClimb. */
     public static RobotClimb robotClimb;
+    
+    //// ROBOT LOGIC PHASES ----------------------------------------------------
+    
+    private ILogicPhase _currentLogicPhase = null;
+    private AutonLogic _autonLogic;
+    private TeleopLogic _teleopLogic;
+    private ClimbLogic _climbLogic;
     
     //// ITERATIVE ROBOT METHODS -----------------------------------------------
     
@@ -56,31 +64,38 @@ public class RobotMain extends IterativeRobot {
     
     //// AUTONOMOUS ------------------------------------------------------------
     
+    /**
+     * Initialization code for the autonomous period.
+     */
     public void autonomousInit() {
-	
+	_autonLogic = new AutonLogic();
+	segueToLogicPhase(_autonLogic);
     }
 
     /**
-     * This function is called periodically during autonomous
+     * This function is called periodically during autonomous.
      */
     public void autonomousPeriodic() {
-
+	// Update the Current Logic Phase (should be _autonLogic)
+        _currentLogicPhase.update();
     }
     
     //// TELEOP ----------------------------------------------------------------
 
     /**
-     * Initialization code for teleop mode should go here
+     * Initialization code for the teleoperated period.
      */
     public void teleopInit() {
-	
+	_teleopLogic = new TeleopLogic();
+	_climbLogic = new ClimbLogic();
     }
     
     /**
-     * This function is called periodically during operator control
+     * This function is called periodically during operator control.
      */
     public void teleopPeriodic() {
-        
+	// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
+        _currentLogicPhase.update();
     }
     
     //// TEST ------------------------------------------------------------------
@@ -115,4 +130,27 @@ public class RobotMain extends IterativeRobot {
 	
     }
     
+    //// LOGICPHASE METHODS ----------------------------------------------------
+    
+    /**
+     * Revokes power from the logic phase currently in control and grants
+     * control to the phase specified.  Before the segue, this method invokes
+     * finish() in the original phase, and after the segue, this method invokes 
+     * init() in the new phase.
+     * @param phase The phase to transition to.
+     * @return Boolean value indicating the success or failure of the segue.
+     * @see ILogicPhase
+     * @see ILogicPhase#finish() 
+     * @see ILogicPhase#init();
+     */
+    private boolean segueToLogicPhase(ILogicPhase phase){
+	if(_currentLogicPhase != null){
+	    _currentLogicPhase.finish();
+	}
+	
+	_currentLogicPhase = phase;
+	_currentLogicPhase.init();
+	
+	return true; // TODO:  Update segueToLogicPhase() return value as needed.
+    }
 }

@@ -7,8 +7,8 @@ package robot.logic;
 /**
  * Contains methods that should be implemented by each "logic phase".  Each of the three logic phases extends this class (AutonLogic, ClimbLogic, TeleopLogic).
  * @author Ben
- * @see AutonLogic
- * @see ClimbLogic
+ * @see auton.AutonLogic
+ * @see climb.ClimbLogic
  * @see TeleopLogic
  */
 public interface ILogicPhase {

@@ -51,7 +51,7 @@ public class MagicBox extends DriverStation {
     /**
      * Update method to be called periodically.
      */
-    public void tick() {
+    public void update() {
 	//// SHOOTER MULTIPLIER LOGIC ------------------------------------------
 	if (!getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;

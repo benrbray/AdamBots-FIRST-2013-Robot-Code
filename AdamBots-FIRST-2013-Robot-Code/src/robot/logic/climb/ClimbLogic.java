@@ -4,13 +4,13 @@
  */
 package robot.logic.climb;
 
-import robot.logic.ILogicPhase;
+import robot.logic.LogicPhase;
 
 /**
  *
  * @author Ben
  */
-public class ClimbLogic implements ILogicPhase {
+public class ClimbLogic extends LogicPhase {
 
     public void init() {
 	

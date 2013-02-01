@@ -4,13 +4,13 @@
  */
 package robot.logic.auton;
 
-import robot.logic.ILogicPhase;
+import robot.logic.LogicPhase;
 
 /**
  * Performs logic during the autonomous period of gameplay.
  * @author Ben
  */
-public class AutonLogic implements ILogicPhase {
+public class AutonLogic extends LogicPhase {
 
     public void init() {
     }

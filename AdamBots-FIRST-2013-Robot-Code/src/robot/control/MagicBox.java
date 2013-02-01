@@ -52,22 +52,26 @@ public class MagicBox extends DriverStation {
      * Update method to be called periodically.
      */
     public void tick() {
+	//// SHOOTER MULTIPLIER LOGIC ------------------------------------------
 	if (!getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;
 	    _shooterMultiplierButtonReleased = false;
 	    
 	} else if (!getDigitalIn(SHOOTER_MULTIPLIER_DOWN) && _shooterMultiplierButtonReleased) {
+	    _shooterMultiplier -= SHOOTER_MULTIPLIER_INCREMENT;
 	    _shooterMultiplierButtonReleased = false;
 	    
 	} else if (getDigitalIn(SHOOTER_MULTIPLIER_UP) && getDigitalIn(SHOOTER_MULTIPLIER_DOWN)) {
 	    _shooterMultiplierButtonReleased = true;
 	}
 	
+	//// ANGLE OFFSET LOGIC ------------------------------------------------
 	if (!getDigitalIn(ANGLE_OFFSET_UP) && _angleOffsetButtonReleased) {
 	    _angleOffset += ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 	    
 	} else if (!getDigitalIn(ANGLE_OFFSET_DOWN) && _angleOffsetButtonReleased) {
+	    _angleOffset -= ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 	
 	} else if (getDigitalIn(ANGLE_OFFSET_UP) && getDigitalIn(ANGLE_OFFSET_DOWN)) {
@@ -80,6 +84,27 @@ public class MagicBox extends DriverStation {
      */
     public double getShooterMultiplier() {
 	return _shooterMultiplier;
+    }
+    
+    /**
+     * @param shooterMultiplier The value to set shooter multiplier to.
+     */
+    public void setShooterMultiplier(double shooterMultiplier) {
+	_shooterMultiplier = shooterMultiplier;
+    }
+    
+    /**
+     * @return The current angle offset.
+     */
+    public double getAngleOffset() {
+	return _angleOffset;
+    }
+    
+    /**
+     * @param angleOffset The value to set the angle offset to.
+     */
+    public void setAngleOffset(double angleOffset) {
+	_angleOffset = angleOffset;
     }
     
     /**

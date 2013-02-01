@@ -16,16 +16,25 @@ public class RobotDrive {
     // sensors, motors
     // take out the next few lines when static class is made
     public final int PORT_LEFT_VICTOR = 1;
-    public final int PORT_RIGHT_VICTOR = 1;
+    public final int PORT_RIGHT_VICTOR = 2;
     
-    private Victor _leftVictor = new Victor( PORT_LEFT_VICTOR );
-    private Victor _rightVictor = new Victor( PORT_RIGHT_VICTOR );
+    private Victor driveLeft;
+    private Victor driveRight;
+    
+    private robot.actuators.RobotActuators robotActuators;
     
     
     public RobotDrive( )
     {
-	
-	
+	robotDriveInit();
+    }
+    
+    /**
+     * Initialize everything
+     */
+    private void robotDriveInit() {
+	driveRight = robotActuators.driveRight;
+	driveLeft = robotActuators.driveLeft;
     }
     
     /**
@@ -34,9 +43,9 @@ public class RobotDrive {
      * @param rightSpeed to set the right speed
      * sets the speed of the wheels to the parameters given
      */
-    public void drive( double leftSpeed, double rightSpeed )
-    {
-	
+    public void drive( double leftSpeed, double rightSpeed ) {
+	driveRight.set(rightSpeed);
+	driveLeft.set(leftSpeed);
     }
     
     /**
@@ -46,7 +55,8 @@ public class RobotDrive {
      */
     public void driveStraight( double speed )
     {
-
+	driveRight.set(speed);
+	driveLeft.set(speed);
     }
     
     /**
@@ -56,15 +66,18 @@ public class RobotDrive {
      */
     public void turn( double speed )
     {
-	
+	driveRight.set(-speed);
+	driveLeft.set(speed);
     }
     
     /**
+     * 
      * stops all the motors
      */
     public void stop()
     {
-	
+	driveRight.set(0);
+	driveLeft.set(0);
     }
     
 }

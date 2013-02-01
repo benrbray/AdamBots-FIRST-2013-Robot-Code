@@ -168,7 +168,7 @@ public class TeleopLogic extends LogicPhase {
 	}
     }
     
-    public void finish(){
+    public void finish() {
 	
     }
 }

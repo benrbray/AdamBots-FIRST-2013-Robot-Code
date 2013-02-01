@@ -13,12 +13,12 @@ import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
-import robot.logic.ILogicPhase;
 import robot.logic.LogicPhase;
-import robot.logic.TeleopLogic;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
+import robot.logic.teleop.TeleopLogic;
 import robot.sensors.RobotCamera;
+import robot.sensors.RobotSensors;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,6 +45,8 @@ public class RobotMain extends IterativeRobot {
     public static RobotCamera robotCamera;
     /** Statically accessible instance of RobotClimb. */
     public static RobotClimb robotClimb;
+    /** Statically accessible instance of RobotSensors. */
+    public static RobotSensors robotSensors;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -138,7 +140,7 @@ public class RobotMain extends IterativeRobot {
      * control to the phase specified.  Before the segue, this method invokes
      * finish() in the original phase, and after the segue, this method invokes 
      * init() in the new phase.
-     * @param phase An integer indicating the pahse to switch to.
+     * @param phase An integer indicating the phase to switch to.
      * @return Boolean value indicating the success or failure of the segue.
      * @see LogicPhase#AUTONOMOUS
      * @see LogicPhase#TELEOP

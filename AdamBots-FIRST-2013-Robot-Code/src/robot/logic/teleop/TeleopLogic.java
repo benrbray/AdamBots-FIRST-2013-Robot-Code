@@ -9,9 +9,10 @@ package robot.logic.teleop;
 import robot.RobotMain;
 import robot.behavior.*;
 import robot.control.*;
+import robot.logic.LogicPhase;
 import robot.sensors.*;
 
-public class TeleopLogic {
+public class TeleopLogic extends LogicPhase {
     
     //// CONSTANTS -------------------------------------------------------------
     
@@ -54,7 +55,7 @@ public class TeleopLogic {
     /**
      * Initializes variables, objects, etc to their starting states.
      */
-    public void teleopInit() {
+    public void init() {
 	
 	//// INITIALIZE ROBOT CONTROL AND SENSOR CLASS REFERENCES --------------
 	_robotDrive = RobotMain.robotDrive;
@@ -77,7 +78,7 @@ public class TeleopLogic {
     /**
      * Update method. To be called periodically by MainControl.
      */
-    public void tick() {
+    public void update() {
 	
 	//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
 	updateJoystickValues();
@@ -165,5 +166,9 @@ public class TeleopLogic {
 	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
 	    _magicBoxButtons[i] = _magicBox.getDigitalIn(i);
 	}
+    }
+    
+    public void finish(){
+	
     }
 }

@@ -14,8 +14,6 @@ public class RobotSensors {
     //AxisCamera handled in RobotCamera[?]
     //In Limit1,2 pairs, 1 is top. 2 is bottom. 
     
-    public static FancyCounter ENCODER_CLIMBER;
-    
     public static FancyCounter encoderDriveLeft1;
     public static FancyCounter encoderDriveRight1;
     public static FancyCounter encoderDriveLeft2;

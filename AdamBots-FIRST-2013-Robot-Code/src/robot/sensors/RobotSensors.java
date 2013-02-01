@@ -16,89 +16,89 @@ public class RobotSensors {
     
     public static FancyCounter ENCODER_CLIMBER;
     
-    public static FancyCounter ENCODER_DRIVE_LEFT1;
-    public static FancyCounter ENCODER_DRIVE_RIGHT1;
-    public static FancyCounter ENCODER_DRIVE_LEFT2;
-    public static FancyCounter ENCODER_DRIVE_RIGHT2;
+    public static FancyCounter encoderDriveLeft1;
+    public static FancyCounter encoderDriveRight1;
+    public static FancyCounter encoderDriveLeft2;
+    public static FancyCounter encoderDriveRight2;
     
-    public static FancyCounter ENCODER_WINCH1;
-    public static FancyCounter ENCODER_WINCH2;
+    public static FancyCounter encoderWinch1;
+    public static FancyCounter encoderWinch2;
     
-    public static DigitalInput LIMIT_WINCH1;
-    public static DigitalInput LIMIT_WINCH2;
+    public static DigitalInput limitWinch1;
+    public static DigitalInput limitWinch2;
     
-    public static DigitalInput LIMIT_ARM1;
-    public static DigitalInput LIMIT_ARM2;
+    public static DigitalInput limitArm1;
+    public static DigitalInput limitArm2;
     
-    public static FancyCounter ENCODER_ELEVATOR1;
-    public static FancyCounter ENCODER_ELEVATOR2;
+    public static FancyCounter encoderElevator1;
+    public static FancyCounter encoderElevator2;
     
-    public static DigitalInput LIMIT_ELEVATOR1;
-    public static DigitalInput LIMIT_ELEVATOR2;
+    public static DigitalInput limitElevator1;
+    public static DigitalInput limitElevator2;
     
     
-    public static AnalogChannel OPTICAL_HOOK1;
-    public static AnalogChannel OPTICAL_HOOK2;
-    public static AnalogChannel OPTICAL_HOOK3;
-    public static AnalogChannel OPTICAL_HOOK4;
+    public static AnalogChannel opticalHook1;
+    public static AnalogChannel opticalHook2;
+    public static AnalogChannel opticalHook3;
+    public static AnalogChannel opticalHook4;
     
-    public static Gyro GYRO_CHASSIS;
+    public static Gyro gyroChassis;
     
-    public static Accelerometer ACCELEROMETER_CHASSIS; // ?? ?? Is this the right class?
+    public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
     
-    public static DigitalInput CONFIG1;
-    public static DigitalInput CONFIG2;
-    public static DigitalInput CONFIG3;
+    public static DigitalInput config1;
+    public static DigitalInput config2;
+    public static DigitalInput config3;
     
-    public static FancyCounter ENCODER_SHOOTER_SPEED;
-    public static FancyCounter ENCODER_SHOOTER_ANGLE1;
-    public static FancyCounter ENCODER_SHOOTER_ANGLE2;
+    public static FancyCounter encoderShooterSpeed;
+    public static FancyCounter encoderShooterAngle1;
+    public static FancyCounter encoderShooterAngle2;
     
-    public static AnalogChannel OPTICAL_DISC_TOP;
-    public static AnalogChannel OPTICAL_DISC_BOTTOM;
+    public static AnalogChannel opticalDiscTop;
+    public static AnalogChannel opticalDiscBottom;
     
     /**
      Instantiates all sensors handled by class.
      **/
     public static void initialize()
     {
-        GYRO_CHASSIS = new Gyro(1); //?
-        OPTICAL_HOOK1 = new AnalogChannel(2);
-        OPTICAL_HOOK2 = new AnalogChannel(3);
-        OPTICAL_HOOK3 = new AnalogChannel(4);
-        OPTICAL_HOOK4 = new AnalogChannel(5);
-        OPTICAL_DISC_TOP = new AnalogChannel(6);
-        OPTICAL_DISC_BOTTOM = new AnalogChannel(7);
+        gyroChassis = new Gyro(1); //?
+        opticalHook1 = new AnalogChannel(2);
+        opticalHook2 = new AnalogChannel(3);
+        opticalHook3 = new AnalogChannel(4);
+        opticalHook4 = new AnalogChannel(5);
+        opticalDiscTop = new AnalogChannel(6);
+        opticalDiscBottom = new AnalogChannel(7);
         
         //ENCODER_DRIVE_LEFT1 = new Encoder(1);
-        ENCODER_DRIVE_LEFT1 = new FancyCounter(1);
-        ENCODER_DRIVE_LEFT2 = new FancyCounter(2);
-        ENCODER_DRIVE_RIGHT1 = new FancyCounter(3);
-        ENCODER_DRIVE_RIGHT2 = new FancyCounter(4);
+        encoderDriveLeft1 = new FancyCounter(1);
+        encoderDriveLeft2 = new FancyCounter(2);
+        encoderDriveRight1 = new FancyCounter(3);
+        encoderDriveRight2 = new FancyCounter(4);
         
-        ENCODER_WINCH1 = new FancyCounter(5);
-        ENCODER_WINCH2 = new FancyCounter(6);
+        encoderWinch1 = new FancyCounter(5);
+        encoderWinch2 = new FancyCounter(6);
         
-        LIMIT_WINCH1 = new DigitalInput(7);
-        LIMIT_WINCH2 = new DigitalInput(8);
+        limitWinch1 = new DigitalInput(7);
+        limitWinch2 = new DigitalInput(8);
         
-        LIMIT_ARM1 = new DigitalInput(9);
-        LIMIT_ARM2 = new DigitalInput(10);
+        limitArm1 = new DigitalInput(9);
+        limitArm2 = new DigitalInput(10);
         
-        ENCODER_ELEVATOR1 = new FancyCounter(11);
-        ENCODER_ELEVATOR2 = new FancyCounter(12);
+        encoderElevator1 = new FancyCounter(11);
+        encoderElevator2 = new FancyCounter(12);
         
-        LIMIT_ELEVATOR1 = new DigitalInput(13);
-        LIMIT_ELEVATOR2 = new DigitalInput(14);
+        limitElevator1 = new DigitalInput(13);
+        limitElevator2 = new DigitalInput(14);
         
-        CONFIG1 = new DigitalInput(2,1);
-        CONFIG2 = new DigitalInput(2,2);
-        CONFIG3 = new DigitalInput(2,3);
+        config1 = new DigitalInput(2,1);
+        config2 = new DigitalInput(2,2);
+        config3= new DigitalInput(2,3);
         
         
-        ENCODER_SHOOTER_SPEED = new FancyCounter(2,4);
-        ENCODER_SHOOTER_ANGLE1 = new FancyCounter(2,5);
-        ENCODER_SHOOTER_ANGLE2 = new FancyCounter(2,6);
+        encoderShooterSpeed = new FancyCounter(2,4);
+        encoderShooterAngle1 = new FancyCounter(2,5);
+        encoderShooterAngle2 = new FancyCounter(2,6);
         
     }
     

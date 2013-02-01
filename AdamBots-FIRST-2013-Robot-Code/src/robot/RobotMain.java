@@ -14,6 +14,7 @@ import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
 import robot.logic.ILogicPhase;
+import robot.logic.LogicPhase;
 import robot.logic.TeleopLogic;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
@@ -47,7 +48,7 @@ public class RobotMain extends IterativeRobot {
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
-    private ILogicPhase _currentLogicPhase = null;
+    private LogicPhase _currentLogicPhase = null;
     private AutonLogic _autonLogic;
     private TeleopLogic _teleopLogic;
     private ClimbLogic _climbLogic;
@@ -137,13 +138,43 @@ public class RobotMain extends IterativeRobot {
      * control to the phase specified.  Before the segue, this method invokes
      * finish() in the original phase, and after the segue, this method invokes 
      * init() in the new phase.
+     * @param phase An integer indicating the pahse to switch to.
+     * @return Boolean value indicating the success or failure of the segue.
+     * @see LogicPhase#AUTONOMOUS
+     * @see LogicPhase#TELEOP
+     * @see LogicPhase#CLIMB
+     */
+    public boolean segueToLogicPhase(int phase){
+	LogicPhase segueTo;
+	switch(phase){
+	    case LogicPhase.AUTONOMOUS:
+		segueTo = new AutonLogic();
+		break;
+	    case LogicPhase.TELEOP:
+		segueTo = new TeleopLogic();
+		break;
+	    case LogicPhase.CLIMB:
+		segueTo = new ClimbLogic();
+		break;
+	    default:
+		return false;
+	}
+	
+	return segueToLogicPhase(segueTo);
+    }
+    
+    /**
+     * Revokes power from the logic phase currently in control and grants
+     * control to the phase specified.  Before the segue, this method invokes
+     * finish() in the original phase, and after the segue, this method invokes 
+     * init() in the new phase.
      * @param phase The phase to transition to.
      * @return Boolean value indicating the success or failure of the segue.
      * @see ILogicPhase
      * @see ILogicPhase#finish() 
      * @see ILogicPhase#init();
      */
-    private boolean segueToLogicPhase(ILogicPhase phase){
+    public boolean segueToLogicPhase(LogicPhase phase){
 	if(_currentLogicPhase != null){
 	    _currentLogicPhase.finish();
 	}

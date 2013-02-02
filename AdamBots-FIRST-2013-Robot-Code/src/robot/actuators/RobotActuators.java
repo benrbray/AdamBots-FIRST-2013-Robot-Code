@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package robot.actuators;
 
 import edu.wpi.first.wpilibj.Relay;
@@ -13,6 +9,11 @@ import edu.wpi.first.wpilibj.Victor;
  * @author Ben
  */
 public class RobotActuators {
+    //// ENFORCE NONINSTANTIABILITY --------------------------------------------
+    
+    private RobotActuators() throws Exception {
+	throw new java.lang.Exception("You can't instantiate RobotActuators, silly!");
+    }
     
     //// INITIALIZATION --------------------------------------------------------
     
@@ -20,19 +21,23 @@ public class RobotActuators {
      * Initializes static actuator instances.
      */
     public static void init(){
-	driveLeft = new Victor(1);
-	driveRight = new Victor(2);
+	driveLeft	    = new Victor(1);
+	driveRight	    = new Victor(2);
+	shooterWheelMotor   = new Victor(3);
+	shooterAngleMotor   = new Victor(4);
+	discWinch	    = new Victor(5);
+	climbWinch	    = new Victor(6);
+	climbArm	    = new Victor(7);
+	transmissionLeft    = new Servo(8);
+	transmissionRight   = new Servo(9);
 	
-	transmissionLeft = new Servo(9);
-	transmissionRight = new Servo(10);
+	discIntake	    = new Relay(1);
+	shooterFeederSolenoid = new Relay(2);
+	climbWinchRelease   = new Relay(4);
 	
-	shooterWheelMotor = new Victor(3);
-	shooterAngleMotor = new Victor(4);
-	
-	discWinch = new Relay(1);
-	
-	climbWinch = new Victor(7);
-	
+	discIntake.setDirection(Relay.Direction.kBoth);
+	shooterFeederSolenoid.setDirection(Relay.Direction.kForward);
+	climbWinchRelease.setDirection(Relay.Direction.kForward);
     }
     
     //// DRIVE -----------------------------------------------------------------
@@ -51,11 +56,17 @@ public class RobotActuators {
     
     /** Climbing Winch. */
     public static Victor climbWinch;
+    /** Climb arm motor */
+    public static Victor climbArm;
+    /** Winch ratchet release solenoid. */
+    public static Relay climbWinchRelease;
     
     //// DISC ACQUISITION ------------------------------------------------------
     
-    /** Spike to control winch for the pickup system. */
-    public static Relay discWinch;
+    /** Disc pickup elevator winch. */
+    public static Victor discWinch;
+    /** Spike to control the intake roller. */
+    public static Relay discIntake;
     
     //// SHOOTER ---------------------------------------------------------------
     
@@ -63,4 +74,6 @@ public class RobotActuators {
     public static Victor shooterWheelMotor;
     /** Controls the angle of attack of the shooter. */
     public static Victor shooterAngleMotor;
+    /** Shooter feeder solenoid. */
+    public static Relay shooterFeederSolenoid;
 }

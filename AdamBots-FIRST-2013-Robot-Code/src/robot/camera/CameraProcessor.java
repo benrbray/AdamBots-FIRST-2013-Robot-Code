@@ -38,7 +38,6 @@ public abstract class CameraProcessor
 	/** In DEGREES, direction (negative left?) toward target based on most recent exposure **/
 	private static double _recentThetaDegrees = 0; //Radians
 	private static Thread _cameraThread = null;
-	private static double _targetEdgeWidth = 0;
 	private static boolean _freshImage = false;
 
 	/**
@@ -96,7 +95,6 @@ public abstract class CameraProcessor
 	 **/
 	public static double getDirectionDegrees()
 	{
-
 		return _recentThetaDegrees;
 	}
 
@@ -197,7 +195,7 @@ public abstract class CameraProcessor
 		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);
 		_camera.writeCompression(10);
 	}
-	
+
 	/**
 	 * Tells whether the current is fresh
 	 * @return Freshness of image (true for "is fresh")
@@ -206,7 +204,7 @@ public abstract class CameraProcessor
 	{
 		return _freshImage;
 	}
-	
+
 	/**
 	 * Says current image is no longer fresh; call after collecting image data.
 	 */
@@ -215,7 +213,6 @@ public abstract class CameraProcessor
 		_freshImage = false;
 	}
 
-	
 	/**
 	 1. Grabs source image.
 	 2. Initiates blueBox() or redBox()
@@ -234,7 +231,7 @@ public abstract class CameraProcessor
 			_srcImage.write("/raw.png");
 			greenBox();//Depending on team color...
 			//Need to determine how switch works.
-			_recentDistanceInches = _greenTarget.hprime / 24 * 23.8;
+			_recentDistanceInches = _greenTarget.hprime / 24 * 23.8 * 12;
 			//_recentDistanceInches = (TARGET_HEIGHT_INCHES / 2) / Math.tan(_greenTarget.hprime * Math.toRadians(VIEW_ANGLE_DEGREES*VIEW_HEIGHT_OVER_WIDTH) / (VIEW_ANGLE_PIXELS*VIEW_HEIGHT_OVER_WIDTH) / 2.0);
 			//_recentDistanceInches *= _greenTarget.h / 24;
 			_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS / 2.0) * (VIEW_ANGLE_DEGREES) / (VIEW_ANGLE_PIXELS);

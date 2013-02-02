@@ -19,46 +19,48 @@ public class RobotActuators {
     /**
      * Initializes static actuator instances.
      */
-    public void init(){
+    public static void init(){
+	driveLeft = new Victor(1);
+	driveRight = new Victor(2);
+	
+	transmissionLeft = new Servo(9);
+	transmissionRight = new Servo(10);
+	
+	shooterWheelMotor = new Victor(3);
+	shooterAngleMotor = new Victor(4);
+	
+	discWinch = new Relay(1);
+	
+	climbWinch = new Victor(7);
 	
     }
     
     //// DRIVE -----------------------------------------------------------------
     
     /** Left drive Victor. */
-    public Victor driveLeft;
+    public static Victor driveLeft;
     /** Right drive Victor. */
-    public Victor driveRight;
+    public static Victor driveRight;
     
     /** Left transmission Servo.*/
-    public Servo transmissionLeft;
+    public static Servo transmissionLeft;
     /** Right transmission Servo. */
-    public Servo transmissionRight;
+    public static Servo transmissionRight;
     
     //// CLIMBING --------------------------------------------------------------
     
-    /** Climb pivot motor. */
-    public Victor climbPivot;
-    /** Climb left winch motor. */
-    public Victor climbWinchLeft;
-    /** Climb right winch motor. */
-    public Victor climbWinchRight;
+    /** Climbing Winch. */
+    public static Victor climbWinch;
     
     //// DISC ACQUISITION ------------------------------------------------------
     
-    /** Disc elevator motor. */
-    public Victor discElevator;
-    /** Spike for disc lift system. */
-    public Relay discLift;
+    /** Spike to control winch for the pickup system. */
+    public static Relay discWinch;
     
     //// SHOOTER ---------------------------------------------------------------
     
-    /** Left shooter wheel motor. */
-    public Victor shooterWheelLeft;
-    /** Right shooter wheel motor. */
-    public Victor shooterWheelRight;
+    /** Shooter wheel motor. */
+    public static Victor shooterWheelMotor;
     /** Controls the angle of attack of the shooter. */
-    public Victor shooterAngleMotor;
-    
-    
+    public static Victor shooterAngleMotor;
 }

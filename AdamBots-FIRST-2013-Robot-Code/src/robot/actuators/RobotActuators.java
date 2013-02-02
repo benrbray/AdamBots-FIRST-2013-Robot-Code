@@ -19,7 +19,19 @@ public class RobotActuators {
     /**
      * Initializes static actuator instances.
      */
-    public void init(){
+    public static void init(){
+	driveLeft = new Victor(1);
+	driveRight = new Victor(2);
+	
+	transmissionLeft = new Servo(9);
+	transmissionRight = new Servo(10);
+	
+	shooterWheelMotor = new Victor(3);
+	shooterAngleMotor = new Victor(4);
+	
+	discWinch = new Relay(1);
+	
+	climbWinch = new Victor(7);
 	
     }
     
@@ -37,26 +49,18 @@ public class RobotActuators {
     
     //// CLIMBING --------------------------------------------------------------
     
-    /** Climb pivot motor. */
-    public static Victor climbPivot;
-    /** Climb left winch motor. */
-    public static Victor climbWinchLeft;
-    /** Climb right winch motor. */
-    public static Victor climbWinchRight;
+    /** Climbing Winch. */
+    public static Victor climbWinch;
     
     //// DISC ACQUISITION ------------------------------------------------------
     
-    /** Disc elevator motor. */
-    public static Victor discElevator;
-    /** Spike for disc lift system. */
-    public static Relay discLift;
+    /** Spike to control winch for the pickup system. */
+    public static Relay discWinch;
     
     //// SHOOTER ---------------------------------------------------------------
     
     /** Shooter wheel motor. */
-    public static Victor shooterWheel;
+    public static Victor shooterWheelMotor;
     /** Controls the angle of attack of the shooter. */
     public static Victor shooterAngleMotor;
-    
-    
 }

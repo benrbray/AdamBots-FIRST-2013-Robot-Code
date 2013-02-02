@@ -14,13 +14,10 @@ public class RobotSensors {
     //AxisCamera handled in RobotCamera[?]
     //In Limit1,2 pairs, 1 is top. 2 is bottom. 
     
-    public static FancyCounter encoderDriveLeft1;
-    public static FancyCounter encoderDriveRight1;
-    public static FancyCounter encoderDriveLeft2;
-    public static FancyCounter encoderDriveRight2;
+    public static Encoder encoderDriveLeft;
+    public static Encoder encoderDriveRight;
     
-    public static FancyCounter encoderWinch1;
-    public static FancyCounter encoderWinch2;
+    public static Encoder encoderWinch;
     
     public static DigitalInput limitWinch1;
     public static DigitalInput limitWinch2;
@@ -28,8 +25,7 @@ public class RobotSensors {
     public static DigitalInput limitArm1;
     public static DigitalInput limitArm2;
     
-    public static FancyCounter encoderElevator1;
-    public static FancyCounter encoderElevator2;
+    public static Encoder encoderElevator;
     
     public static DigitalInput limitElevator1;
     public static DigitalInput limitElevator2;
@@ -48,9 +44,8 @@ public class RobotSensors {
     public static DigitalInput config2;
     public static DigitalInput config3;
     
-    public static FancyCounter encoderShooterSpeed;
-    public static FancyCounter encoderShooterAngle1;
-    public static FancyCounter encoderShooterAngle2;
+    public static FancyCounter counterShooterSpeed;
+    public static Encoder encoderShooterAngle;
     
     public static AnalogChannel opticalDiscTop;
     public static AnalogChannel opticalDiscBottom;
@@ -69,13 +64,10 @@ public class RobotSensors {
         opticalDiscBottom = new AnalogChannel(7);
         
         //ENCODER_DRIVE_LEFT1 = new Encoder(1);
-        encoderDriveLeft1 = new FancyCounter(1);
-        encoderDriveLeft2 = new FancyCounter(2);
-        encoderDriveRight1 = new FancyCounter(3);
-        encoderDriveRight2 = new FancyCounter(4);
+        encoderDriveLeft = new Encoder(1,2);
+        encoderDriveRight = new Encoder(3,4);
         
-        encoderWinch1 = new FancyCounter(5);
-        encoderWinch2 = new FancyCounter(6);
+        encoderWinch = new Encoder(5,6);
         
         limitWinch1 = new DigitalInput(7);
         limitWinch2 = new DigitalInput(8);
@@ -83,8 +75,7 @@ public class RobotSensors {
         limitArm1 = new DigitalInput(9);
         limitArm2 = new DigitalInput(10);
         
-        encoderElevator1 = new FancyCounter(11);
-        encoderElevator2 = new FancyCounter(12);
+        encoderElevator = new Encoder(11,12);
         
         limitElevator1 = new DigitalInput(13);
         limitElevator2 = new DigitalInput(14);
@@ -94,9 +85,8 @@ public class RobotSensors {
         config3= new DigitalInput(2,3);
         
         
-        encoderShooterSpeed = new FancyCounter(2,4);
-        encoderShooterAngle1 = new FancyCounter(2,5);
-        encoderShooterAngle2 = new FancyCounter(2,6);
+        counterShooterSpeed = new FancyCounter(2,4);
+        encoderShooterAngle = new Encoder(2,5,2,6);
         
     }
     

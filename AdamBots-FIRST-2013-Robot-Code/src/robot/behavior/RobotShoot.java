@@ -11,7 +11,7 @@ import robot.sensors.RobotSensors;
  * RobotShoot sets the speed and angle of the shooter; update() must be called periodically.
  * @author Nathan
  */
-public class RobotShoot {
+public abstract class RobotShoot {
 	
 	/**
 	 * The angle that the shooter is currently moving towards.
@@ -49,6 +49,6 @@ public class RobotShoot {
 	 */
 	public static void setSpeed(double speed)
 	{
-		RobotActuators.shooterWheel.set(speed);
+		RobotActuators.shooterWheelMotor.set(speed);
 	}
 }

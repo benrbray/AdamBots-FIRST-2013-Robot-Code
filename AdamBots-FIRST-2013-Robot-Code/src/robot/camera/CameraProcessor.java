@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.image.*;
  * This class must be initialized with initialize() and asked to work using work().
  * After work() is finished, you may request distance or direction to the visible best target.
  **/
-public class CameraProcessor
+public abstract class CameraProcessor
 {
 	private static final double TARGET_WIDTH_INCHES = 62;
 	private static final double TARGET_HEIGHT_INCHES = 20;//CHECK!?!

@@ -109,7 +109,7 @@ public class RobotMain extends IterativeRobot {
     
     public void update(){
 	// Update the current LogicPhase
-	_currentLogicPhase.update();
+	_currentLogicPhase.updatePhase();
 	
 	// Update Subsystems
 	robotShoot.update();
@@ -192,11 +192,11 @@ public class RobotMain extends IterativeRobot {
      */
     public boolean segueToLogicPhase(LogicPhase phase){
 	if(_currentLogicPhase != null){
-	    _currentLogicPhase.finish();
+	    _currentLogicPhase.finishPhase();
 	}
 	
 	_currentLogicPhase = phase;
-	_currentLogicPhase.init();
+	_currentLogicPhase.initPhase();
 	
 	return true; // TODO:  Update segueToLogicPhase() return value as needed.
     }

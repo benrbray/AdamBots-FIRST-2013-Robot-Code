@@ -59,7 +59,7 @@ public class TeleopLogic extends LogicPhase {
     /**
      * Initializes variables, objects, etc to their starting states.
      */
-    public void init() {
+    public void initPhase() {
 	
 	//// INITIALIZE ROBOT CONTROL AND SENSOR CLASS REFERENCES --------------
 	_robotDrive = RobotMain.robotDrive;
@@ -91,7 +91,7 @@ public class TeleopLogic extends LogicPhase {
     /**
      * Update method. To be called periodically by MainControl.
      */
-    public void update() {
+    public void updatePhase() {
 	
 	//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
 	updateJoystickValues();
@@ -200,7 +200,7 @@ public class TeleopLogic extends LogicPhase {
 	}
     }
     
-    public void finish() {
+    public void finishPhase() {
 	_robotDrive = null;
 	_robotPickup = null;
 	_robotShoot = null;

@@ -46,10 +46,8 @@ public class RobotActuators {
     
     //// DISC ACQUISITION ------------------------------------------------------
     
-    /** Disc elevator motor. */
-    public Victor discElevator;
-    /** Spike for disc lift system. */
-    public Relay discLift;
+    /** Spike to control winch for the pickup system. */
+    public Relay discWinch;
     
     //// SHOOTER ---------------------------------------------------------------
     

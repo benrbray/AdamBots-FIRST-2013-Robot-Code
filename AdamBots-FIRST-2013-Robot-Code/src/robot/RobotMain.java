@@ -17,7 +17,6 @@ import robot.logic.LogicPhase;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
 import robot.logic.teleop.TeleopLogic;
-import robot.sensors.RobotCamera;
 import robot.sensors.RobotSensors;
 
 /**
@@ -41,8 +40,6 @@ public class RobotMain extends IterativeRobot {
     public static RobotPickup robotPickup;
     /** Statically accessible instance of RobotShoot. */
     public static RobotShoot robotShoot;
-    /** Statically accessible instance of RobotCamera. */
-    public static RobotCamera robotCamera;
     /** Statically accessible instance of RobotClimb. */
     public static RobotClimb robotClimb;
     /** Statically accessible instance of RobotSensors. */
@@ -172,9 +169,9 @@ public class RobotMain extends IterativeRobot {
      * init() in the new phase.
      * @param phase The phase to transition to.
      * @return Boolean value indicating the success or failure of the segue.
-     * @see ILogicPhase
-     * @see ILogicPhase#finish() 
-     * @see ILogicPhase#init();
+     * @see LogicPhase
+     * @see LogicPhase#finish() 
+     * @see LogicPhase#init();
      */
     public boolean segueToLogicPhase(LogicPhase phase){
 	if(_currentLogicPhase != null){

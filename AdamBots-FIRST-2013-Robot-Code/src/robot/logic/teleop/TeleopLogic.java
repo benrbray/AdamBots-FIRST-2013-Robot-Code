@@ -21,7 +21,6 @@ public class TeleopLogic extends LogicPhase {
     private RobotPickup _robotPickup;
     private RobotShoot _robotShoot;
     private RobotClimb _robotClimb;
-    private RobotCamera _robotCamera;
     private RobotSensors _robotSensors;
     
     private FancyJoystick _primaryJoy;
@@ -65,7 +64,6 @@ public class TeleopLogic extends LogicPhase {
 	_robotPickup = RobotMain.robotPickup;
 	_robotShoot = RobotMain.robotShoot;
 	_robotClimb = RobotMain.robotClimb;
-	_robotCamera = RobotMain.robotCamera;
 	_robotSensors = RobotMain.robotSensors;
 	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------

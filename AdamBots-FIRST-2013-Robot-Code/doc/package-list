@@ -1,5 +1,5 @@
 robot
-robot.acuators
+robot.actuators
 robot.behavior
 robot.control
 robot.logic

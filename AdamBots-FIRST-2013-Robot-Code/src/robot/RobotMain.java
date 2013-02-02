@@ -9,11 +9,13 @@ package robot;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
 import robot.logic.LogicPhase;
+import robot.logic.PIDLogic;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
 import robot.logic.teleop.TeleopLogic;
@@ -59,7 +61,9 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-	
+	// Initialize Classes with Static References
+	RobotActuators.init();
+	RobotSensors.init();
     }
     
     //// AUTONOMOUS ------------------------------------------------------------
@@ -77,7 +81,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void autonomousPeriodic() {
 	// Update the Current Logic Phase (should be _autonLogic)
-        _currentLogicPhase.update();
+	update();
     }
     
     //// TELEOP ----------------------------------------------------------------
@@ -88,6 +92,9 @@ public class RobotMain extends IterativeRobot {
     public void teleopInit() {
 	_teleopLogic = new TeleopLogic();
 	_climbLogic = new ClimbLogic();
+	segueToLogicPhase(_teleopLogic);
+	
+	if(_autonLogic != null){ _autonLogic = null; }
     }
     
     /**
@@ -95,7 +102,17 @@ public class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
 	// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
-        _currentLogicPhase.update();
+	update();
+    }
+    
+    //// UPDATE ----------------------------------------------------------------
+    
+    public void update(){
+	// Update the current LogicPhase
+	_currentLogicPhase.update();
+	
+	// Update Subsystems
+	robotShoot.update();
     }
     
     //// TEST ------------------------------------------------------------------
@@ -156,7 +173,7 @@ public class RobotMain extends IterativeRobot {
 		segueTo = new ClimbLogic();
 		break;
 	    default:
-		return false;
+		throw new IllegalArgumentException();
 	}
 	
 	return segueToLogicPhase(segueTo);

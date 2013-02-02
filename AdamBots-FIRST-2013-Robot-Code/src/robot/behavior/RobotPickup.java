@@ -16,11 +16,17 @@ public class RobotPickup {
     
     /**
      * Method to control the disc pickup winch.
-     * @param value The direction to move the winch. Use Relay.Value
+     * @param speed The speed to set the winch motor to.
      */
-    public void setWinch(Relay.Value value) {
-	if (value == Relay.Value.kReverse) {
-	    
-	}
+    public void setWinch(double speed) {
+	RobotActuators.discWinch.set(speed);
+    }
+    
+    /**
+     * Controls the disk intake roller.
+     * @param value The direction to run the intake roller. kForward is in kBackward is out.
+     */
+    public void intakeRoller(Relay.Value value) {
+	RobotActuators.discIntake.set(value);
     }
 }

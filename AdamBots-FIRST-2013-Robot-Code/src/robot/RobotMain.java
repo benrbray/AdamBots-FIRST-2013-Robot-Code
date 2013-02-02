@@ -13,6 +13,7 @@ import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
+import robot.camera.CameraProcessor;
 import robot.logic.LogicPhase;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
@@ -59,7 +60,7 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-	
+		CameraProcessor.initialize();
     }
     
     //// AUTONOMOUS ------------------------------------------------------------
@@ -78,6 +79,9 @@ public class RobotMain extends IterativeRobot {
     public void autonomousPeriodic() {
 	// Update the Current Logic Phase (should be _autonLogic)
         _currentLogicPhase.update();
+		CameraProcessor.loop();
+		//System.out.println(CameraProcessor.getDirectionDegrees()+"deg");
+		//System.out.println(CameraProcessor.getDistanceInches()+"in");
     }
     
     //// TELEOP ----------------------------------------------------------------

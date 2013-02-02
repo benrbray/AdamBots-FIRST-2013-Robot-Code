@@ -1,7 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//REAL ESTIM
+//222 - 222
+//288 - 278
+//348 - 342
+//312 - 323
+
 package robot.camera;
 
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -49,7 +51,7 @@ public abstract class CameraProcessor
 	 */
 	static public class Target
 	{
-		Target( int nx, int ny, int nw, int nh, double nhprime )
+		Target( int nx, int ny, int nw, int nh )
 		{
 			x = nx;
 			y = ny;
@@ -57,9 +59,7 @@ public abstract class CameraProcessor
 			h = nh;
 			x2 = x + w;
 			y2 = y + h;
-			hprime = nhprime;
 		}
-		public double hprime;
 		public int x;
 		public int y;
 		public int w;
@@ -115,10 +115,8 @@ public abstract class CameraProcessor
 			_srcImage.replaceRedPlane(hueHSVOriginal);
 			_srcImage.replaceGreenPlane(saturationHSVOriginal);
 			_srcImage.replaceBluePlane(valueOriginal);
-			_srcImage.write("/swapped.png");
 
-			result = _srcImage.thresholdRGB(110, 140, 230, 256, 250, 256);
-			result.write("/green.png");
+			result = _srcImage.thresholdRGB(110, 140, 200, 256, 225, 256);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
 			ParticleAnalysisReport board = null;
@@ -149,10 +147,10 @@ public abstract class CameraProcessor
 			 2*T*H = A - 2*T*W + 4*T*T
 			 H = (A - 2*T*W + 4*T*T) / (2*T)
 			 */
-			double t = 0.00427 * board.boundingRectWidth; // Constant derived from example! Redo every once and a while
-			double h = (board.particleArea - 2 * t * board.boundingRectWidth + 4 * t * t) / (2 * t);
-
-			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight, h);
+			//double t = 0.061 * board.boundingRectWidth; // Constant derived from example! Redo every once and a while
+			//double h = (board.particleArea - 2 * t * board.boundingRectWidth + 4 * t * t) / (2 * t);
+			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
+			System.out.println(_greenTarget.w + "|" + _greenTarget.h + " |" + board.particleArea);
 		}
 		catch (NIVisionException e)
 		{
@@ -171,7 +169,6 @@ public abstract class CameraProcessor
 				//System.out.println("Failure in colorBox.");
 			}
 		}
-		//result.write("/blueident.png");
 
 		/* Blue:
 		 * Blue is largest component.
@@ -228,10 +225,9 @@ public abstract class CameraProcessor
 		try // Lots of exceptions can happen
 		{
 			_srcImage = _camera.getImage();
-			_srcImage.write("/raw.png");
 			greenBox();//Depending on team color...
 			//Need to determine how switch works.
-			_recentDistanceInches = _greenTarget.hprime / 24 * 23.8 * 12;
+			_recentDistanceInches = 14874.0 / ((_greenTarget.w+_greenTarget.h) / 2.0);
 			//_recentDistanceInches = (TARGET_HEIGHT_INCHES / 2) / Math.tan(_greenTarget.hprime * Math.toRadians(VIEW_ANGLE_DEGREES*VIEW_HEIGHT_OVER_WIDTH) / (VIEW_ANGLE_PIXELS*VIEW_HEIGHT_OVER_WIDTH) / 2.0);
 			//_recentDistanceInches *= _greenTarget.h / 24;
 			_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS / 2.0) * (VIEW_ANGLE_DEGREES) / (VIEW_ANGLE_PIXELS);

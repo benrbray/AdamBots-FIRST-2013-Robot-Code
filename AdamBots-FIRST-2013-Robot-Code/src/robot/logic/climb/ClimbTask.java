@@ -4,14 +4,26 @@
  */
 package robot.logic.climb;
 
+import robot.logic.LogicTask;
+
 /**
  *
  * @author Ben
  */
-public class ClimbTask {
+public class ClimbTask extends LogicTask {
     
     public ClimbTask(){
 	
+    }
+
+    public void initializeTask() {
+    }
+
+    public void updateTask() {
+    }
+
+    public int finishTask() {
+	return 0;
     }
     
 }

@@ -6,7 +6,9 @@
 
 package robot.logic.teleop;
 
+import edu.wpi.first.wpilibj.Relay;
 import robot.RobotMain;
+import robot.actuators.RobotActuators;
 import robot.behavior.*;
 import robot.control.*;
 import robot.logic.LogicPhase;
@@ -111,6 +113,7 @@ public class TeleopLogic extends LogicPhase {
 	_robotDrive.drive(_leftDrive, _rightDrive);
 	
 	// Handle shifting
+	//TODO: IMplement shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
@@ -121,11 +124,11 @@ public class TeleopLogic extends LogicPhase {
 	
 	// Infeed roller for pickup mechanism
 	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
-	    //TODO: Run pickup roller
+	    _robotPickup.intakeRoller(Relay.Value.kForward);
 	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
-	    //TODO: Reverse pickup roller
+	    _robotPickup.intakeRoller(Relay.Value.kReverse);
 	} else {
-	    //TODO: Pickup roller off
+	    _robotPickup.intakeRoller(Relay.Value.kOff);
 	}
 	
 	// Winch Safety
@@ -160,7 +163,8 @@ public class TeleopLogic extends LogicPhase {
 	
 	// Drive elevator
 	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
-	//TODO: Drive elevator
+	//TODO: Logic to stop the elevator when it reaches a limit switch.
+	RobotActuators.discWinch.set(_elevatorDrive);
 	
 	// Disk fire control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
@@ -201,7 +205,6 @@ public class TeleopLogic extends LogicPhase {
 	_robotPickup = null;
 	_robotShoot = null;
 	_robotClimb = null;
-	_robotCamera = null;
 	_robotSensors = null;
     }
 }

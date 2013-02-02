@@ -4,6 +4,7 @@
  */
 package robot.logic;
 
+import robot.RobotMain;
 import robot.behavior.RobotDrive;
 import robot.camera.CameraProcessor;
 import robot.sensors.RobotSensors;
@@ -89,7 +90,7 @@ public class TargetLogic {
 				double s = angled - _lastTargetAngleDegrees;
 				if (Math.abs(s) > 3)
 				{
-					RobotDrive.drive(s / 10,-s / 10); // Possibly backwards.
+					RobotMain.robotDrive.drive(s / 10,-s / 10); // Possibly backwards.
 				}
 			}
 		}

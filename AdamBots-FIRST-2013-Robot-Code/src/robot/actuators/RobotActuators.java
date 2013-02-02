@@ -19,7 +19,7 @@ public class RobotActuators {
     /**
      * Initializes static actuator instances.
      */
-    public void init(){
+    public static void init(){
 	driveLeft = new Victor(1);
 	driveRight = new Victor(2);
 	

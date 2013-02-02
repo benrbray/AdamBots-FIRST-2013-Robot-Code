@@ -6,7 +6,9 @@
 
 package robot.logic.teleop;
 
+import edu.wpi.first.wpilibj.Relay;
 import robot.RobotMain;
+import robot.actuators.RobotActuators;
 import robot.behavior.*;
 import robot.control.*;
 import robot.logic.LogicPhase;
@@ -38,7 +40,10 @@ public class TeleopLogic extends LogicPhase {
     // Chassis drive
     private double _leftDrive;
     private double _rightDrive;
+    
     private boolean _highGear;
+    private boolean _winchEnabled;
+    private boolean _winchEnabledToggleReleased;
     
     // Secondary drive
     private double _shooterAngleChangerDrive;
@@ -71,6 +76,16 @@ public class TeleopLogic extends LogicPhase {
 	_primaryAxis = new double[FancyJoystick.XBOX_BUTTONS];
 	_secondaryAxis = new double[FancyJoystick.XBOX_AXES];
 	
+	//// INITIALIZE TELEOP VARIABLES ---------------------------------------
+	_leftDrive = 0;
+	_rightDrive = 0;
+	
+	_shooterAngleChangerDrive = 0;
+	_elevatorDrive = 0;
+	
+	_highGear = false;
+	_winchEnabled = false;
+	_winchEnabledToggleReleased = false;
     }
     
     /**
@@ -98,6 +113,7 @@ public class TeleopLogic extends LogicPhase {
 	_robotDrive.drive(_leftDrive, _rightDrive);
 	
 	// Handle shifting
+	//TODO: IMplement shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
@@ -108,11 +124,26 @@ public class TeleopLogic extends LogicPhase {
 	
 	// Infeed roller for pickup mechanism
 	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
-	    //TODO: Run pickup roller
+	    _robotPickup.intakeRoller(Relay.Value.kForward);
 	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
-	    //TODO: Reverse pickup roller
+	    _robotPickup.intakeRoller(Relay.Value.kReverse);
 	} else {
-	    //TODO: Pickup roller off
+	    _robotPickup.intakeRoller(Relay.Value.kOff);
+	}
+	
+	// Winch Safety
+	if (_primaryButtons[FancyJoystick.BUTTON_START] && _primaryButtons[FancyJoystick.BUTTON_BACK] && _winchEnabledToggleReleased) {
+	    _winchEnabled = !_winchEnabled;
+	    _winchEnabledToggleReleased = false;
+	} else if (!_primaryButtons[FancyJoystick.BUTTON_START] && !_primaryButtons[FancyJoystick.BUTTON_BACK]) {
+	    _winchEnabledToggleReleased = true;
+	}
+	
+	// Winch operation
+	if (_winchEnabled) {
+	    //TODO: Drive winch based on primary axis right y
+	} else {
+	    //TODO: Set winch drive to 0
 	}
 	
 	//// SECONDARY DRIVER --------------------------------------------------
@@ -132,7 +163,8 @@ public class TeleopLogic extends LogicPhase {
 	
 	// Drive elevator
 	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
-	//TODO: Drive elevator
+	//TODO: Logic to stop the elevator when it reaches a limit switch.
+	RobotActuators.discWinch.set(_elevatorDrive);
 	
 	// Disk fire control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
@@ -161,12 +193,18 @@ public class TeleopLogic extends LogicPhase {
      * Gathers magic box values.
      */
     private void updateMagicBox() {
+	_magicBox.update();
+	
 	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
 	    _magicBoxButtons[i] = _magicBox.getDigitalIn(i);
 	}
     }
     
-    public void finish(){
-	
+    public void finish() {
+	_robotDrive = null;
+	_robotPickup = null;
+	_robotShoot = null;
+	_robotClimb = null;
+	_robotSensors = null;
     }
 }

@@ -113,12 +113,13 @@ public class TeleopLogic extends LogicPhase {
 	_robotDrive.drive(_leftDrive, _rightDrive);
 	
 	// Handle shifting
-	//TODO: IMplement shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
+		_robotDrive.switchGear(RobotDrive.SHIFTER_LOW);
             } else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
 		_highGear=true;
+		_robotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
             }
         }
 	

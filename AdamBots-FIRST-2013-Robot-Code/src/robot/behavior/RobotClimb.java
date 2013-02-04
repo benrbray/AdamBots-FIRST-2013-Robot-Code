@@ -32,6 +32,20 @@ public abstract class RobotClimb {
     {
         return RobotSensors.encoderWinch.getDistance();
     }
+    
+    /**
+     * Stops the motion of the winch (by setting the target to the current position and stopping the motor)
+     */
+    public static void stopWinch()
+    {
+        _winchTarget = getWinchPosition();
+        RobotActuators.climbWinch.set(0);
+    }
+    
+    /**
+     * Manages limit, encoder, and winch using the requested last target from setWinchTarget.
+     * Must be called 'periodically'.
+     */
     public static void update()
     {
         

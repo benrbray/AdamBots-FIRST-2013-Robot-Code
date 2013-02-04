@@ -19,11 +19,6 @@ public class TeleopLogic extends LogicPhase {
     //// CONSTANTS -------------------------------------------------------------
     
     //// VARIABLES -------------------------------------------------------------
-    private RobotDrive _robotDrive;
-    private RobotPickup _robotPickup;
-    private RobotShoot _robotShoot;
-    private RobotClimb _robotClimb;
-    private RobotSensors _robotSensors;
     
     private FancyJoystick _primaryJoy;
     private FancyJoystick _secondaryJoy;
@@ -60,14 +55,6 @@ public class TeleopLogic extends LogicPhase {
      * Initializes variables, objects, etc to their starting states.
      */
     public void initPhase() {
-	
-	//// INITIALIZE ROBOT CONTROL AND SENSOR CLASS REFERENCES --------------
-	_robotDrive = RobotMain.robotDrive;
-	_robotPickup = RobotMain.robotPickup;
-	_robotShoot = RobotMain.robotShoot;
-	_robotClimb = RobotMain.robotClimb;
-	_robotSensors = RobotMain.robotSensors;
-	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
 	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
 	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
@@ -110,7 +97,7 @@ public class TeleopLogic extends LogicPhase {
 	_leftDrive = Math.max(-1, Math.min(1, _leftDrive));
 	_rightDrive = Math.max(-1, Math.min(1, _rightDrive));
 	
-	_robotDrive.drive(_leftDrive, _rightDrive);
+	RobotDrive.drive(_leftDrive, _rightDrive);
 	
 	// Handle shifting
 	//TODO: IMplement shifting
@@ -124,11 +111,11 @@ public class TeleopLogic extends LogicPhase {
 	
 	// Infeed roller for pickup mechanism
 	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
-	    _robotPickup.intakeRoller(Relay.Value.kForward);
+	    RobotPickup.intakeRoller(Relay.Value.kForward);
 	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
-	    _robotPickup.intakeRoller(Relay.Value.kReverse);
+	    RobotPickup.intakeRoller(Relay.Value.kReverse);
 	} else {
-	    _robotPickup.intakeRoller(Relay.Value.kOff);
+	    RobotPickup.intakeRoller(Relay.Value.kOff);
 	}
 	
 	// Winch Safety
@@ -201,10 +188,6 @@ public class TeleopLogic extends LogicPhase {
     }
     
     public void finishPhase() {
-	_robotDrive = null;
-	_robotPickup = null;
-	_robotShoot = null;
-	_robotClimb = null;
-	_robotSensors = null;
+	
     }
 }

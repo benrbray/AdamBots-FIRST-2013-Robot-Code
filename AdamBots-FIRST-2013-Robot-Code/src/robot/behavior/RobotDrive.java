@@ -29,7 +29,7 @@ public abstract class RobotDrive {
     /**
      * Initialize everything
      */
-    public static void robotDriveInit() {
+    public static void init() {
     }
     
     /**

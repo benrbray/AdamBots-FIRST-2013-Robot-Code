@@ -8,6 +8,6 @@ package robot.behavior;
  *
  * @author Ben
  */
-public class RobotClimb {
+public abstract class RobotClimb {
     
 }

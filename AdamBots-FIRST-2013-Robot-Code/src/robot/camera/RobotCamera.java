@@ -1,9 +1,3 @@
-//REAL ESTIM
-//222 - 222
-//288 - 278
-//348 - 342
-//312 - 323
-
 package robot.camera;
 
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -32,14 +26,33 @@ public abstract class RobotCamera
 	private static final double VIEW_ANGLE_DEGREES = 50;
 	private static final double VIEW_ANGLE_PIXELS = 320;//horizontal
 	private static final double VIEW_HEIGHT_OVER_WIDTH = 0.75;
-	private static AxisCamera _camera;//The Camera instance used in tracking.
-	private static ColorImage _srcImage = null;//The current captured image.
-	private static Target _greenTarget;//The green rectangle target
-	/** Distance in FEET to target based on most recent exposure **/
+	/**
+	 * The camera instance used in tracking.
+	 */
+	private static AxisCamera _camera;
+	/**
+	 * The current captured imaged.
+	 */
+	private static ColorImage _srcImage = null;
+	/**
+	 * The current identified green target.
+	 */
+	private static Target _greenTarget;
+	/**
+	 * Distance in FEET to target based on most recent exposure.
+	 **/
 	private static double _recentDistanceInches = 0;
-	/** In DEGREES, direction (negative left?) toward target based on most recent exposure **/
+	/**
+	 * In DEGREES, direction (negative left?) toward target based on most recent exposure.
+	 **/
 	private static double _recentThetaDegrees = 0; //Radians
+	/**
+	 * The reference to the CameraThread object which calls work().
+	 */
 	private static Thread _cameraThread = null;
+	/**
+	 * Whether the current image is fresh; employed by TargetLogic.
+	 */
 	private static boolean _freshImage = false;
 
 	/**
@@ -60,14 +73,34 @@ public abstract class RobotCamera
 			x2 = x + w;
 			y2 = y + h;
 		}
+		/**
+		 * The left edge's x position.
+		 */
 		public int x;
+		/**
+		 * The top edge's y position.
+		 */
 		public int y;
+		/**
+		 * The width of the bounding box.
+		 */
 		public int w;
+		/**
+		 * The height of the bounding box.
+		 */
 		public int h;
+		/**
+		 * The right edge's x position.
+		 */
 		public int x2;
+		/**
+		 * The bottom edge's y position.
+		 */
 		public int y2;
 	}
-
+	/**
+	 * Periodic update function which ensures CameraThread is running.
+	 */
 	public static void update()
 	{
 		if ( _cameraThread == null )
@@ -81,7 +114,7 @@ public abstract class RobotCamera
 	}
 
 	/**
-	 Returns the distance in inches to the target according to the most recent available exposure.
+	 * Returns the distance in inches to the target according to the most recent available exposure.
 	 **/
 	public static double getDistanceInches()
 	{
@@ -97,6 +130,9 @@ public abstract class RobotCamera
 		return _recentThetaDegrees;
 	}
 
+	/**
+	 * Internal image-processing which isolates the green board.
+	 */
 	private static void greenBox()
 	{
 		MonoImage saturationHSVOriginal = null;
@@ -136,24 +172,10 @@ public abstract class RobotCamera
 				}
 			}
 			board = q;
-			/*
-			 A : particleAre
-			 W : width = bounding width
-			 T : edge width = k * W; k = 0.118
-			 H : end height < bounding height
-
-			 2*T*H + 2*T*W - 4*T*T = A
-			 2*T*H = A - 2*T*W + 4*T*T
-			 H = (A - 2*T*W + 4*T*T) / (2*T)
-			 */
-			//double t = 0.061 * board.boundingRectWidth; // Constant derived from example! Redo every once and a while
-			//double h = (board.particleArea - 2 * t * board.boundingRectWidth + 4 * t * t) / (2 * t);
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
 			System.out.println(_greenTarget.w + "|" + _greenTarget.h + " |" + board.particleArea);
 		}
-		catch (NIVisionException e)
-		{
-		}
+		catch (NIVisionException e){}
 		finally
 		{
 			try
@@ -163,24 +185,12 @@ public abstract class RobotCamera
 				free(hueHSVOriginal);
 				free(result);
 			}
-			catch (NIVisionException e)
-			{
-				//System.out.println("Failure in colorBox.");
-			}
+			catch (NIVisionException e){}
 		}
-
-		/* Blue:
-		 * Blue is largest component.
-		 * Blue is at least some value.
-		 * Second closest is k*blue at most.
-		 */
-		//Blue regions identified.
-		//Use these to figure out where the rest is...
-		//Ideally, the back.
 	}
 
 	/**
-	 Initialized camera object and sets camera parameters. Should be called once, at robot initialization.
+	 Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
 	 **/
 	public static void init()
 	{
@@ -202,7 +212,7 @@ public abstract class RobotCamera
 	}
 
 	/**
-	 * Says current image is no longer fresh; call after collecting image data.
+	 * Alerts RobotCamera that current image is no longer fresh; is called immediately after collecting image data.
 	 */
 	public static void imageUnfresh()
 	{
@@ -210,6 +220,7 @@ public abstract class RobotCamera
 	}
 
 	/**
+	 * Performs "work" on the image, excluding "greenbox." Called by CameraThread only.
 	 1. Grabs source image.
 	 2. Initiates blueBox() or redBox()
 	 3. Free all objects
@@ -232,23 +243,22 @@ public abstract class RobotCamera
 			_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS / 2.0) * (VIEW_ANGLE_DEGREES) / (VIEW_ANGLE_PIXELS);
 			_freshImage = true;
 		}
-		catch (Exception e)
-		{
-			//System.out.println("Exception in 'work()': " + e.getMessage() + "/" + e.toString() + "/" + e.getClass());
-		}
+		catch (Exception e){}
 		finally
 		{
 			try
 			{
 				free(_srcImage);
 			}
-			catch (NIVisionException e)
-			{
-				//System.out.println("Failure in 'analyze()'.");
-			}
+			catch (NIVisionException e){}
 		}
 	}
 
+	/**
+	 * Free functions avoid freeing images which are `null`.
+	 * @param x The ColorImage/BinaryImage/MonoImage to free.
+	 * @throws NIVisionException 
+	 */
 	private static void free( ColorImage x ) throws NIVisionException
 	{
 		if ( x != null )
@@ -256,7 +266,11 @@ public abstract class RobotCamera
 			x.free();
 		}
 	}
-
+	/**
+	 * Free functions avoid freeing images which are `null`.
+	 * @param x The ColorImage/BinaryImage/MonoImage to free.
+	 * @throws NIVisionException 
+	 */
 	private static void free( BinaryImage x ) throws NIVisionException
 	{
 		if ( x != null )
@@ -264,7 +278,11 @@ public abstract class RobotCamera
 			x.free();
 		}
 	}
-
+	/**
+	 * Free functions avoid freeing images which are `null`.
+	 * @param x The ColorImage/BinaryImage/MonoImage to free.
+	 * @throws NIVisionException 
+	 */
 	private static void free( MonoImage x ) throws NIVisionException
 	{
 		if ( x != null )

@@ -10,6 +10,16 @@ import robot.actuators.RobotActuators;
 
 public abstract class RobotPickup {
     
+    private static double _winchSpeed;
+    
+    /**
+     * Periodically call me.
+     */
+    public static void update() {
+	//TODO: Add logic to stop the pickup device from killing itself.
+	RobotActuators.discWinch.set(0);
+    }
+    
     /**
      * Method to control the disc pickup winch.
      * @param speed The speed to set the winch motor to.

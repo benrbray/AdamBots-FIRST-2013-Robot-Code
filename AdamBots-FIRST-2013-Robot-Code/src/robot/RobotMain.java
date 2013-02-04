@@ -56,6 +56,7 @@ public class RobotMain extends IterativeRobot {
 	// Initialize Static Behavior Classes
 	RobotDrive.init();
 	RobotCamera.init();
+	RobotPickup.init();
     }
     
     //// AUTONOMOUS ------------------------------------------------------------
@@ -106,6 +107,7 @@ public class RobotMain extends IterativeRobot {
 	// Update Subsystems
 	RobotShoot.update();
 	RobotCamera.update();
+	RobotPickup.update();
     }
     
     //// TEST ------------------------------------------------------------------

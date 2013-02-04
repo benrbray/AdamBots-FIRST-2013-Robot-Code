@@ -18,5 +18,5 @@ public abstract class LogicTask {
     
     public abstract void updateTask();
     
-    public abstract void finishTask();
+    public abstract int finishTask();
 }

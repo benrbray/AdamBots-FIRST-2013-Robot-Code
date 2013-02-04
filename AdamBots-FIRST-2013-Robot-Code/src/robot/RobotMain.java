@@ -34,19 +34,6 @@ import robot.sensors.RobotSensors;
  * @author Steven Ploog
  */
 public class RobotMain extends IterativeRobot {
-    //// STATIC INSTANCE VARIABLES ---------------------------------------------
-    
-    /** Statically accessible instance of RobotDrive. */
-    public static RobotDrive robotDrive;
-    /** Statically accessible instance of RobotPickup. */
-    public static RobotPickup robotPickup;
-    /** Statically accessible instance of RobotShoot. */
-    public static RobotShoot robotShoot;
-    /** Statically accessible instance of RobotClimb. */
-    public static RobotClimb robotClimb;
-    /** Statically accessible instance of RobotSensors. */
-    public static RobotSensors robotSensors;
-    
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
     private LogicPhase _currentLogicPhase = null;
@@ -64,6 +51,9 @@ public class RobotMain extends IterativeRobot {
 	// Initialize Classes with Static References
 	RobotActuators.init();
 	RobotSensors.init();
+	
+	// Initialize Static Behavior Classes
+	RobotDrive.init();
     }
     
     //// AUTONOMOUS ------------------------------------------------------------
@@ -112,7 +102,7 @@ public class RobotMain extends IterativeRobot {
 	_currentLogicPhase.updatePhase();
 	
 	// Update Subsystems
-	robotShoot.update();
+	RobotShoot.update();
     }
     
     //// TEST ------------------------------------------------------------------

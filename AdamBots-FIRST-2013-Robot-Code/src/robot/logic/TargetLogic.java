@@ -7,7 +7,7 @@ package robot.logic;
 import robot.RobotMain;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotShoot;
-import robot.camera.CameraProcessor;
+import robot.camera.RobotCamera;
 import robot.sensors.RobotSensors;
 
 /**
@@ -47,7 +47,7 @@ public class TargetLogic {
 	    return;
 	}//Exit early if already begun.
 	_isTargeting = true;
-	CameraProcessor.imageUnfresh();//To wait for new image.
+	RobotCamera.imageUnfresh();//To wait for new image.
     }
 
     /**
@@ -62,11 +62,11 @@ public class TargetLogic {
      */
     public static void update() {
 	if (_isTargeting) {
-	    if (CameraProcessor.imageIsFresh()) {
+	    if (RobotCamera.imageIsFresh()) {
 		_doTurn = true;
 		//Can act on new data.
-		CameraProcessor.imageUnfresh();
-		_lastTargetAngleDegrees = CameraProcessor.getDirectionDegrees();
+		RobotCamera.imageUnfresh();
+		_lastTargetAngleDegrees = RobotCamera.getDirectionDegrees();
 		_myLastEncoderLeft = RobotSensors.encoderDriveLeft.getDistance();
 		_myLastEncoderRight = RobotSensors.encoderDriveRight.getDistance();
 		/* Like this:

@@ -5,6 +5,7 @@
 package robot.behavior;
 
 import robot.actuators.RobotActuators;
+import robot.logic.PIDLogic;
 import robot.sensors.RobotSensors;
 
 /**
@@ -19,6 +20,15 @@ public abstract class RobotShoot {
      * The angle that the shooter is currently moving towards.
      */
     private static double _targetAngleDegrees;
+	private static PIDLogic _shooterPid;
+	/**
+	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
+	 */
+	public static void init()
+	{
+		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor,RobotSensors.counterShooterSpeed,0,0,0);
+		
+	}
 
     public static void update() {
 	double d = RobotSensors.encoderShooterAngle.getDistance();
@@ -46,9 +56,9 @@ public abstract class RobotShoot {
     /**
      * Sets the speed of the shooter wheel.
      *
-     * @param speed The speed of the shooter in units/second.
+     * @param speed_rpm The speed of the shooter in rpm
      */
-    public static void setSpeed(double speed) {
-	RobotActuators.shooterWheelMotor.set(speed);
+    public static void setSpeed(double speed_rpm) {
+	_shooterPid.setRPM(speed_rpm);
     }
 }

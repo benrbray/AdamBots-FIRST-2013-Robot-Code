@@ -16,7 +16,7 @@ public class CameraThread implements Runnable
 	{
 		while (true)
 		{
-			CameraProcessor.work();
+			RobotCamera.work();
 		}
 	}
 }

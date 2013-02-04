@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.image.*;
  * This class must be initialized with initialize() and asked to work using work().
  * After work() is finished, you may request distance or direction to the visible best target.
  **/
-public abstract class CameraProcessor
+public abstract class RobotCamera
 {
 	private static final double TARGET_WIDTH_INCHES = 62;
 	private static final double TARGET_HEIGHT_INCHES = 20;//CHECK!?!
@@ -68,7 +68,7 @@ public abstract class CameraProcessor
 		public int y2;
 	}
 
-	public static void loop()
+	public static void update()
 	{
 		if ( _cameraThread == null )
 		{
@@ -76,7 +76,6 @@ public abstract class CameraProcessor
 		}
 		if ( !_cameraThread.isAlive() )
 		{
-			System.out.println("KICK!");
 			_cameraThread.start();
 		}
 	}
@@ -183,7 +182,7 @@ public abstract class CameraProcessor
 	/**
 	 Initialized camera object and sets camera parameters. Should be called once, at robot initialization.
 	 **/
-	public static void initialize()
+	public static void init()
 	{
 		//how it will be on the robot ; _camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
 		_camera = AxisCamera.getInstance("192.168.0.90");

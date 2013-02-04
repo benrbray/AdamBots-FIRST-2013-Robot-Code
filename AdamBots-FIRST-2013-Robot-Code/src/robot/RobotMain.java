@@ -14,7 +14,7 @@ import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
-import robot.camera.CameraProcessor;
+import robot.camera.RobotCamera;
 import robot.logic.LogicPhase;
 import robot.logic.PIDLogic;
 import robot.logic.auton.AutonLogic;

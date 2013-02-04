@@ -103,10 +103,10 @@ public class TeleopLogic extends LogicPhase {
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
-		_robotDrive.switchGear(RobotDrive.SHIFTER_LOW);
+		RobotDrive.switchGear(RobotDrive.SHIFTER_LOW);
             } else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
 		_highGear=true;
-		_robotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
+		RobotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
             }
         }
 	
@@ -140,10 +140,12 @@ public class TeleopLogic extends LogicPhase {
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 	    if (_shooterAngleChangerDrive == 0 && _magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
 		//TODO: Add automatic shooter angle adjustment
+		RobotShoot.setAngleDegrees(30);
 	    }
 	    
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		//TODO: Add automatic shooter speed calls
+		RobotShoot.setSpeed(0);
 	    }
 	}
 	

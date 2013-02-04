@@ -36,7 +36,12 @@ public final class TAwaitStatus extends LogicTask {
     
     public void updateTask() {
 	switch(_status){
-	    
+	    case WINCH_IN_POSITION:
+		
+		break;
+	    case SHOOTER_IN_POSITION:
+		
+		break;
 	}
     }
 

@@ -7,7 +7,7 @@ package robot.camera;
 
 
 /**
- *
+ * A Java thread which periodically calls RobotCamera.work() to avoid blocking computation.
  * @author Nathan
  */
 public class CameraThread implements Runnable

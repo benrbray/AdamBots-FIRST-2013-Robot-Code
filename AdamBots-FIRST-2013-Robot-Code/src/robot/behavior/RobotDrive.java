@@ -12,13 +12,13 @@ import robot.actuators.RobotActuators;
  *
  * @author Ben
  */
-public class RobotDrive {
+public abstract class RobotDrive {
     
     // there will be a class TBD that will store all the robot
     // sensors, motors
     // take out the next few lines when static class is made
-    public final int PORT_LEFT_VICTOR = 1;
-    public final int PORT_RIGHT_VICTOR = 2;
+    public static final int PORT_LEFT_VICTOR = 1;
+    public static final int PORT_RIGHT_VICTOR = 2;
     /** Shifter value*/
     public static final double SHIFTER_LOW = 1;
     public static final double SHIFTER_HIGH = 0.3;
@@ -26,16 +26,10 @@ public class RobotDrive {
     
     //private robot.actuators.RobotActuators robotActuators;
     
-    
-    public RobotDrive( )
-    {
-	robotDriveInit();
-    }
-    
     /**
      * Initialize everything
      */
-    private void robotDriveInit() {
+    public static void robotDriveInit() {
     }
     
     /**
@@ -44,7 +38,7 @@ public class RobotDrive {
      * @param rightSpeed to set the right speed
      * sets the speed of the wheels to the parameters given
      */
-    public void drive( double leftSpeed, double rightSpeed ) {
+    public static void drive( double leftSpeed, double rightSpeed ) {
 	RobotActuators.driveRight.set(rightSpeed);
 	RobotActuators.driveLeft.set(leftSpeed);
     }
@@ -54,7 +48,7 @@ public class RobotDrive {
      * @param speed for the speed of both wheels
      * calls drive and sends it the parameters of speed for both
      */
-    public void driveStraight( double speed )
+    public static void driveStraight( double speed )
     {
 	RobotActuators.driveRight.set(speed);
 	RobotActuators.driveLeft.set(speed);
@@ -65,7 +59,7 @@ public class RobotDrive {
      * @param speed to turn in place
      * turns in place at the speed given
      */
-    public void turn( double speed )
+    public static void turn( double speed )
     {
 	RobotActuators.driveRight.set(-speed);
 	RobotActuators.driveLeft.set(speed);
@@ -75,7 +69,7 @@ public class RobotDrive {
      * 
      * stops all the motors
      */
-    public void stop()
+    public static void stop()
     {
 	RobotActuators.driveRight.set(0);
 	RobotActuators.driveLeft.set(0);
@@ -85,7 +79,7 @@ public class RobotDrive {
      * switches gear when called
      * @param ServoPosition used to set transmissionLeft position
      */
-    public void switchGear( double ServoPosition){
+    public static void switchGear( double ServoPosition){
 //        RobotActuators.transmissionLeft.set(ServoPosition);
 //        System.out.println(RobotActuators.transmissionLeft.get());
 

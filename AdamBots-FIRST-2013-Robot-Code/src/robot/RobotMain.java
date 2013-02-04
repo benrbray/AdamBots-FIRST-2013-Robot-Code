@@ -108,6 +108,7 @@ public class RobotMain extends IterativeRobot {
 	RobotShoot.update();
 	RobotCamera.update();
 	RobotPickup.update();
+	RobotClimb.update();
     }
     
     //// TEST ------------------------------------------------------------------

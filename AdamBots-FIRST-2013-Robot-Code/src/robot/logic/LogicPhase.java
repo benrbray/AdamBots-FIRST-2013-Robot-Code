@@ -32,16 +32,16 @@ public abstract class LogicPhase {
     /**
      * Called when this Logic Phase is granted control of the robot.
      */
-    public abstract void init();
+    public abstract void initPhase();
     
     /**
      * Called periodically while this Logic Phase possesses control.
      */
-    public abstract void update();
+    public abstract void updatePhase();
     
     /**
      * Called immediately before control is taken from this Logic Phase.
      */
-    public abstract void finish();
+    public abstract void finishPhase();
     
 }

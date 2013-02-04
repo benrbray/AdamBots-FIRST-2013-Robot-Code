@@ -11,16 +11,31 @@ import robot.logic.LogicPhase;
  * @author Ben
  */
 public class ClimbLogic extends LogicPhase {
+    //// CONSTANTS -------------------------------------------------------------
+    
+    
+    
+    //// CONSTRUCTOR -----------------------------------------------------------
+    
+    public ClimbLogic(){
+	super();
+    }
 
-    public void init() {
+    //// INITIALIZATION --------------------------------------------------------
+    
+    public void initPhase() {
 	
     }
 
-    public void update() {
+    //// UPDATE ----------------------------------------------------------------
+    
+    public void updatePhase() {
 	
     }
 
-    public void finish() {
+    //// FINISH ----------------------------------------------------------------
+    
+    public void finishPhase() {
 	
     }
     

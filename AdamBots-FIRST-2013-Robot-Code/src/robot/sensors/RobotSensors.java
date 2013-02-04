@@ -50,10 +50,12 @@ public class RobotSensors {
     public static AnalogChannel opticalDiscTop;
     public static AnalogChannel opticalDiscBottom;
     
+    //// INITIALIZATION --------------------------------------------------------
+    
     /**
      Instantiates all sensors handled by class.
      **/
-    public static void initialize()
+    public static void init()
     {
         gyroChassis = new Gyro(1); //?
         opticalHook1 = new AnalogChannel(2);
@@ -89,6 +91,4 @@ public class RobotSensors {
         encoderShooterAngle = new Encoder(2,5,2,6);
         
     }
-    
-    
 }

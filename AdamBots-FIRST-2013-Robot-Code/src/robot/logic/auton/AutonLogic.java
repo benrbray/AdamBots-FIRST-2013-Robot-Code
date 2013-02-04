@@ -12,13 +12,13 @@ import robot.logic.LogicPhase;
  */
 public class AutonLogic extends LogicPhase {
 
-    public void init() {
+    public void initPhase() {
     }
 
-    public void update() {
+    public void updatePhase() {
     }
 
-    public void finish() {
+    public void finishPhase() {
     }
     
 }

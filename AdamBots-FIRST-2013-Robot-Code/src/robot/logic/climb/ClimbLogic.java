@@ -13,7 +13,9 @@ import robot.logic.LogicPhase;
 public class ClimbLogic extends LogicPhase {
     //// CONSTANTS -------------------------------------------------------------
     
+    //// TASK LIST -------------------------------------------------------------
     
+    private ClimbTask[] _tasks;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     

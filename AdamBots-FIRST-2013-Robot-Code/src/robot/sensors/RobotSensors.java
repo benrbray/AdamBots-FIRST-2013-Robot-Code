@@ -51,8 +51,11 @@ public class RobotSensors {
     
     public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
     
+    /** Robot Configuration Switch #1 */
     public static DigitalInput config1;
+    /** Robot Configuration Switch #2 */
     public static DigitalInput config2;
+    /** Robot Configuration Switch #3 */
     public static DigitalInput config3;
     
     public static FancyCounter counterShooterSpeed;

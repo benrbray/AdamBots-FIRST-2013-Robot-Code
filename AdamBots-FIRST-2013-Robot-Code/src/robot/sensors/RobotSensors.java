@@ -49,7 +49,7 @@ public class RobotSensors {
     
     public static Gyro gyroChassis;
     
-    public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
+    public static Accelerometer accelerometerChassis; // TODO: Is this the right class?
     
     /** Robot Configuration Switch #1 */
     public static DigitalInput config1;

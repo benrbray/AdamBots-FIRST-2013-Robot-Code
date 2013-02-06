@@ -14,6 +14,7 @@ import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
+import robot.camera.RobotCamera;
 import robot.logic.LogicPhase;
 import robot.logic.PIDLogic;
 import robot.logic.auton.AutonLogic;
@@ -54,6 +55,8 @@ public class RobotMain extends IterativeRobot {
 	
 	// Initialize Static Behavior Classes
 	RobotDrive.init();
+	RobotCamera.init();
+	RobotPickup.init();
     }
     
     //// AUTONOMOUS ------------------------------------------------------------
@@ -103,6 +106,9 @@ public class RobotMain extends IterativeRobot {
 	
 	// Update Subsystems
 	RobotShoot.update();
+	RobotCamera.update();
+	RobotPickup.update();
+	RobotClimb.update();
     }
     
     //// TEST ------------------------------------------------------------------

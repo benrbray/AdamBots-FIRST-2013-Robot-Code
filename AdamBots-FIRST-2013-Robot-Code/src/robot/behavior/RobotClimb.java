@@ -32,11 +32,11 @@ public abstract class RobotClimb {
     public static void update()
     {
         
-        if (RobotSensors.limitWinch1.get()) //TODO: Determine 1 vs 2 for limits, winch speed pairing.
+        if (RobotSensors.limitWinchA.get()) //TODO: Determine 1 vs 2 for limits, winch speed pairing.
         {
             _winchTarget = Math.min(_winchTarget,getWinchPosition()-TOLERANCE/2);
         }
-        if (RobotSensors.limitWinch2.get())
+        if (RobotSensors.limitWinchB.get())
         {
             _winchTarget = Math.max(_winchTarget,getWinchPosition()+TOLERANCE/2);
         }
@@ -61,6 +61,12 @@ public abstract class RobotClimb {
     {
         _winchTarget = target;
     }
+    
+    /**
+     * Determine the winch position based on encoder values.
+     * @return The distance returned by the encoder's getDistance() method.
+     * This distance is scaled by the encoder's "distancePerPulse" value.
+     */
     private static double getWinchPosition()
     {
         return RobotSensors.encoderWinch.getDistance();

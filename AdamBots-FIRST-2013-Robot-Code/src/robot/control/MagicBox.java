@@ -38,6 +38,7 @@ public class MagicBox extends DriverStation {
     
     //// BODY OF CLASS ---------------------------------------------------------
     
+    //TODO: STATIC MAGIG BOX CLASS
     public MagicBox() {
 	_ds = DriverStation.getInstance();
 	
@@ -46,6 +47,9 @@ public class MagicBox extends DriverStation {
 	
 	_shooterMultiplierButtonReleased = false;
 	_angleOffsetButtonReleased = false;
+    }
+    
+    public static void init() {
     }
     
     /**

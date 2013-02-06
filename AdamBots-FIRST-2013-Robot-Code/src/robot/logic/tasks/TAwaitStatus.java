@@ -4,6 +4,8 @@
  */
 package robot.logic.tasks;
 
+import robot.behavior.RobotClimb;
+import robot.behavior.RobotShoot;
 import robot.logic.LogicTask;
 
 /**
@@ -19,6 +21,7 @@ public final class TAwaitStatus extends LogicTask {
     //// PRIVATE VARIABLES -----------------------------------------------------
     
     private int _status;
+    private boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -37,10 +40,10 @@ public final class TAwaitStatus extends LogicTask {
     public void updateTask() {
 	switch(_status){
 	    case WINCH_IN_POSITION:
-		
+		_done = RobotClimb.isWinchInPosition();
 		break;
 	    case SHOOTER_IN_POSITION:
-		
+		_done = RobotShoot.isShooterInPosition();
 		break;
 	}
     }
@@ -53,8 +56,12 @@ public final class TAwaitStatus extends LogicTask {
     
     //// COMPLETION STATUS -----------------------------------------------------
     
+    /**
+     * Has the desired status been reached (thus completing the Task)?
+     * @return Task completion status.
+     */
     public boolean isDone(){
-	return false;
+	return _done;
     }
     
 }

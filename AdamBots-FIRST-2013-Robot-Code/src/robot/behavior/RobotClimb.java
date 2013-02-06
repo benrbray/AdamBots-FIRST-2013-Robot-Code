@@ -73,6 +73,15 @@ public abstract class RobotClimb {
     }
     
     /**
+     * Has the winch reached its target position?
+     * @see setWinchTarget
+     * @return Winch status.
+     */
+    public static boolean isWinchInPosition(){
+	return false; // TODO:  Logic Here
+    }
+    
+    /**
      * Stops the motion of the winch (by setting the target to the current position and stopping the motor)
      */
     public static void stopWinch()

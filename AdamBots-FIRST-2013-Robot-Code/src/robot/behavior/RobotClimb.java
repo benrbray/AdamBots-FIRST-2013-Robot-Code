@@ -13,34 +13,17 @@ import robot.sensors.RobotSensors;
  * @author Curtis
  */
 public abstract class RobotClimb {
+    //// CONSTANTS -------------------------------------------------------------
     
-    /**
-     * The tolerance of the winch targeting.
-     */
+    /** The tolerance of the winch targeting. */
     public static final double TOLERANCE = 0.5;
     
-    private static double _winchTarget = 0;
-    /**
-     * Set the target position (inches?) of the winch (e.g., 0 for reel in, 15 for reel out)
-     * @param speed The PWM speed to set it at.
-     */
-    public static void setWinchTarget(double target)
-    {
-        _winchTarget = target;
-    }
-    private static double getWinchPosition()
-    {
-        return RobotSensors.encoderWinch.getDistance();
-    }
+    //// PRIVATE VARIABLES -----------------------------------------------------
     
-    /**
-     * Stops the motion of the winch (by setting the target to the current position and stopping the motor)
-     */
-    public static void stopWinch()
-    {
-        _winchTarget = getWinchPosition();
-        RobotActuators.climbWinch.set(0);
-    }
+    // Winch Positioning
+    private static double _winchTarget = 0;
+    
+    //// UPDATE ----------------------------------------------------------------
     
     /**
      * Manages limit, encoder, and winch using the requested last target from setWinchTarget.
@@ -66,6 +49,33 @@ public abstract class RobotClimb {
             RobotActuators.climbWinch.set(-0.1);
         }
     }
+    
+    
+    //// WINCH -----------------------------------------------------------------
+    
+    /**
+     * Set the target position (inches?) of the winch (e.g., 0 for reel in, 15 for reel out)
+     * @param speed The PWM speed to set it at.
+     */
+    public static void setWinchTarget(double target)
+    {
+        _winchTarget = target;
+    }
+    private static double getWinchPosition()
+    {
+        return RobotSensors.encoderWinch.getDistance();
+    }
+    
+    /**
+     * Stops the motion of the winch (by setting the target to the current position and stopping the motor)
+     */
+    public static void stopWinch()
+    {
+        _winchTarget = getWinchPosition();
+        RobotActuators.climbWinch.set(0);
+    }
+    
+    //// SOLENOID CONTROL ------------------------------------------------------
     
     public static void startSolenoid()
     {

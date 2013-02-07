@@ -7,6 +7,7 @@ package robot.behavior;
 
 import edu.wpi.first.wpilibj.Relay;
 import robot.actuators.RobotActuators;
+import robot.sensors.RobotSensors;
 
 public abstract class RobotPickup {
     
@@ -25,9 +26,19 @@ public abstract class RobotPickup {
      * Periodically call me.
      */
     public static void update() {
-	//TODO: Add logic to stop the pickup device from killing itself.
-	RobotActuators.discWinch.set(_winchSpeed);
+	
 	RobotActuators.discIntake.set(_relayValue);
+	
+	//TODO: Confirm logic for winch safety.
+	if (!RobotSensors.limitElevatorA.get() && !RobotSensors.limitElevatorB.get()) { // No switch pressed
+	    RobotActuators.discWinch.set(_winchSpeed);
+	} else if (RobotSensors.limitElevatorA.get() && _winchSpeed < 0) { // Elevator at top, speed set to lower
+	    RobotActuators.discWinch.set(_winchSpeed);
+	} else if (RobotSensors.limitElevatorB.get() && _winchSpeed > 0) { // Elevator at bottom, speed set to raise
+	    RobotActuators.discWinch.set(_winchSpeed);
+	} else {
+	    RobotActuators.discWinch.set(0);
+	}
     }
     
     /**

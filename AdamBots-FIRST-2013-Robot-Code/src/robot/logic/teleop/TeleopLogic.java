@@ -7,6 +7,7 @@
 package robot.logic.teleop;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotMain;
 import robot.actuators.RobotActuators;
 import robot.behavior.*;
@@ -55,13 +56,18 @@ public class TeleopLogic extends LogicPhase {
      * Initializes variables, objects, etc to their starting states.
      */
     public void initPhase() {
-	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
-	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
-	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS];
-	_magicBoxButtons = new boolean[MagicBox.NUM_BUTTONS];
+	//// INITIALIZE JOYSTICKS ----------------------------------------------
+	_primaryJoy = new FancyJoystick(1);
+	_secondaryJoy = new FancyJoystick(2);
 	
-	_primaryAxis = new double[FancyJoystick.XBOX_BUTTONS];
-	_secondaryAxis = new double[FancyJoystick.XBOX_AXES];
+	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
+	//Add 1 to the arrays because the inputs start at one rather than 0.
+	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS + 1];
+	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS + 1];
+	_magicBoxButtons = new boolean[MagicBox.NUM_BUTTONS + 1];
+	
+	_primaryAxis = new double[FancyJoystick.XBOX_BUTTONS + 1];
+	_secondaryAxis = new double[FancyJoystick.XBOX_AXES + 1];
 	
 	//// INITIALIZE TELEOP VARIABLES ---------------------------------------
 	_leftDrive = 0;
@@ -100,12 +106,13 @@ public class TeleopLogic extends LogicPhase {
 	RobotDrive.drive(_leftDrive, _rightDrive);
 	
 	// Handle shifting
-	//TODO: IMplement shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear=false;
+		RobotDrive.switchGear(RobotDrive.SHIFTER_LOW);
             } else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
 		_highGear=true;
+		RobotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
             }
         }
 	
@@ -139,10 +146,12 @@ public class TeleopLogic extends LogicPhase {
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 	    if (_shooterAngleChangerDrive == 0 && _magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
 		//TODO: Add automatic shooter angle adjustment
+		RobotShoot.setAngleDegrees(30);
 	    }
 	    
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		//TODO: Add automatic shooter speed calls
+		RobotShoot.setSpeed(0);
 	    }
 	}
 	

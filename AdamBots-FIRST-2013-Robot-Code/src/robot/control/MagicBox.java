@@ -28,19 +28,20 @@ public class MagicBox {
     public static final double ANGLE_OFFSET_INCREMENT = 2.5;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
-    private double _shooterMultiplier;
-    private double _angleOffset;
+    private static double _shooterMultiplier;
+    private static double _angleOffset;
     
-    private boolean _shooterMultiplierButtonReleased;
-    private boolean _angleOffsetButtonReleased;
+    private static boolean _shooterMultiplierButtonReleased;
+    private static boolean _angleOffsetButtonReleased;
     
-    private DriverStation _ds;
+    private static DriverStation _ds;
     
     //// BODY OF CLASS ---------------------------------------------------------
     
-    public MagicBox() {}
-    
-    public void init() {
+    /**
+     * Must be called to initialize the magic box.c
+     */
+    public static void init() {
 	_ds = DriverStation.getInstance();
 	
 	_shooterMultiplier = 1.0;
@@ -53,7 +54,7 @@ public class MagicBox {
     /**
      * Update method to be called periodically.
      */
-    public void update() {
+    public static void update() {
 	//// SHOOTER MULTIPLIER LOGIC ------------------------------------------
 	if (!_ds.getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;
@@ -84,28 +85,28 @@ public class MagicBox {
     /**
      * @return The current value of the shooter multiplier.
      */
-    public double getShooterMultiplier() {
+    public static double getShooterMultiplier() {
 	return _shooterMultiplier;
     }
     
     /**
      * @param shooterMultiplier The value to set shooter multiplier to.
      */
-    public void setShooterMultiplier(double shooterMultiplier) {
+    public static void setShooterMultiplier(double shooterMultiplier) {
 	_shooterMultiplier = shooterMultiplier;
     }
     
     /**
      * @return The current angle offset.
      */
-    public double getAngleOffset() {
+    public static double getAngleOffset() {
 	return _angleOffset;
     }
     
     /**
      * @param angleOffset The value to set the angle offset to.
      */
-    public void setAngleOffset(double angleOffset) {
+    public static void setAngleOffset(double angleOffset) {
 	_angleOffset = angleOffset;
     }
     
@@ -115,7 +116,7 @@ public class MagicBox {
      * @param channel The Cypress board channel to read.
      * @return Digital input from channel "channel."
      */
-    public boolean getDigitalIn(int channel) {
+    public static boolean getDigitalIn(int channel) {
 	return _ds.getDigitalIn(channel);
     }
     
@@ -125,7 +126,7 @@ public class MagicBox {
      * @param channel The Cypress board channel to read.
      * @return The analog channel "channel" on the Cypress board.
      */
-    public double getAnalogIn(int channel) {
+    public static double getAnalogIn(int channel) {
 	return _ds.getAnalogIn(channel);
     }
     
@@ -134,7 +135,7 @@ public class MagicBox {
      * @param channel The Cypress board channel to read.
      * @return Inverted digital input from Cypress channel "channel."
      */
-    public boolean getInvertedDigitalIn(int channel) {
+    public static boolean getInvertedDigitalIn(int channel) {
 	return !_ds.getDigitalIn(channel);
     }
 }

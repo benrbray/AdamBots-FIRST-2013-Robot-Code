@@ -48,7 +48,7 @@ public class TeleopLogic extends LogicPhase {
      * Creates an instance of TeleopLogic.
      */
     public TeleopLogic() {
-	
+	super();
     }
     
     /**

@@ -23,7 +23,6 @@ public class TeleopLogic extends LogicPhase {
     
     private FancyJoystick _primaryJoy;
     private FancyJoystick _secondaryJoy;
-    private MagicBox _magicBox;
     
     private boolean _primaryButtons[];
     private boolean _secondaryButtons[];
@@ -189,10 +188,10 @@ public class TeleopLogic extends LogicPhase {
      * Gathers magic box values.
      */
     private void updateMagicBox() {
-	_magicBox.update();
+	MagicBox.update();
 	
 	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
-	    _magicBoxButtons[i] = _magicBox.getDigitalIn(i);
+	    _magicBoxButtons[i] = MagicBox.getDigitalIn(i);
 	}
     }
     

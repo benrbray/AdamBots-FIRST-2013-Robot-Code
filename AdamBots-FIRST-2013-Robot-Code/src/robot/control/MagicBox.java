@@ -36,8 +36,6 @@ public class MagicBox extends DriverStation {
     
     private DriverStation _ds;
     
-    //// BODY OF CLASS ---------------------------------------------------------
-    
     public MagicBox() {
 	_ds = DriverStation.getInstance();
 	

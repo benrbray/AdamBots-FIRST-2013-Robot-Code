@@ -162,10 +162,11 @@ public class TeleopLogic extends LogicPhase {
 	RobotActuators.discWinch.set(_elevatorDrive);
 	
 	// Disk fire control
+	//TODO: Check shooter pneumatic control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
-	    //TODO: Extend firing solenoid
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
 	} else {
-	    //TODO: Retract firing solenoid
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
 	}
     }
     

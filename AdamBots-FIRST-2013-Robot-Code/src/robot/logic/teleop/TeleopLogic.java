@@ -60,6 +60,8 @@ public class TeleopLogic extends LogicPhase {
 	_primaryJoy = new FancyJoystick(1);
 	_secondaryJoy = new FancyJoystick(2);
 	
+	MagicBox.init();
+	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
 	//Add 1 to the arrays because the inputs start at one rather than 0.
 	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS + 1];

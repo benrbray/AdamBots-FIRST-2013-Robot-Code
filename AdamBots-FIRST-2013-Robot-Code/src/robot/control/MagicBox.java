@@ -28,6 +28,12 @@ public class MagicBox {
     public static final double SHOOTER_MANUAL_SPEED_INCREMENT	= .05;
     public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
     
+    public static final double PYRAMID_SHOT_SPEED = 0;
+    public static final double PYRAMID_SHOT_ANGLE = 50;
+    
+    public static final double FULL_COURT_SPEED = .75;
+    public static final double FULL_COURT_ANGLE = 30;
+    
     //// MAGIC BOX VARIABLES ---------------------------------------------------
     private static double _shooterMultiplier;
     private static double _shooterManualSpeed;

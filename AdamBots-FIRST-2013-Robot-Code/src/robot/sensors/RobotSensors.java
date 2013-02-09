@@ -101,5 +101,9 @@ public class RobotSensors {
         
         counterShooterSpeed = new FancyCounter(2,4);
         encoderShooterAngle = new Encoder(2,5,2,6);
+		
+		counterShooterSpeed.start();
+		counterShooterSpeed.setMaxPeriod(10000);
+		counterShooterSpeed.setUpSourceEdge(true,false);
     }
 }

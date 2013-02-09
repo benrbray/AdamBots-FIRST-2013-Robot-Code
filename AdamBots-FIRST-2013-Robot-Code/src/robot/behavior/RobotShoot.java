@@ -7,6 +7,7 @@ package robot.behavior;
 import robot.actuators.RobotActuators;
 import robot.logic.PIDLogic;
 import robot.sensors.RobotSensors;
+import utils.MathUtils;
 
 /**
  * RobotShoot sets the speed and angle of the shooter; update() must be called
@@ -16,6 +17,10 @@ import robot.sensors.RobotSensors;
  */
 public abstract class RobotShoot {
 
+	/**
+	 * The degrees of tolerance permitted in setting the target angle.
+	 */
+	public static final double SHOOTER_ANGLE_TOLERANCE = 3;
 	/**
 	 * The angle that the shooter is currently moving towards.
 	 */
@@ -30,23 +35,28 @@ public abstract class RobotShoot {
 	 */
 	public static void init() {
 		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor, RobotSensors.counterShooterSpeed, 0, 0, 0);
-
+	}
+	
+	public static double convertFromEncoderToAngle(double enc)
+	{
+		return enc;//TODO: actually write the method.
 	}
 
 	/**
 	 * Called periodically to control the shooterAngle motor.
 	 */
 	public static void update() {
-		double d = RobotSensors.encoderShooterAngle.getDistance();
+		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		
 		/**
 		 * TODO: Rewrite 'd' to be a proper angle. *
 		 * TODO: Check encoder at limits.
 		 */
-		if ( Math.abs(d - _targetAngleDegrees) < 3 ) {
+		if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
 			RobotActuators.shooterAngleMotor.set(0);
 		}
 		else {
-			RobotActuators.shooterAngleMotor.set(Math.max(-1, Math.min(1, (_targetAngleDegrees - d) / 360.0)));//Probably too slow.
+			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d)/10.0));
 		}
 	}
 

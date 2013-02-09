@@ -19,6 +19,7 @@ public class ClimbLogic extends LogicPhase {
     //// TASK LIST -------------------------------------------------------------
     
     private Vector _tasks;
+    private LogicTask _currentTask;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -41,13 +42,33 @@ public class ClimbLogic extends LogicPhase {
     //// UPDATE ----------------------------------------------------------------
     
     public void updatePhase() {
+	// Update Current Task
+	_currentTask.updateTask();
 	
+	if(_currentTask.isDone()){
+	    nextTask();
+	}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public void finishPhase() {
 	
+    }
+    
+    //// TASK LOGIC ------------------------------------------------------------
+    
+    public void nextTask(){
+	setCurrentTask(_currentTask);
+    }
+    
+    public void setCurrentTask(LogicTask newTask){
+	if(_currentTask != null){
+	    int status = _currentTask.finishTask();
+	}
+	
+	_currentTask = newTask;
+	_currentTask.initializeTask();
     }
     
 }

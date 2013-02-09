@@ -18,6 +18,7 @@ public final class TAwaitStatus extends LogicTask {
     public static final int WINCH_IN_POSITION = 0;
     public static final int SHOOTER_IN_POSITION = 1;
     public static final int SHOOTER_UP_TO_SPEED = 2;
+    public static final int WINCH_HOOK_LIMIT_SWITCHES_PRESSED = 3;
     
     //// PRIVATE VARIABLES -----------------------------------------------------
     
@@ -29,15 +30,13 @@ public final class TAwaitStatus extends LogicTask {
     //// CONSTRUCTOR -----------------------------------------------------------
     
     public TAwaitStatus(int status){
-	_status = status;
-	_value = Double.NaN;
-	initializeTask(false);
+	this(status, 4.0);
     }
     
     public TAwaitStatus(int status, double value){
 	_status = status;
 	_value = value;
-	initializeTask(true);
+	initializeTask();
     }
 
     //// INITIALIZATION --------------------------------------------------------
@@ -51,8 +50,8 @@ public final class TAwaitStatus extends LogicTask {
      * @param useValue Should the Task send a target value to the Behavior class
      * that it is waiting on?
      */
-    public void initializeTask(boolean useValue) {
-	if(useValue){
+    public void initializeTask() {
+	if(_value != Double.NaN){
 	    switch(_status){
 		case WINCH_IN_POSITION:
 		    RobotClimb.setWinchTarget(_value);
@@ -62,6 +61,8 @@ public final class TAwaitStatus extends LogicTask {
 		    break;
 		case SHOOTER_UP_TO_SPEED:
 		    RobotShoot.setSpeed(_value);
+		    break;
+		case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
 		    break;
 		default:
 			throw new IllegalArgumentException();
@@ -81,6 +82,9 @@ public final class TAwaitStatus extends LogicTask {
 		break;
 	    case SHOOTER_UP_TO_SPEED:
 		_done = RobotShoot.isShooterUpToSpeed();
+		break;
+	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
+		_done = RobotSensors;
 		break;
 	}
     }

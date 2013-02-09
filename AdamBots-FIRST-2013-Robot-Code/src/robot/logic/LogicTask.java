@@ -38,4 +38,10 @@ public abstract class LogicTask {
      * @return A status message.  (0 = success)
      */
     public abstract int finishTask();
+    
+    /**
+     * Indicates whether or not the task has been completed.
+     * @return Has the task been completed?
+     */
+    public abstract boolean isDone();
 }

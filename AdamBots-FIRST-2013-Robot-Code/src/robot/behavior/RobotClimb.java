@@ -94,10 +94,10 @@ public abstract class RobotClimb {
     
     public static void startSolenoid()
     {
-        RobotActuators.climbWinchRelease.set(Relay.Value.kOn);
+        RobotActuators.climbWinchSolenoid.set(Relay.Value.kOn);
     }
     public static void stopSolenoid()
     {
-        RobotActuators.climbWinchRelease.set(Relay.Value.kOn);
+        RobotActuators.climbWinchSolenoid.set(Relay.Value.kOn);
     }
 }

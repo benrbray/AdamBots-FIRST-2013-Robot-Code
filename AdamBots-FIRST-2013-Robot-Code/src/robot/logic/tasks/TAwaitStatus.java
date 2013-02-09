@@ -7,6 +7,7 @@ package robot.logic.tasks;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotShoot;
 import robot.logic.LogicTask;
+import robot.sensors.RobotSensors;
 
 /**
  *
@@ -81,10 +82,11 @@ public final class TAwaitStatus extends LogicTask {
 		_done = RobotShoot.isShooterInPosition();
 		break;
 	    case SHOOTER_UP_TO_SPEED:
-		_done = RobotShoot.isShooterUpToSpeed();
+		_done = false; // RobotShoot.isShooterUpToSpeed(); 
+		// TODO:  Shooter Up to Speed Method
 		break;
 	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
-		_done = RobotSensors;
+		_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
 		break;
 	}
     }

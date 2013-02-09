@@ -156,10 +156,13 @@ public class TeleopLogic extends LogicPhase {
 	//// SECONDARY DRIVER --------------------------------------------------
 	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 	
+	// If the secondary driver requests auto targeting...Else keep speed at a constant.
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 	    
 	    TargetLogic.beginTargeting();
 	    
+	    // Shooter angle control.
+	    // Start by driving based on joystick if the joystick has input.
 	    if (_shooterAngleChangerDrive != 0) {
 		RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 		SmartDashboard.putString("shooterAngleChanger", "manual" + _shooterAngleChangerDrive);
@@ -174,6 +177,8 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putString("shooterAngleChanger", "full court");
 	    }
 	    
+	    // Shooter speed control
+	    // Start with automatic speed if it is enabled.
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		TargetLogic.setShooterConstantSpeed(0);
 		SmartDashboard.putString("shooterSpeed", "automatic");
@@ -226,7 +231,7 @@ public class TeleopLogic extends LogicPhase {
     }
     
     /**
-     * Gathers magic box values.
+     * Gathers magic box values, and updates shooter multiplier and angle offset.
      */
     private void updateMagicBox() {
 	MagicBox.update();

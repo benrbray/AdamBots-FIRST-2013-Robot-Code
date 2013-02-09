@@ -180,7 +180,11 @@ public class TeleopLogic extends LogicPhase {
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
 		TargetLogic.setShooterConstantSpeed(MagicBox.FULL_COURT_SHOT_SPEED);
 		SmartDashboard.putString("shooterSpeed", "full court");
+	    } else {
+		TargetLogic.setShooterConstantSpeed(MagicBox.getShooterManualSpeed());
+		SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
 	    }
+	    
 	    SmartDashboard.putString("secondaryAutoTarget", "true");
 	} else {
 	    TargetLogic.endTargeting();
@@ -222,6 +226,9 @@ public class TeleopLogic extends LogicPhase {
      */
     private void updateMagicBox() {
 	MagicBox.update();
+	
+	TargetLogic.setShooterSpeedMultiplier(MagicBox.getShooterMultiplier());
+	TargetLogic.setShooterAngleOffset(MagicBox.getAngleOffset());
 	
 	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
 	    _magicBoxButtons[i] = MagicBox.getDigitalIn(i);

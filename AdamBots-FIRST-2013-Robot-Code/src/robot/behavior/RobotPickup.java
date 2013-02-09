@@ -31,13 +31,13 @@ public abstract class RobotPickup {
 	
 	//TODO: Confirm logic for winch safety.
 	if (!RobotSensors.limitElevatorA.get() && !RobotSensors.limitElevatorB.get()) { // No switch pressed
-	    RobotActuators.discWinch.set(_winchSpeed);
+	    RobotActuators.discElevator.set(_winchSpeed);
 	} else if (RobotSensors.limitElevatorA.get() && _winchSpeed < 0) { // Elevator at top, speed set to lower
-	    RobotActuators.discWinch.set(_winchSpeed);
+	    RobotActuators.discElevator.set(_winchSpeed);
 	} else if (RobotSensors.limitElevatorB.get() && _winchSpeed > 0) { // Elevator at bottom, speed set to raise
-	    RobotActuators.discWinch.set(_winchSpeed);
+	    RobotActuators.discElevator.set(_winchSpeed);
 	} else {
-	    RobotActuators.discWinch.set(0);
+	    RobotActuators.discElevator.set(0);
 	}
     }
     

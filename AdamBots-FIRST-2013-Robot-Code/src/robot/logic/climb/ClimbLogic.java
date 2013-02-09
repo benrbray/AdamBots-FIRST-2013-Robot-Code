@@ -4,7 +4,9 @@
  */
 package robot.logic.climb;
 
+import java.util.Vector;
 import robot.logic.LogicPhase;
+import robot.logic.LogicTask;
 
 /**
  *
@@ -15,7 +17,7 @@ public class ClimbLogic extends LogicPhase {
     
     //// TASK LIST -------------------------------------------------------------
     
-    private ClimbTask[] _tasks;
+    private Vector _tasks;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -26,7 +28,8 @@ public class ClimbLogic extends LogicPhase {
     //// INITIALIZATION --------------------------------------------------------
     
     public void initPhase() {
-	
+	// Populate Tasks Array
+	_tasks = new Vector();
     }
 
     //// UPDATE ----------------------------------------------------------------

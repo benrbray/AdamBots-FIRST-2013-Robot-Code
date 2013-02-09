@@ -17,6 +17,7 @@ public final class TAwaitStatus extends LogicTask {
     
     public static final int WINCH_IN_POSITION = 0;
     public static final int SHOOTER_IN_POSITION = 1;
+    public static final int SHOOTER_UP_TO_SPEED = 2;
     
     //// PRIVATE VARIABLES -----------------------------------------------------
     
@@ -27,12 +28,25 @@ public final class TAwaitStatus extends LogicTask {
     
     public TAwaitStatus(int status){
 	_status = status;
+	initializeTask();
     }
 
     //// INITIALIZATION --------------------------------------------------------
     
     public void initializeTask() {
-	
+	switch(_status){
+	    case WINCH_IN_POSITION:
+		RobotClimb.setWinchTarget(_status);
+		break;
+	    case SHOOTER_IN_POSITION:
+		RobotShoot.setAngleDegrees(_status);
+		break;
+	    case SHOOTER_UP_TO_SPEED:
+		RobotShoot.setAngleDegrees(_status);
+		break;
+	    default:
+		throw new IllegalArgumentException();
+	}
     }
 
     //// UPDATE ----------------------------------------------------------------
@@ -45,13 +59,16 @@ public final class TAwaitStatus extends LogicTask {
 	    case SHOOTER_IN_POSITION:
 		_done = RobotShoot.isShooterInPosition();
 		break;
+	    case SHOOTER_UP_TO_SPEED:
+		_done = RobotShoot.isShooterUpToSpeed();
+		break;
 	}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public int finishTask() {
-	return 0;
+	return isDone() ? SUCCESS : FAILURE;
     }
     
     //// COMPLETION STATUS -----------------------------------------------------

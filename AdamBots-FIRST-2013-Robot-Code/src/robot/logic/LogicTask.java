@@ -10,9 +10,18 @@ package robot.logic;
  */
 public abstract class LogicTask {
     
+    /** Success Status */
+    public static final int SUCCESS = 0;
+    /** Failure Status */
+    public static final int FAILURE = 0;
+    
+    //// CONSTRUCTOR -----------------------------------------------------------
+    
     public LogicTask(){
 	
     }
+    
+    //// INITIALIZATION --------------------------------------------------------
     
     /**
      * Called when the Task is started.

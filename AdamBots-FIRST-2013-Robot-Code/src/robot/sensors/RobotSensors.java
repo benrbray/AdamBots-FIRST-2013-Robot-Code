@@ -52,11 +52,11 @@ public class RobotSensors {
     public static Accelerometer accelerometerChassis; // TODO: Is this the right class?
     
     /** Robot Configuration Switch #1 */
-    public static DigitalInput config1;
+    public static AnalogChannel config1;
     /** Robot Configuration Switch #2 */
-    public static DigitalInput config2;
+    public static AnalogChannel config2;
     /** Robot Configuration Switch #3 */
-    public static DigitalInput config3;
+    public static AnalogChannel config3;
     
     public static FancyCounter counterShooterSpeed;
     public static Encoder encoderShooterAngle;
@@ -95,9 +95,9 @@ public class RobotSensors {
         limitElevatorA	    = new DigitalInput(13);
         limitElevatorB	    = new DigitalInput(14);
         
-        config1		    = new DigitalInput(2,1);
-        config2		    = new DigitalInput(2,2);
-        config3		    = new DigitalInput(2,3);
+        config1		    = new AnalogChannel(2,1);
+        config2		    = new AnalogChannel(2,2);
+        config3		    = new AnalogChannel(2,3);
         
         counterShooterSpeed = new FancyCounter(2,4);
         encoderShooterAngle = new Encoder(2,5,2,6);

@@ -96,16 +96,17 @@ public class TeleopLogic extends LogicPhase {
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
 	
-	// Keeps the drive variables in their -1 to 1 range
-	_leftDrive = Math.max(-1, Math.min(1, _leftDrive));
-	_rightDrive = Math.max(-1, Math.min(1, _rightDrive));
-	
 	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
 	    TargetLogic.startAutomaticDriving();
 	    SmartDashboard.putString("chassisTargeting", "Enabled");
 	} else {
 	    TargetLogic.stopAutomaticDriving();
+	    
+	    // Keeps the drive variables in their -1 to 1 range
+	    _leftDrive = Math.max(-1, Math.min(1, _leftDrive));
+	    _rightDrive = Math.max(-1, Math.min(1, _rightDrive));
+	    
 	    RobotDrive.drive(_leftDrive, _rightDrive);
 	    SmartDashboard.putString("chassisTargeting", "Disabled");
 	}
@@ -189,6 +190,7 @@ public class TeleopLogic extends LogicPhase {
 	    
 	    SmartDashboard.putString("secondaryAutoTarget", "true");
 	} else {
+	    //TODO: constant shooter speed
 	    TargetLogic.endTargeting();
 	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 	    SmartDashboard.putString("secondaryAutoTarget", "false");

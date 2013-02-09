@@ -30,31 +30,32 @@ public abstract class RobotShoot {
 	 */
 	private static PIDLogic _shooterPid;
 
-	/**
-	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
-	 */
-	public static void init() {
-		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor, RobotSensors.counterShooterSpeed, 0, 0, 0);
+	public static double getTargetAngleDegrees() {
+		return _targetAngleDegrees;
 	}
-	
-	public static double convertFromEncoderToAngle(double enc)
-	{
+
+	private static double convertFromEncoderToAngle( double enc ) {
 		return enc;//TODO: actually write the method.
 	}
 
 	/**
 	 * Called periodically to control the shooterAngle motor.
 	 */
-	
-	public static boolean isShooterInPosition()
-	{
+	public static boolean isShooterInPosition() {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
-	
+
+	/**
+	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
+	 */
+	public static void init() {
+		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor, RobotSensors.counterShooterSpeed, 0, 0, 0);
+	}
+
 	public static void update() {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
-		
+
 		/**
 		 * TODO: Rewrite 'd' to be a proper angle. *
 		 * TODO: Check encoder at limits.
@@ -63,13 +64,12 @@ public abstract class RobotShoot {
 			RobotActuators.shooterAngleMotor.set(0);
 		}
 		else {
-			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d)/10.0));
+			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
 		}
 	}
 
 	/**
 	 * Assigns a target angle to the shooter. Sets private _targetAngle.
-	 *
 	 * @param angle The desired angled for the shooter from horizontal.
 	 */
 	public static void setAngleDegrees( double angle ) {
@@ -79,19 +79,13 @@ public abstract class RobotShoot {
 
 	/**
 	 * Sets the speed of the shooter wheel motor with the PID.
-	 *
 	 * @param speed_rpm The speed of the shooter in rpm.
 	 */
 	public static void setSpeed( double speed_rpm ) {
 		_shooterPid.setRPM(speed_rpm);
 	}
-	
-	public static double getTargetAngleDegrees()
-	{
-			return _targetAngleDegrees;
-	}
-	public static void changeTargetAngleDegrees(double delta)
-	{
+
+	public static void changeTargetAngleDegrees( double delta ) {
 		_targetAngleDegrees += delta;
 	}
 }

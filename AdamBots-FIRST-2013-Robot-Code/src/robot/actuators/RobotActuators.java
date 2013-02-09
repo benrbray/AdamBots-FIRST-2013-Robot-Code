@@ -28,17 +28,18 @@ public class RobotActuators {
 	shooterAngleMotor   = new Victor(4);
 	discElevator	    = new Talon(5);
 	climbWinch	    = new Talon(6);
-	climbArm	    = new Victor(7);
-	transmissionLeft    = new Servo(8);
-	transmissionRight   = new Servo(9);
+	transmissionLeft    = new Servo(7);
+	transmissionRight   = new Servo(8);
 	
 	discIntake	    = new Relay(1);
 	shooterFeederSolenoid = new Relay(2);
-	climbWinchRelease   = new Relay(4);
+	hopperSolenoid = new Relay(3);
+	climbWinchSolenoid   = new Relay(4);
 	
 	discIntake.setDirection(Relay.Direction.kBoth);
 	shooterFeederSolenoid.setDirection(Relay.Direction.kForward);
-	climbWinchRelease.setDirection(Relay.Direction.kForward);
+	hopperSolenoid.setDirection(Relay.Direction.kBoth);
+	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
     }
     
     //// DRIVE -----------------------------------------------------------------
@@ -57,10 +58,8 @@ public class RobotActuators {
     
     /** Climbing Winch. */
     public static Talon climbWinch;
-    /** Climb arm motor */
-    public static Victor climbArm;
     /** Winch ratchet release solenoid. */
-    public static Relay climbWinchRelease;
+    public static Relay climbWinchSolenoid;
     
     //// DISC ACQUISITION ------------------------------------------------------
     
@@ -68,6 +67,8 @@ public class RobotActuators {
     public static Talon discElevator;
     /** Spike to control the intake roller. */
     public static Relay discIntake;
+    /** Controls the hopper solenoid. */
+    public static Relay hopperSolenoid;
     
     //// SHOOTER ---------------------------------------------------------------
     

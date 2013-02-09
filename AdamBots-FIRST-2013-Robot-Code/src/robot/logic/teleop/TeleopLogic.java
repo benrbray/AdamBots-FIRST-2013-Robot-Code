@@ -101,9 +101,11 @@ public class TeleopLogic extends LogicPhase {
 	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
 	    TargetLogic.startAutomaticDriving();
+	    SmartDashboard.putString("chassisTargeting", "Enabled");
 	} else {
 	    TargetLogic.stopAutomaticDriving();
 	    RobotDrive.drive(_leftDrive, _rightDrive);
+	    SmartDashboard.putString("chassisTargeting", "Disabled");
 	}
 	
 	// Handle shifting
@@ -117,13 +119,18 @@ public class TeleopLogic extends LogicPhase {
             }
         }
 	
+	SmartDashboard.putBoolean("highGear", _highGear);
+	
 	// Infeed roller for pickup mechanism
 	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
 	    RobotPickup.intakeRoller(Relay.Value.kForward);
+	    SmartDashboard.putString("intakeRoller", "forward");
 	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
 	    RobotPickup.intakeRoller(Relay.Value.kReverse);
+	    SmartDashboard.putString("intakeRoller", "reverse");
 	} else {
 	    RobotPickup.intakeRoller(Relay.Value.kOff);
+	    SmartDashboard.putString("intakeRoller", "off");
 	}
 	
 	// Winch Safety
@@ -133,6 +140,8 @@ public class TeleopLogic extends LogicPhase {
 	} else if (!_primaryButtons[FancyJoystick.BUTTON_START] && !_primaryButtons[FancyJoystick.BUTTON_BACK]) {
 	    _winchEnabledToggleReleased = true;
 	}
+	
+	SmartDashboard.putBoolean("winchSafetyEnabled", _winchEnabled);
 	
 	// Winch operation
 	if (_winchEnabled) {
@@ -150,26 +159,33 @@ public class TeleopLogic extends LogicPhase {
 	    
 	    if (_shooterAngleChangerDrive != 0) {
 		RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
+		SmartDashboard.putString("shooterAngleChanger", "manual" + _shooterAngleChangerDrive);
 	    } else if (_magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
 		TargetLogic.setShooterConstantAngle(0);
+		SmartDashboard.putString("shooterAngleChanger", "automatic");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]){
 		TargetLogic.setShooterConstantAngle(MagicBox.PYRAMID_SHOT_ANGLE);
+		SmartDashboard.putString("shooterAngleChanger", "pyramid");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
 		TargetLogic.setShooterConstantAngle(MagicBox.FULL_COURT_SHOT_ANGLE);
+		SmartDashboard.putString("shooterAngleChanger", "full court");
 	    }
 	    
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		TargetLogic.setShooterConstantSpeed(0);
+		SmartDashboard.putString("shooterSpeed", "automatic");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]) {
 		TargetLogic.setShooterConstantSpeed(MagicBox.PYRAMID_SHOT_SPEED);
+		SmartDashboard.putString("shooterSpeed", "pyramid");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
 		TargetLogic.setShooterConstantSpeed(MagicBox.FULL_COURT_SHOT_SPEED);
+		SmartDashboard.putString("shooterSpeed", "full court");
 	    }
-	    
+	    SmartDashboard.putString("secondaryAutoTarget", "true");
 	} else {
 	    TargetLogic.endTargeting();
-	    
 	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
+	    SmartDashboard.putString("secondaryAutoTarget", "false");
 	}
 	
 	// Drive elevator

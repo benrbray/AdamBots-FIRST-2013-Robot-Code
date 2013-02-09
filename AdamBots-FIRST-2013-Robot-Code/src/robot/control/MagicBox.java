@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class MagicBox {
     
     //// MAGIC BOX CONSTANTS ---------------------------------------------------
-    public static final int NUM_BUTTONS = 0;
+    public static final int NUM_BUTTONS = 8;
     
     public static final int AUTO_SHOOTER_SPEED_ENABLED	= 5;
     public static final int SHOOTER_MULTIPLIER_UP	= 3;

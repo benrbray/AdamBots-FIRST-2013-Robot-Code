@@ -13,6 +13,7 @@ import robot.actuators.RobotActuators;
 import robot.behavior.*;
 import robot.control.*;
 import robot.logic.LogicPhase;
+import robot.logic.TargetLogic;
 import robot.sensors.*;
 
 public class TeleopLogic extends LogicPhase {
@@ -143,15 +144,28 @@ public class TeleopLogic extends LogicPhase {
 	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 	
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
-	    if (_shooterAngleChangerDrive == 0 && _magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
-		//TODO: Add automatic shooter angle adjustment
-		RobotShoot.setAngleDegrees(30);
+	    
+	    TargetLogic.beginTargeting();
+	    
+	    if (_shooterAngleChangerDrive != 0) {
+		RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
+	    } else if (_magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
+		TargetLogic.setShooterConstantAngle(0);
+	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]){
+		TargetLogic.setShooterConstantAngle(MagicBox.PYRAMID_SHOT_ANGLE);
+	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
+		TargetLogic.setShooterAngleOffset(MagicBox.FULL_COURT_SHOT_ANGLE);
 	    }
 	    
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
-		//TODO: Add automatic shooter speed calls
-		RobotShoot.setSpeed(0);
+		TargetLogic.setShooterConstantSpeed(0);
+	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]) {
+		
+	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
+		
 	    }
+	} else {
+	    TargetLogic.endTargeting();
 	}
 	
 	// Drive elevator

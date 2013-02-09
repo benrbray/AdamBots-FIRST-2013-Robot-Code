@@ -53,21 +53,6 @@ public abstract class RobotShoot {
 		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor, RobotSensors.counterShooterSpeed, 0, 0, 0);
 	}
 
-	public static void update() {
-		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
-
-		/**
-		 * TODO: Rewrite 'd' to be a proper angle. *
-		 * TODO: Check encoder at limits.
-		 */
-		if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
-			RobotActuators.shooterAngleMotor.set(0);
-		}
-		else {
-			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
-		}
-	}
-
 	/**
 	 * Assigns a target angle to the shooter. Sets private _targetAngle.
 	 * @param angle The desired angled for the shooter from horizontal.
@@ -87,5 +72,19 @@ public abstract class RobotShoot {
 
 	public static void changeTargetAngleDegrees( double delta ) {
 		_targetAngleDegrees += delta;
+	}
+	
+		public static void update() {
+		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		/**
+		 * TODO: Rewrite 'd' to be a proper angle. *
+		 * TODO: Check encoder at limits.
+		 */
+		if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
+			RobotActuators.shooterAngleMotor.set(0);
+		}
+		else {
+			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
+		}
 	}
 }

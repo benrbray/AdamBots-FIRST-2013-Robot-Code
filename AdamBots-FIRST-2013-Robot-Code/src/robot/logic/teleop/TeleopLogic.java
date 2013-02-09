@@ -195,7 +195,7 @@ public class TeleopLogic extends LogicPhase {
 	    
 	    SmartDashboard.putString("secondaryAutoTarget", "true");
 	} else {
-	    //TODO: constant shooter speed
+	    //TODO: NATHAN constant shooter speed
 	    TargetLogic.endTargeting();
 	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 	    SmartDashboard.putString("secondaryAutoTarget", "false");

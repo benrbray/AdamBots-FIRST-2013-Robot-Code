@@ -25,7 +25,7 @@ public class RobotActuators {
 	driveLeft	    = new Victor(1);
 	driveRight	    = new Victor(2);
 	shooterWheelMotor   = new Victor(3);
-	shooterAngleMotor   = new Victor(4);
+	shooterAngleMotor   = new Talon(4);
 	discElevator	    = new Talon(5);
 	climbWinch	    = new Talon(6);
 	transmissionLeft    = new Servo(7);
@@ -75,7 +75,7 @@ public class RobotActuators {
     /** Shooter wheel motor. */
     public static Victor shooterWheelMotor;
     /** Controls the angle of attack of the shooter. */
-    public static Victor shooterAngleMotor;
+    public static Talon shooterAngleMotor;
     /** Shooter feeder solenoid. */
     public static Relay shooterFeederSolenoid;
 }

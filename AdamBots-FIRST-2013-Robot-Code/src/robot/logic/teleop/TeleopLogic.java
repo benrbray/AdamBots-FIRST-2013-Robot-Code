@@ -157,7 +157,7 @@ public class TeleopLogic extends LogicPhase {
 	// Drive elevator
 	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
 	
-	RobotActuators.discWinch.set(_elevatorDrive);
+	RobotActuators.discElevator.set(_elevatorDrive);
 	
 	// Disk fire control
 	//TODO: Check shooter pneumatic control

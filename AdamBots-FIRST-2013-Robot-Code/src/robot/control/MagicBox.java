@@ -16,17 +16,17 @@ public class MagicBox {
     //// MAGIC BOX CONSTANTS ---------------------------------------------------
     public static final int NUM_BUTTONS = 0;
     
-    public static final int AUTO_SHOOTER_SPEED_ENABLED = 0;
-    public static final int SHOOTER_MULTIPLIER_UP = 0;
-    public static final int SHOOTER_MULTIPLIER_DOWN = 0;
+    public static final int AUTO_SHOOTER_SPEED_ENABLED	= 5;
+    public static final int SHOOTER_MULTIPLIER_UP	= 3;
+    public static final int SHOOTER_MULTIPLIER_DOWN	= 4;
     
-    public static final int AUTO_ANGLE_ENABLED = 0;
-    public static final int ANGLE_OFFSET_UP = 0;
-    public static final int ANGLE_OFFSET_DOWN = 0;
+    public static final int AUTO_ANGLE_ENABLED	= 6;
+    public static final int ANGLE_OFFSET_UP	= 1;
+    public static final int ANGLE_OFFSET_DOWN	= 2;
     
-    public static final double SHOOTER_MULTIPLIER_INCREMENT = .05;
-    public static final double SHOOTER_MANUAL_SPEED_INCREMENT = .05;
-    public static final double ANGLE_OFFSET_INCREMENT = 2.5;
+    public static final double SHOOTER_MULTIPLIER_INCREMENT	= .05;
+    public static final double SHOOTER_MANUAL_SPEED_INCREMENT	= .05;
+    public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
     private static double _shooterMultiplier;

@@ -156,6 +156,10 @@ public abstract class RobotCamera {
 			double size = board.particleArea;
 			ParticleAnalysisReport q = null;
 			for (int i = 0; i < greens.length; i++) {
+				if (greens[i].particleArea> size * 0.5)
+				{
+					System.out.println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
+				}
 				if ( (greens[i].particleArea > size * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
 					q = greens[i];
 				}
@@ -220,6 +224,7 @@ public abstract class RobotCamera {
 		try // Lots of exceptions can happen
 		{
 			_srcImage = _camera.getImage();
+			_srcImage.write("/raw.png");
 			greenBox();//Depending on team color...
 			//Need to determine how switch works.
 			_recentDistanceInches = 14874.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);

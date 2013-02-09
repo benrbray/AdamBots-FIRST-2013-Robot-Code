@@ -149,6 +149,7 @@ public abstract class TargetLogic {
 	 * Call this function constantly.
 	 */
 	public static void update() {
+		System.out.println("DIS: " + RobotCamera.getDistanceInches());
 		if ( _isTargeting ) {
 			if ( RobotCamera.imageIsFresh() ) {
 				_doTurn = true;

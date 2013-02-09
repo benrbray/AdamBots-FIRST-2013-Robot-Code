@@ -7,6 +7,7 @@ package robot.logic.climb;
 import java.util.Vector;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
+import robot.logic.tasks.TAwaitStatus;
 
 /**
  *
@@ -30,6 +31,11 @@ public class ClimbLogic extends LogicPhase {
     public void initPhase() {
 	// Populate Tasks Array
 	_tasks = new Vector();
+	_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION, 0));
+	
+	// Begin First Task
+	LogicTask firstTask = (LogicTask) _tasks.elementAt(0);
+	firstTask.initializeTask();
     }
 
     //// UPDATE ----------------------------------------------------------------

@@ -78,7 +78,7 @@ public abstract class RobotClimb {
      * @return Winch status.
      */
     public static boolean isWinchInPosition(){
-	return false; // TODO:  Logic Here
+	return Math.abs(getWinchPosition() - _winchTarget) < TOLERANCE / 2;
     }
     
     /**

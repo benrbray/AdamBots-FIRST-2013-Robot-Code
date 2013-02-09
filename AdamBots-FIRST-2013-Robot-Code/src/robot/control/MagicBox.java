@@ -25,10 +25,12 @@ public class MagicBox {
     public static final int ANGLE_OFFSET_DOWN = 0;
     
     public static final double SHOOTER_MULTIPLIER_INCREMENT = .05;
+    public static final double SHOOTER_MANUAL_SPEED_INCREMENT = .05;
     public static final double ANGLE_OFFSET_INCREMENT = 2.5;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
     private static double _shooterMultiplier;
+    private static double _shooterManualSpeed;
     private static double _angleOffset;
     
     private static boolean _shooterMultiplierButtonReleased;
@@ -45,6 +47,7 @@ public class MagicBox {
 	_ds = DriverStation.getInstance();
 
 	_shooterMultiplier = 1.0;
+	_shooterManualSpeed = .5;
 	_angleOffset = 0;
 
 	_shooterMultiplierButtonReleased = false;
@@ -58,10 +61,12 @@ public class MagicBox {
 	//// SHOOTER MULTIPLIER LOGIC ------------------------------------------
 	if (!_ds.getDigitalIn(SHOOTER_MULTIPLIER_UP) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier += SHOOTER_MULTIPLIER_INCREMENT;
+	    _shooterManualSpeed += SHOOTER_MANUAL_SPEED_INCREMENT;
 	    _shooterMultiplierButtonReleased = false;
 
 	} else if (!_ds.getDigitalIn(SHOOTER_MULTIPLIER_DOWN) && _shooterMultiplierButtonReleased) {
 	    _shooterMultiplier -= SHOOTER_MULTIPLIER_INCREMENT;
+	    _shooterManualSpeed -= SHOOTER_MANUAL_SPEED_INCREMENT;
 	    _shooterMultiplierButtonReleased = false;
 
 	} else if (_ds.getDigitalIn(SHOOTER_MULTIPLIER_UP) && _ds.getDigitalIn(SHOOTER_MULTIPLIER_DOWN)) {
@@ -94,6 +99,20 @@ public class MagicBox {
      */
     public static void setShooterMultiplier(double shooterMultiplier) {
 	_shooterMultiplier = shooterMultiplier;
+    }
+    
+    /**
+     * @return The current value of the manual shooter speed.
+     */
+    public static double getShooterManualSpeed() {
+	return _shooterManualSpeed;
+    }
+    
+    /**
+     * @param speed The speed to set.
+     */
+    public static void setShooterManualSpeed(double speed) {
+	_shooterManualSpeed = speed;
     }
     
     /**

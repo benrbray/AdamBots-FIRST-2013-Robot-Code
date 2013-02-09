@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.*;
  */
 public class RobotSensors {
     //AxisCamera handled in RobotCamera[?]
-    //In Limit1,2 pairs, 1 is top. 2 is bottom. 
+    //In Limit1,2 pairs, 1 is top. 2 is bottom.
     
     public static Encoder encoderDriveLeft;
     public static Encoder encoderDriveRight;
@@ -69,10 +69,15 @@ public class RobotSensors {
      */
     public static void init()
     {
+	
+	//// ANALOG CARD -------------------------------------------------------
+	
         gyroChassis = new Gyro(1); //?
         config1 = new AnalogChannel(2);
         config2 = new AnalogChannel(3);
         config3 = new AnalogChannel(4);
+	
+	//// DIGITAL CARD 1 ----------------------------------------------------
 	
         encoderDriveLeft = new Encoder(1,2);
         encoderDriveRight = new Encoder(3,4);
@@ -90,6 +95,7 @@ public class RobotSensors {
         limitElevatorA = new DigitalInput(13);
         limitElevatorB = new DigitalInput(14);
         
+	//// DIGITAL CARD 2 ----------------------------------------------------
         counterShooterSpeed = new FancyCounter(2,1);
         encoderShooterAngle = new Encoder(2,2,2,3);
         

@@ -90,6 +90,13 @@ public abstract class TargetLogic {
 	}
 
 	/**
+	 * Starts automatic control of the chassis for targeting.
+	 */
+	public static void startAutomaticDriving() {
+		_stopDriving = false;
+	}
+
+	/**
 	 * Stops automatic control of the chassis for targeting.
 	 */
 	public static void stopAutomaticDriving() {
@@ -97,10 +104,21 @@ public abstract class TargetLogic {
 	}
 
 	/**
-	 * Starts automatic control of the chassis for targeting.
+	 * Initiates targeting.
 	 */
-	public static void startAutomaticDriving() {
-		_stopDriving = false;
+	public static void beginTargeting() {
+		if ( _isTargeting ) {
+			return;
+		}//Exit early if already begun.
+		_isTargeting = true;
+		RobotCamera.imageUnfresh();//To wait for new image.
+	}
+
+	/**
+	 * Ends targeting.
+	 */
+	public static void endTargeting() {
+		_doTurn = false;
 	}
 
 	/**
@@ -128,27 +146,10 @@ public abstract class TargetLogic {
 	}
 
 	/**
-	 * Initiates targeting.
-	 */
-	public static void beginTargeting() {
-		if ( _isTargeting ) {
-			return;
-		}//Exit early if already begun.
-		_isTargeting = true;
-		RobotCamera.imageUnfresh();//To wait for new image.
-	}
-
-	/**
-	 * Ends targeting.
-	 */
-	public static void endTargeting() {
-		_doTurn = false;
-	}
-
-	/**
 	 * Call this function constantly.
 	 */
 	public static void update() {
+		System.out.println("DIS: " + RobotCamera.getDistanceInches());
 		if ( _isTargeting ) {
 			if ( RobotCamera.imageIsFresh() ) {
 				_doTurn = true;

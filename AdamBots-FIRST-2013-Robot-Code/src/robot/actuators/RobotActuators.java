@@ -2,6 +2,7 @@ package robot.actuators;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -25,8 +26,8 @@ public class RobotActuators {
 	driveRight	    = new Victor(2);
 	shooterWheelMotor   = new Victor(3);
 	shooterAngleMotor   = new Victor(4);
-	discWinch	    = new Victor(5);
-	climbWinch	    = new Victor(6);
+	discElevator	    = new Talon(5);
+	climbWinch	    = new Talon(6);
 	climbArm	    = new Victor(7);
 	transmissionLeft    = new Servo(8);
 	transmissionRight   = new Servo(9);
@@ -55,7 +56,7 @@ public class RobotActuators {
     //// CLIMBING --------------------------------------------------------------
     
     /** Climbing Winch. */
-    public static Victor climbWinch;
+    public static Talon climbWinch;
     /** Climb arm motor */
     public static Victor climbArm;
     /** Winch ratchet release solenoid. */
@@ -64,7 +65,7 @@ public class RobotActuators {
     //// DISC ACQUISITION ------------------------------------------------------
     
     /** Disc pickup elevator winch. */
-    public static Victor discWinch;
+    public static Talon discElevator;
     /** Spike to control the intake roller. */
     public static Relay discIntake;
     

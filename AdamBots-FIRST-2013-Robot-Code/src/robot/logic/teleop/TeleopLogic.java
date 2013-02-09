@@ -154,18 +154,20 @@ public class TeleopLogic extends LogicPhase {
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]){
 		TargetLogic.setShooterConstantAngle(MagicBox.PYRAMID_SHOT_ANGLE);
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
-		TargetLogic.setShooterAngleOffset(MagicBox.FULL_COURT_SHOT_ANGLE);
+		TargetLogic.setShooterConstantAngle(MagicBox.FULL_COURT_SHOT_ANGLE);
 	    }
 	    
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		TargetLogic.setShooterConstantSpeed(0);
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]) {
-		
+		TargetLogic.setShooterConstantSpeed(MagicBox.PYRAMID_SHOT_SPEED);
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
-		
+		TargetLogic.setShooterConstantSpeed(MagicBox.FULL_COURT_SHOT_SPEED);
 	    }
 	} else {
 	    TargetLogic.endTargeting();
+	    
+	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 	}
 	
 	// Drive elevator

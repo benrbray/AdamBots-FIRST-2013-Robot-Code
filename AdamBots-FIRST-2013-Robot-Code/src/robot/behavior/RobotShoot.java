@@ -5,7 +5,7 @@
 package robot.behavior;
 
 import robot.actuators.RobotActuators;
-import robot.logic.PIDLogic;
+import robot.logic.FancyPIDController;
 import robot.sensors.RobotSensors;
 import utils.MathUtils;
 
@@ -28,7 +28,7 @@ public abstract class RobotShoot {
 	/**
 	 * The PID interface used to control the shooter.
 	 */
-	private static PIDLogic _shooterPid;
+	private static FancyPIDController _shooterPid;
 
 	public static double getTargetAngleDegrees() {
 		return _targetAngleDegrees;
@@ -50,7 +50,18 @@ public abstract class RobotShoot {
 	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
 	 */
 	public static void init() {
-		_shooterPid = new PIDLogic(RobotActuators.shooterWheelMotor, RobotSensors.counterShooterSpeed, 0, 0, 0);
+		double SHOOTER_KI = 0.001;
+		double SHOOTER_KP = 0.002;
+		double SHOOTER_KD = 0.000;
+		double SHOOTER_PID_TOLERANCE = 0.15;
+		double SHOOTER_MAX_INPUT = 10000;
+		double SHOOTER_MIN_INPUT = 0;
+		double SHOOTER_MAX_OUTPUT = 1.0;
+		double SHOOTER_MIN_OUTPUT = 0.0;
+
+		FancyPIDController shooterPID = new FancyPIDController(
+				SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
+				RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);
 	}
 
 	/**
@@ -73,8 +84,8 @@ public abstract class RobotShoot {
 	public static void changeTargetAngleDegrees( double delta ) {
 		_targetAngleDegrees += delta;
 	}
-	
-		public static void update() {
+
+	public static void update() {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		/**
 		 * TODO: Rewrite 'd' to be a proper angle. *

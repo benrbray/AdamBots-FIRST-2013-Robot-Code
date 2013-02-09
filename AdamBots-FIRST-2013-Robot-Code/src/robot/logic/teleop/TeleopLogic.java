@@ -94,16 +94,17 @@ public class TeleopLogic extends LogicPhase {
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
 	
-	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
-	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
-	    //TODO: Implement auto targeting, values will be assigned to right and left drive here.
-	}
-	
 	// Keeps the drive variables in their -1 to 1 range
 	_leftDrive = Math.max(-1, Math.min(1, _leftDrive));
 	_rightDrive = Math.max(-1, Math.min(1, _rightDrive));
 	
-	RobotDrive.drive(_leftDrive, _rightDrive);
+	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
+	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
+	    TargetLogic.startAutomaticDriving();
+	} else {
+	    TargetLogic.stopAutomaticDriving();
+	    RobotDrive.drive(_leftDrive, _rightDrive);
+	}
 	
 	// Handle shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
@@ -164,6 +165,7 @@ public class TeleopLogic extends LogicPhase {
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
 		TargetLogic.setShooterConstantSpeed(MagicBox.FULL_COURT_SHOT_SPEED);
 	    }
+	    
 	} else {
 	    TargetLogic.endTargeting();
 	    

@@ -162,7 +162,7 @@ public abstract class RobotCamera {
 			}
 			board = q;
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
-			System.out.println(_greenTarget.w + "|" + _greenTarget.h + " |" + board.particleArea);
+			System.out.println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
 		}
 		catch (NIVisionException e) {
 		}

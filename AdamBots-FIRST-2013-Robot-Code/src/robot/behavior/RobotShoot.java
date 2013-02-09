@@ -20,7 +20,7 @@ public abstract class RobotShoot {
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.
 	 */
-	public static final double SHOOTER_ANGLE_TOLERANCE = 3;
+	public static final double SHOOTER_ANGLE_TOLERANCE = 1;
 	/**
 	 * The angle that the shooter is currently moving towards.
 	 */
@@ -45,6 +45,13 @@ public abstract class RobotShoot {
 	/**
 	 * Called periodically to control the shooterAngle motor.
 	 */
+	
+	public static boolean isShooterInPosition()
+	{
+		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
+	}
+	
 	public static void update() {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		

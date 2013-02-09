@@ -22,30 +22,50 @@ public final class TAwaitStatus extends LogicTask {
     //// PRIVATE VARIABLES -----------------------------------------------------
     
     private int _status;
+    private double _value;
+    
     private boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
     public TAwaitStatus(int status){
 	_status = status;
-	initializeTask();
+	_value = Double.NaN;
+	initializeTask(false);
+    }
+    
+    public TAwaitStatus(int status, double value){
+	_status = status;
+	_value = value;
+	initializeTask(true);
     }
 
     //// INITIALIZATION --------------------------------------------------------
     
-    public void initializeTask() {
-	switch(_status){
-	    case WINCH_IN_POSITION:
-		RobotClimb.setWinchTarget(_status);
-		break;
-	    case SHOOTER_IN_POSITION:
-		RobotShoot.setAngleDegrees(_status);
-		break;
-	    case SHOOTER_UP_TO_SPEED:
-		RobotShoot.setAngleDegrees(_status);
-		break;
-	    default:
-		throw new IllegalArgumentException();
+    /**
+     * Performs any necessary initialization for this task and optionally sends
+     * an expected value to a behavior class.  For example, if this task is set
+     * to wait for the WINCH_IN_POSITION status, initializeTask() will call
+     * RobotClimb.setWinchTarget() with the value given to this task's
+     * constructor.
+     * @param useValue Should the Task send a target value to the Behavior class
+     * that it is waiting on?
+     */
+    public void initializeTask(boolean useValue) {
+	if(useValue){
+	    switch(_status){
+		case WINCH_IN_POSITION:
+		    RobotClimb.setWinchTarget(_value);
+		    break;
+		case SHOOTER_IN_POSITION:
+		    RobotShoot.setAngleDegrees(_value);
+		    break;
+		case SHOOTER_UP_TO_SPEED:
+		    RobotShoot.setSpeed(_value);
+		    break;
+		default:
+			throw new IllegalArgumentException();
+	    }
 	}
     }
 
@@ -67,6 +87,13 @@ public final class TAwaitStatus extends LogicTask {
 
     //// FINISH ----------------------------------------------------------------
     
+    /**
+     * Stops this task, regardless of completion status.  Returns a status value
+     * indicating success or failure.
+     * @return Status value.  (SUCCES=0, FAILURE=1)
+     * @see robot.logic.LogicTask#SUCCESS
+     * @see robot.logic.LogicTask#FAILURE
+     */
     public int finishTask() {
 	return isDone() ? SUCCESS : FAILURE;
     }

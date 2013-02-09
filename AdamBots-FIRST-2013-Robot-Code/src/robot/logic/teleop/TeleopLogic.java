@@ -154,18 +154,17 @@ public class TeleopLogic extends LogicPhase {
 	    }
 	}
 	
-	//TODO: Run shooter angle changer
-	
 	// Drive elevator
 	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
-	//TODO: Logic to stop the elevator when it reaches a limit switch.
-	RobotActuators.discWinch.set(_elevatorDrive);
+	
+	RobotActuators.discElevator.set(_elevatorDrive);
 	
 	// Disk fire control
+	//TODO: Check shooter pneumatic control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
-	    //TODO: Extend firing solenoid
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
 	} else {
-	    //TODO: Retract firing solenoid
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
 	}
     }
     

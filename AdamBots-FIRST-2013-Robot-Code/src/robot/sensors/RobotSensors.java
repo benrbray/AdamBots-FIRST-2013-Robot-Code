@@ -103,6 +103,5 @@ public class RobotSensors {
         
         limitShooterA = new DigitalInput(2,10);
         limitShooterB = new DigitalInput(2,11);
-	//Hi
     }   
 }

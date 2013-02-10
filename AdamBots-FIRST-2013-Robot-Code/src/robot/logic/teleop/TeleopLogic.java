@@ -44,6 +44,8 @@ public class TeleopLogic extends LogicPhase {
     // Secondary drive
     private double _shooterAngleChangerDrive;
     private double _elevatorDrive;
+    private int _numShots;
+    private boolean _numShotsReleased;
     
     /**
      * Creates an instance of TeleopLogic.
@@ -78,6 +80,8 @@ public class TeleopLogic extends LogicPhase {
 	
 	_shooterAngleChangerDrive = 0;
 	_elevatorDrive = 0;
+	_numShots = 0;
+	_numShotsReleased = true;
 	
 	_highGear = false;
 	_winchEnabled = false;
@@ -213,10 +217,19 @@ public class TeleopLogic extends LogicPhase {
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
 	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
 	    //RobotActuators.shooterFeederSolenoid.set(true);
+	    
+	    if (_numShotsReleased) {
+		_numShots++;
+		_numShotsReleased = false;
+	    }
 	} else {
 	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
 	    //RobotActuators.shooterFeederSolenoid.set(false);
+	    
+	    _numShotsReleased = true;
 	}
+	
+	SmartDashboard.putNumber("numShots", _numShots);
     }
     
     /**

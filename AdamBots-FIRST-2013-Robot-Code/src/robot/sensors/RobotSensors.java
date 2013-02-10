@@ -21,9 +21,9 @@ public class RobotSensors {
     
     //// CONSTANTS -------------------------------------------------------------
     public static final int ANA1 = 1;
-    public static final int DIO1 = 2;
-    public static final int DIO2 = 3;
-    public static final int SOL1 = 4;
+    public static final int DIO1 = 1;
+    public static final int DIO2 = 2;
+    public static final int SOL1 = 1;
     
     //AxisCamera handled in RobotCamera[?]
     //In Limit1,2 pairs, 1 is top. 2 is bottom.
@@ -90,7 +90,7 @@ public class RobotSensors {
         counterShooterSpeed.setMaxPeriod(100000);
         counterShooterSpeed.setUpSourceEdge(true, false);
 
-        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
+        //encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, 4);
         limitHookRightArm = new DigitalInput(DIO2, 5);

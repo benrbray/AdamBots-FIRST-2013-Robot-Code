@@ -56,7 +56,7 @@ public class MagicBox {
 	_ds = DriverStation.getInstance();
 
 	_shooterMultiplier = 1.0;
-	_shooterManualSpeed = .5;
+	_shooterManualSpeed = 0;
 	_angleOffset = 0;
 
 	_shooterMultiplierButtonReleased = false;

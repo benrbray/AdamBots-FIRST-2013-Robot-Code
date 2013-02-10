@@ -204,6 +204,7 @@ public class TeleopLogic extends LogicPhase {
 	    TargetLogic.endTargeting();
 	    RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
+	    SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
 	    SmartDashboard.putString("secondaryAutoTarget", "false");
 	}
 	

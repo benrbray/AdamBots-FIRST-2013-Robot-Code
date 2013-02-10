@@ -45,6 +45,11 @@ public abstract class RobotShoot {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
+	
+	public static boolean isShooterUpToSpeed()
+	{
+		return _shooterPid.isAtSpeed();
+	}
 
 	/**
 	 * init() creates the static private _shooterPid() for controlling the shooter wheel.

@@ -19,7 +19,7 @@ public abstract class LogicTask {
     
     //// PROTECTED VARAIBLES ---------------------------------------------------
     
-    private boolean _done = false;
+    protected boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     

@@ -1,19 +1,65 @@
 <HTML>
 <BODY BGCOLOR="white">
 <PRE>
-<FONT color="green">001</FONT>    /*<a name="line.1"></a>
-<FONT color="green">002</FONT>     * To change this template, choose Tools | Templates<a name="line.2"></a>
-<FONT color="green">003</FONT>     * and open the template in the editor.<a name="line.3"></a>
+<FONT color="green">001</FONT>    /**<a name="line.1"></a>
+<FONT color="green">002</FONT>     * This class contains methods to control the pickup mechanisms on the robot.<a name="line.2"></a>
+<FONT color="green">003</FONT>     * @author Steven<a name="line.3"></a>
 <FONT color="green">004</FONT>     */<a name="line.4"></a>
-<FONT color="green">005</FONT>    package robot.behavior;<a name="line.5"></a>
-<FONT color="green">006</FONT>    <a name="line.6"></a>
-<FONT color="green">007</FONT>    /**<a name="line.7"></a>
-<FONT color="green">008</FONT>     *<a name="line.8"></a>
-<FONT color="green">009</FONT>     * @author Ben<a name="line.9"></a>
-<FONT color="green">010</FONT>     */<a name="line.10"></a>
-<FONT color="green">011</FONT>    public class RobotPickup {<a name="line.11"></a>
-<FONT color="green">012</FONT>        <a name="line.12"></a>
-<FONT color="green">013</FONT>    }<a name="line.13"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    package robot.behavior;<a name="line.6"></a>
+<FONT color="green">007</FONT>    <a name="line.7"></a>
+<FONT color="green">008</FONT>    import edu.wpi.first.wpilibj.Relay;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import robot.actuators.RobotActuators;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import robot.sensors.RobotSensors;<a name="line.10"></a>
+<FONT color="green">011</FONT>    <a name="line.11"></a>
+<FONT color="green">012</FONT>    public abstract class RobotPickup {<a name="line.12"></a>
+<FONT color="green">013</FONT>        <a name="line.13"></a>
+<FONT color="green">014</FONT>        private static double _winchSpeed;<a name="line.14"></a>
+<FONT color="green">015</FONT>        private static Relay.Value _relayValue;<a name="line.15"></a>
+<FONT color="green">016</FONT>        <a name="line.16"></a>
+<FONT color="green">017</FONT>        /**<a name="line.17"></a>
+<FONT color="green">018</FONT>         * Called to initialize RobotPickup.<a name="line.18"></a>
+<FONT color="green">019</FONT>         */<a name="line.19"></a>
+<FONT color="green">020</FONT>        public static void init() {<a name="line.20"></a>
+<FONT color="green">021</FONT>            _winchSpeed = 0;<a name="line.21"></a>
+<FONT color="green">022</FONT>            _relayValue = Relay.Value.kOff;<a name="line.22"></a>
+<FONT color="green">023</FONT>        }<a name="line.23"></a>
+<FONT color="green">024</FONT>        <a name="line.24"></a>
+<FONT color="green">025</FONT>        /**<a name="line.25"></a>
+<FONT color="green">026</FONT>         * Periodically call me.<a name="line.26"></a>
+<FONT color="green">027</FONT>         */<a name="line.27"></a>
+<FONT color="green">028</FONT>        public static void update() {<a name="line.28"></a>
+<FONT color="green">029</FONT>            <a name="line.29"></a>
+<FONT color="green">030</FONT>            RobotActuators.discIntake.set(_relayValue);<a name="line.30"></a>
+<FONT color="green">031</FONT>            <a name="line.31"></a>
+<FONT color="green">032</FONT>            //TODO: Confirm logic for winch safety.<a name="line.32"></a>
+<FONT color="green">033</FONT>            if (!RobotSensors.limitElevatorA.get() &amp;&amp; !RobotSensors.limitElevatorB.get()) { // No switch pressed<a name="line.33"></a>
+<FONT color="green">034</FONT>                RobotActuators.discElevator.set(_winchSpeed);<a name="line.34"></a>
+<FONT color="green">035</FONT>            } else if (RobotSensors.limitElevatorA.get() &amp;&amp; _winchSpeed &lt; 0) { // Elevator at top, speed set to lower<a name="line.35"></a>
+<FONT color="green">036</FONT>                RobotActuators.discElevator.set(_winchSpeed);<a name="line.36"></a>
+<FONT color="green">037</FONT>            } else if (RobotSensors.limitElevatorB.get() &amp;&amp; _winchSpeed &gt; 0) { // Elevator at bottom, speed set to raise<a name="line.37"></a>
+<FONT color="green">038</FONT>                RobotActuators.discElevator.set(_winchSpeed);<a name="line.38"></a>
+<FONT color="green">039</FONT>            } else {<a name="line.39"></a>
+<FONT color="green">040</FONT>                RobotActuators.discElevator.set(0);<a name="line.40"></a>
+<FONT color="green">041</FONT>            }<a name="line.41"></a>
+<FONT color="green">042</FONT>        }<a name="line.42"></a>
+<FONT color="green">043</FONT>        <a name="line.43"></a>
+<FONT color="green">044</FONT>        /**<a name="line.44"></a>
+<FONT color="green">045</FONT>         * Method to control the disc pickup winch.<a name="line.45"></a>
+<FONT color="green">046</FONT>         * @param speed The speed to set the winch motor to.<a name="line.46"></a>
+<FONT color="green">047</FONT>         */<a name="line.47"></a>
+<FONT color="green">048</FONT>        public static void setWinch(double speed) {<a name="line.48"></a>
+<FONT color="green">049</FONT>            _winchSpeed = speed;<a name="line.49"></a>
+<FONT color="green">050</FONT>        }<a name="line.50"></a>
+<FONT color="green">051</FONT>        <a name="line.51"></a>
+<FONT color="green">052</FONT>        /**<a name="line.52"></a>
+<FONT color="green">053</FONT>         * Controls the disk intake roller.<a name="line.53"></a>
+<FONT color="green">054</FONT>         * @param value The direction to run the intake roller. kForward is in kBackward is out.<a name="line.54"></a>
+<FONT color="green">055</FONT>         */<a name="line.55"></a>
+<FONT color="green">056</FONT>        public static void intakeRoller(Relay.Value value) {<a name="line.56"></a>
+<FONT color="green">057</FONT>            _relayValue = value;<a name="line.57"></a>
+<FONT color="green">058</FONT>        }<a name="line.58"></a>
+<FONT color="green">059</FONT>    }<a name="line.59"></a>
 
 
 

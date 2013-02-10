@@ -7,13 +7,101 @@
 <FONT color="green">004</FONT>     */<a name="line.4"></a>
 <FONT color="green">005</FONT>    package robot.behavior;<a name="line.5"></a>
 <FONT color="green">006</FONT>    <a name="line.6"></a>
-<FONT color="green">007</FONT>    /**<a name="line.7"></a>
-<FONT color="green">008</FONT>     *<a name="line.8"></a>
-<FONT color="green">009</FONT>     * @author Ben<a name="line.9"></a>
-<FONT color="green">010</FONT>     */<a name="line.10"></a>
-<FONT color="green">011</FONT>    public class RobotShoot {<a name="line.11"></a>
-<FONT color="green">012</FONT>        <a name="line.12"></a>
-<FONT color="green">013</FONT>    }<a name="line.13"></a>
+<FONT color="green">007</FONT>    import robot.actuators.RobotActuators;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import robot.logic.FancyPIDController;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import robot.sensors.RobotSensors;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import utils.MathUtils;<a name="line.10"></a>
+<FONT color="green">011</FONT>    <a name="line.11"></a>
+<FONT color="green">012</FONT>    /**<a name="line.12"></a>
+<FONT color="green">013</FONT>     * RobotShoot sets the speed and angle of the shooter; update() must be called<a name="line.13"></a>
+<FONT color="green">014</FONT>     * periodically.<a name="line.14"></a>
+<FONT color="green">015</FONT>     *<a name="line.15"></a>
+<FONT color="green">016</FONT>     * @author Nathan<a name="line.16"></a>
+<FONT color="green">017</FONT>     */<a name="line.17"></a>
+<FONT color="green">018</FONT>    public abstract class RobotShoot {<a name="line.18"></a>
+<FONT color="green">019</FONT>    <a name="line.19"></a>
+<FONT color="green">020</FONT>            /**<a name="line.20"></a>
+<FONT color="green">021</FONT>             * The degrees of tolerance permitted in setting the target angle.<a name="line.21"></a>
+<FONT color="green">022</FONT>             */<a name="line.22"></a>
+<FONT color="green">023</FONT>            public static final double SHOOTER_ANGLE_TOLERANCE = 1;<a name="line.23"></a>
+<FONT color="green">024</FONT>            /**<a name="line.24"></a>
+<FONT color="green">025</FONT>             * The angle that the shooter is currently moving towards.<a name="line.25"></a>
+<FONT color="green">026</FONT>             */<a name="line.26"></a>
+<FONT color="green">027</FONT>            private static double _targetAngleDegrees;<a name="line.27"></a>
+<FONT color="green">028</FONT>            /**<a name="line.28"></a>
+<FONT color="green">029</FONT>             * The PID interface used to control the shooter.<a name="line.29"></a>
+<FONT color="green">030</FONT>             */<a name="line.30"></a>
+<FONT color="green">031</FONT>            private static FancyPIDController _shooterPid;<a name="line.31"></a>
+<FONT color="green">032</FONT>    <a name="line.32"></a>
+<FONT color="green">033</FONT>            public static double getTargetAngleDegrees() {<a name="line.33"></a>
+<FONT color="green">034</FONT>                    return _targetAngleDegrees;<a name="line.34"></a>
+<FONT color="green">035</FONT>            }<a name="line.35"></a>
+<FONT color="green">036</FONT>    <a name="line.36"></a>
+<FONT color="green">037</FONT>            private static double convertFromEncoderToAngle( double enc ) {<a name="line.37"></a>
+<FONT color="green">038</FONT>                    return enc;//TODO: actually write the method.<a name="line.38"></a>
+<FONT color="green">039</FONT>            }<a name="line.39"></a>
+<FONT color="green">040</FONT>    <a name="line.40"></a>
+<FONT color="green">041</FONT>            /**<a name="line.41"></a>
+<FONT color="green">042</FONT>             * Called periodically to control the shooterAngle motor.<a name="line.42"></a>
+<FONT color="green">043</FONT>             */<a name="line.43"></a>
+<FONT color="green">044</FONT>            public static boolean isShooterInPosition() {<a name="line.44"></a>
+<FONT color="green">045</FONT>                    double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());<a name="line.45"></a>
+<FONT color="green">046</FONT>                    return Math.abs(d - _targetAngleDegrees) &lt; SHOOTER_ANGLE_TOLERANCE;<a name="line.46"></a>
+<FONT color="green">047</FONT>            }<a name="line.47"></a>
+<FONT color="green">048</FONT>    <a name="line.48"></a>
+<FONT color="green">049</FONT>            /**<a name="line.49"></a>
+<FONT color="green">050</FONT>             * init() creates the static private _shooterPid() for controlling the shooter wheel.<a name="line.50"></a>
+<FONT color="green">051</FONT>             */<a name="line.51"></a>
+<FONT color="green">052</FONT>            public static void init() {<a name="line.52"></a>
+<FONT color="green">053</FONT>                    double SHOOTER_KI = 0.001;<a name="line.53"></a>
+<FONT color="green">054</FONT>                    double SHOOTER_KP = 0.002;<a name="line.54"></a>
+<FONT color="green">055</FONT>                    double SHOOTER_KD = 0.000;<a name="line.55"></a>
+<FONT color="green">056</FONT>                    double SHOOTER_PID_TOLERANCE = 0.15;<a name="line.56"></a>
+<FONT color="green">057</FONT>                    double SHOOTER_MAX_INPUT = 10000;<a name="line.57"></a>
+<FONT color="green">058</FONT>                    double SHOOTER_MIN_INPUT = 0;<a name="line.58"></a>
+<FONT color="green">059</FONT>                    double SHOOTER_MAX_OUTPUT = 1.0;<a name="line.59"></a>
+<FONT color="green">060</FONT>                    double SHOOTER_MIN_OUTPUT = 0.0;<a name="line.60"></a>
+<FONT color="green">061</FONT>    <a name="line.61"></a>
+<FONT color="green">062</FONT>                    FancyPIDController shooterPID = new FancyPIDController(<a name="line.62"></a>
+<FONT color="green">063</FONT>                                    SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,<a name="line.63"></a>
+<FONT color="green">064</FONT>                                    RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);<a name="line.64"></a>
+<FONT color="green">065</FONT>            }<a name="line.65"></a>
+<FONT color="green">066</FONT>    <a name="line.66"></a>
+<FONT color="green">067</FONT>            /**<a name="line.67"></a>
+<FONT color="green">068</FONT>             * Assigns a target angle to the shooter. Sets private _targetAngle.<a name="line.68"></a>
+<FONT color="green">069</FONT>             * @param angle The desired angled for the shooter from horizontal.<a name="line.69"></a>
+<FONT color="green">070</FONT>             */<a name="line.70"></a>
+<FONT color="green">071</FONT>            public static void setAngleDegrees( double angle ) {<a name="line.71"></a>
+<FONT color="green">072</FONT>                    //TODO: Fix pulse count...<a name="line.72"></a>
+<FONT color="green">073</FONT>                    _targetAngleDegrees = angle;<a name="line.73"></a>
+<FONT color="green">074</FONT>            }<a name="line.74"></a>
+<FONT color="green">075</FONT>    <a name="line.75"></a>
+<FONT color="green">076</FONT>            /**<a name="line.76"></a>
+<FONT color="green">077</FONT>             * Sets the speed of the shooter wheel motor with the PID.<a name="line.77"></a>
+<FONT color="green">078</FONT>             * @param speed_rpm The speed of the shooter in rpm.<a name="line.78"></a>
+<FONT color="green">079</FONT>             */<a name="line.79"></a>
+<FONT color="green">080</FONT>            public static void setSpeed( double speed_rpm ) {<a name="line.80"></a>
+<FONT color="green">081</FONT>                    _shooterPid.setRPM(speed_rpm);<a name="line.81"></a>
+<FONT color="green">082</FONT>            }<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>            public static void changeTargetAngleDegrees( double delta ) {<a name="line.84"></a>
+<FONT color="green">085</FONT>                    _targetAngleDegrees += delta;<a name="line.85"></a>
+<FONT color="green">086</FONT>            }<a name="line.86"></a>
+<FONT color="green">087</FONT>    <a name="line.87"></a>
+<FONT color="green">088</FONT>            public static void update() {<a name="line.88"></a>
+<FONT color="green">089</FONT>                    double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());<a name="line.89"></a>
+<FONT color="green">090</FONT>                    /**<a name="line.90"></a>
+<FONT color="green">091</FONT>                     * TODO: Rewrite 'd' to be a proper angle. *<a name="line.91"></a>
+<FONT color="green">092</FONT>                     * TODO: Check encoder at limits.<a name="line.92"></a>
+<FONT color="green">093</FONT>                     */<a name="line.93"></a>
+<FONT color="green">094</FONT>                    if ( Math.abs(d - _targetAngleDegrees) &lt; SHOOTER_ANGLE_TOLERANCE ) {<a name="line.94"></a>
+<FONT color="green">095</FONT>                            RobotActuators.shooterAngleMotor.set(0);<a name="line.95"></a>
+<FONT color="green">096</FONT>                    }<a name="line.96"></a>
+<FONT color="green">097</FONT>                    else {<a name="line.97"></a>
+<FONT color="green">098</FONT>                            RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));<a name="line.98"></a>
+<FONT color="green">099</FONT>                    }<a name="line.99"></a>
+<FONT color="green">100</FONT>            }<a name="line.100"></a>
+<FONT color="green">101</FONT>    }<a name="line.101"></a>
 
 
 

@@ -7,20 +7,20 @@
 <FONT color="green">004</FONT>    /* must be accompanied by the FIRST BSD license file in the root directory of */<a name="line.4"></a>
 <FONT color="green">005</FONT>    /* the project.                                                               */<a name="line.5"></a>
 <FONT color="green">006</FONT>    /*----------------------------------------------------------------------------*/<a name="line.6"></a>
-<FONT color="green">007</FONT>    <a name="line.7"></a>
-<FONT color="green">008</FONT>    package robot;<a name="line.8"></a>
-<FONT color="green">009</FONT>    <a name="line.9"></a>
-<FONT color="green">010</FONT>    <a name="line.10"></a>
-<FONT color="green">011</FONT>    import edu.wpi.first.wpilibj.IterativeRobot;<a name="line.11"></a>
-<FONT color="green">012</FONT>    import robot.behavior.RobotClimb;<a name="line.12"></a>
-<FONT color="green">013</FONT>    import robot.behavior.RobotDrive;<a name="line.13"></a>
-<FONT color="green">014</FONT>    import robot.behavior.RobotPickup;<a name="line.14"></a>
-<FONT color="green">015</FONT>    import robot.behavior.RobotShoot;<a name="line.15"></a>
+<FONT color="green">007</FONT>    package robot;<a name="line.7"></a>
+<FONT color="green">008</FONT>    <a name="line.8"></a>
+<FONT color="green">009</FONT>    import edu.wpi.first.wpilibj.IterativeRobot;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import robot.actuators.RobotActuators;<a name="line.10"></a>
+<FONT color="green">011</FONT>    import robot.behavior.RobotClimb;<a name="line.11"></a>
+<FONT color="green">012</FONT>    import robot.behavior.RobotDrive;<a name="line.12"></a>
+<FONT color="green">013</FONT>    import robot.behavior.RobotPickup;<a name="line.13"></a>
+<FONT color="green">014</FONT>    import robot.behavior.RobotShoot;<a name="line.14"></a>
+<FONT color="green">015</FONT>    import robot.camera.RobotCamera;<a name="line.15"></a>
 <FONT color="green">016</FONT>    import robot.logic.LogicPhase;<a name="line.16"></a>
-<FONT color="green">017</FONT>    import robot.logic.auton.AutonLogic;<a name="line.17"></a>
-<FONT color="green">018</FONT>    import robot.logic.climb.ClimbLogic;<a name="line.18"></a>
-<FONT color="green">019</FONT>    import robot.logic.teleop.TeleopLogic;<a name="line.19"></a>
-<FONT color="green">020</FONT>    import robot.sensors.RobotCamera;<a name="line.20"></a>
+<FONT color="green">017</FONT>    import robot.logic.TargetLogic;<a name="line.17"></a>
+<FONT color="green">018</FONT>    import robot.logic.auton.AutonLogic;<a name="line.18"></a>
+<FONT color="green">019</FONT>    import robot.logic.climb.ClimbLogic;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import robot.logic.teleop.TeleopLogic;<a name="line.20"></a>
 <FONT color="green">021</FONT>    import robot.sensors.RobotSensors;<a name="line.21"></a>
 <FONT color="green">022</FONT>    <a name="line.22"></a>
 <FONT color="green">023</FONT>    /**<a name="line.23"></a>
@@ -36,160 +36,161 @@
 <FONT color="green">033</FONT>     * @author Steven Ploog<a name="line.33"></a>
 <FONT color="green">034</FONT>     */<a name="line.34"></a>
 <FONT color="green">035</FONT>    public class RobotMain extends IterativeRobot {<a name="line.35"></a>
-<FONT color="green">036</FONT>        //// STATIC INSTANCE VARIABLES ---------------------------------------------<a name="line.36"></a>
-<FONT color="green">037</FONT>        <a name="line.37"></a>
-<FONT color="green">038</FONT>        /** Statically accessible instance of RobotDrive. */<a name="line.38"></a>
-<FONT color="green">039</FONT>        public static RobotDrive robotDrive;<a name="line.39"></a>
-<FONT color="green">040</FONT>        /** Statically accessible instance of RobotPickup. */<a name="line.40"></a>
-<FONT color="green">041</FONT>        public static RobotPickup robotPickup;<a name="line.41"></a>
-<FONT color="green">042</FONT>        /** Statically accessible instance of RobotShoot. */<a name="line.42"></a>
-<FONT color="green">043</FONT>        public static RobotShoot robotShoot;<a name="line.43"></a>
-<FONT color="green">044</FONT>        /** Statically accessible instance of RobotCamera. */<a name="line.44"></a>
-<FONT color="green">045</FONT>        public static RobotCamera robotCamera;<a name="line.45"></a>
-<FONT color="green">046</FONT>        /** Statically accessible instance of RobotClimb. */<a name="line.46"></a>
-<FONT color="green">047</FONT>        public static RobotClimb robotClimb;<a name="line.47"></a>
-<FONT color="green">048</FONT>        /** Statically accessible instance of RobotSensors. */<a name="line.48"></a>
-<FONT color="green">049</FONT>        public static RobotSensors robotSensors;<a name="line.49"></a>
-<FONT color="green">050</FONT>        <a name="line.50"></a>
-<FONT color="green">051</FONT>        //// ROBOT LOGIC PHASES ----------------------------------------------------<a name="line.51"></a>
-<FONT color="green">052</FONT>        <a name="line.52"></a>
-<FONT color="green">053</FONT>        private LogicPhase _currentLogicPhase = null;<a name="line.53"></a>
-<FONT color="green">054</FONT>        private AutonLogic _autonLogic;<a name="line.54"></a>
-<FONT color="green">055</FONT>        private TeleopLogic _teleopLogic;<a name="line.55"></a>
-<FONT color="green">056</FONT>        private ClimbLogic _climbLogic;<a name="line.56"></a>
-<FONT color="green">057</FONT>        <a name="line.57"></a>
-<FONT color="green">058</FONT>        //// ITERATIVE ROBOT METHODS -----------------------------------------------<a name="line.58"></a>
-<FONT color="green">059</FONT>        <a name="line.59"></a>
-<FONT color="green">060</FONT>        /**<a name="line.60"></a>
-<FONT color="green">061</FONT>         * This function is run when the robot is first started up and should be<a name="line.61"></a>
-<FONT color="green">062</FONT>         * used for any initialization code.<a name="line.62"></a>
-<FONT color="green">063</FONT>         */<a name="line.63"></a>
-<FONT color="green">064</FONT>        public void robotInit() {<a name="line.64"></a>
-<FONT color="green">065</FONT>            <a name="line.65"></a>
-<FONT color="green">066</FONT>        }<a name="line.66"></a>
-<FONT color="green">067</FONT>        <a name="line.67"></a>
-<FONT color="green">068</FONT>        //// AUTONOMOUS ------------------------------------------------------------<a name="line.68"></a>
-<FONT color="green">069</FONT>        <a name="line.69"></a>
-<FONT color="green">070</FONT>        /**<a name="line.70"></a>
-<FONT color="green">071</FONT>         * Initialization code for the autonomous period.<a name="line.71"></a>
-<FONT color="green">072</FONT>         */<a name="line.72"></a>
-<FONT color="green">073</FONT>        public void autonomousInit() {<a name="line.73"></a>
-<FONT color="green">074</FONT>            _autonLogic = new AutonLogic();<a name="line.74"></a>
-<FONT color="green">075</FONT>            segueToLogicPhase(_autonLogic);<a name="line.75"></a>
-<FONT color="green">076</FONT>        }<a name="line.76"></a>
-<FONT color="green">077</FONT>    <a name="line.77"></a>
-<FONT color="green">078</FONT>        /**<a name="line.78"></a>
-<FONT color="green">079</FONT>         * This function is called periodically during autonomous.<a name="line.79"></a>
-<FONT color="green">080</FONT>         */<a name="line.80"></a>
-<FONT color="green">081</FONT>        public void autonomousPeriodic() {<a name="line.81"></a>
-<FONT color="green">082</FONT>            // Update the Current Logic Phase (should be _autonLogic)<a name="line.82"></a>
-<FONT color="green">083</FONT>            _currentLogicPhase.update();<a name="line.83"></a>
-<FONT color="green">084</FONT>        }<a name="line.84"></a>
-<FONT color="green">085</FONT>        <a name="line.85"></a>
-<FONT color="green">086</FONT>        //// TELEOP ----------------------------------------------------------------<a name="line.86"></a>
-<FONT color="green">087</FONT>    <a name="line.87"></a>
-<FONT color="green">088</FONT>        /**<a name="line.88"></a>
-<FONT color="green">089</FONT>         * Initialization code for the teleoperated period.<a name="line.89"></a>
-<FONT color="green">090</FONT>         */<a name="line.90"></a>
-<FONT color="green">091</FONT>        public void teleopInit() {<a name="line.91"></a>
-<FONT color="green">092</FONT>            _teleopLogic = new TeleopLogic();<a name="line.92"></a>
-<FONT color="green">093</FONT>            _climbLogic = new ClimbLogic();<a name="line.93"></a>
-<FONT color="green">094</FONT>        }<a name="line.94"></a>
-<FONT color="green">095</FONT>        <a name="line.95"></a>
-<FONT color="green">096</FONT>        /**<a name="line.96"></a>
-<FONT color="green">097</FONT>         * This function is called periodically during operator control.<a name="line.97"></a>
-<FONT color="green">098</FONT>         */<a name="line.98"></a>
-<FONT color="green">099</FONT>        public void teleopPeriodic() {<a name="line.99"></a>
-<FONT color="green">100</FONT>            // Update the Current Logic Phase (should be _teleopLogic or _climbLogic)<a name="line.100"></a>
-<FONT color="green">101</FONT>            _currentLogicPhase.update();<a name="line.101"></a>
-<FONT color="green">102</FONT>        }<a name="line.102"></a>
-<FONT color="green">103</FONT>        <a name="line.103"></a>
-<FONT color="green">104</FONT>        //// TEST ------------------------------------------------------------------<a name="line.104"></a>
-<FONT color="green">105</FONT>        <a name="line.105"></a>
-<FONT color="green">106</FONT>        /**<a name="line.106"></a>
-<FONT color="green">107</FONT>         * Initialization code for test mode should go here<a name="line.107"></a>
-<FONT color="green">108</FONT>         */<a name="line.108"></a>
-<FONT color="green">109</FONT>        public void testInit() {<a name="line.109"></a>
-<FONT color="green">110</FONT>            <a name="line.110"></a>
-<FONT color="green">111</FONT>        }<a name="line.111"></a>
-<FONT color="green">112</FONT>        <a name="line.112"></a>
-<FONT color="green">113</FONT>        /**<a name="line.113"></a>
-<FONT color="green">114</FONT>         * This function is called periodically during test mode<a name="line.114"></a>
-<FONT color="green">115</FONT>         */<a name="line.115"></a>
-<FONT color="green">116</FONT>        public void testPeriodic() {<a name="line.116"></a>
-<FONT color="green">117</FONT>        <a name="line.117"></a>
-<FONT color="green">118</FONT>        }<a name="line.118"></a>
-<FONT color="green">119</FONT>        <a name="line.119"></a>
-<FONT color="green">120</FONT>        //// DISABLED --------------------------------------------------------------<a name="line.120"></a>
-<FONT color="green">121</FONT>    <a name="line.121"></a>
-<FONT color="green">122</FONT>        /**<a name="line.122"></a>
-<FONT color="green">123</FONT>         * Initialization code for disabled mode should go here<a name="line.123"></a>
-<FONT color="green">124</FONT>         */<a name="line.124"></a>
-<FONT color="green">125</FONT>        public void disabledInit() {<a name="line.125"></a>
-<FONT color="green">126</FONT>            <a name="line.126"></a>
-<FONT color="green">127</FONT>        }<a name="line.127"></a>
-<FONT color="green">128</FONT>    <a name="line.128"></a>
-<FONT color="green">129</FONT>        /**<a name="line.129"></a>
-<FONT color="green">130</FONT>         *  Periodic code for disabled mode should go here.<a name="line.130"></a>
-<FONT color="green">131</FONT>         */<a name="line.131"></a>
-<FONT color="green">132</FONT>        public void disabledPeriodic() {<a name="line.132"></a>
-<FONT color="green">133</FONT>            <a name="line.133"></a>
-<FONT color="green">134</FONT>        }<a name="line.134"></a>
-<FONT color="green">135</FONT>        <a name="line.135"></a>
-<FONT color="green">136</FONT>        //// LOGICPHASE METHODS ----------------------------------------------------<a name="line.136"></a>
-<FONT color="green">137</FONT>        <a name="line.137"></a>
-<FONT color="green">138</FONT>        /**<a name="line.138"></a>
-<FONT color="green">139</FONT>         * Revokes power from the logic phase currently in control and grants<a name="line.139"></a>
-<FONT color="green">140</FONT>         * control to the phase specified.  Before the segue, this method invokes<a name="line.140"></a>
-<FONT color="green">141</FONT>         * finish() in the original phase, and after the segue, this method invokes <a name="line.141"></a>
-<FONT color="green">142</FONT>         * init() in the new phase.<a name="line.142"></a>
-<FONT color="green">143</FONT>         * @param phase An integer indicating the phase to switch to.<a name="line.143"></a>
-<FONT color="green">144</FONT>         * @return Boolean value indicating the success or failure of the segue.<a name="line.144"></a>
-<FONT color="green">145</FONT>         * @see LogicPhase#AUTONOMOUS<a name="line.145"></a>
-<FONT color="green">146</FONT>         * @see LogicPhase#TELEOP<a name="line.146"></a>
-<FONT color="green">147</FONT>         * @see LogicPhase#CLIMB<a name="line.147"></a>
-<FONT color="green">148</FONT>         */<a name="line.148"></a>
-<FONT color="green">149</FONT>        public boolean segueToLogicPhase(int phase){<a name="line.149"></a>
-<FONT color="green">150</FONT>            LogicPhase segueTo;<a name="line.150"></a>
-<FONT color="green">151</FONT>            switch(phase){<a name="line.151"></a>
-<FONT color="green">152</FONT>                case LogicPhase.AUTONOMOUS:<a name="line.152"></a>
-<FONT color="green">153</FONT>                    segueTo = new AutonLogic();<a name="line.153"></a>
-<FONT color="green">154</FONT>                    break;<a name="line.154"></a>
-<FONT color="green">155</FONT>                case LogicPhase.TELEOP:<a name="line.155"></a>
-<FONT color="green">156</FONT>                    segueTo = new TeleopLogic();<a name="line.156"></a>
-<FONT color="green">157</FONT>                    break;<a name="line.157"></a>
-<FONT color="green">158</FONT>                case LogicPhase.CLIMB:<a name="line.158"></a>
-<FONT color="green">159</FONT>                    segueTo = new ClimbLogic();<a name="line.159"></a>
-<FONT color="green">160</FONT>                    break;<a name="line.160"></a>
-<FONT color="green">161</FONT>                default:<a name="line.161"></a>
-<FONT color="green">162</FONT>                    return false;<a name="line.162"></a>
-<FONT color="green">163</FONT>            }<a name="line.163"></a>
-<FONT color="green">164</FONT>            <a name="line.164"></a>
-<FONT color="green">165</FONT>            return segueToLogicPhase(segueTo);<a name="line.165"></a>
-<FONT color="green">166</FONT>        }<a name="line.166"></a>
-<FONT color="green">167</FONT>        <a name="line.167"></a>
-<FONT color="green">168</FONT>        /**<a name="line.168"></a>
-<FONT color="green">169</FONT>         * Revokes power from the logic phase currently in control and grants<a name="line.169"></a>
-<FONT color="green">170</FONT>         * control to the phase specified.  Before the segue, this method invokes<a name="line.170"></a>
-<FONT color="green">171</FONT>         * finish() in the original phase, and after the segue, this method invokes <a name="line.171"></a>
-<FONT color="green">172</FONT>         * init() in the new phase.<a name="line.172"></a>
-<FONT color="green">173</FONT>         * @param phase The phase to transition to.<a name="line.173"></a>
-<FONT color="green">174</FONT>         * @return Boolean value indicating the success or failure of the segue.<a name="line.174"></a>
-<FONT color="green">175</FONT>         * @see ILogicPhase<a name="line.175"></a>
-<FONT color="green">176</FONT>         * @see ILogicPhase#finish() <a name="line.176"></a>
-<FONT color="green">177</FONT>         * @see ILogicPhase#init();<a name="line.177"></a>
-<FONT color="green">178</FONT>         */<a name="line.178"></a>
-<FONT color="green">179</FONT>        public boolean segueToLogicPhase(LogicPhase phase){<a name="line.179"></a>
-<FONT color="green">180</FONT>            if(_currentLogicPhase != null){<a name="line.180"></a>
-<FONT color="green">181</FONT>                _currentLogicPhase.finish();<a name="line.181"></a>
-<FONT color="green">182</FONT>            }<a name="line.182"></a>
-<FONT color="green">183</FONT>            <a name="line.183"></a>
-<FONT color="green">184</FONT>            _currentLogicPhase = phase;<a name="line.184"></a>
-<FONT color="green">185</FONT>            _currentLogicPhase.init();<a name="line.185"></a>
-<FONT color="green">186</FONT>            <a name="line.186"></a>
-<FONT color="green">187</FONT>            return true; // TODO:  Update segueToLogicPhase() return value as needed.<a name="line.187"></a>
-<FONT color="green">188</FONT>        }<a name="line.188"></a>
-<FONT color="green">189</FONT>    }<a name="line.189"></a>
+<FONT color="green">036</FONT>            //// ROBOT LOGIC PHASES ----------------------------------------------------<a name="line.36"></a>
+<FONT color="green">037</FONT>    <a name="line.37"></a>
+<FONT color="green">038</FONT>            private LogicPhase _currentLogicPhase = null;<a name="line.38"></a>
+<FONT color="green">039</FONT>            private AutonLogic _autonLogic;<a name="line.39"></a>
+<FONT color="green">040</FONT>            private TeleopLogic _teleopLogic;<a name="line.40"></a>
+<FONT color="green">041</FONT>            private ClimbLogic _climbLogic;<a name="line.41"></a>
+<FONT color="green">042</FONT>    <a name="line.42"></a>
+<FONT color="green">043</FONT>            //// ITERATIVE ROBOT METHODS -----------------------------------------------<a name="line.43"></a>
+<FONT color="green">044</FONT>            /**<a name="line.44"></a>
+<FONT color="green">045</FONT>             * This function is run when the robot is first started up and should be<a name="line.45"></a>
+<FONT color="green">046</FONT>             * used for any initialization code.<a name="line.46"></a>
+<FONT color="green">047</FONT>             */<a name="line.47"></a>
+<FONT color="green">048</FONT>            public void robotInit() {<a name="line.48"></a>
+<FONT color="green">049</FONT>                    // Initialize Classes with Static References<a name="line.49"></a>
+<FONT color="green">050</FONT>                    RobotActuators.init();<a name="line.50"></a>
+<FONT color="green">051</FONT>                    RobotSensors.init();<a name="line.51"></a>
+<FONT color="green">052</FONT>                    // Initialize Static Behavior Classes<a name="line.52"></a>
+<FONT color="green">053</FONT>                    RobotDrive.init();<a name="line.53"></a>
+<FONT color="green">054</FONT>                    RobotCamera.init();<a name="line.54"></a>
+<FONT color="green">055</FONT>                    RobotShoot.init();<a name="line.55"></a>
+<FONT color="green">056</FONT>                    RobotPickup.init();<a name="line.56"></a>
+<FONT color="green">057</FONT>            }<a name="line.57"></a>
+<FONT color="green">058</FONT>    <a name="line.58"></a>
+<FONT color="green">059</FONT>            //// AUTONOMOUS ------------------------------------------------------------<a name="line.59"></a>
+<FONT color="green">060</FONT>            /**<a name="line.60"></a>
+<FONT color="green">061</FONT>             * Initialization code for the autonomous period.<a name="line.61"></a>
+<FONT color="green">062</FONT>             */<a name="line.62"></a>
+<FONT color="green">063</FONT>            public void autonomousInit() {<a name="line.63"></a>
+<FONT color="green">064</FONT>                    _autonLogic = new AutonLogic();<a name="line.64"></a>
+<FONT color="green">065</FONT>                    segueToLogicPhase(_autonLogic);<a name="line.65"></a>
+<FONT color="green">066</FONT>            }<a name="line.66"></a>
+<FONT color="green">067</FONT>    <a name="line.67"></a>
+<FONT color="green">068</FONT>            /**<a name="line.68"></a>
+<FONT color="green">069</FONT>             * This function is called periodically during autonomous.<a name="line.69"></a>
+<FONT color="green">070</FONT>             */<a name="line.70"></a>
+<FONT color="green">071</FONT>            public void autonomousPeriodic() {<a name="line.71"></a>
+<FONT color="green">072</FONT>                    // Update the Current Logic Phase (should be _autonLogic)<a name="line.72"></a>
+<FONT color="green">073</FONT>                    update();<a name="line.73"></a>
+<FONT color="green">074</FONT>            }<a name="line.74"></a>
+<FONT color="green">075</FONT>    <a name="line.75"></a>
+<FONT color="green">076</FONT>            //// TELEOP ----------------------------------------------------------------<a name="line.76"></a>
+<FONT color="green">077</FONT>            /**<a name="line.77"></a>
+<FONT color="green">078</FONT>             * Initialization code for the teleoperated period.<a name="line.78"></a>
+<FONT color="green">079</FONT>             */<a name="line.79"></a>
+<FONT color="green">080</FONT>            public void teleopInit() {<a name="line.80"></a>
+<FONT color="green">081</FONT>                    _teleopLogic = new TeleopLogic();<a name="line.81"></a>
+<FONT color="green">082</FONT>                    _climbLogic = new ClimbLogic();<a name="line.82"></a>
+<FONT color="green">083</FONT>                    segueToLogicPhase(_teleopLogic);<a name="line.83"></a>
+<FONT color="green">084</FONT>    <a name="line.84"></a>
+<FONT color="green">085</FONT>                    if ( _autonLogic != null ) {<a name="line.85"></a>
+<FONT color="green">086</FONT>                            _autonLogic = null;<a name="line.86"></a>
+<FONT color="green">087</FONT>                    }<a name="line.87"></a>
+<FONT color="green">088</FONT>            }<a name="line.88"></a>
+<FONT color="green">089</FONT>    <a name="line.89"></a>
+<FONT color="green">090</FONT>            /**<a name="line.90"></a>
+<FONT color="green">091</FONT>             * This function is called periodically during operator control.<a name="line.91"></a>
+<FONT color="green">092</FONT>             */<a name="line.92"></a>
+<FONT color="green">093</FONT>            public void teleopPeriodic() {<a name="line.93"></a>
+<FONT color="green">094</FONT>                    // Update the Current Logic Phase (should be _teleopLogic or _climbLogic)<a name="line.94"></a>
+<FONT color="green">095</FONT>                    update();<a name="line.95"></a>
+<FONT color="green">096</FONT>            }<a name="line.96"></a>
+<FONT color="green">097</FONT>    <a name="line.97"></a>
+<FONT color="green">098</FONT>            //// UPDATE ----------------------------------------------------------------<a name="line.98"></a>
+<FONT color="green">099</FONT>            public void update() {<a name="line.99"></a>
+<FONT color="green">100</FONT>                    // Update the current LogicPhase<a name="line.100"></a>
+<FONT color="green">101</FONT>                    _currentLogicPhase.updatePhase();<a name="line.101"></a>
+<FONT color="green">102</FONT>    <a name="line.102"></a>
+<FONT color="green">103</FONT>                    // Update Subsystems<a name="line.103"></a>
+<FONT color="green">104</FONT>                    TargetLogic.update();<a name="line.104"></a>
+<FONT color="green">105</FONT>                    RobotShoot.update();<a name="line.105"></a>
+<FONT color="green">106</FONT>                    RobotCamera.update();<a name="line.106"></a>
+<FONT color="green">107</FONT>                    RobotPickup.update();<a name="line.107"></a>
+<FONT color="green">108</FONT>                    RobotClimb.update();<a name="line.108"></a>
+<FONT color="green">109</FONT>                    TargetLogic.update();<a name="line.109"></a>
+<FONT color="green">110</FONT>            }<a name="line.110"></a>
+<FONT color="green">111</FONT>    <a name="line.111"></a>
+<FONT color="green">112</FONT>            //// TEST ------------------------------------------------------------------<a name="line.112"></a>
+<FONT color="green">113</FONT>            /**<a name="line.113"></a>
+<FONT color="green">114</FONT>             * Initialization code for test mode should go here<a name="line.114"></a>
+<FONT color="green">115</FONT>             */<a name="line.115"></a>
+<FONT color="green">116</FONT>            public void testInit() {<a name="line.116"></a>
+<FONT color="green">117</FONT>            }<a name="line.117"></a>
+<FONT color="green">118</FONT>    <a name="line.118"></a>
+<FONT color="green">119</FONT>            /**<a name="line.119"></a>
+<FONT color="green">120</FONT>             * This function is called periodically during test mode<a name="line.120"></a>
+<FONT color="green">121</FONT>             */<a name="line.121"></a>
+<FONT color="green">122</FONT>            public void testPeriodic() {<a name="line.122"></a>
+<FONT color="green">123</FONT>            }<a name="line.123"></a>
+<FONT color="green">124</FONT>    <a name="line.124"></a>
+<FONT color="green">125</FONT>            //// DISABLED --------------------------------------------------------------<a name="line.125"></a>
+<FONT color="green">126</FONT>            /**<a name="line.126"></a>
+<FONT color="green">127</FONT>             * Initialization code for disabled mode should go here<a name="line.127"></a>
+<FONT color="green">128</FONT>             */<a name="line.128"></a>
+<FONT color="green">129</FONT>            public void disabledInit() {<a name="line.129"></a>
+<FONT color="green">130</FONT>            }<a name="line.130"></a>
+<FONT color="green">131</FONT>    <a name="line.131"></a>
+<FONT color="green">132</FONT>            /**<a name="line.132"></a>
+<FONT color="green">133</FONT>             *  Periodic code for disabled mode should go here.<a name="line.133"></a>
+<FONT color="green">134</FONT>             */<a name="line.134"></a>
+<FONT color="green">135</FONT>            public void disabledPeriodic() {<a name="line.135"></a>
+<FONT color="green">136</FONT>            }<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>            //// LOGICPHASE METHODS ----------------------------------------------------<a name="line.138"></a>
+<FONT color="green">139</FONT>            /**<a name="line.139"></a>
+<FONT color="green">140</FONT>             * Revokes power from the logic phase currently in control and grants<a name="line.140"></a>
+<FONT color="green">141</FONT>             * control to the phase specified.  Before the segue, this method invokes<a name="line.141"></a>
+<FONT color="green">142</FONT>             * finish() in the original phase, and after the segue, this method invokes <a name="line.142"></a>
+<FONT color="green">143</FONT>             * init() in the new phase.<a name="line.143"></a>
+<FONT color="green">144</FONT>             * @param phase An integer indicating the phase to switch to.<a name="line.144"></a>
+<FONT color="green">145</FONT>             * @return Boolean value indicating the success or failure of the segue.<a name="line.145"></a>
+<FONT color="green">146</FONT>             * @see LogicPhase#AUTONOMOUS<a name="line.146"></a>
+<FONT color="green">147</FONT>             * @see LogicPhase#TELEOP<a name="line.147"></a>
+<FONT color="green">148</FONT>             * @see LogicPhase#CLIMB<a name="line.148"></a>
+<FONT color="green">149</FONT>             */<a name="line.149"></a>
+<FONT color="green">150</FONT>            public boolean segueToLogicPhase( int phase ) {<a name="line.150"></a>
+<FONT color="green">151</FONT>                    LogicPhase segueTo;<a name="line.151"></a>
+<FONT color="green">152</FONT>                    switch (phase) {<a name="line.152"></a>
+<FONT color="green">153</FONT>                            case LogicPhase.AUTONOMOUS:<a name="line.153"></a>
+<FONT color="green">154</FONT>                                    segueTo = new AutonLogic();<a name="line.154"></a>
+<FONT color="green">155</FONT>                                    break;<a name="line.155"></a>
+<FONT color="green">156</FONT>                            case LogicPhase.TELEOP:<a name="line.156"></a>
+<FONT color="green">157</FONT>                                    segueTo = new TeleopLogic();<a name="line.157"></a>
+<FONT color="green">158</FONT>                                    break;<a name="line.158"></a>
+<FONT color="green">159</FONT>                            case LogicPhase.CLIMB:<a name="line.159"></a>
+<FONT color="green">160</FONT>                                    segueTo = new ClimbLogic();<a name="line.160"></a>
+<FONT color="green">161</FONT>                                    break;<a name="line.161"></a>
+<FONT color="green">162</FONT>                            default:<a name="line.162"></a>
+<FONT color="green">163</FONT>                                    throw new IllegalArgumentException();<a name="line.163"></a>
+<FONT color="green">164</FONT>                    }<a name="line.164"></a>
+<FONT color="green">165</FONT>    <a name="line.165"></a>
+<FONT color="green">166</FONT>                    return segueToLogicPhase(segueTo);<a name="line.166"></a>
+<FONT color="green">167</FONT>            }<a name="line.167"></a>
+<FONT color="green">168</FONT>    <a name="line.168"></a>
+<FONT color="green">169</FONT>            /**<a name="line.169"></a>
+<FONT color="green">170</FONT>             * Revokes power from the logic phase currently in control and grants<a name="line.170"></a>
+<FONT color="green">171</FONT>             * control to the phase specified.  Before the segue, this method invokes<a name="line.171"></a>
+<FONT color="green">172</FONT>             * finish() in the original phase, and after the segue, this method invokes <a name="line.172"></a>
+<FONT color="green">173</FONT>             * init() in the new phase.<a name="line.173"></a>
+<FONT color="green">174</FONT>             * @param phase The phase to transition to.<a name="line.174"></a>
+<FONT color="green">175</FONT>             * @return Boolean value indicating the success or failure of the segue.<a name="line.175"></a>
+<FONT color="green">176</FONT>             * @see LogicPhase<a name="line.176"></a>
+<FONT color="green">177</FONT>             * @see LogicPhase#finish() <a name="line.177"></a>
+<FONT color="green">178</FONT>             * @see LogicPhase#init();<a name="line.178"></a>
+<FONT color="green">179</FONT>             */<a name="line.179"></a>
+<FONT color="green">180</FONT>            public boolean segueToLogicPhase( LogicPhase phase ) {<a name="line.180"></a>
+<FONT color="green">181</FONT>                    if ( _currentLogicPhase != null ) {<a name="line.181"></a>
+<FONT color="green">182</FONT>                            _currentLogicPhase.finishPhase();<a name="line.182"></a>
+<FONT color="green">183</FONT>                    }<a name="line.183"></a>
+<FONT color="green">184</FONT>    <a name="line.184"></a>
+<FONT color="green">185</FONT>                    _currentLogicPhase = phase;<a name="line.185"></a>
+<FONT color="green">186</FONT>                    _currentLogicPhase.initPhase();<a name="line.186"></a>
+<FONT color="green">187</FONT>    <a name="line.187"></a>
+<FONT color="green">188</FONT>                    return true; // TODO:  Update segueToLogicPhase() return value as needed.<a name="line.188"></a>
+<FONT color="green">189</FONT>            }<a name="line.189"></a>
+<FONT color="green">190</FONT>    }<a name="line.190"></a>
 
 
 

@@ -62,6 +62,7 @@ public abstract class RobotShoot {
 		FancyPIDController shooterPID = new FancyPIDController(
 				SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
 				RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);
+		RobotSensors.encoderShooterAngle.start();
 	}
 
 	/**

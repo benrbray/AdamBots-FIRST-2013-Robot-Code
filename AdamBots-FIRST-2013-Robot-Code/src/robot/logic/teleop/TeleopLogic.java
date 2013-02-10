@@ -57,8 +57,9 @@ public class TeleopLogic extends LogicPhase {
      */
     public void initPhase() {
 	//// INITIALIZE JOYSTICKS ----------------------------------------------
-	_primaryJoy = new FancyJoystick(1);
-	_secondaryJoy = new FancyJoystick(2);
+	
+	_primaryJoy = RobotMain.primaryJoystick;
+	_secondaryJoy = RobotMain.secondaryJoystick;
 	
 	MagicBox.init();
 	

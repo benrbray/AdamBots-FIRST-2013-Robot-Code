@@ -13,6 +13,7 @@ import robot.behavior.RobotDrive;
 import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
+import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.TargetLogic;
 import robot.logic.auton.AutonLogic;
@@ -39,6 +40,11 @@ public class RobotMain extends IterativeRobot {
 	private AutonLogic _autonLogic;
 	private TeleopLogic _teleopLogic;
 	private ClimbLogic _climbLogic;
+	
+	//// JOYSTICKS ---------------------------------------------------------
+	
+	public static FancyJoystick primaryJoystick;
+	public static FancyJoystick secondaryJoystick;
 
 	//// ITERATIVE ROBOT METHODS -----------------------------------------------
 	/**
@@ -49,11 +55,16 @@ public class RobotMain extends IterativeRobot {
 		// Initialize Classes with Static References
 		RobotActuators.init();
 		RobotSensors.init();
+		
 		// Initialize Static Behavior Classes
 		RobotDrive.init();
 		RobotCamera.init();
 		RobotShoot.init();
 		RobotPickup.init();
+		
+		// Initialize Joysticks
+		primaryJoystick = new FancyJoystick(1);
+		secondaryJoystick = new FancyJoystick(2);
 	}
 
 	//// AUTONOMOUS ------------------------------------------------------------

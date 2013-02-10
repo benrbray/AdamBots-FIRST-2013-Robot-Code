@@ -10,10 +10,16 @@ package robot.logic;
  */
 public abstract class LogicTask {
     
+    //// CONSTANTS -------------------------------------------------------------
+    
     /** Success Status */
     public static final int SUCCESS = 0;
     /** Failure Status */
     public static final int FAILURE = 0;
+    
+    //// PROTECTED VARAIBLES ---------------------------------------------------
+    
+    private boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -21,7 +27,7 @@ public abstract class LogicTask {
 	
     }
     
-    //// INITIALIZATION --------------------------------------------------------
+    //// ABSTRACT METHODS ------------------------------------------------------
     
     /**
      * Called when the Task is started.
@@ -39,9 +45,13 @@ public abstract class LogicTask {
      */
     public abstract int finishTask();
     
+    //// IMPLEMENTED METHODS ---------------------------------------------------
+    
     /**
      * Indicates whether or not the task has been completed.
      * @return Has the task been completed?
      */
-    public abstract boolean isDone();
+    public final boolean isDone(){
+	return _done;
+    }
 }

@@ -47,6 +47,7 @@ public class RobotMain extends IterativeRobot {
 	public static FancyJoystick secondaryJoystick;
 
 	//// ITERATIVE ROBOT METHODS -----------------------------------------------
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.

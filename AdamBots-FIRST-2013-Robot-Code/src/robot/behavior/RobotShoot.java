@@ -17,6 +17,14 @@ import utils.MathUtils;
  */
 public abstract class RobotShoot {
 
+	public static double SHOOTER_KI = 0.001;
+	public static double SHOOTER_KP = 0.002;
+	public static double SHOOTER_KD = 0.000;
+	public static double SHOOTER_PID_TOLERANCE = 0.15;
+	public static double SHOOTER_MAX_INPUT = 10000;
+	public static double SHOOTER_MIN_INPUT = 0;
+	public static double SHOOTER_MAX_OUTPUT = 1.0;
+	public static double SHOOTER_MIN_OUTPUT = 0.05;
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.
 	 */
@@ -45,9 +53,8 @@ public abstract class RobotShoot {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
-	
-	public static boolean isShooterUpToSpeed()
-	{
+
+	public static boolean isShooterUpToSpeed() {
 		return _shooterPID.isAtSpeed();
 	}
 
@@ -55,18 +62,15 @@ public abstract class RobotShoot {
 	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
 	 */
 	public static void init() {
-		double SHOOTER_KI = 0.001;
-		double SHOOTER_KP = 0.002;
-		double SHOOTER_KD = 0.000;
-		double SHOOTER_PID_TOLERANCE = 0.15;
-		double SHOOTER_MAX_INPUT = 10000;
-		double SHOOTER_MIN_INPUT = 0;
-		double SHOOTER_MAX_OUTPUT = 1.0;
-		double SHOOTER_MIN_OUTPUT = 0.0;
+
 
 		_shooterPID = new FancyPIDController(
 				SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
 				RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);
+		_shooterPID.setInputRange(SHOOTER_MIN_INPUT, SHOOTER_MAX_INPUT);
+		_shooterPID.setOutputRange(SHOOTER_MIN_OUTPUT, SHOOTER_MAX_OUTPUT);
+		_shooterPID.setPercentTolerance(SHOOTER_PID_TOLERANCE);
+		_shooterPID.enable();
 		RobotSensors.encoderShooterAngle.start();
 	}
 

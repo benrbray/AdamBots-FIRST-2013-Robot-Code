@@ -17,12 +17,25 @@ public class TAwaitButton extends LogicTask {
     
     FancyJoystick _joystick;
     private int _button;
+    private boolean _latch;
 
     //// CONSTRUCTOR -----------------------------------------------------------
     
     public TAwaitButton(int joystickPort, int button){
+	this(joystickPort, button, false);
+    }
+    
+    /**
+     * 
+     * @param joystickPort
+     * @param button
+     * @param latch If set to TRUE, done will not be updated after it is initially
+     * set to TRUE.
+     */
+    public TAwaitButton(int joystickPort, int button, boolean latch){
 	_joystick = null;
 	_button = button;
+	_latch = latch;
 	initializeTask();
     }
     
@@ -35,13 +48,15 @@ public class TAwaitButton extends LogicTask {
     //// UPDATE ----------------------------------------------------------------
     
     public void updateTask() {
-	
+	if(!_done || (_done && !_latch)){
+	    _done = _joystick.getRawButton(_button);
+	}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public int finishTask() {
-	return SUCCESS;
+	return _done ? SUCCESS : FAILURE;
     }
     
 }

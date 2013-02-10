@@ -18,6 +18,13 @@ import edu.wpi.first.wpilibj.*;
  * @author Ben
  */
 public class RobotSensors {
+    
+    //// CONSTANTS -------------------------------------------------------------
+    public static final int ANA1 = 1;
+    public static final int DIO1 = 2;
+    public static final int DIO2 = 3;
+    public static final int SOL1 = 4;
+    
     //AxisCamera handled in RobotCamera[?]
     //In Limit1,2 pairs, 1 is top. 2 is bottom.
 
@@ -54,46 +61,46 @@ public class RobotSensors {
 
         //// ANALOG CARD -------------------------------------------------------
 
-        gyroChassis = new Gyro(1); //?
-        config1 = new AnalogChannel(2);
-        config2 = new AnalogChannel(3);
-        config3 = new AnalogChannel(4);
+        gyroChassis = new Gyro(ANA1, 1); //?
+        config1 = new AnalogChannel(ANA1, 2);
+        config2 = new AnalogChannel(ANA1, 3);
+        config3 = new AnalogChannel(ANA1, 4);
 
         //// DIGITAL CARD 1 ----------------------------------------------------
 
-        encoderDriveLeft = new Encoder(1, 2);
-        encoderDriveRight = new Encoder(3, 4);
+        encoderDriveLeft = new Encoder(DIO1, 1, DIO1, 2);
+        encoderDriveRight = new Encoder(DIO1, 3, DIO1, 4);
 
-        encoderWinch = new Encoder(5, 6);
+        encoderWinch = new Encoder(DIO1, 5, DIO1, 6);
 
-        limitWinchA = new DigitalInput(7);
-        limitWinchB = new DigitalInput(8);
+        limitWinchA = new DigitalInput(DIO1, 7);
+        limitWinchB = new DigitalInput(DIO1, 8);
 
-        limitArmA = new DigitalInput(9);
-        limitArmB = new DigitalInput(10);
+        limitArmA = new DigitalInput(DIO1, 9);
+        limitArmB = new DigitalInput(DIO1, 10);
 
-        encoderElevator = new Encoder(11, 12);
+        encoderElevator = new Encoder(DIO1, 11, DIO1, 12);
 
-        limitElevatorA = new DigitalInput(13);
-        limitElevatorB = new DigitalInput(14);
+        limitElevatorA = new DigitalInput(DIO1, 13);
+        limitElevatorB = new DigitalInput(DIO1, 14);
 
         //// DIGITAL CARD 2 ----------------------------------------------------
-        counterShooterSpeed = new FancyCounter(2, 1);
+        counterShooterSpeed = new FancyCounter(DIO2, 1);
         counterShooterSpeed.start();
         counterShooterSpeed.setMaxPeriod(100000);
         counterShooterSpeed.setUpSourceEdge(true, false);
 
-        encoderShooterAngle = new Encoder(2, 2, 2, 3);
+        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
-        limitHookLeftArm = new DigitalInput(2, 4);
-        limitHookRightArm = new DigitalInput(2, 5);
-        limitHookLeftBase = new DigitalInput(2, 6);
-        limitHookRightBase = new DigitalInput(2, 7);
+        limitHookLeftArm = new DigitalInput(DIO2, 4);
+        limitHookRightArm = new DigitalInput(DIO2, 5);
+        limitHookLeftBase = new DigitalInput(DIO2, 6);
+        limitHookRightBase = new DigitalInput(DIO2, 7);
 
-        limitDiscTop = new DigitalInput(2, 8);
-        limitDiscBottom = new DigitalInput(2, 9);
+        limitDiscTop = new DigitalInput(DIO2, 8);
+        limitDiscBottom = new DigitalInput(DIO2, 9);
 
-        limitShooterA = new DigitalInput(2, 10);
-        limitShooterB = new DigitalInput(2, 11);
+        limitShooterA = new DigitalInput(DIO2, 10);
+        limitShooterB = new DigitalInput(DIO2, 11);
     }
 }

@@ -104,14 +104,4 @@ public final class TAwaitStatus extends LogicTask {
 	return isDone() ? SUCCESS : FAILURE;
     }
     
-    //// COMPLETION STATUS -----------------------------------------------------
-    
-    /**
-     * Has the desired status been reached (thus completing the Task)?
-     * @return Task completion status.
-     */
-    public boolean isDone(){
-	return _done;
-    }
-    
 }

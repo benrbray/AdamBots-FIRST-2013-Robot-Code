@@ -25,9 +25,5 @@ public class ClimbTask extends LogicTask {
     public int finishTask() {
 	return 0;
     }
-
-    public boolean isDone() {
-	return false;
-    }
     
 }

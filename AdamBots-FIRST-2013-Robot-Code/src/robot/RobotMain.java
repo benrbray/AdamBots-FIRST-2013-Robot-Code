@@ -57,6 +57,7 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+	System.out.println("robotInit()");
 	_instance = this;
 
 	// Initialize Classes with Static References
@@ -65,13 +66,14 @@ public class RobotMain extends IterativeRobot {
 
 	// Initialize Static Behavior Classes
 	RobotDrive.init();
-	RobotCamera.init();
+	//RobotCamera.init();
 	RobotShoot.init();
 	RobotPickup.init();
 
 	// Initialize Joysticks
 	primaryJoystick = new FancyJoystick(1);
 	secondaryJoystick = new FancyJoystick(2);
+	System.out.println("robotInit() finished");
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -124,7 +126,7 @@ public class RobotMain extends IterativeRobot {
 	// Update Subsystems
 	TargetLogic.update();
 	RobotShoot.update();
-	RobotCamera.update();
+	//RobotCamera.update();
 	RobotPickup.update();
 	RobotClimb.update();
 	TargetLogic.update();

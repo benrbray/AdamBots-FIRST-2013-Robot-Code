@@ -7,83 +7,89 @@
 <FONT color="green">004</FONT>     */<a name="line.4"></a>
 <FONT color="green">005</FONT>    package robot.behavior;<a name="line.5"></a>
 <FONT color="green">006</FONT>    <a name="line.6"></a>
-<FONT color="green">007</FONT>    import edu.wpi.first.wpilibj.Victor;<a name="line.7"></a>
-<FONT color="green">008</FONT>    <a name="line.8"></a>
-<FONT color="green">009</FONT>    /**<a name="line.9"></a>
-<FONT color="green">010</FONT>     *<a name="line.10"></a>
-<FONT color="green">011</FONT>     * @author Ben<a name="line.11"></a>
-<FONT color="green">012</FONT>     */<a name="line.12"></a>
-<FONT color="green">013</FONT>    public class RobotDrive {<a name="line.13"></a>
-<FONT color="green">014</FONT>        <a name="line.14"></a>
-<FONT color="green">015</FONT>        // there will be a class TBD that will store all the robot<a name="line.15"></a>
-<FONT color="green">016</FONT>        // sensors, motors<a name="line.16"></a>
-<FONT color="green">017</FONT>        // take out the next few lines when static class is made<a name="line.17"></a>
-<FONT color="green">018</FONT>        public final int PORT_LEFT_VICTOR = 1;<a name="line.18"></a>
-<FONT color="green">019</FONT>        public final int PORT_RIGHT_VICTOR = 2;<a name="line.19"></a>
-<FONT color="green">020</FONT>        <a name="line.20"></a>
-<FONT color="green">021</FONT>        private Victor driveLeft;<a name="line.21"></a>
-<FONT color="green">022</FONT>        private Victor driveRight;<a name="line.22"></a>
-<FONT color="green">023</FONT>        <a name="line.23"></a>
-<FONT color="green">024</FONT>        private robot.actuators.RobotActuators robotActuators;<a name="line.24"></a>
-<FONT color="green">025</FONT>        <a name="line.25"></a>
+<FONT color="green">007</FONT>    import edu.wpi.first.wpilibj.*;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import robot.actuators.RobotActuators;<a name="line.8"></a>
+<FONT color="green">009</FONT>    <a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>    /**<a name="line.11"></a>
+<FONT color="green">012</FONT>     *<a name="line.12"></a>
+<FONT color="green">013</FONT>     * @author Ben<a name="line.13"></a>
+<FONT color="green">014</FONT>     */<a name="line.14"></a>
+<FONT color="green">015</FONT>    public abstract class RobotDrive {<a name="line.15"></a>
+<FONT color="green">016</FONT>        <a name="line.16"></a>
+<FONT color="green">017</FONT>        // there will be a class TBD that will store all the robot<a name="line.17"></a>
+<FONT color="green">018</FONT>        // sensors, motors<a name="line.18"></a>
+<FONT color="green">019</FONT>        // take out the next few lines when static class is made<a name="line.19"></a>
+<FONT color="green">020</FONT>        public static final int PORT_LEFT_VICTOR = 1;<a name="line.20"></a>
+<FONT color="green">021</FONT>        public static final int PORT_RIGHT_VICTOR = 2;<a name="line.21"></a>
+<FONT color="green">022</FONT>        /** Shifter value*/<a name="line.22"></a>
+<FONT color="green">023</FONT>        public static final double SHIFTER_LOW = 1;<a name="line.23"></a>
+<FONT color="green">024</FONT>        public static final double SHIFTER_HIGH = 0.3;<a name="line.24"></a>
+<FONT color="green">025</FONT>        public static final double SHIFTER_NEUTRAL = 0.8;<a name="line.25"></a>
 <FONT color="green">026</FONT>        <a name="line.26"></a>
-<FONT color="green">027</FONT>        public RobotDrive( )<a name="line.27"></a>
-<FONT color="green">028</FONT>        {<a name="line.28"></a>
-<FONT color="green">029</FONT>            robotDriveInit();<a name="line.29"></a>
-<FONT color="green">030</FONT>        }<a name="line.30"></a>
-<FONT color="green">031</FONT>        <a name="line.31"></a>
-<FONT color="green">032</FONT>        /**<a name="line.32"></a>
-<FONT color="green">033</FONT>         * Initialize everything<a name="line.33"></a>
-<FONT color="green">034</FONT>         */<a name="line.34"></a>
-<FONT color="green">035</FONT>        private void robotDriveInit() {<a name="line.35"></a>
-<FONT color="green">036</FONT>            driveRight = robotActuators.driveRight;<a name="line.36"></a>
-<FONT color="green">037</FONT>            driveLeft = robotActuators.driveLeft;<a name="line.37"></a>
-<FONT color="green">038</FONT>        }<a name="line.38"></a>
-<FONT color="green">039</FONT>        <a name="line.39"></a>
-<FONT color="green">040</FONT>        /**<a name="line.40"></a>
-<FONT color="green">041</FONT>         * <a name="line.41"></a>
-<FONT color="green">042</FONT>         * @param leftSpeed to set the left speed<a name="line.42"></a>
-<FONT color="green">043</FONT>         * @param rightSpeed to set the right speed<a name="line.43"></a>
-<FONT color="green">044</FONT>         * sets the speed of the wheels to the parameters given<a name="line.44"></a>
-<FONT color="green">045</FONT>         */<a name="line.45"></a>
-<FONT color="green">046</FONT>        public void drive( double leftSpeed, double rightSpeed ) {<a name="line.46"></a>
-<FONT color="green">047</FONT>            driveRight.set(rightSpeed);<a name="line.47"></a>
-<FONT color="green">048</FONT>            driveLeft.set(leftSpeed);<a name="line.48"></a>
-<FONT color="green">049</FONT>        }<a name="line.49"></a>
-<FONT color="green">050</FONT>        <a name="line.50"></a>
-<FONT color="green">051</FONT>        /**<a name="line.51"></a>
-<FONT color="green">052</FONT>         * <a name="line.52"></a>
-<FONT color="green">053</FONT>         * @param speed for the speed of both wheels<a name="line.53"></a>
-<FONT color="green">054</FONT>         * calls drive and sends it the parameters of speed for both<a name="line.54"></a>
-<FONT color="green">055</FONT>         */<a name="line.55"></a>
-<FONT color="green">056</FONT>        public void driveStraight( double speed )<a name="line.56"></a>
-<FONT color="green">057</FONT>        {<a name="line.57"></a>
-<FONT color="green">058</FONT>            driveRight.set(speed);<a name="line.58"></a>
-<FONT color="green">059</FONT>            driveLeft.set(speed);<a name="line.59"></a>
-<FONT color="green">060</FONT>        }<a name="line.60"></a>
-<FONT color="green">061</FONT>        <a name="line.61"></a>
-<FONT color="green">062</FONT>        /**<a name="line.62"></a>
-<FONT color="green">063</FONT>         * <a name="line.63"></a>
-<FONT color="green">064</FONT>         * @param speed to turn in place<a name="line.64"></a>
-<FONT color="green">065</FONT>         * turns in place at the speed given<a name="line.65"></a>
-<FONT color="green">066</FONT>         */<a name="line.66"></a>
-<FONT color="green">067</FONT>        public void turn( double speed )<a name="line.67"></a>
-<FONT color="green">068</FONT>        {<a name="line.68"></a>
-<FONT color="green">069</FONT>            driveRight.set(-speed);<a name="line.69"></a>
-<FONT color="green">070</FONT>            driveLeft.set(speed);<a name="line.70"></a>
-<FONT color="green">071</FONT>        }<a name="line.71"></a>
-<FONT color="green">072</FONT>        <a name="line.72"></a>
-<FONT color="green">073</FONT>        /**<a name="line.73"></a>
-<FONT color="green">074</FONT>         * <a name="line.74"></a>
-<FONT color="green">075</FONT>         * stops all the motors<a name="line.75"></a>
-<FONT color="green">076</FONT>         */<a name="line.76"></a>
-<FONT color="green">077</FONT>        public void stop()<a name="line.77"></a>
-<FONT color="green">078</FONT>        {<a name="line.78"></a>
-<FONT color="green">079</FONT>            driveRight.set(0);<a name="line.79"></a>
-<FONT color="green">080</FONT>            driveLeft.set(0);<a name="line.80"></a>
-<FONT color="green">081</FONT>        }<a name="line.81"></a>
-<FONT color="green">082</FONT>        <a name="line.82"></a>
-<FONT color="green">083</FONT>    }<a name="line.83"></a>
+<FONT color="green">027</FONT>        //private robot.actuators.RobotActuators robotActuators;<a name="line.27"></a>
+<FONT color="green">028</FONT>        <a name="line.28"></a>
+<FONT color="green">029</FONT>        /**<a name="line.29"></a>
+<FONT color="green">030</FONT>         * Initialize everything<a name="line.30"></a>
+<FONT color="green">031</FONT>         */<a name="line.31"></a>
+<FONT color="green">032</FONT>        public static void init() {<a name="line.32"></a>
+<FONT color="green">033</FONT>        }<a name="line.33"></a>
+<FONT color="green">034</FONT>        <a name="line.34"></a>
+<FONT color="green">035</FONT>        /**<a name="line.35"></a>
+<FONT color="green">036</FONT>         * <a name="line.36"></a>
+<FONT color="green">037</FONT>         * @param leftSpeed to set the left speed<a name="line.37"></a>
+<FONT color="green">038</FONT>         * @param rightSpeed to set the right speed<a name="line.38"></a>
+<FONT color="green">039</FONT>         * sets the speed of the wheels to the parameters given<a name="line.39"></a>
+<FONT color="green">040</FONT>         */<a name="line.40"></a>
+<FONT color="green">041</FONT>        public static void drive( double leftSpeed, double rightSpeed ) {<a name="line.41"></a>
+<FONT color="green">042</FONT>            RobotActuators.driveRight.set(rightSpeed);<a name="line.42"></a>
+<FONT color="green">043</FONT>            RobotActuators.driveLeft.set(leftSpeed);<a name="line.43"></a>
+<FONT color="green">044</FONT>        }<a name="line.44"></a>
+<FONT color="green">045</FONT>        <a name="line.45"></a>
+<FONT color="green">046</FONT>        /**<a name="line.46"></a>
+<FONT color="green">047</FONT>         * <a name="line.47"></a>
+<FONT color="green">048</FONT>         * @param speed for the speed of both wheels<a name="line.48"></a>
+<FONT color="green">049</FONT>         * calls drive and sends it the parameters of speed for both<a name="line.49"></a>
+<FONT color="green">050</FONT>         */<a name="line.50"></a>
+<FONT color="green">051</FONT>        public static void driveStraight( double speed )<a name="line.51"></a>
+<FONT color="green">052</FONT>        {<a name="line.52"></a>
+<FONT color="green">053</FONT>            RobotActuators.driveRight.set(speed);<a name="line.53"></a>
+<FONT color="green">054</FONT>            RobotActuators.driveLeft.set(speed);<a name="line.54"></a>
+<FONT color="green">055</FONT>        }<a name="line.55"></a>
+<FONT color="green">056</FONT>        <a name="line.56"></a>
+<FONT color="green">057</FONT>        /**<a name="line.57"></a>
+<FONT color="green">058</FONT>         * <a name="line.58"></a>
+<FONT color="green">059</FONT>         * @param speed to turn in place<a name="line.59"></a>
+<FONT color="green">060</FONT>         * turns in place at the speed given<a name="line.60"></a>
+<FONT color="green">061</FONT>         */<a name="line.61"></a>
+<FONT color="green">062</FONT>        public static void turn( double speed )<a name="line.62"></a>
+<FONT color="green">063</FONT>        {<a name="line.63"></a>
+<FONT color="green">064</FONT>            RobotActuators.driveRight.set(-speed);<a name="line.64"></a>
+<FONT color="green">065</FONT>            RobotActuators.driveLeft.set(speed);<a name="line.65"></a>
+<FONT color="green">066</FONT>        }<a name="line.66"></a>
+<FONT color="green">067</FONT>        <a name="line.67"></a>
+<FONT color="green">068</FONT>        /**<a name="line.68"></a>
+<FONT color="green">069</FONT>         * <a name="line.69"></a>
+<FONT color="green">070</FONT>         * stops all the motors<a name="line.70"></a>
+<FONT color="green">071</FONT>         */<a name="line.71"></a>
+<FONT color="green">072</FONT>        public static void stop()<a name="line.72"></a>
+<FONT color="green">073</FONT>        {<a name="line.73"></a>
+<FONT color="green">074</FONT>            RobotActuators.driveRight.set(0);<a name="line.74"></a>
+<FONT color="green">075</FONT>            RobotActuators.driveLeft.set(0);<a name="line.75"></a>
+<FONT color="green">076</FONT>        }<a name="line.76"></a>
+<FONT color="green">077</FONT>        <a name="line.77"></a>
+<FONT color="green">078</FONT>        /**<a name="line.78"></a>
+<FONT color="green">079</FONT>         * switches gear when called<a name="line.79"></a>
+<FONT color="green">080</FONT>         * @param ServoPosition used to set transmissionLeft position<a name="line.80"></a>
+<FONT color="green">081</FONT>         */<a name="line.81"></a>
+<FONT color="green">082</FONT>        public static void switchGear( double ServoPosition){<a name="line.82"></a>
+<FONT color="green">083</FONT>    //        RobotActuators.transmissionLeft.set(ServoPosition);<a name="line.83"></a>
+<FONT color="green">084</FONT>    //        System.out.println(RobotActuators.transmissionLeft.get());<a name="line.84"></a>
+<FONT color="green">085</FONT>    <a name="line.85"></a>
+<FONT color="green">086</FONT>            RobotActuators.transmissionLeft.set(ServoPosition);<a name="line.86"></a>
+<FONT color="green">087</FONT>            RobotActuators.transmissionRight.set(ServoPosition);<a name="line.87"></a>
+<FONT color="green">088</FONT>        }<a name="line.88"></a>
+<FONT color="green">089</FONT>    }<a name="line.89"></a>
 
 
 

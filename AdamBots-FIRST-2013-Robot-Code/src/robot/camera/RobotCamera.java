@@ -138,7 +138,6 @@ public abstract class RobotCamera {
 			saturationHSVOriginal = _srcImage.getHSVSaturationPlane();
 			valueOriginal = _srcImage.getValuePlane();
 			hueHSVOriginal = _srcImage.getHSVHuePlane();
-			saturationHSVOriginal = _srcImage.getHSVSaturationPlane();
 
 			_srcImage.replaceRedPlane(hueHSVOriginal);
 			_srcImage.replaceGreenPlane(saturationHSVOriginal);

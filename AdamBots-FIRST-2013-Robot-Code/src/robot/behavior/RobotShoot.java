@@ -28,7 +28,7 @@ public abstract class RobotShoot {
 	/**
 	 * The PID interface used to control the shooter.
 	 */
-	private static FancyPIDController _shooterPid;
+	private static FancyPIDController _shooterPID;
 
 	public static double getTargetAngleDegrees() {
 		return _targetAngleDegrees;
@@ -45,6 +45,11 @@ public abstract class RobotShoot {
 		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
+	
+	public static boolean isShooterUpToSpeed()
+	{
+		return _shooterPID.isAtSpeed();
+	}
 
 	/**
 	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
@@ -59,9 +64,10 @@ public abstract class RobotShoot {
 		double SHOOTER_MAX_OUTPUT = 1.0;
 		double SHOOTER_MIN_OUTPUT = 0.0;
 
-		FancyPIDController shooterPID = new FancyPIDController(
+		_shooterPID = new FancyPIDController(
 				SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
 				RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);
+		RobotSensors.encoderShooterAngle.start();
 	}
 
 	/**
@@ -78,7 +84,7 @@ public abstract class RobotShoot {
 	 * @param speed_rpm The speed of the shooter in rpm.
 	 */
 	public static void setSpeed( double speed_rpm ) {
-		_shooterPid.setRPM(speed_rpm);
+		_shooterPID.setRPM(speed_rpm);
 	}
 
 	public static void changeTargetAngleDegrees( double delta ) {

@@ -2,6 +2,7 @@ package robot.actuators;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -32,12 +33,12 @@ public class RobotActuators {
 	transmissionRight   = new Servo(8);
 	
 	discIntake	    = new Relay(1);
-	shooterFeederSolenoid = new Relay(2);
+	shooterFeederSolenoid = new Solenoid(2);
 	hopperSolenoid = new Relay(3);
 	climbWinchSolenoid   = new Relay(4);
 	
 	discIntake.setDirection(Relay.Direction.kBoth);
-	shooterFeederSolenoid.setDirection(Relay.Direction.kForward);
+        shooterFeederSolenoid.set(false);
 	hopperSolenoid.setDirection(Relay.Direction.kBoth);
 	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
     }
@@ -77,5 +78,5 @@ public class RobotActuators {
     /** Controls the angle of attack of the shooter. */
     public static Talon shooterAngleMotor;
     /** Shooter feeder solenoid. */
-    public static Relay shooterFeederSolenoid;
+    public static Solenoid shooterFeederSolenoid;
 }

@@ -211,9 +211,11 @@ public class TeleopLogic extends LogicPhase {
 	// Disk fire control
 	//TODO: Check shooter pneumatic control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
-	    RobotActuators.shooterFeederSolenoid.set(true);
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
+	    //RobotActuators.shooterFeederSolenoid.set(true);
 	} else {
-	    RobotActuators.shooterFeederSolenoid.set(false);
+	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
+	    //RobotActuators.shooterFeederSolenoid.set(false);
 	}
     }
     

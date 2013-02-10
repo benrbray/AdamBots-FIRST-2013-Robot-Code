@@ -22,10 +22,15 @@ import edu.wpi.first.wpilibj.image.*;
 public abstract class RobotCamera {
 
 	private static final double TARGET_WIDTH_INCHES = 62;
-	private static final double TARGET_HEIGHT_INCHES = 20;//CHECK!?!
-	private static final double VIEW_ANGLE_DEGREES = 50;
-	private static final double VIEW_ANGLE_PIXELS = 320;//horizontal
+	private static final double TARGET_HEIGHT_INCHES = 20;
+	private static final double TARGET_ELEVATION_INCHES_TO_BOTTOM = 100;
+	private static final double VIEW_ANGLE_DEGREES_HORIZONTAL = 50;
+	private static final double VIEW_ANGLE_PIXELS_HORIZONTAL = 320;
+	private static final double VIEW_ANGLE_DEGREES_VERTICAL = 38;//CHECK
+	private static final double VIEW_ANGLE_PIXELS_VERTICAL = 240;
 	private static final double VIEW_HEIGHT_OVER_WIDTH = 0.75;
+	private static final double CAMERA_ANGLE_CENTER_ELEVATION_DEGREES = 20;//CHECK
+	private static final double CAMERA_HEIGHT_INCHES = 12;//CHECK
 	/**
 	 * The camera instance used in tracking.
 	 */
@@ -208,28 +213,41 @@ public abstract class RobotCamera {
 		_freshImage = false;
 	}
 
+
+	
+	public static void calculateAngle()
+	{
+		_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS_HORIZONTAL / 2.0) * (VIEW_ANGLE_DEGREES_HORIZONTAL) / (VIEW_ANGLE_PIXELS_HORIZONTAL);
+	}
+	
+	public static void calculateDistance()
+	{
+		_recentDistanceInches = 14874.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
+	}
+	public static void calculateDistanceAlternate()
+	{
+		double m = (_greenTarget.w + _greenTarget.h / 2) / VIEW_ANGLE_PIXELS_VERTICAL * VIEW_ANGLE_DEGREES_VERTICAL;
+		double a = CAMERA_ANGLE_CENTER_ELEVATION_DEGREES + VIEW_ANGLE_DEGREES_VERTICAL / 2;
+		double h = TARGET_HEIGHT_INCHES / 2 + TARGET_ELEVATION_INCHES_TO_BOTTOM;
+		_recentDistanceInches = h / Math.tan(Math.PI / 180 * (a-m));
+	}
+	
 	/**
 	 * Performs "work" on the image, excluding "greenbox." Called by CameraThread only.
-	 1. Grabs source image.
-	 2. Initiates blueBox() or redBox()
+	 1. Grabs source image and saves it.
+	 2. Calls greenbox.
 	 3. Free all objects
-	 4. Initiates whiteBox()
-	 5. Free all objects
-	 6. Initiate postImageAnalysisAnalysis(), establishing a _whiteTarget object.
-	 7. Write to distance, theta using _whiteTarget.
+	 4. Calculates distance / angle.
 	 **/
 	public static void work() {
 		_srcImage = null;
-		try // Lots of exceptions can happen
+		try
 		{
 			_srcImage = _camera.getImage();
 			_srcImage.write("/raw.png");
-			greenBox();//Depending on team color...
-			//Need to determine how switch works.
-			_recentDistanceInches = 14874.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
-			//_recentDistanceInches = (TARGET_HEIGHT_INCHES / 2) / Math.tan(_greenTarget.hprime * Math.toRadians(VIEW_ANGLE_DEGREES*VIEW_HEIGHT_OVER_WIDTH) / (VIEW_ANGLE_PIXELS*VIEW_HEIGHT_OVER_WIDTH) / 2.0);
-			//_recentDistanceInches *= _greenTarget.h / 24;
-			_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS / 2.0) * (VIEW_ANGLE_DEGREES) / (VIEW_ANGLE_PIXELS);
+			greenBox();
+			calculateDistance();
+			calculateAngle();
 			_freshImage = true;
 		}
 		catch (Exception e) {

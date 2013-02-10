@@ -174,8 +174,8 @@ public class RobotMain extends IterativeRobot {
 	 * @param phase The phase to transition to.
 	 * @return Boolean value indicating the success or failure of the segue.
 	 * @see LogicPhase
-	 * @see LogicPhase#finish() 
-	 * @see LogicPhase#init();
+	 * @see LogicPhase#finishPhase()  
+	 * @see LogicPhase#initPhase()
 	 */
 	public boolean segueToLogicPhase( LogicPhase phase ) {
 		if ( _currentLogicPhase != null ) {

@@ -20,9 +20,9 @@ public abstract class RobotDrive {
     public static final int PORT_LEFT_VICTOR = 1;
     public static final int PORT_RIGHT_VICTOR = 2;
     /** Shifter value*/
-    public static final double SHIFTER_LOW = 1;
-    public static final double SHIFTER_HIGH = 0.3;
-    public static final double SHIFTER_NEUTRAL = 0.8;
+    public static final double SHIFTER_LOW = 1.0;
+    public static final double SHIFTER_HIGH = 0.0;
+    public static final double SHIFTER_NEUTRAL = 0.65;
     
     //private robot.actuators.RobotActuators robotActuators;
     

@@ -23,6 +23,7 @@ public class RobotActuators {
      * Initializes static actuator instances.
      */
     public static void init(){
+	System.out.println("RobotActuators.init()");
 	driveLeft	    = new Victor(1);
 	driveRight	    = new Victor(2);
 	shooterWheelMotor   = new Victor(3);
@@ -44,6 +45,7 @@ public class RobotActuators {
         //shooterFeederSolenoid.set(false);
 	hopperSolenoid.setDirection(Relay.Direction.kBoth);
 	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
+	System.out.println("RobotActuators.init() finished");
     }
     
     //// DRIVE -----------------------------------------------------------------

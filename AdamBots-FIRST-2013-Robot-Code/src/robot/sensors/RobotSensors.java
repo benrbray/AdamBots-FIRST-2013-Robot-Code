@@ -90,7 +90,7 @@ public class RobotSensors {
         counterShooterSpeed.setMaxPeriod(100000);
         counterShooterSpeed.setUpSourceEdge(true, false);
 
-        //encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
+        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, 4);
         limitHookRightArm = new DigitalInput(DIO2, 5);

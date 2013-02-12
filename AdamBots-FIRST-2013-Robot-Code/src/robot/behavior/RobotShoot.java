@@ -50,7 +50,7 @@ public abstract class RobotShoot {
 	 * Called periodically to control the shooterAngle motor.
 	 */
 	public static boolean isShooterInPosition() {
-		double d = 0;//convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
 
@@ -71,7 +71,7 @@ public abstract class RobotShoot {
 		_shooterPID.setOutputRange(SHOOTER_MIN_OUTPUT, SHOOTER_MAX_OUTPUT);
 		_shooterPID.setPercentTolerance(SHOOTER_PID_TOLERANCE);
 		_shooterPID.enable();
-		//RobotSensors.encoderShooterAngle.start();
+		RobotSensors.encoderShooterAngle.start();
 	}
 
 	/**
@@ -96,7 +96,7 @@ public abstract class RobotShoot {
 	}
 
 	public static void update() {
-		double d = 0;//convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
 		/**
 		 * TODO: Rewrite 'd' to be a proper angle. *
 		 * TODO: Check encoder at limits.

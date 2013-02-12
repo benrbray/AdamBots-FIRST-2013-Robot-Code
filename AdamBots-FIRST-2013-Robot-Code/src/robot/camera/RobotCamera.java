@@ -157,7 +157,7 @@ public abstract class RobotCamera {
 			for (int i = 0; i < greens.length; i++) {
 				if (greens[i].particleArea> size * 0.5)
 				{
-					//System.out.println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
+					System.out.println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}
 				if ( (greens[i].particleArea > size * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
 					q = greens[i];
@@ -165,7 +165,7 @@ public abstract class RobotCamera {
 			}
 			board = q;
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
-			//System.out.println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
+			System.out.println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
 		}
 		catch (NIVisionException e) {
 		}

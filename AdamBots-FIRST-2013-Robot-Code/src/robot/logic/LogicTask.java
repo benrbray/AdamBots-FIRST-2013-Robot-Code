@@ -19,6 +19,7 @@ public abstract class LogicTask {
     
     //// PROTECTED VARAIBLES ---------------------------------------------------
     
+    protected boolean _initialized = false;
     protected boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
@@ -27,23 +28,52 @@ public abstract class LogicTask {
 	
     }
     
-    //// ABSTRACT METHODS ------------------------------------------------------
+    //// PUBLIC METHODS --------------------------------------------------------
     
     /**
      * Called when the Task is started.
      */
-    public abstract void initializeTask();
+    public final void initializeTask(){
+	_initialized = true;
+	initialize();
+    }
     
     /**
      * Called periodically while the Task is being executed.
      */
-    public abstract void updateTask();
+    public final void updateTask(){
+	update();
+    }
     
     /**
-     * Called when the Task is stopped or completed.
+     * Called when the Task is stopped or completed.  If the Task has been
+     * initialized, returns the status reported by the subclass.  Otherwise,
+     * returns the status reported by the subclass only if that status is not
+     * the success status.  This ensures that the Task always fails when it has
+     * not been initialized.
      * @return A status message.  (0 = success)
      */
-    public abstract int finishTask();
+    public final int finishTask(){
+	int status = finish();
+	return (!_initialized && status==SUCCESS)?FAILURE:status;
+    }
+    
+    //// ABSTRACT TASK METHODS -------------------------------------------------
+    
+    /**
+     * Initialization method to be implemented by subclasses of LogicTask.
+     */
+    protected abstract void initialize();
+    
+    /**
+     * Update method to be implemented by subclasses of LogicTask.
+     */
+    protected abstract void update();
+    
+    /**
+     * Finish method to be implemented by subclasses of LogicTask.
+     */
+    protected abstract int finish();
     
     //// IMPLEMENTED METHODS ---------------------------------------------------
     

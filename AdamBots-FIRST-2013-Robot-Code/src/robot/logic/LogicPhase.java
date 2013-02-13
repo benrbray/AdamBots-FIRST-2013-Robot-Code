@@ -21,6 +21,8 @@ public abstract class LogicPhase {
     /** Climb Phase Constant. */
     public static final int CLIMB = 2;
     
+    public boolean verboseOutput = false;
+    
     /**
      * Contains methods that should be implemented by each "logic phase".
      * Each of the three logic phases extends this class (AutonLogic, ClimbLogic, TeleopLogic).
@@ -44,4 +46,21 @@ public abstract class LogicPhase {
      */
     public abstract void finishPhase();
     
+    /**
+     * Prints a String to the output window if verboseOutput is set to TRUE.
+     * @param s The message to print.
+     * @see #verboseOutput
+     */
+    public final void print(String s){
+	if(verboseOutput) System.out.print(s);
+    }
+    /**
+     * Prints a String, followed by a newline character, to the output window
+     * if verboseOutput is set to TRUE.
+     * @param s The message to print.
+     * @see #verboseOutput
+     */
+    public final void println(String s){
+	if(verboseOutput) System.out.println(s + "\n");
+    }
 }

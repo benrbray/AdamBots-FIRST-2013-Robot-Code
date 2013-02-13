@@ -36,18 +36,17 @@ public class TAwaitButton extends LogicTask {
 	_joystick = null;
 	_button = button;
 	_latch = latch;
-	initializeTask();
     }
     
     //// INITIALIZATION --------------------------------------------------------
     
-    public void initializeTask() {
+    public void initialize() {
 	
     }
 
     //// UPDATE ----------------------------------------------------------------
     
-    public void updateTask() {
+    public void update() {
 	if(!_done || (_done && !_latch)){
 	    _done = _joystick.getRawButton(_button);
 	}
@@ -55,7 +54,7 @@ public class TAwaitButton extends LogicTask {
 
     //// FINISH ----------------------------------------------------------------
     
-    public int finishTask() {
+    public int finish() {
 	return _done ? SUCCESS : FAILURE;
     }
     

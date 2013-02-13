@@ -15,17 +15,27 @@ public class FancyCounter extends Counter implements PIDSource {
 
     double lastRpm;
     int errorVal;
+    private int _ticksPerPeriod;
 
     public FancyCounter(int channel) {
         super(channel);
         lastRpm = 0;
         errorVal = 0;
+	_ticksPerPeriod = 1;
     }
 
     public FancyCounter(int slot, int channel) {
         super(slot, channel);
         lastRpm = 0;
         errorVal = 0;
+	_ticksPerPeriod = 1;
+    }
+    
+    public FancyCounter(int slot, int channel, int ticksPerPeriod) {
+        super(slot, channel);
+        lastRpm = 0;
+        errorVal = 0;
+	_ticksPerPeriod = ticksPerPeriod;
     }
 
     public int getError() {
@@ -38,8 +48,7 @@ public class FancyCounter extends Counter implements PIDSource {
     }
 
     public double pidGet() {
-        // double time = getPeriod()
-        double time = getPeriod() * 2;       // might be wrong, not sure if the * 2 is needed
+        double time = getPeriod() * _ticksPerPeriod;
         double rpm = 60 / time;
 
         // if (rom > 5000)  // was that before, but i thought i might need something different that wasn't 5000
@@ -51,5 +60,9 @@ public class FancyCounter extends Counter implements PIDSource {
         lastRpm = rpm;
 
         return rpm;
+    }
+    
+    public void setTicksPerPeriod(int t) {
+	_ticksPerPeriod = t;
     }
 }

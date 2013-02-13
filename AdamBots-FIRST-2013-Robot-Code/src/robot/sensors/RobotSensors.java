@@ -85,12 +85,12 @@ public class RobotSensors {
         limitElevatorB = new DigitalInput(DIO1, 14);
 
         //// DIGITAL CARD 2 ----------------------------------------------------
-        counterShooterSpeed = new FancyCounter(DIO2, 1);
+        counterShooterSpeed = new FancyCounter(DIO2, 1, 1);
         counterShooterSpeed.start();
         counterShooterSpeed.setMaxPeriod(100000);
         counterShooterSpeed.setUpSourceEdge(true, false);
 
-        //encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
+        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, 4);
         limitHookRightArm = new DigitalInput(DIO2, 5);

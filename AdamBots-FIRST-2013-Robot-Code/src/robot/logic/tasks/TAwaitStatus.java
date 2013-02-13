@@ -37,7 +37,6 @@ public final class TAwaitStatus extends LogicTask {
     public TAwaitStatus(int status, double value){
 	_status = status;
 	_value = value;
-	initializeTask();
     }
 
     //// INITIALIZATION --------------------------------------------------------
@@ -51,7 +50,7 @@ public final class TAwaitStatus extends LogicTask {
      * @param useValue Should the Task send a target value to the Behavior class
      * that it is waiting on?
      */
-    public void initializeTask() {
+    public void initialize() {
 	if(_value != Double.NaN){
 	    switch(_status){
 		case WINCH_IN_POSITION:
@@ -73,7 +72,7 @@ public final class TAwaitStatus extends LogicTask {
 
     //// UPDATE ----------------------------------------------------------------
     
-    public void updateTask() {
+    public void update() {
 	switch(_status){
 	    case WINCH_IN_POSITION:
 		_done = RobotClimb.isWinchInPosition();
@@ -100,7 +99,7 @@ public final class TAwaitStatus extends LogicTask {
      * @see robot.logic.LogicTask#SUCCESS
      * @see robot.logic.LogicTask#FAILURE
      */
-    public int finishTask() {
+    public int finish() {
 	return isDone() ? SUCCESS : FAILURE;
     }
     

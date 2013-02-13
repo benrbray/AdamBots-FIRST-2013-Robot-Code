@@ -11,28 +11,22 @@ import robot.logic.LogicTask;
  *
  * @author Ben
  */
-public class TExpandWinch extends LogicTask {
-    
-    //// PRIVATE VARIABLES -----------------------------------------------------
-    
-    private double _targetEncoderValue;
-    
-    //// CONSTRUCTOR -----------------------------------------------------------
-    
-    public TExpandWinch(double targetEncoderValue){
-	_targetEncoderValue = targetEncoderValue;
-    }
+public class TStopWinch extends LogicTask {
 
+    public TStopWinch(){
+	
+    }
+    
     //// INITIALIZATION --------------------------------------------------------
     
     public void initialize() {
-	RobotClimb.setWinchTarget(_targetEncoderValue);
+	RobotClimb.stopWinch();
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	_done = true;
+	_done = _initialized;
     }
 
     //// FINISH ----------------------------------------------------------------

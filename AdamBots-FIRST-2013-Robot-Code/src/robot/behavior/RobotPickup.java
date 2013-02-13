@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Relay;
 import robot.actuators.RobotActuators;
 import robot.sensors.RobotSensors;
 
-public abstract class RobotPickup {
+public abstract class RobotPickup extends RobotBehavior {
     
     private static double _winchSpeed;
     private static Relay.Value _relayValue;

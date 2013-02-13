@@ -65,7 +65,7 @@ public final class TAwaitStatus extends LogicTask {
 		case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
 		    break;
 		default:
-			throw new IllegalArgumentException();
+		    throw new IllegalArgumentException();
 	    }
 	}
     }
@@ -81,8 +81,7 @@ public final class TAwaitStatus extends LogicTask {
 		_done = RobotShoot.isShooterInPosition();
 		break;
 	    case SHOOTER_UP_TO_SPEED:
-		_done = false; // RobotShoot.isShooterUpToSpeed(); 
-		// TODO:  Shooter Up to Speed Method
+		_done = RobotShoot.isShooterUpToSpeed();
 		break;
 	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
 		_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();

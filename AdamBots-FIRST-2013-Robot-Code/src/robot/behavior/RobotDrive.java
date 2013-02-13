@@ -12,7 +12,7 @@ import robot.actuators.RobotActuators;
  *
  * @author Ben
  */
-public abstract class RobotDrive {
+public abstract class RobotDrive extends RobotBehavior {
     
     // there will be a class TBD that will store all the robot
     // sensors, motors

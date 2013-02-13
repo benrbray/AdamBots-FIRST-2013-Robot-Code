@@ -33,6 +33,7 @@ public class TeleopLogic extends LogicPhase {
     private double _secondaryAxis[];
     
     //// DRIVE VARIABLES -------------------------------------------------------
+    
     // Chassis drive
     private double _leftDrive;
     private double _rightDrive;
@@ -66,6 +67,7 @@ public class TeleopLogic extends LogicPhase {
 	MagicBox.init();
 	
 	//// INITIALIZE JOYSTICK AND MAGIC BOX VALUE ARRAYS --------------------
+	
 	//Add 1 to the arrays because the inputs start at one rather than 0.
 	_primaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS + 1];
 	_secondaryButtons = new boolean[FancyJoystick.XBOX_BUTTONS + 1];
@@ -75,6 +77,7 @@ public class TeleopLogic extends LogicPhase {
 	_secondaryAxis = new double[FancyJoystick.XBOX_AXES + 1];
 	
 	//// INITIALIZE TELEOP VARIABLES ---------------------------------------
+	
 	_leftDrive = 0;
 	_rightDrive = 0;
 	
@@ -94,10 +97,12 @@ public class TeleopLogic extends LogicPhase {
     public void updatePhase() {
 	
 	//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
+	
 	updateJoystickValues();
 	updateMagicBox();
 	
 	//// PRIMARY DRIVER ----------------------------------------------------
+	
 	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 	_rightDrive = -(_primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X]);
 	

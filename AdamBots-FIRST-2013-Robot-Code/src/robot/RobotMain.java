@@ -26,27 +26,38 @@ import robot.sensors.RobotSensors;
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation.
  *
- * RobotMain includes static instances of each behavior class, because they will
- * be commonly referenced elsewhere, and we don't want to pass them as arguments
- * all over the place.
- *
  * @author Ben Bray
  * @author Steven Ploog
  */
-public class RobotMain extends IterativeRobot {
-    //// INSTANCE ----------------------------------------------------------
+public final class RobotMain extends IterativeRobot {
+    //// INSTANCE --------------------------------------------------------------
 
     private static RobotMain _instance;
 
+    /** Gets the active instance of RobotMain. **/
     public static RobotMain getInstance() {
 	return _instance;
     }
+    
+    //// OUTPUT CONSTANTS ------------------------------------------------------
+    
+    public static final boolean VERBOSE_AUTON = false;
+    public static final boolean VERBOSE_TELEOP = false;
+    public static final boolean VERBOSE_CLIMB = false;
+    public static final boolean VERBOSE_ROBOTCLIMB = false;
+    public static final boolean VERBOSE_ROBOTDRIVE = false;
+    public static final boolean VERBOSE_ROBOTPICKUP = false;
+    public static final boolean VERBOSE_ROBOTSHOOT = false;
+    
     //// ROBOT LOGIC PHASES ----------------------------------------------------
+    
     private LogicPhase _currentLogicPhase = null;
     private AutonLogic _autonLogic;
     private TeleopLogic _teleopLogic;
     private ClimbLogic _climbLogic;
-    //// JOYSTICKS ---------------------------------------------------------
+    
+    //// JOYSTICKS -------------------------------------------------------------
+    
     public static FancyJoystick primaryJoystick;
     public static FancyJoystick secondaryJoystick;
 
@@ -57,7 +68,6 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-	System.out.println("robotInit()");
 	_instance = this;
 
 	// Initialize Classes with Static References
@@ -66,14 +76,19 @@ public class RobotMain extends IterativeRobot {
 
 	// Initialize Static Behavior Classes
 	RobotDrive.init();
-	//RobotCamera.init();
+	RobotCamera.init();
 	RobotShoot.init();
 	RobotPickup.init();
 
+	// Output Filtering
+	RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
+	RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
+	RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
+	RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
+	
 	// Initialize Joysticks
 	primaryJoystick = new FancyJoystick(1);
 	secondaryJoystick = new FancyJoystick(2);
-	System.out.println("robotInit() finished");
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -83,6 +98,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void autonomousInit() {
 	_autonLogic = new AutonLogic();
+	_autonLogic.verboseOutput = VERBOSE_AUTON;
 	segueToLogicPhase(_autonLogic);
     }
 
@@ -102,6 +118,8 @@ public class RobotMain extends IterativeRobot {
     public void teleopInit() {
 	_teleopLogic = new TeleopLogic();
 	_climbLogic = new ClimbLogic();
+	_teleopLogic.verboseOutput = VERBOSE_TELEOP;
+	_climbLogic.verboseOutput = VERBOSE_AUTON;
 	segueToLogicPhase(_teleopLogic);
 
 	if (_autonLogic != null) {
@@ -126,7 +144,7 @@ public class RobotMain extends IterativeRobot {
 	// Update Subsystems
 	TargetLogic.update();
 	RobotShoot.update();
-	//RobotCamera.update();
+	RobotCamera.update();
 	RobotPickup.update();
 	RobotClimb.update();
 	TargetLogic.update();

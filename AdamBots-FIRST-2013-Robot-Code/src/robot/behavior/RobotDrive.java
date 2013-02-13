@@ -39,7 +39,7 @@ public abstract class RobotDrive extends RobotBehavior {
      * sets the speed of the wheels to the parameters given
      */
     public static void drive( double leftSpeed, double rightSpeed ) {
-	RobotActuators.driveRight.set(rightSpeed);
+	RobotActuators.driveRight.set(-rightSpeed);
 	RobotActuators.driveLeft.set(leftSpeed);
     }
     
@@ -50,7 +50,7 @@ public abstract class RobotDrive extends RobotBehavior {
      */
     public static void driveStraight( double speed )
     {
-	RobotActuators.driveRight.set(speed);
+	RobotActuators.driveRight.set(-speed);
 	RobotActuators.driveLeft.set(speed);
     }
     
@@ -61,7 +61,7 @@ public abstract class RobotDrive extends RobotBehavior {
      */
     public static void turn( double speed )
     {
-	RobotActuators.driveRight.set(-speed);
+	RobotActuators.driveRight.set(speed);
 	RobotActuators.driveLeft.set(speed);
     }
     

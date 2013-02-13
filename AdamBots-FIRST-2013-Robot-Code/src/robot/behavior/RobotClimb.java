@@ -12,7 +12,7 @@ import robot.sensors.RobotSensors;
  *
  * @author Curtis
  */
-public abstract class RobotClimb {
+public abstract class RobotClimb extends RobotBehavior {
     //// CONSTANTS -------------------------------------------------------------
     
     /** The tolerance of the winch targeting. */

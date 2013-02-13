@@ -29,11 +29,12 @@ import robot.sensors.RobotSensors;
  * @author Ben Bray
  * @author Steven Ploog
  */
-public class RobotMain extends IterativeRobot {
+public final class RobotMain extends IterativeRobot {
     //// INSTANCE --------------------------------------------------------------
 
     private static RobotMain _instance;
 
+    /** Gets the active instance of RobotMain. **/
     public static RobotMain getInstance() {
 	return _instance;
     }

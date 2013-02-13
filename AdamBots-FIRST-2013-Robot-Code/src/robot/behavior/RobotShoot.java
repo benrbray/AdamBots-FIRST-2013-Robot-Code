@@ -15,7 +15,7 @@ import utils.MathUtils;
  *
  * @author Nathan
  */
-public abstract class RobotShoot {
+public abstract class RobotShoot extends RobotBehavior {
 
 	public static double SHOOTER_KI = 0.001;
 	public static double SHOOTER_KP = 0.002;

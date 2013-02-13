@@ -11,7 +11,7 @@ import robot.logic.LogicTask;
  *
  * @author Ben
  */
-public class TExpandWinch extends LogicTask {
+public class TMoveWinch extends LogicTask {
     
     //// PRIVATE VARIABLES -----------------------------------------------------
     
@@ -19,7 +19,7 @@ public class TExpandWinch extends LogicTask {
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
-    public TExpandWinch(double targetEncoderValue){
+    public TMoveWinch(double targetEncoderValue){
 	_targetEncoderValue = targetEncoderValue;
     }
 

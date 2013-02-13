@@ -10,7 +10,7 @@ import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
 import robot.logic.tasks.TAwaitStatus;
-import robot.logic.tasks.TExpandWinch;
+import robot.logic.tasks.TMoveWinch;
 import robot.logic.tasks.TStopWinch;
 
 /**
@@ -42,7 +42,7 @@ public class ClimbLogic extends LogicPhase {
     public void initPhase() {
 	// Populate Tasks Array
 	_tasks = new Vector();
-	_tasks.addElement(new TExpandWinch(WINCH_DISTANCE_1));
+	_tasks.addElement(new TMoveWinch(WINCH_DISTANCE_1));
 	_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION, 0));
 	// TODO:  Manual Move Robot or Manual Adjust Winch
 	_tasks.addElement(new TStopWinch());

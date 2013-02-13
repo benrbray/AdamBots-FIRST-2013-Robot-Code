@@ -15,7 +15,7 @@ public abstract class LogicTask {
     /** Success Status */
     public static final int SUCCESS = 0;
     /** Failure Status */
-    public static final int FAILURE = 0;
+    public static final int FAILURE = 1;
     
     //// PROTECTED VARAIBLES ---------------------------------------------------
     

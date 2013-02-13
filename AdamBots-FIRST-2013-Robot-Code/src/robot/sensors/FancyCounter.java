@@ -48,7 +48,6 @@ public class FancyCounter extends Counter implements PIDSource {
     }
 
     public double pidGet() {
-        // double time = getPeriod()
         double time = getPeriod() * _ticksPerPeriod;
         double rpm = 60 / time;
 

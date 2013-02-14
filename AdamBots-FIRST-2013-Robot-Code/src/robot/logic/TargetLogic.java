@@ -101,6 +101,7 @@ public abstract class TargetLogic {
 		turnLogic.stop();
 		turnLogic = null;
 		_doTurn = false;
+		_isTargeting = false;
 	}
 
 	/**

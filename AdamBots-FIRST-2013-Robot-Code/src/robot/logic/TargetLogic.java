@@ -142,6 +142,7 @@ public abstract class TargetLogic {
 				double direction = RobotCamera.getDirectionDegrees();
 				if ( turnLogic != null ) {
 					turnLogic.stop();
+					turnLogic = null;
 				}
 				turnLogic = new TTurnDegrees(direction, 0.1, 2);
 				turnLogic.initialize();

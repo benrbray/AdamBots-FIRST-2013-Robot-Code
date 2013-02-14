@@ -154,9 +154,14 @@ public abstract class TargetLogic {
 					turnLogic.stop();
 					turnLogic = null;
 				}
-				_isTargeted = Math.abs(direction) < TARGET_ROTATION_TOLERANCE;
 				turnLogic = new TTurnDegrees(direction, 0.1, TARGET_ROTATION_TOLERANCE);
 				turnLogic.initialize();
+				_isTargeted = Math.abs(direction) < TARGET_ROTATION_TOLERANCE;
+				if (_isTargeted)
+				{
+					turnLogic.stop();
+					turnLogic = null;
+				}
 			}
 			if ( _doTurn ) {
 				if ( !_stopDriving && turnLogic != null ) {

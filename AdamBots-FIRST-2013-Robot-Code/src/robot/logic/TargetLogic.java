@@ -98,6 +98,8 @@ public abstract class TargetLogic {
 	 * Ends targeting.
 	 */
 	public static void endTargeting() {
+		turnLogic.stop();
+		turnLogic = null;
 		_doTurn = false;
 	}
 

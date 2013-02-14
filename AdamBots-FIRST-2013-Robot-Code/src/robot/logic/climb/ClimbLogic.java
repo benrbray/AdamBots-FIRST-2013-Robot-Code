@@ -42,7 +42,7 @@ public class ClimbLogic extends LogicPhase {
 	// Populate Tasks Array
 	_tasks = new Vector();
 	_tasks.addElement(new TMoveWinch(WINCH_DISTANCE_1));
-	_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION, 0));
+	_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION));
 	// TODO:  Manual Move Robot or Manual Adjust Winch
 	_tasks.addElement(new TStopWinch());
 	

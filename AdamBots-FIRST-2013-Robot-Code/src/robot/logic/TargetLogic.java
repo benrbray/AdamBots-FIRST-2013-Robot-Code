@@ -5,10 +5,9 @@
 package robot.logic;
 
 import com.sun.squawk.util.MathUtils;
-import robot.behavior.RobotDrive;
 import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
-import robot.sensors.RobotSensors;
+import robot.logic.tasks.TTurnDegrees;
 
 /**
  * TargetLogic calls RobotShoot and RobotDrive and asks for data from
@@ -19,6 +18,7 @@ import robot.sensors.RobotSensors;
  */
 public abstract class TargetLogic {
 
+	private static TTurnDegrees turnLogic = null;
 	public static final double TARGET_HEIGHT_INCHES = 60.0;
 	/**
 	 * Whether it's currently targeting as opposed to doing nothing.
@@ -28,26 +28,6 @@ public abstract class TargetLogic {
 	 * Whether to turn; if it knows where to turn to.
 	 */
 	private static boolean _doTurn = false;
-	/**
-	 * The last angle that it needs to turn; compare to current angle.
-	 */
-	private static double _lastTargetAngleDegrees = 0;
-	/**
-	 * The recorded value of left chassis encoder as of last image capture.
-	 */
-	private static double _myLastEncoderLeft = 0;
-	/**
-	 * The recorded value of right chassis encoder as of last image capture.
-	 */
-	private static double _myLastEncoderRight = 0;
-	/**
-	 * The ratio of ticks to degrees in degrees/tick.
-	 */
-	private static final double ENCODER_TO_DEGREES = 1;
-	/**
-	 * The radius of the circle containing the 4 wheels of the robot.
-	 */
-	public static double robotRadiusInches = 5;
 	private static double _shooterSpeedMultiplier = 1;
 	private static double _shooterAngleOffset = 0;
 	private static double _shooterConstantSpeed = 0;
@@ -148,6 +128,10 @@ public abstract class TargetLogic {
 	/**
 	 * Call this function constantly.
 	 */
+	private static double switchDouble( double a, double b ) {
+		return a == 0 ? b : a;
+	}
+
 	public static void update() {
 		System.out.println("DIS: " + RobotCamera.getDistanceInches());
 		if ( _isTargeting ) {
@@ -155,47 +139,27 @@ public abstract class TargetLogic {
 				_doTurn = true;
 				//Can act on new data.
 				RobotCamera.imageUnfresh();
-				_lastTargetAngleDegrees = RobotCamera.getDirectionDegrees();
-				_myLastEncoderLeft = RobotSensors.encoderDriveLeft.getDistance();
-				_myLastEncoderRight = RobotSensors.encoderDriveRight.getDistance();
-				/* Like this:
-				 * The wheels plot a circle as they spin together.
-				 * Convert arc length to interior angle.
-				 * (Use average of left/right to improve accuracy)
-				 */
+				double direction = RobotCamera.getDirectionDegrees();
+				if ( turnLogic != null ) {
+					turnLogic.stop();
+				}
+				turnLogic = new TTurnDegrees(direction, 0.1, 2);
+				turnLogic.initialize();
 			}
 			if ( _doTurn ) {
-				double leftEncoder = RobotSensors.encoderDriveLeft.getDistance();
-				double leftAngle = ENCODER_TO_DEGREES * (leftEncoder - _myLastEncoderLeft);
-				double rightEncoder = RobotSensors.encoderDriveRight.getDistance();
-				double rightAngle = -ENCODER_TO_DEGREES * (rightEncoder - _myLastEncoderRight);//neg might not need?
-				double angled = (leftAngle + rightAngle) / 2;
-				//Compare angled to _lastTargetAngleDegrees
-				double s = angled - _lastTargetAngleDegrees;
-				if ( Math.abs(s) > 3 ) {
-					if ( !_stopDriving ) {
-						_targetTurnSpeed = s / 10;
-						RobotDrive.turn(_targetTurnSpeed); // Possibly backwards.
+				if ( !_stopDriving && turnLogic != null ) {
+					turnLogic.update();
+					if ( turnLogic.finish() == LogicTask.SUCCESS ) {
+						turnLogic.stop();
+						turnLogic = null;
 					}
 				}
-				else {
-					_currentTargetAngle = MathUtils.atan(TARGET_HEIGHT_INCHES / RobotCamera.getDistanceInches());
-					if ( _shooterConstantAngle == 0 ) {
-
-						RobotShoot.setAngleDegrees((_currentTargetAngle + _shooterAngleOffset) * Math.PI / 180.0);
-					}
-					else {
-						RobotShoot.setAngleDegrees(_shooterConstantAngle + _shooterAngleOffset);
-					}
-					_currentShooterSpeed = 0.6;
-					if ( _shooterConstantSpeed == 0 ) {
-
-						RobotShoot.setSpeed(_currentShooterSpeed * _shooterSpeedMultiplier);
-					}
-					else {
-						RobotShoot.setSpeed(_shooterConstantSpeed * _shooterSpeedMultiplier);
-					}
-				}
+			}
+			else {
+				_currentTargetAngle = MathUtils.atan(TARGET_HEIGHT_INCHES / RobotCamera.getDistanceInches()) * Math.PI / 180.0;
+				RobotShoot.setAngleDegrees(switchDouble(_shooterConstantAngle, _currentTargetAngle) + _shooterAngleOffset);
+				_currentShooterSpeed = 0.6;
+				RobotShoot.setSpeed(switchDouble(_shooterConstantSpeed, _currentShooterSpeed) * _shooterSpeedMultiplier);
 			}
 		}
 	}

@@ -38,6 +38,12 @@ public class TTurnDegrees extends LogicTask {
         RobotSensors.encoderDriveRight.start();
         RobotSensors.encoderDriveRight.reset();
     }
+	
+	public void stop()
+	{
+		RobotDrive.drive(0, 0);
+		_done = true;
+	}
 
     public void update() {
         double v = RobotSensors.encoderDriveLeft.get(); //TODO: Insure signs and make average

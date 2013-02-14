@@ -36,7 +36,7 @@ public class TDriveDistance extends LogicTask {
     }
 
     public void initialize() {
-        _initialEncoder = (RobotSensors.encoderDriveLeft.getDistance() + RobotSensors.encoderDriveRight.getDistance()) / 2.0;
+        _initialEncoder = -(RobotSensors.encoderDriveLeft.getDistance() + RobotSensors.encoderDriveRight.getDistance()) / 2.0;
         RobotSensors.encoderDriveLeft.start();
         RobotSensors.encoderDriveRight.start();
     }
@@ -44,7 +44,7 @@ public class TDriveDistance extends LogicTask {
     public void update() {
         RobotDrive.driveStraight(MathUtils.sign(_targetDistanceInches) * 0.1);
         double encodertarget = _initialEncoder + _targetDistanceInches - MathUtils.sign(_targetDistanceInches);
-        double currentencoder = (RobotSensors.encoderDriveLeft.getDistance() + RobotSensors.encoderDriveRight.getDistance()) / 2.0;
+        double currentencoder = -(RobotSensors.encoderDriveLeft.getDistance() + RobotSensors.encoderDriveRight.getDistance()) / 2.0;
         if ((int) MathUtils.sign(encodertarget - currentencoder) != (int) MathUtils.sign(_targetDistanceInches)) {
             RobotDrive.drive(0, 0); //Stop the robot
             _done = true;

@@ -34,7 +34,6 @@ public class ClimbLogic extends LogicPhase {
     
     public ClimbLogic(){
 	super();
-	verboseOutput = true;
     }
 
     //// INITIALIZATION --------------------------------------------------------

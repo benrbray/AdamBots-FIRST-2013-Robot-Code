@@ -20,6 +20,7 @@ public abstract class TargetLogic {
 
 	private static TTurnDegrees turnLogic = null;
 	public static final double TARGET_HEIGHT_INCHES = 60.0;
+	public static final double TARGET_ROTATION_TOLERANCE = 2.0;
 	/**
 	 * Whether it's currently targeting as opposed to doing nothing.
 	 */
@@ -27,6 +28,7 @@ public abstract class TargetLogic {
 	/**
 	 * Whether to turn; if it knows where to turn to.
 	 */
+	private static boolean _isTargeted = false;
 	private static boolean _doTurn = false;
 	private static double _shooterSpeedMultiplier = 1;
 	private static double _shooterAngleOffset = 0;
@@ -127,6 +129,11 @@ public abstract class TargetLogic {
 	public static double getShooterAutomatedSpeed() {
 		return _currentShooterSpeed;
 	}
+	
+	public static boolean isTargeted()
+	{
+		return _isTargeted;
+	}
 
 	/**
 	 * Call this function constantly.
@@ -147,7 +154,8 @@ public abstract class TargetLogic {
 					turnLogic.stop();
 					turnLogic = null;
 				}
-				turnLogic = new TTurnDegrees(direction, 0.1, 2);
+				_isTargeted = Math.abs(direction) < TARGET_ROTATION_TOLERANCE;
+				turnLogic = new TTurnDegrees(direction, 0.1, TARGET_ROTATION_TOLERANCE);
 				turnLogic.initialize();
 			}
 			if ( _doTurn ) {

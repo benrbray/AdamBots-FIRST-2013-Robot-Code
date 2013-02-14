@@ -7,6 +7,7 @@ package robot.logic.tasks;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotShoot;
 import robot.logic.LogicTask;
+import robot.logic.TargetLogic;
 import robot.sensors.RobotSensors;
 
 /**

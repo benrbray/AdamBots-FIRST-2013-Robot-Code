@@ -26,19 +26,13 @@ public final class TAwaitStatus extends LogicTask {
     //// PRIVATE VARIABLES -----------------------------------------------------
     
     private int _status;
-    private double _value;
     
     private boolean _done = false;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
     public TAwaitStatus(int status){
-	this(status, 4.0);
-    }
-    
-    public TAwaitStatus(int status, double value){
 	_status = status;
-	_value = value;
     }
 
     //// INITIALIZATION --------------------------------------------------------
@@ -53,25 +47,7 @@ public final class TAwaitStatus extends LogicTask {
      * that it is waiting on?
      */
     public void initialize() {
-	if(_value != Double.NaN){
-	    switch(_status){
-		case WINCH_IN_POSITION:
-		    RobotClimb.setWinchTarget(_value);
-		    break;
-		case SHOOTER_IN_POSITION:
-		    RobotShoot.setAngleDegrees(_value);
-		    break;
-		case SHOOTER_UP_TO_SPEED:
-		    RobotShoot.setSpeed(_value);
-		    break;
-		case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
-		    break;
-                case TARGETING_COMPLETED:
-                    break;
-		default:
-		    throw new IllegalArgumentException();
-	    }
-	}
+	
     }
 
     //// UPDATE ----------------------------------------------------------------

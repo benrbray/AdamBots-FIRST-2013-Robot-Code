@@ -4,6 +4,8 @@
  */
 package robot.logic;
 
+import robot.RobotObject;
+
 /**
  * Contains methods that should be implemented by each "logic phase".  
  * Each of the three logic phases extends this class (AutonLogic, ClimbLogic, TeleopLogic).
@@ -12,7 +14,7 @@ package robot.logic;
  * @see climb.ClimbLogic
  * @see TeleopLogic
  */
-public abstract class LogicPhase {
+public abstract class LogicPhase extends RobotObject {
     
     /** Autonomous Phase Constant. */
     public static final int AUTONOMOUS = 0;
@@ -20,8 +22,6 @@ public abstract class LogicPhase {
     public static final int TELEOP = 1;
     /** Climb Phase Constant. */
     public static final int CLIMB = 2;
-    
-    public boolean verboseOutput = false;
     
     /**
      * Contains methods that should be implemented by each "logic phase".
@@ -45,22 +45,4 @@ public abstract class LogicPhase {
      * Called immediately before control is taken from this Logic Phase.
      */
     public abstract void finishPhase();
-    
-    /**
-     * Prints a String to the output window if verboseOutput is set to TRUE.
-     * @param s The message to print.
-     * @see #verboseOutput
-     */
-    public final void print(String s){
-	if(verboseOutput) System.out.print(s);
-    }
-    /**
-     * Prints a String, followed by a newline character, to the output window
-     * if verboseOutput is set to TRUE.
-     * @param s The message to print.
-     * @see #verboseOutput
-     */
-    public final void println(String s){
-	if(verboseOutput) System.out.println(s + "\n");
-    }
 }

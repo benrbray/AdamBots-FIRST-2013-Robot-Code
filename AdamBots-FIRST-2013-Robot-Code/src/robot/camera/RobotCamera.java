@@ -2,6 +2,7 @@ package robot.camera;
 
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.image.*;
+import robot.RobotObject;
 
 /**
  * This class is called ONLY by TargetLogic; it processes camera data.
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.image.*;
  * This class must be initialized with initialize() and asked to work using work().
  * After work() is finished, you may request distance or direction to the visible best target.
  **/
-public abstract class RobotCamera {
+public abstract class RobotCamera extends RobotObject {
 
 	private static final double TARGET_WIDTH_INCHES = 62;
 	private static final double TARGET_HEIGHT_INCHES = 20;
@@ -162,7 +163,7 @@ public abstract class RobotCamera {
 			for (int i = 0; i < greens.length; i++) {
 				if (greens[i].particleArea> size * 0.5)
 				{
-					System.out.println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
+					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}
 				if ( (greens[i].particleArea > size * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
 					q = greens[i];
@@ -170,7 +171,7 @@ public abstract class RobotCamera {
 			}
 			board = q;
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
-			System.out.println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
+			println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
 		}
 		catch (NIVisionException e) {
 		}
@@ -190,8 +191,9 @@ public abstract class RobotCamera {
 	 Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
 	 **/
 	public static void init() {
-		//how it will be on the robot ; _camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
-		_camera = AxisCamera.getInstance("192.168.0.90");
+		//how it will be on the robot ; 
+		_camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
+		//_camera = AxisCamera.getInstance("192.168.0.90");
 		_camera.writeMaxFPS(10);
 		_camera.writeExposurePriority(AxisCamera.ExposurePriorityT.frameRate);
 		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);

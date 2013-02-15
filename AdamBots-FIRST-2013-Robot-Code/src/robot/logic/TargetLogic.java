@@ -5,6 +5,7 @@
 package robot.logic;
 
 import com.sun.squawk.util.MathUtils;
+import robot.RobotObject;
 import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
 import robot.logic.tasks.TTurnDegrees;
@@ -16,7 +17,7 @@ import robot.logic.tasks.TTurnDegrees;
  *
  * @author Nathan
  */
-public abstract class TargetLogic {
+public abstract class TargetLogic extends RobotObject {
 
 	private static TTurnDegrees turnLogic = null;
 	public static final double TARGET_HEIGHT_INCHES = 60.0;
@@ -100,7 +101,9 @@ public abstract class TargetLogic {
 	 * Ends targeting.
 	 */
 	public static void endTargeting() {
-		turnLogic.stop();
+		if(turnLogic != null){ // Added to Prevent NullPointerException (Ben, 2/15/13)
+		    turnLogic.stop();
+		}
 		turnLogic = null;
 		_doTurn = false;
 		_isTargeting = false;
@@ -143,7 +146,7 @@ public abstract class TargetLogic {
 	}
 
 	public static void update() {
-		System.out.println("DIS: " + RobotCamera.getDistanceInches());
+		println("DIS: " + RobotCamera.getDistanceInches());
 		if ( _isTargeting ) {
 			if ( RobotCamera.imageIsFresh() ) {
 				_doTurn = true;

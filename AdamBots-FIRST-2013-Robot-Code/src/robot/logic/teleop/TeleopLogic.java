@@ -163,6 +163,12 @@ public class TeleopLogic extends LogicPhase {
 	    //TODO: Set winch drive to 0
 	}
 	
+	// Autonomous Climbing
+	// TODO:  Finalize Autonomous Climbing Controls
+	if(_primaryButtons[FancyJoystick.BUTTON_A] && _primaryButtons[FancyJoystick.BUTTON_Y]){
+	    RobotMain.getInstance().segueToLogicPhase(LogicPhase.CLIMB);
+	}
+	
 	//// SECONDARY DRIVER --------------------------------------------------
 	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 	

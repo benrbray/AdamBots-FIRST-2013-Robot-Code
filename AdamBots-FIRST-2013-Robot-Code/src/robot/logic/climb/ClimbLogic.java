@@ -39,12 +39,13 @@ public class ClimbLogic extends LogicPhase {
     //// INITIALIZATION --------------------------------------------------------
     
     public void initPhase() {
+	println("ClimbLogic Initialized");
 	// Populate Tasks Array
 	_tasks = new Vector();
-	_tasks.addElement(new TMoveWinch(WINCH_DISTANCE_1));
-	_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION));
+	//_tasks.addElement(new TMoveWinch(WINCH_DISTANCE_1));
+	//_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION));
 	// TODO:  Manual Move Robot or Manual Adjust Winch
-	_tasks.addElement(new TStopWinch());
+	//_tasks.addElement(new TStopWinch());
 	
 	// Begin First Task
 	_currentIndex = 0;
@@ -61,11 +62,13 @@ public class ClimbLogic extends LogicPhase {
 	}
 	
 	// Update Current Task
-	_currentTask.updateTask();
+	if(_currentTask != null){
+	    _currentTask.updateTask();
 	
-	if(_currentTask.isDone()){
-	    println("Task Reported DONE, moving to next Task...");
-	    nextTask();
+	    if(_currentTask.isDone()){
+		println("Task Reported DONE, moving to next Task...");
+		nextTask();
+	    }
 	}
     }
 
@@ -85,6 +88,7 @@ public class ClimbLogic extends LogicPhase {
      * @see #finishPhase()
      */
     public void emergencyStop(){
+	println("Emergency Stopping ClimbLogic...");
 	finishPhase();  // TODO:  Additional Logic Here?
     }
     

@@ -48,6 +48,8 @@ public final class RobotMain extends IterativeRobot {
     public static final boolean VERBOSE_ROBOTDRIVE = false;
     public static final boolean VERBOSE_ROBOTPICKUP = false;
     public static final boolean VERBOSE_ROBOTSHOOT = false;
+    public static final boolean VERBOSE_ROBOTCAMERA = false;
+    public static final boolean VERBOSE_TARGETLOGIC = false;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -85,6 +87,8 @@ public final class RobotMain extends IterativeRobot {
 	RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
 	RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
 	RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
+	RobotCamera.verboseOutput = VERBOSE_ROBOTCAMERA;
+	TargetLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 	
 	// Initialize Joysticks
 	primaryJoystick = new FancyJoystick(1);

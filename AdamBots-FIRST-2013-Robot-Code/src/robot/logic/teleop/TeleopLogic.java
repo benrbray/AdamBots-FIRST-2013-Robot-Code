@@ -59,6 +59,7 @@ public class TeleopLogic extends LogicPhase {
      * Initializes variables, objects, etc to their starting states.
      */
     public void initPhase() {
+	println("TeleopLogic :: initPhase()");
 	//// INITIALIZE JOYSTICKS ----------------------------------------------
 	
 	_primaryJoy = RobotMain.primaryJoystick;
@@ -124,10 +125,10 @@ public class TeleopLogic extends LogicPhase {
 	// Handle shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
             if (_primaryButtons[FancyJoystick.BUTTON_A]) {
-		_highGear=false;
+		_highGear = false;
 		RobotDrive.switchGear(RobotDrive.SHIFTER_LOW);
             } else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
-		_highGear=true;
+		_highGear = true;
 		RobotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
             }
         }

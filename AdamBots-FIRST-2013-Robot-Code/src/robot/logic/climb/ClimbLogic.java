@@ -9,6 +9,7 @@ import robot.RobotMain;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
+import robot.logic.tasks.TAwaitButton;
 import robot.logic.tasks.TAwaitStatus;
 import robot.logic.tasks.TMoveWinch;
 import robot.logic.tasks.TStopWinch;
@@ -42,6 +43,7 @@ public class ClimbLogic extends LogicPhase {
 	println("ClimbLogic Initialized");
 	// Populate Tasks Array
 	_tasks = new Vector();
+	_tasks.addElement(new TAwaitButton(0, FancyJoystick.BUTTON_START));
 	//_tasks.addElement(new TMoveWinch(WINCH_DISTANCE_1));
 	//_tasks.addElement(new TAwaitStatus(TAwaitStatus.WINCH_IN_POSITION));
 	// TODO:  Manual Move Robot or Manual Adjust Winch
@@ -99,7 +101,12 @@ public class ClimbLogic extends LogicPhase {
      * @see #setCurrentTask(robot.logic.LogicTask) 
      */
     public void nextTask(){
-	setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+	// Are there any tasks left in the sequence?
+	if(_currentIndex < _tasks.size()-1){
+	    setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+	} else {
+	    println("Climbing Finished; No More Tasks Left!");
+	}
     }
     
     /**
@@ -123,6 +130,7 @@ public class ClimbLogic extends LogicPhase {
 	// Begin New Task
 	_currentTask = newTask;
 	_currentTask.initializeTask();
+	println("ClimbLogic :: Executing New Task (" + _currentTask.getClass());
     }
     
 }

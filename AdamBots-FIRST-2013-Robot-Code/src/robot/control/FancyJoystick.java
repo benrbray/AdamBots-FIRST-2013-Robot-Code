@@ -17,6 +17,12 @@ import utils.MathUtils;
 public class FancyJoystick extends Joystick {
     //// CONSTANTS -------------------------------------------------------------
     
+    /** Primary Driver Controller Port Number. */
+    public static final int PRIMARY_DRIVER = 1;
+    /** Secondary Driver Controller Port Number. */
+    public static final int SECONDARY_DRIVER = 2;
+    
+    /** Axis values below this threshold will be ignored. */
     public static final double DEFAULT_DEAD_ZONE = 0.3;
     
     /** XBOX 360 South Face Button */

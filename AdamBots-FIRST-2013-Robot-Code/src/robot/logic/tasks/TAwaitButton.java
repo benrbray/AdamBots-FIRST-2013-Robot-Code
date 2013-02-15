@@ -4,6 +4,7 @@
  */
 package robot.logic.tasks;
 
+import robot.RobotMain;
 import robot.control.FancyJoystick;
 import robot.logic.LogicTask;
 import robot.logic.teleop.TeleopLogic;
@@ -33,7 +34,9 @@ public class TAwaitButton extends LogicTask {
      * set to TRUE.
      */
     public TAwaitButton(int joystickPort, int button, boolean latch){
-	_joystick = null;
+	_joystick = joystickPort == FancyJoystick.SECONDARY_DRIVER ? 
+				    RobotMain.secondaryJoystick : 
+				    RobotMain.primaryJoystick;
 	_button = button;
 	_latch = latch;
     }

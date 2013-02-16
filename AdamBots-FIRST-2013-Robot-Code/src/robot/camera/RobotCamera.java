@@ -224,7 +224,7 @@ public abstract class RobotCamera extends RobotObject {
 	
 	public static void calculateDistance()
 	{
-		_recentDistanceInches = 14874.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
+		_recentDistanceInches = 14874.0 * VIEW_ANGLE_PIXELS_HORIZONTAL / 320.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
 	}
 	public static void calculateDistanceAlternate()
 	{

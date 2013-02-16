@@ -55,27 +55,6 @@ public class RobotActuators {
     
     //// LIGHT CONTROLING METHODS ----------------------------------------------
     
-    /**
-     * Controls the LED rings around the camera.
-     * @param b Set true for on, false for off.
-     */
-    public static void cameraLED(boolean b) { cameraLED.set(b); }
-    /**
-     * Controls the green LED strips.
-     * @param b Set true for on, false for off.
-     */
-    public static void greenLED(boolean b) { greenLEDStrip.set(b); }
-    /**
-     * Controls the red LED strips.
-     * @param b Set true for on, false for off.
-     */
-    public static void redLED(boolean b) { redLEDStrip.set(b); }
-    /**
-     * Controls the yellow LED strips.
-     * @param b Set true for on, false for off.
-     */
-    public static void yellowLED(boolean b) { yellowLEDStrip.set(b); }
-    
     /** Disables all LEDs on the robot. */
     public static void killAllLEDs() {
 	cameraLED.set(false);

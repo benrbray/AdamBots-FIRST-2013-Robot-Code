@@ -42,10 +42,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	 * init() creates the static private _shooterPid() for controlling the shooter wheel.
 	 */
 	public static void init() {
-
-
-		_shooterPID = new FancyPIDController(
-				SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
+		_shooterPID = new FancyPIDController(SHOOTER_KI, SHOOTER_KP, SHOOTER_KD,
 				RobotSensors.counterShooterSpeed, RobotActuators.shooterWheelMotor);
 		_shooterPID.setInputRange(SHOOTER_MIN_INPUT, SHOOTER_MAX_INPUT);
 		_shooterPID.setOutputRange(SHOOTER_MIN_OUTPUT, SHOOTER_MAX_OUTPUT);

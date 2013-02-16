@@ -40,6 +40,14 @@ public final class RobotMain extends IterativeRobot {
     public static RobotMain getInstance() {
 	return _instance;
     }
+	
+	//// BOT CONFIGURATION -----------------------------------------------------
+	
+	/** 
+	 * Indicates which Robot the code is meant to run on.  This value
+	 * determines which values will be used for port constants, etc.. 
+	 */
+	public static final boolean COMPETITION_BOT		= false;
     
     //// OUTPUT CONSTANTS ------------------------------------------------------
     

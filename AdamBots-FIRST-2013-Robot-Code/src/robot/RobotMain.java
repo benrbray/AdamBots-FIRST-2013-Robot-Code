@@ -102,6 +102,9 @@ public final class RobotMain extends IterativeRobot {
 	// Initialize Joysticks
 	primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);
 	secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
+	
+	// Turn lights on
+	RobotActuators.yellowLEDStrip.set(true);
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -113,6 +116,8 @@ public final class RobotMain extends IterativeRobot {
 	_autonLogic = new AutonLogic();
 	_autonLogic.verboseOutput = VERBOSE_AUTON;
 	segueToLogicPhase(_autonLogic);
+	
+	RobotActuators.cameraLED.set(true);
     }
 
     /**
@@ -134,6 +139,8 @@ public final class RobotMain extends IterativeRobot {
 	_teleopLogic.verboseOutput = VERBOSE_TELEOP;
 	_climbLogic.verboseOutput = VERBOSE_AUTON;
 	segueToLogicPhase(_teleopLogic);
+	
+	RobotActuators.cameraLED.set(true);
 
 	if (_autonLogic != null) {
 	    _autonLogic = null;
@@ -184,14 +191,18 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for disabled mode should go here
      */
     public void disabledInit() {
+	RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
 	
+	RobotActuators.cameraLED.set(false);
+	RobotActuators.greenLEDStrip.set(false);
+	RobotActuators.redLEDStrip.set(false);
     }
 
     /**
      * Periodic code for disabled mode should go here.
      */
     public void disabledPeriodic() {
-	
+	RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------

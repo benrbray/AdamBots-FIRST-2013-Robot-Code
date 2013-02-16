@@ -15,7 +15,9 @@ import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
-import robot.logic.TargetLogic;
+import robot.logic.targeting.TargetShooterAngleLogic;
+import robot.logic.targeting.TargetShooterSpeedLogic;
+import robot.logic.targeting.TargetSpinLogic;
 import robot.logic.auton.AutonLogic;
 import robot.logic.climb.ClimbLogic;
 import robot.logic.teleop.TeleopLogic;
@@ -81,6 +83,11 @@ public final class RobotMain extends IterativeRobot {
 	RobotCamera.init();
 	RobotShoot.init();
 	RobotPickup.init();
+	
+	//Initialize Static Logic Classes
+	TargetShooterAngleLogic.init();
+	TargetShooterSpeedLogic.init();
+	TargetSpinLogic.init();
 
 	// Output Filtering
 	RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
@@ -88,7 +95,9 @@ public final class RobotMain extends IterativeRobot {
 	RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
 	RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
 	RobotCamera.verboseOutput = VERBOSE_ROBOTCAMERA;
-	TargetLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+	TargetShooterAngleLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+	TargetShooterSpeedLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+	TargetSpinLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 	
 	// Initialize Joysticks
 	primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);
@@ -146,12 +155,13 @@ public final class RobotMain extends IterativeRobot {
 	_currentLogicPhase.updatePhase();
 
 	// Update Subsystems
-	TargetLogic.update();
+	TargetShooterSpeedLogic.update();
+	TargetShooterAngleLogic.update();
+	TargetSpinLogic.update();
 	RobotShoot.update();
 	RobotCamera.update();
 	RobotPickup.update();
 	RobotClimb.update();
-	TargetLogic.update();
     }
 
     //// TEST ------------------------------------------------------------------

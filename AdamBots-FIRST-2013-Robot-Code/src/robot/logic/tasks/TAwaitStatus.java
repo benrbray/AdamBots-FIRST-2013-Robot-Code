@@ -38,7 +38,7 @@ public final class TAwaitStatus extends LogicTask {
      * @param status The status to wait for.
      */
     public TAwaitStatus(int status){
-	_status = status;
+		_status = status;
     }
 
     //// INITIALIZATION --------------------------------------------------------
@@ -50,22 +50,22 @@ public final class TAwaitStatus extends LogicTask {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	switch(_status){
-	    case WINCH_IN_POSITION:
-		_done = RobotClimb.isWinchInPosition();
-		break;
-	    case SHOOTER_IN_POSITION:
-		_done = RobotShoot.isShooterInPosition();
-		break;
-	    case SHOOTER_UP_TO_SPEED:
-		_done = RobotShoot.isShooterUpToSpeed();
-		break;
-	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
-		_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
-            case TARGETING_COMPLETED:
-                _done = TargetSpinLogic.isPointedRight();
-		break;
-	}
+		switch(_status){
+			case WINCH_IN_POSITION:
+			_done = RobotClimb.isWinchInPosition();
+			break;
+			case SHOOTER_IN_POSITION:
+			_done = RobotShoot.isShooterInPosition();
+			break;
+			case SHOOTER_UP_TO_SPEED:
+			_done = RobotShoot.isShooterUpToSpeed();
+			break;
+			case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
+			_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
+				case TARGETING_COMPLETED:
+					_done = TargetSpinLogic.isPointedRight();
+			break;
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
@@ -78,7 +78,7 @@ public final class TAwaitStatus extends LogicTask {
      * @see robot.logic.LogicTask#FAILURE
      */
     public int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

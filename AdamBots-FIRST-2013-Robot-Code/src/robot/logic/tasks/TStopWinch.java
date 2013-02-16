@@ -23,19 +23,19 @@ public class TStopWinch extends LogicTask {
     //// INITIALIZATION --------------------------------------------------------
     
     public void initialize() {
-	RobotClimb.stopWinch();
+		RobotClimb.stopWinch();
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	_done = _initialized;
+		_done = _initialized;
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

@@ -20,45 +20,68 @@ import edu.wpi.first.wpilibj.*;
 public class RobotSensors {
     
     //// CONSTANTS -------------------------------------------------------------
+	
+	// Card Constants (by card, not by slot)
     public static final int ANA1 = 1;
     public static final int DIO1 = 1;
     public static final int DIO2 = 2;
     public static final int SOL1 = 1;
-    
-    //AxisCamera handled in RobotCamera[?]
-    //In Limit1,2 pairs, 1 is top. 2 is bottom.
+	
+	// Encoder Settings
+	public static final double DPP_ENCODER_DRIVE_LEFT_INCHES = 1.0;		// Inches
+	public static final double DPP_ENCODER_DRIVE_RIGHT_INCHES = 1.0;	// Inches
+	public static final double DPP_ENCODER_WINCH = 1.0;					// ?
+	public static final double DPP_ENCODER_ELEVATOR = 1.0;				// ?
+	public static final double DPP_ENCODER_SHOOTER_ANGLE = 1.0;			// Degrees
+	
+	// Gyro
+	public static final double GYRO_VPDPS = 1.0;  // Volts per Degree Per Second
+	
+	//// SENSOR INSTANCES ------------------------------------------------------
 
+	// Drive
     public static Encoder encoderDriveLeft;
     public static Encoder encoderDriveRight;
+	
+	// Winch
     public static Encoder encoderWinch;
     public static DigitalInput limitWinchA;
     public static DigitalInput limitWinchB;
     public static DigitalInput limitArmA;
     public static DigitalInput limitArmB;
+	
+	// Elevator
     public static Encoder encoderElevator;
     public static DigitalInput limitElevatorA;
     public static DigitalInput limitElevatorB;
+	
+	// Climb Hooks
     public static DigitalInput limitHookLeftArm;
     public static DigitalInput limitHookRightArm;
     public static DigitalInput limitHookLeftBase;
     public static DigitalInput limitHookRightBase;
+	
+	// Chassis
     public static Gyro gyroChassis;
     public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
     public static AnalogChannel config1;
     public static AnalogChannel config2;
     public static AnalogChannel config3;
+	
+	// Shooter
     public static FancyCounter counterShooterSpeed;
     public static Encoder encoderShooterAngle;
-    public static DigitalInput limitDiscTop;
-    public static DigitalInput limitDiscBottom;
     public static DigitalInput limitShooterA;
     public static DigitalInput limitShooterB;
+	
+	// Disc Pickup
+    public static DigitalInput limitDiscTop;
+    public static DigitalInput limitDiscBottom;
 
     /**
      * Instantiates all sensors handled by class.
      */
     public static void init() {
-
         //// ANALOG CARD -------------------------------------------------------
 
         gyroChassis = new Gyro(ANA1, 1); //?
@@ -80,18 +103,19 @@ public class RobotSensors {
         limitArmB = new DigitalInput(DIO1, 10);
 
         encoderElevator = new Encoder(DIO1, 11, DIO1, 12);
+		encoderElevator.start();
 
         limitElevatorA = new DigitalInput(DIO1, 13);
         limitElevatorB = new DigitalInput(DIO1, 14);
 
         //// DIGITAL CARD 2 ----------------------------------------------------
         
-	counterShooterSpeed = new FancyCounter(DIO2, 1, 1);
+		counterShooterSpeed = new FancyCounter(DIO2, 1, 1);
         counterShooterSpeed.start();
         counterShooterSpeed.setMaxPeriod(100000);
         counterShooterSpeed.setUpSourceEdge(true, false);
 
-	//TODO: Fix the encoders man.
+		//TODO: Fix the encoders man.
         encoderShooterAngle = encoderDriveLeft;//new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, 4);
@@ -104,5 +128,28 @@ public class RobotSensors {
 
         limitShooterA = new DigitalInput(DIO2, 10);
         limitShooterB = new DigitalInput(DIO2, 11);
+		
+		// Configure
+		configure();
     }
+	
+	private static void configure(){
+		// Encoders
+		encoderDriveLeft.setDistancePerPulse(DPP_ENCODER_DRIVE_LEFT_INCHES);
+		encoderDriveRight.setDistancePerPulse(DPP_ENCODER_DRIVE_RIGHT_INCHES);
+		encoderWinch.setDistancePerPulse(DPP_ENCODER_WINCH);
+		encoderElevator.setDistancePerPulse(DPP_ENCODER_ELEVATOR);
+		encoderShooterAngle.setDistancePerPulse(DPP_ENCODER_SHOOTER_ANGLE);
+		
+		//encoderDriveLeft.start();
+		//encoderDriveRight.start();
+		encoderWinch.start();
+		encoderElevator.start();
+		// TODO:  Uncomment this when we fix the encoder
+		//encoderShooterAngle.start();
+		
+		// Gyro
+		// TODO:  Gyro Config?
+		//gyroChassis.setSensitivity(GYRO_VPDPS);
+	}
 }

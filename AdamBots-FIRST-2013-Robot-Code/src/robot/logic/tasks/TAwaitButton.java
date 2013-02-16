@@ -30,7 +30,7 @@ public class TAwaitButton extends LogicTask {
      * @see robot.control.FancyJoystick
      */
     public TAwaitButton(int joystickPort, int button){
-	this(joystickPort, button, false);
+		this(joystickPort, button, false);
     }
     
     /**
@@ -40,16 +40,16 @@ public class TAwaitButton extends LogicTask {
      * @param latch If set to TRUE, _done will not be updated once it is set to TRUE.
      */
     public TAwaitButton(int joystickPort, int button, boolean latch){
-	// Make Sure We're in Teleop
-	if(!RobotMain.getInstance().isOperatorControl()){
-	   throw new IllegalStateException("TAwaitButton cannot be used outside of the Teleop."); 
-	}
-	
-	_joystick = joystickPort == FancyJoystick.SECONDARY_DRIVER ? 
-				    RobotMain.secondaryJoystick : 
-				    RobotMain.primaryJoystick;
-	_button = button;
-	_latch = latch;
+		// Make Sure We're in Teleop
+		if(!RobotMain.getInstance().isOperatorControl()){
+		   throw new IllegalStateException("TAwaitButton cannot be used outside of the Teleop."); 
+		}
+
+		_joystick = joystickPort == FancyJoystick.SECONDARY_DRIVER ? 
+						RobotMain.secondaryJoystick : 
+						RobotMain.primaryJoystick;
+		_button = button;
+		_latch = latch;
     }
     
     //// INITIALIZATION --------------------------------------------------------
@@ -61,15 +61,15 @@ public class TAwaitButton extends LogicTask {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	if(!_done || (_done && !_latch)){
-	    _done = _joystick.getRawButton(_button);
-	}
+		if(!_done || (_done && !_latch)){
+			_done = _joystick.getRawButton(_button);
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

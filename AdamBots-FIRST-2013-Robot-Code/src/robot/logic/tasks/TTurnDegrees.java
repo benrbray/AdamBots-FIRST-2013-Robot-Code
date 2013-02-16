@@ -13,7 +13,16 @@ import robot.sensors.RobotSensors;
  * @author Nathan
  */
 public class TTurnDegrees extends LogicTask {
-
+    //// CONSTANTS -------------------------------------------------------------
+    
+    public static final double COUNT_OVER_DEGREES = 1.0;
+    
+    //// PRIVATE VARIABLES -----------------------------------------------------
+    
+    private double _direction;
+    private double _speed;
+    private double _tickCount = 0;
+	
     //// CONSTRUCTOR -----------------------------------------------------------
     
     /**
@@ -28,25 +37,17 @@ public class TTurnDegrees extends LogicTask {
         _speed = Math.abs(speed) * _direction;
         _tickCount = (amount - tolerance * _direction) * COUNT_OVER_DEGREES;
     }
-    
-    //// PRIVATE VARIABLES -----------------------------------------------------
-    
-    private double _direction;
-    private double _speed;
-    private double _tickCount = 0;
-    
-    //// CONSTANTS -------------------------------------------------------------
-    
-    public static final double COUNT_OVER_DEGREES = 1.0;
 
     //// INITIALIZE ------------------------------------------------------------
     
     public void initialize() {
-        RobotSensors.encoderDriveLeft.start();
+        //RobotSensors.encoderDriveLeft.start();
         RobotSensors.encoderDriveLeft.reset();
-        RobotSensors.encoderDriveRight.start();
+        //RobotSensors.encoderDriveRight.start();
         RobotSensors.encoderDriveRight.reset();
     }
+	
+	//// UPDATE ----------------------------------------------------------------
 
     public void update() {
         double v = RobotSensors.encoderDriveLeft.get(); //TODO: Insure signs and make average
@@ -57,9 +58,11 @@ public class TTurnDegrees extends LogicTask {
             RobotDrive.turn(_speed);
         }
     }
+	
+	//// FINISH ----------------------------------------------------------------
 
     public int finish() {
-	RobotDrive.turn(0);
+		RobotDrive.turn(0);
         return _done ? SUCCESS : FAILURE;
     }
 }

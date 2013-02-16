@@ -26,27 +26,27 @@ public class TDelay extends LogicTask {
      * @param milliseconds The number of milliseconds to wait.
      */
     public TDelay(int milliseconds){
-	_milliseconds = milliseconds;
+		_milliseconds = milliseconds;
     }
     
     //// INITIALIZE ------------------------------------------------------------
     
     protected void initialize() {
-	_startTime = System.currentTimeMillis();
+		_startTime = System.currentTimeMillis();
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     protected void update() {
-	if(System.currentTimeMillis() - _startTime >= _milliseconds){
-	    _done = true;
-	}
+		if(System.currentTimeMillis() - _startTime >= _milliseconds){
+			_done = true;
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     protected int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

@@ -19,8 +19,8 @@ public class TTargetStop extends LogicTask {
     public void initialize()
     {
         TargetShooterSpeedLogic.setIsTargeting(false);
-	TargetShooterAngleLogic.setIsTargeting(false);
-	TargetSpinLogic.setIsTargeting(false);
+		TargetShooterAngleLogic.setIsTargeting(false);
+		TargetSpinLogic.setIsTargeting(false);
     }
     
     //// UPDATE ----------------------------------------------------------------

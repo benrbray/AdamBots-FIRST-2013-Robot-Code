@@ -34,14 +34,14 @@ public class RobotActuators {
 	transmissionRight   = new Servo(8);
 	
 	discIntake	    = new Relay(1);
-	//hopperSolenoid = new Relay(3);
+	hopperSolenoid = new Relay(3);
 	climbWinchSolenoid   = new Relay(4);
 	
 	shooterFeederSolenoid = new Solenoid(1);
 	
 	discIntake.setDirection(Relay.Direction.kBoth);
         shooterFeederSolenoid.set(false);
-	//hopperSolenoid.setDirection(Relay.Direction.kBoth);
+	hopperSolenoid.setDirection(Relay.Direction.kBoth);
 	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 	System.out.println("RobotActuators.init() finished");
     }

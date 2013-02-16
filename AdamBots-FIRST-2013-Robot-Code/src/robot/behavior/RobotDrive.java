@@ -28,6 +28,8 @@ public abstract class RobotDrive extends RobotBehavior {
 	
 	// Tolerance Constants
 	
+	/** Encoder Tolerance (in inches) */
+	public static double ENCODER_TOLERANCE			= 0.5;
 	/** Gyro Tolerance (in degrees) for Gyro-Assisted Turning. */
 	public static double GYRO_TOLERANCE_DEGREES		= 3.0;
 	
@@ -86,9 +88,9 @@ public abstract class RobotDrive extends RobotBehavior {
 			double leftDifference = _leftEncoderTargetInches - leftDistance;
 			double rightDifference = _rightEncoderTargetInches - rightDistance;
 			
-			if((leftDifference + rightDistance)/2){
-			
-		}
+			if((leftDifference + rightDifference) / 2.0 < ENCODER_TOLERANCE){
+				
+			}
 		}
 	}
 	

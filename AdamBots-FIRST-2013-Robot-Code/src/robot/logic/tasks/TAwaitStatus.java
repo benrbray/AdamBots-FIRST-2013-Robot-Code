@@ -7,7 +7,7 @@ package robot.logic.tasks;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotShoot;
 import robot.logic.LogicTask;
-import robot.logic.TargetLogic;
+import robot.logic.targeting.TargetSpinLogic;
 import robot.sensors.RobotSensors;
 
 /**
@@ -63,7 +63,7 @@ public final class TAwaitStatus extends LogicTask {
 	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
 		_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
             case TARGETING_COMPLETED:
-                _done = TargetLogic.isTargeted();
+                _done = TargetSpinLogic.isPointedRight();
 		break;
 	}
     }

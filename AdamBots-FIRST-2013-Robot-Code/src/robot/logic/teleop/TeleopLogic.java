@@ -13,7 +13,9 @@ import robot.actuators.RobotActuators;
 import robot.behavior.*;
 import robot.control.*;
 import robot.logic.LogicPhase;
-import robot.logic.TargetLogic;
+import robot.logic.targeting.TargetSpinLogic;
+import robot.logic.targeting.TargetShooterSpeedLogic;
+import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.sensors.*;
 
 public class TeleopLogic extends LogicPhase {
@@ -109,10 +111,10 @@ public class TeleopLogic extends LogicPhase {
 	
 	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
-	    TargetLogic.startAutomaticDriving();
+	    TargetSpinLogic.setIsTargeting(true);
 	    SmartDashboard.putString("chassisTargeting", "Enabled");
 	} else {
-	    TargetLogic.stopAutomaticDriving();
+		TargetSpinLogic.setIsTargeting(false);
 	    
 	    // Keeps the drive variables in their -1 to 1 range
 	    _leftDrive = Math.max(-1, Math.min(1, _leftDrive));
@@ -176,7 +178,9 @@ public class TeleopLogic extends LogicPhase {
 	// If the secondary driver requests auto targeting...Else keep speed at a constant.
 	if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 	    
-	    TargetLogic.beginTargeting();
+		TargetSpinLogic.setIsTargeting(true);
+		TargetShooterAngleLogic.setIsTargeting(true);
+		TargetShooterSpeedLogic.setIsTargeting(true);
 	    
 	    // Shooter angle control.
 	    // Start by driving based on joystick if the joystick has input.
@@ -184,36 +188,43 @@ public class TeleopLogic extends LogicPhase {
 		RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 		SmartDashboard.putString("shooterAngleChanger", "manual" + _shooterAngleChangerDrive);
 	    } else if (_magicBoxButtons[MagicBox.AUTO_ANGLE_ENABLED]) {
-		TargetLogic.setShooterConstantAngle(0);
+			TargetShooterSpeedLogic.setIsTargeting(true);
 		SmartDashboard.putString("shooterAngleChanger", "automatic");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]){
-		TargetLogic.setShooterConstantAngle(MagicBox.PYRAMID_SHOT_ANGLE);
+			TargetShooterAngleLogic.setRestAngle(MagicBox.PYRAMID_SHOT_ANGLE);
+			TargetShooterAngleLogic.setIsTargeting(false);
 		SmartDashboard.putString("shooterAngleChanger", "pyramid");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
-		TargetLogic.setShooterConstantAngle(MagicBox.FULL_COURT_SHOT_ANGLE);
+			TargetShooterAngleLogic.setRestAngle(MagicBox.FULL_COURT_SHOT_ANGLE);
+			TargetShooterAngleLogic.setIsTargeting(false);
 		SmartDashboard.putString("shooterAngleChanger", "full court");
 	    }
 	    
 	    // Shooter speed control
 	    // Start with automatic speed if it is enabled.
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
-		TargetLogic.setShooterConstantSpeed(0);
+		TargetShooterSpeedLogic.setIsTargeting(true);
 		SmartDashboard.putString("shooterSpeed", "automatic");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_PYRAMID]) {
-		TargetLogic.setShooterConstantSpeed(MagicBox.PYRAMID_SHOT_SPEED);
+			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.PYRAMID_SHOT_SPEED);
+		TargetShooterSpeedLogic.setIsTargeting(false);
 		SmartDashboard.putString("shooterSpeed", "pyramid");
 	    } else if (_magicBoxButtons[MagicBox.SHOOT_FROM_FULL_COURT]) {
-		TargetLogic.setShooterConstantSpeed(MagicBox.FULL_COURT_SHOT_SPEED);
+			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.FULL_COURT_SHOT_SPEED);
+			TargetShooterSpeedLogic.setIsTargeting(false);
 		SmartDashboard.putString("shooterSpeed", "full court");
 	    } else {
-		TargetLogic.setShooterConstantSpeed(MagicBox.getShooterManualSpeed());
+			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.getShooterManualSpeed());
+		TargetShooterSpeedLogic.setIsTargeting(false);
 		SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
 	    }
 	    
 	    SmartDashboard.putString("secondaryAutoTarget", "true");
 	} else {
 	    //TODO: NATHAN constant shooter speed
-	    TargetLogic.endTargeting();
+		TargetShooterSpeedLogic.setIsTargeting(false);
+		TargetShooterAngleLogic.setIsTargeting(false);
+		TargetSpinLogic.setIsTargeting(false);
 	    RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 	    RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
 	    SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
@@ -230,16 +241,16 @@ public class TeleopLogic extends LogicPhase {
 	// Disk fire control
 	//TODO: Check shooter pneumatic control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
-	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
-	    //RobotActuators.shooterFeederSolenoid.set(true);
+	    //RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
+	    RobotActuators.shooterFeederSolenoid.set(true);
 	    
 	    if (_numShotsReleased) {
 		_numShots++;
 		_numShotsReleased = false;
 	    }
 	} else {
-	    RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
-	    //RobotActuators.shooterFeederSolenoid.set(false);
+	    //RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
+	    RobotActuators.shooterFeederSolenoid.set(false);
 	    
 	    _numShotsReleased = true;
 	}
@@ -268,8 +279,8 @@ public class TeleopLogic extends LogicPhase {
     private void updateMagicBox() {
 	MagicBox.update();
 	
-	TargetLogic.setShooterSpeedMultiplier(MagicBox.getShooterMultiplier());
-	TargetLogic.setShooterAngleOffset(MagicBox.getAngleOffset());
+	//TargetLogic.setShooterSpeedMultiplier(MagicBox.getShooterMultiplier());
+	//TargetLogic.setShooterAngleOffset(MagicBox.getAngleOffset());
 	
 	for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
 	    _magicBoxButtons[i] = MagicBox.getDigitalIn(i);

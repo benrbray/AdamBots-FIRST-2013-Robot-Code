@@ -34,16 +34,14 @@ public class RobotActuators {
 	transmissionRight   = new Servo(8);
 	
 	discIntake	    = new Relay(1);
-	shooterFeederSolenoid = new Relay(2);
-	hopperSolenoid = new Relay(3);
+	//hopperSolenoid = new Relay(3);
 	climbWinchSolenoid   = new Relay(4);
 	
-	//shooterFeederSolenoid = new Solenoid(4, 1);
+	shooterFeederSolenoid = new Solenoid(1);
 	
 	discIntake.setDirection(Relay.Direction.kBoth);
-	shooterFeederSolenoid.setDirection(Relay.Direction.kForward);
-        //shooterFeederSolenoid.set(false);
-	hopperSolenoid.setDirection(Relay.Direction.kBoth);
+        shooterFeederSolenoid.set(false);
+	//hopperSolenoid.setDirection(Relay.Direction.kBoth);
 	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 	System.out.println("RobotActuators.init() finished");
     }
@@ -83,6 +81,6 @@ public class RobotActuators {
     /** Controls the angle of attack of the shooter. */
     public static Talon shooterAngleMotor;
     /** Shooter feeder solenoid. */
-    public static Relay shooterFeederSolenoid;
-    //public static Solenoid shooterFeederSolenoid;
+    //public static Relay shooterFeederSolenoid;
+    public static Solenoid shooterFeederSolenoid;
 }

@@ -38,12 +38,50 @@ public class RobotActuators {
 	climbWinchSolenoid   = new Relay(4);
 	
 	shooterFeederSolenoid = new Solenoid(1);
+	cameraLED = new Solenoid(2);
+	greenLEDStrip = new Solenoid(3);
+	redLEDStrip = new Solenoid(4);
+	yellowLEDStrip = new Solenoid(5);
 	
 	discIntake.setDirection(Relay.Direction.kBoth);
-        shooterFeederSolenoid.set(false);
 	hopperSolenoid.setDirection(Relay.Direction.kBoth);
 	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
+	
+	shooterFeederSolenoid.set(false);
+	killAllLEDs(); // Turns off all the LEDs.
+	
 	System.out.println("RobotActuators.init() finished");
+    }
+    
+    //// LIGHT CONTROLING METHODS ----------------------------------------------
+    
+    /**
+     * Controls the LED rings around the camera.
+     * @param b Set true for on, false for off.
+     */
+    public static void cameraLED(boolean b) { cameraLED.set(b); }
+    /**
+     * Controls the green LED strips.
+     * @param b Set true for on, false for off.
+     */
+    public static void greenLED(boolean b) { greenLEDStrip.set(b); }
+    /**
+     * Controls the red LED strips.
+     * @param b Set true for on, false for off.
+     */
+    public static void redLED(boolean b) { redLEDStrip.set(b); }
+    /**
+     * Controls the yellow LED strips.
+     * @param b Set true for on, false for off.
+     */
+    public static void yellowLED(boolean b) { yellowLEDStrip.set(b); }
+    
+    /** Disables all LEDs on the robot. */
+    public static void killAllLEDs() {
+	cameraLED.set(false);
+	greenLEDStrip.set(false);
+	redLEDStrip.set(false);
+	yellowLEDStrip.set(false);
     }
     
     //// DRIVE -----------------------------------------------------------------
@@ -83,4 +121,16 @@ public class RobotActuators {
     /** Shooter feeder solenoid. */
     //public static Relay shooterFeederSolenoid;
     public static Solenoid shooterFeederSolenoid;
+    
+    //// PRETTY LIGHTS ---------------------------------------------------------
+    
+    /** Controls the led rings around the camera. */
+    public static Solenoid cameraLED;
+    /** Controls the green led strips on the robot. */
+    public static Solenoid greenLEDStrip;
+    /** Controls the red led strips on the robot */
+    public static Solenoid redLEDStrip;
+    /** Controls the yellow underglow lights. */
+    public static Solenoid yellowLEDStrip;
+    
 }

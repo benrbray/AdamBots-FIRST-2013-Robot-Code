@@ -80,39 +80,39 @@ public final class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-	_instance = this;
+		_instance = this;
 
-	// Initialize Classes with Static References
-	RobotActuators.init();
-	RobotSensors.init();
+		// Initialize Classes with Static References
+		RobotActuators.init();
+		RobotSensors.init();
 
-	// Initialize Static Behavior Classes
-	RobotDrive.init();
-	RobotCamera.init();
-	RobotShoot.init();
-	RobotPickup.init();
-	
-	//Initialize Static Logic Classes
-	TargetShooterAngleLogic.init();
-	TargetShooterSpeedLogic.init();
-	TargetSpinLogic.init();
+		// Initialize Static Behavior Classes
+		RobotDrive.init();
+		RobotCamera.init();
+		RobotShoot.init();
+		RobotPickup.init();
 
-	// Output Filtering
-	RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
-	RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
-	RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
-	RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
-	RobotCamera.verboseOutput = VERBOSE_ROBOTCAMERA;
-	TargetShooterAngleLogic.verboseOutput = VERBOSE_TARGETLOGIC;
-	TargetShooterSpeedLogic.verboseOutput = VERBOSE_TARGETLOGIC;
-	TargetSpinLogic.verboseOutput = VERBOSE_TARGETLOGIC;
-	
-	// Initialize Joysticks
-	primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);
-	secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
-	
-	// Turn lights on
-	RobotActuators.yellowLEDStrip.set(true);
+		//Initialize Static Logic Classes
+		TargetShooterAngleLogic.init();
+		TargetShooterSpeedLogic.init();
+		TargetSpinLogic.init();
+
+		// Output Filtering
+		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
+		RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
+		RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
+		RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
+		RobotCamera.verboseOutput = VERBOSE_ROBOTCAMERA;
+		TargetShooterAngleLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+		TargetShooterSpeedLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+		TargetSpinLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+
+		// Initialize Joysticks
+		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);
+		secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
+
+		// Turn lights on
+		RobotActuators.yellowLEDStrip.set(true);
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -121,19 +121,19 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the autonomous period.
      */
     public void autonomousInit() {
-	_autonLogic = new AutonLogic();
-	_autonLogic.verboseOutput = VERBOSE_AUTON;
-	segueToLogicPhase(_autonLogic);
-	
-	RobotActuators.cameraLED.set(true);
+		_autonLogic = new AutonLogic();
+		_autonLogic.verboseOutput = VERBOSE_AUTON;
+		segueToLogicPhase(_autonLogic);
+
+		RobotActuators.cameraLED.set(true);
     }
 
     /**
      * This function is called periodically during autonomous.
      */
     public void autonomousPeriodic() {
-	// Update the Current Logic Phase (should be _autonLogic)
-	update();
+		// Update the Current Logic Phase (should be _autonLogic)
+		update();
     }
 
     //// TELEOP ----------------------------------------------------------------
@@ -142,41 +142,41 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the teleoperated period.
      */
     public void teleopInit() {
-	_teleopLogic = new TeleopLogic();
-	_climbLogic = new ClimbLogic();
-	_teleopLogic.verboseOutput = VERBOSE_TELEOP;
-	_climbLogic.verboseOutput = VERBOSE_AUTON;
-	segueToLogicPhase(_teleopLogic);
-	
-	RobotActuators.cameraLED.set(true);
+		_teleopLogic = new TeleopLogic();
+		_climbLogic = new ClimbLogic();
+		_teleopLogic.verboseOutput = VERBOSE_TELEOP;
+		_climbLogic.verboseOutput = VERBOSE_AUTON;
+		segueToLogicPhase(_teleopLogic);
 
-	if (_autonLogic != null) {
-	    _autonLogic = null;
-	}
+		RobotActuators.cameraLED.set(true);
+
+		if (_autonLogic != null) {
+			_autonLogic = null;
+		}
     }
 
     /**
      * This function is called periodically during operator control.
      */
     public void teleopPeriodic() {
-	// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
-	update();
+		// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
+		update();
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	// Update the current LogicPhase
-	_currentLogicPhase.updatePhase();
+		// Update the current LogicPhase
+		_currentLogicPhase.updatePhase();
 
-	// Update Subsystems
-	TargetShooterSpeedLogic.update();
-	TargetShooterAngleLogic.update();
-	TargetSpinLogic.update();
-	RobotShoot.update();
-	RobotCamera.update();
-	RobotPickup.update();
-	RobotClimb.update();
+		// Update Subsystems
+		TargetShooterSpeedLogic.update();
+		TargetShooterAngleLogic.update();
+		TargetSpinLogic.update();
+		RobotShoot.update();
+		RobotCamera.update();
+		RobotPickup.update();
+		RobotClimb.update();
     }
 
     //// TEST ------------------------------------------------------------------
@@ -185,13 +185,15 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for test mode should go here
      */
     public void testInit() {
-    }
+    
+	}
 
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    }
+    
+	}
 
     //// DISABLED --------------------------------------------------------------
     
@@ -199,18 +201,18 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for disabled mode should go here
      */
     public void disabledInit() {
-	RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
-	
-	RobotActuators.cameraLED.set(false);
-	RobotActuators.greenLEDStrip.set(false);
-	RobotActuators.redLEDStrip.set(false);
+		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
+
+		RobotActuators.cameraLED.set(false);
+		RobotActuators.greenLEDStrip.set(false);
+		RobotActuators.redLEDStrip.set(false);
     }
 
     /**
      * Periodic code for disabled mode should go here.
      */
     public void disabledPeriodic() {
-	RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
+		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------
@@ -227,22 +229,22 @@ public final class RobotMain extends IterativeRobot {
      * @see LogicPhase#CLIMB
      */
     public boolean segueToLogicPhase(int phase) {
-	LogicPhase segueTo;
-	switch (phase) {
-	    case LogicPhase.AUTONOMOUS:
-		segueTo = new AutonLogic();
-		break;
-	    case LogicPhase.TELEOP:
-		segueTo = new TeleopLogic();
-		break;
-	    case LogicPhase.CLIMB:
-		segueTo = new ClimbLogic();
-		break;
-	    default:
-		throw new IllegalArgumentException();
-	}
+		LogicPhase segueTo;
+		switch (phase) {
+			case LogicPhase.AUTONOMOUS:
+			segueTo = new AutonLogic();
+			break;
+			case LogicPhase.TELEOP:
+			segueTo = new TeleopLogic();
+			break;
+			case LogicPhase.CLIMB:
+			segueTo = new ClimbLogic();
+			break;
+			default:
+			throw new IllegalArgumentException();
+		}
 
-	return segueToLogicPhase(segueTo);
+		return segueToLogicPhase(segueTo);
     }
 
     /**
@@ -258,13 +260,13 @@ public final class RobotMain extends IterativeRobot {
      * @see LogicPhase#initPhase()
      */
     public boolean segueToLogicPhase(LogicPhase phase) {
-	if (_currentLogicPhase != null) {
-	    _currentLogicPhase.finishPhase();
-	}
+		if (_currentLogicPhase != null) {
+			_currentLogicPhase.finishPhase();
+		}
 
-	_currentLogicPhase = phase;
-	_currentLogicPhase.initPhase();
+		_currentLogicPhase = phase;
+		_currentLogicPhase.initPhase();
 
-	return true; // TODO:  Update segueToLogicPhase() return value as needed.
+		return true; // TODO:  Update segueToLogicPhase() return value as needed.
     }
 }

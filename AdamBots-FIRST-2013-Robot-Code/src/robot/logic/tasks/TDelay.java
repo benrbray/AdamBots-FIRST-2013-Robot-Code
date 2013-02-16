@@ -21,8 +21,9 @@ public class TDelay extends LogicTask {
     //// CONSTRUCTOR -----------------------------------------------------------
     
     /**
-     * Waits a specific amount of time before 
-     * @param milliseconds 
+     * Waits an exact period of time, specified in milliseconds.  The delay is
+     * based on the current system time, and not the time reported by the field.
+     * @param milliseconds The number of milliseconds to wait.
      */
     public TDelay(int milliseconds){
 	_milliseconds = milliseconds;

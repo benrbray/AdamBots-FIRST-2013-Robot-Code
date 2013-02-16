@@ -8,11 +8,14 @@ import robot.behavior.RobotClimb;
 import robot.logic.LogicTask;
 
 /**
- *
+ * Stops the winch at its current position.
  * @author Ben
  */
 public class TStopWinch extends LogicTask {
 
+    /**
+     * This task stops the winch at its current position.
+     */
     public TStopWinch(){
 	
     }

@@ -10,24 +10,30 @@ import robot.logic.targeting.TargetShooterSpeedLogic;
 import robot.logic.targeting.TargetSpinLogic;
 
 /**
- *
+ * Stops targeting.
  * @author Blue
  */
 public class TTargetStop extends LogicTask {
-    public int finish()
+    //// INITIALIZE ------------------------------------------------------------
+    
+    public void initialize()
     {
-        return _done ? SUCCESS : FAILURE;
+        TargetShooterSpeedLogic.setIsTargeting(false);
+	TargetShooterAngleLogic.setIsTargeting(false);
+	TargetSpinLogic.setIsTargeting(false);
     }
+    
+    //// UPDATE ----------------------------------------------------------------
     
     public void update()
     {
         _done = true;
     }
     
-    public void initialize()
+    //// FINISH ----------------------------------------------------------------
+    
+    public int finish()
     {
-        TargetShooterSpeedLogic.setIsTargeting(false);
-		TargetShooterAngleLogic.setIsTargeting(false);
-		TargetSpinLogic.setIsTargeting(false);
+        return _done ? SUCCESS : FAILURE;
     }
 }

@@ -15,7 +15,8 @@ import utils.MathUtils;
  * @author Curtis Fenner
  */
 public class TDriveDistance extends LogicTask {
-
+    //// PRIVATE VARIABLES -----------------------------------------------------
+    
     double _targetDistanceInches;
     double _initialEncoder;
     boolean _iFailed = false;
@@ -23,24 +24,30 @@ public class TDriveDistance extends LogicTask {
     //TODO: VERIFY THAT THE ENCODERS BOTH GO FORWARD WHEN THE ROBOT GOES FORWARD
     //OTHERWISE THIS IS USELESS.
 
+    //// CONSTRUCTOR -----------------------------------------------------------
+    
     /**
      *
      * @param distanceinches Determines the distance that it will go forward.
      * Completely unintelligent by the way, it will not fail even if it gets
      * stuck
      */
-    TDriveDistance(double distanceinches) {
+    public TDriveDistance(double distanceinches) {
         _targetDistanceInches = distanceinches;
         //TODO: Insure that encoder s on wheels have accurate real world distance from get distance.
         _timer.start();
     }
 
+    //// INITIALIZE ------------------------------------------------------------
+    
     public void initialize() {
         _initialEncoder = -(RobotSensors.encoderDriveLeft.getDistance() + RobotSensors.encoderDriveRight.getDistance()) / 2.0;
         RobotSensors.encoderDriveLeft.start();
         RobotSensors.encoderDriveRight.start();
     }
 
+    //// UPDATE ----------------------------------------------------------------
+    
     public void update() {
         RobotDrive.driveStraight(MathUtils.sign(_targetDistanceInches) * 0.1);
         double encodertarget = _initialEncoder + _targetDistanceInches - MathUtils.sign(_targetDistanceInches);
@@ -54,6 +61,8 @@ public class TDriveDistance extends LogicTask {
         }
     }
 
+    //// FINISH ----------------------------------------------------------------
+    
     public int finish() {
         if (_iFailed) {
             return FAILURE;

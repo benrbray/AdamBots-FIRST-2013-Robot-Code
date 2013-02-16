@@ -20,6 +20,10 @@ public class TDelay extends LogicTask {
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
+    /**
+     * Waits a specific amount of time before 
+     * @param milliseconds 
+     */
     public TDelay(int milliseconds){
 	_milliseconds = milliseconds;
     }

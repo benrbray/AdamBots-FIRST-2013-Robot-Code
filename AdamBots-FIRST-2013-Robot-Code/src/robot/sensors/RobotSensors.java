@@ -21,14 +21,21 @@ import robot.RobotMain;
 public class RobotSensors {
     //// CONSTANTS -------------------------------------------------------------
 	
-	// Encoder Settings
-	// TODO:  Encoder Constants
+	// TODO:  Constants
+	
+	// Encoders (Distance Per Pulse)
 	public static final double DPP_ENCODER_DRIVE_LEFT_INCHES = 1.0;		// Inches
 	public static final double DPP_ENCODER_DRIVE_RIGHT_INCHES = 1.0;	// Inches
 	public static final double DPP_ENCODER_WINCH = 1.0;					// ?
 	public static final double DPP_ENCODER_SHOOTER_ANGLE = 1.0;			// Degrees
+	
+	// Encoders (Degrees Per Inch)
+	public static final double DPI_ENCODER_DRIVE_LEFT_DEGREES = 1.0;	// Degrees Per Inch
+	public static final double DPI_ENCODER_DRIVE_RIGHT_DEGREES = 1.0;	// Degrees Per Inch
+	
+	// FancyCounters (Ticks Per Period)
 	public static final int TPP_COUNTER_ELEVATOR = 1;					// ?
-	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;			// Ticks per Period
+	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;				// ?
 	
 	// Gyro
 	public static final double GYRO_VPDPS = 1.0;  // Volts per Degree Per Second

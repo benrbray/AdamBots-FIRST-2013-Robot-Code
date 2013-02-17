@@ -7,10 +7,10 @@ import java.util.Calendar;
 
 /**
  * Provides a way to store and format data before it is logged.
- *
+ * This class should never be directly accessed.
  * @author Jonathan
  */
-public class Data {
+public class StoredData {
 
     //Groupings of data to be stored
     private Category[] _general;
@@ -18,12 +18,12 @@ public class Data {
     private Category[] _climbing;
     private Category[] _drive;
 
-    private static final String NL = "\r\n";
+    public static final String NL = "\r\n";
     
     /**
      * Initializes all of the Category arrays.
      */
-    public Data() {
+    public StoredData() {
         _general = new Category[0];
         _climbing = new Category[0];
         _shooter = new Category[0];
@@ -35,7 +35,7 @@ public class Data {
      *
      * @param s The string of data to be stored.
      */
-    public void storeGeneral(String s) {
+    protected void storeGeneral(String s) {
         _general = addData(_general, s);
     }
 
@@ -44,7 +44,7 @@ public class Data {
      *
      * @param s The string of data to be stored.
      */
-    public void storeShooter(String s) {
+    protected void storeShooter(String s) {
         _shooter = addData(_shooter, s);
     }
 
@@ -53,7 +53,7 @@ public class Data {
      *
      * @param s The string of data to be stored.
      */
-    public void storeClimbing(String s) {
+    protected void storeClimbing(String s) {
         _climbing = addData(_climbing, s);
     }
 
@@ -62,7 +62,7 @@ public class Data {
      *
      * @param s The string of data to be stored.
      */
-    public void storeDrive(String s) {
+    protected void storeDrive(String s) {
         _drive = addData(_drive, s);
     }
 
@@ -173,7 +173,7 @@ public class Data {
          * @return Returns the formatted copy of the contents.
          */
         public String toString() {
-            return NL + _name + " ********************" + _contents;
+            return NL + _name + " " + wrap("*", 25-_name.length()) + _contents;
         }
     }
 
@@ -190,7 +190,7 @@ public class Data {
     }
 
     /**
-     * Formats and returns the Data class as a string.
+     * Formats and returns the StoredData class as a string.
      *
      * @return The data class as a string.
      */
@@ -213,7 +213,7 @@ public class Data {
         String a = new String();
         int l = c.length;
         if (l != 0) {
-            a = NL + NL + NL + title + wrap("-", 25 - title.length()) + NL;
+            a = NL + NL + NL + title + " " + wrap("-", 25 - title.length()) + NL;
             for (int i = 0; i < l; i++) {
                 a += c[i]+NL;
             }
@@ -229,7 +229,7 @@ public class Data {
      * @param t Number of times to repeat it
      * @return The full string
      */
-    private String wrap(String r, int t){
+    private static String wrap(String r, int t){
         String f = new String();
         
         for (int i = 0; i < t; i ++){
@@ -243,9 +243,10 @@ public class Data {
      */
     public static String currentTime(){
         Calendar date = Calendar.getInstance();
-
-        String time = (((date.get(Calendar.HOUR_OF_DAY) + 2)%24) + ":"
-                    + ((date.get(Calendar.MINUTE)+20)%60) + ":" + date.get(Calendar.SECOND));
+        
+        String time = (((date.get(Calendar.HOUR_OF_DAY) + 2) % 24) + ":"
+                    + ((date.get(Calendar.MINUTE) + 20) % 60) + ":" 
+                    + date.get(Calendar.SECOND));
             
             return time;
     }
@@ -254,7 +255,7 @@ public class Data {
      * Returns the current day (M/D/Y)
      * @return 
      */
-    public static String currentDay(){
+    protected static String currentDay(){
         Calendar date = Calendar.getInstance();
         
         String currentDate = (date.get(Calendar.MONTH)) + "/" 

@@ -59,7 +59,7 @@ public class ClimbLogic extends LogicPhase {
     public void updatePhase() {
 	// Check for Emergency Stop (START and BACK on primary joystick)
 	if(RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)
-	&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)){
+	&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_BACK)){
 	    emergencyStop();
 	}
 	

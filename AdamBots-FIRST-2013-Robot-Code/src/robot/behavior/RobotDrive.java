@@ -292,7 +292,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	 */
 	private static void setMotors( double leftSpeed, double rightSpeed ) {
 		RobotActuators.driveLeft.set(leftSpeed);
-		RobotActuators.driveRight.set(-rightSpeed); // Right Inverted
+		RobotActuators.driveRight.set(rightSpeed); // Right Inverted
 	}
 
 	//// STOP ------------------------------------------------------------------

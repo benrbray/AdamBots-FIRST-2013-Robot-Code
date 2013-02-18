@@ -87,15 +87,15 @@ public final class RobotMain extends IterativeRobot {
 		RobotSensors.init();
 
 		// Initialize Static Behavior Classes
-		RobotDrive.init();
-		RobotCamera.init();
-		RobotShoot.init();
-		RobotPickup.init();
+		//RobotDrive.init();
+		//RobotCamera.init();
+		//RobotShoot.init();
+		//RobotPickup.init();
 
 		//Initialize Static Logic Classes
-		TargetShooterAngleLogic.init();
-		TargetShooterSpeedLogic.init();
-		TargetSpinLogic.init();
+		//TargetShooterAngleLogic.init();
+		//TargetShooterSpeedLogic.init();
+		//TargetSpinLogic.init();
 
 		// Output Filtering
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
@@ -112,7 +112,7 @@ public final class RobotMain extends IterativeRobot {
 		secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
 
 		// Turn lights on
-		RobotActuators.yellowLEDStrip.set(true);
+		//RobotActuators.yellowLEDStrip.set(true);
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -153,6 +153,10 @@ public final class RobotMain extends IterativeRobot {
 		if (_autonLogic != null) {
 			_autonLogic = null;
 		}
+		RobotSensors.encoderDriveLeft.start();
+		RobotSensors.encoderDriveLeft.reset();
+		RobotSensors.encoderDriveRight.start();
+		RobotSensors.encoderDriveRight.reset();
     }
 
     /**
@@ -161,6 +165,8 @@ public final class RobotMain extends IterativeRobot {
     public void teleopPeriodic() {
 		// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
 		update();
+		System.out.println("L:" + RobotSensors.encoderDriveLeft.getRaw());
+		System.out.println("R:" + RobotSensors.encoderDriveRight.getRaw());
     }
 
     //// UPDATE ----------------------------------------------------------------
@@ -170,13 +176,13 @@ public final class RobotMain extends IterativeRobot {
 		_currentLogicPhase.updatePhase();
 
 		// Update Subsystems
-		TargetShooterSpeedLogic.update();
-		TargetShooterAngleLogic.update();
-		TargetSpinLogic.update();
-		RobotShoot.update();
-		RobotCamera.update();
-		RobotPickup.update();
-		RobotClimb.update();
+		//TargetShooterSpeedLogic.update();
+		//TargetShooterAngleLogic.update();
+		//TargetSpinLogic.update();
+		//RobotShoot.update();
+		//RobotCamera.update();
+		//RobotPickup.update();
+		//RobotClimb.update();
     }
 
     //// TEST ------------------------------------------------------------------

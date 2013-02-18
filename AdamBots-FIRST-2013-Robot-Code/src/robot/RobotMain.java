@@ -87,15 +87,15 @@ public final class RobotMain extends IterativeRobot {
 		RobotSensors.init();
 
 		// Initialize Static Behavior Classes
-		//RobotDrive.init();
-		//RobotCamera.init();
-		//RobotShoot.init();
-		//RobotPickup.init();
+		RobotDrive.init();
+		RobotCamera.init();
+		RobotShoot.init();
+		RobotPickup.init();
 
 		//Initialize Static Logic Classes
-		//TargetShooterAngleLogic.init();
-		//TargetShooterSpeedLogic.init();
-		//TargetSpinLogic.init();
+		TargetShooterAngleLogic.init();
+		TargetShooterSpeedLogic.init();
+		TargetSpinLogic.init();
 
 		// Output Filtering
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
@@ -176,13 +176,13 @@ public final class RobotMain extends IterativeRobot {
 		_currentLogicPhase.updatePhase();
 
 		// Update Subsystems
-		//TargetShooterSpeedLogic.update();
-		//TargetShooterAngleLogic.update();
-		//TargetSpinLogic.update();
-		//RobotShoot.update();
-		//RobotCamera.update();
-		//RobotPickup.update();
-		//RobotClimb.update();
+		TargetShooterSpeedLogic.update();
+		TargetShooterAngleLogic.update();
+		TargetSpinLogic.update();
+		RobotShoot.update();
+		RobotCamera.update();
+		RobotPickup.update();
+		RobotClimb.update();
     }
 
     //// TEST ------------------------------------------------------------------

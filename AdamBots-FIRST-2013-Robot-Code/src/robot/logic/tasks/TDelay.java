@@ -20,28 +20,33 @@ public class TDelay extends LogicTask {
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
+    /**
+     * Waits an exact period of time, specified in milliseconds.  The delay is
+     * based on the current system time, and not the time reported by the field.
+     * @param milliseconds The number of milliseconds to wait.
+     */
     public TDelay(int milliseconds){
-	_milliseconds = milliseconds;
+		_milliseconds = milliseconds;
     }
     
     //// INITIALIZE ------------------------------------------------------------
     
     protected void initialize() {
-	_startTime = System.currentTimeMillis();
+		_startTime = System.currentTimeMillis();
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     protected void update() {
-	if(System.currentTimeMillis() - _startTime >= _milliseconds){
-	    _done = true;
-	}
+		if(System.currentTimeMillis() - _startTime >= _milliseconds){
+			_done = true;
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
     
     protected int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

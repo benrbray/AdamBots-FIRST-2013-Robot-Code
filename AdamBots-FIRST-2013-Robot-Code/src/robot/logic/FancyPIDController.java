@@ -21,6 +21,10 @@ public class FancyPIDController extends PIDController {
     public FancyPIDController( double Kp, double Ki, double Kd, PIDSource source, PIDOutput output ) {
         super( Kp, Ki, Kd, source, output );     
     }
+	
+	public FancyPIDController( double Kp, double Ki, double Kd, PIDSource source, PIDOutput output, int period ) {
+        super( Kp, Ki, Kd, source, output, period );     
+    }
     
     //// PID METHODS -----------------------------------------------------------
     // sets the RPM

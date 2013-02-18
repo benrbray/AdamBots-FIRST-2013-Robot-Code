@@ -59,8 +59,8 @@ public class TargetSpinLogic extends RobotObject {
 			}
 			if ( _turnTask != null ) {
 				_turnTask.update();
-				if ( _turnTask.finish() == LogicTask.SUCCESS ) {
-					_turnTask.stop();
+				if ( _turnTask.isDone() ) {
+					_turnTask.finish();
 					_turnTask = null;
 					_pointedRight = true;
 				}
@@ -68,7 +68,7 @@ public class TargetSpinLogic extends RobotObject {
 		}
 		else {
 			if ( _turnTask != null ) {
-				_turnTask.stop();
+				_turnTask.finish();
 				_turnTask = null;
 			}
 		}

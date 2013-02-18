@@ -8,7 +8,7 @@ import robot.behavior.RobotClimb;
 import robot.logic.LogicTask;
 
 /**
- *
+ * Sets a target encoder value for the winch.
  * @author Ben
  */
 public class TMoveWinch extends LogicTask {
@@ -19,26 +19,31 @@ public class TMoveWinch extends LogicTask {
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
+    /**
+     * Sets a target encoder value for the winch.
+     * @param targetEncoderValue 
+     * @see robot.behavior.RobotClimb
+     */
     public TMoveWinch(double targetEncoderValue){
-	_targetEncoderValue = targetEncoderValue;
+		_targetEncoderValue = targetEncoderValue;
     }
 
     //// INITIALIZATION --------------------------------------------------------
     
     public void initialize() {
-	RobotClimb.setWinchTarget(_targetEncoderValue);
+		RobotClimb.setWinchTarget(_targetEncoderValue);
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	_done = true;
+		_done = true;
     }
 
     //// FINISH ----------------------------------------------------------------
     
     public int finish() {
-	return _done ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

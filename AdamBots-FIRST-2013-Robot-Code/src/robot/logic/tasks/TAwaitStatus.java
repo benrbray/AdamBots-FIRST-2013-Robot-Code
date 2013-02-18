@@ -11,7 +11,9 @@ import robot.logic.targeting.TargetSpinLogic;
 import robot.sensors.RobotSensors;
 
 /**
- *
+ * This task will wait for the specified status to be achieved.  For example, it
+ * may be configured to wait until the shooter is up to speed before telling the
+ * current LogicPhase to move on to the next task.
  * @author Ben
  */
 public final class TAwaitStatus extends LogicTask {
@@ -27,25 +29,20 @@ public final class TAwaitStatus extends LogicTask {
     
     private int _status;
     
-    private boolean _done = false;
-    
     //// CONSTRUCTOR -----------------------------------------------------------
     
+    /**
+     * This task will wait for the specified status to be achieved.  For example, it
+     * may be configured to wait until the shooter is up to speed before telling the
+     * current LogicPhase to move on to the next task.
+     * @param status The status to wait for.
+     */
     public TAwaitStatus(int status){
-	_status = status;
+		_status = status;
     }
 
     //// INITIALIZATION --------------------------------------------------------
     
-    /**
-     * Performs any necessary initialization for this task and optionally sends
-     * an expected value to a behavior class.  For example, if this task is set
-     * to wait for the WINCH_IN_POSITION status, initializeTask() will call
-     * RobotClimb.setWinchTarget() with the value given to this task's
-     * constructor.
-     * @param useValue Should the Task send a target value to the Behavior class
-     * that it is waiting on?
-     */
     public void initialize() {
 	
     }
@@ -53,22 +50,22 @@ public final class TAwaitStatus extends LogicTask {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-	switch(_status){
-	    case WINCH_IN_POSITION:
-		_done = RobotClimb.isWinchInPosition();
-		break;
-	    case SHOOTER_IN_POSITION:
-		_done = RobotShoot.isShooterInPosition();
-		break;
-	    case SHOOTER_UP_TO_SPEED:
-		_done = RobotShoot.isShooterUpToSpeed();
-		break;
-	    case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
-		_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
-            case TARGETING_COMPLETED:
-                _done = TargetSpinLogic.isPointedRight();
-		break;
-	}
+		switch(_status){
+			case WINCH_IN_POSITION:
+			_done = RobotClimb.isWinchInPosition();
+			break;
+			case SHOOTER_IN_POSITION:
+			_done = RobotShoot.isShooterInPosition();
+			break;
+			case SHOOTER_UP_TO_SPEED:
+			_done = RobotShoot.isShooterUpToSpeed();
+			break;
+			case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
+			_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
+				case TARGETING_COMPLETED:
+					_done = TargetSpinLogic.isPointedRight();
+			break;
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
@@ -81,7 +78,7 @@ public final class TAwaitStatus extends LogicTask {
      * @see robot.logic.LogicTask#FAILURE
      */
     public int finish() {
-	return isDone() ? SUCCESS : FAILURE;
+		return _done ? SUCCESS : FAILURE;
     }
     
 }

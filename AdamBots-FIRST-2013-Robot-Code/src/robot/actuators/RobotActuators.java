@@ -14,7 +14,7 @@ public class RobotActuators {
     //// ENFORCE NONINSTANTIABILITY --------------------------------------------
     
     private RobotActuators() throws Exception {
-	throw new java.lang.Exception("You can't instantiate RobotActuators, silly!");
+		throw new java.lang.Exception("You can't instantiate RobotActuators, silly!");
     }
     
     //// INITIALIZATION --------------------------------------------------------
@@ -23,44 +23,44 @@ public class RobotActuators {
      * Initializes static actuator instances.
      */
     public static void init(){
-	System.out.println("RobotActuators.init()");
-	driveLeft	    = new Victor(1);
-	driveRight	    = new Victor(2);
-	shooterWheelMotor   = new Victor(3);
-	shooterAngleMotor   = new Talon(4);
-	discElevator	    = new Talon(5);
-	climbWinch	    = new Talon(6);
-	transmissionLeft    = new Servo(7);
-	transmissionRight   = new Servo(8);
-	
-	discIntake	    = new Relay(1);
-	hopperSolenoid = new Relay(3);
-	climbWinchSolenoid   = new Relay(4);
-	
-	shooterFeederSolenoid = new Solenoid(1);
-	cameraLED = new Solenoid(2);
-	greenLEDStrip = new Solenoid(3);
-	redLEDStrip = new Solenoid(4);
-	yellowLEDStrip = new Solenoid(5);
-	
-	discIntake.setDirection(Relay.Direction.kBoth);
-	hopperSolenoid.setDirection(Relay.Direction.kBoth);
-	climbWinchSolenoid.setDirection(Relay.Direction.kForward);
-	
-	shooterFeederSolenoid.set(false);
-	killAllLEDs(); // Turns off all the LEDs.
-	
-	System.out.println("RobotActuators.init() finished");
+		System.out.println("RobotActuators.init()");
+		driveLeft	    = new Victor(1);
+		driveRight	    = new Victor(2);
+		shooterWheelMotor   = new Victor(3);
+		shooterAngleMotor   = new Talon(4);
+		discElevator	    = new Talon(5);
+		climbWinch	    = new Talon(6);
+		transmissionLeft    = new Servo(7);
+		transmissionRight   = new Servo(8);
+
+		discIntake	    = new Relay(1);
+		hopperSolenoid = new Relay(3);
+		climbWinchSolenoid   = new Relay(4);
+
+		shooterFeederSolenoid = new Solenoid(1);
+		cameraLED = new Solenoid(2);
+		greenLEDStrip = new Solenoid(3);
+		redLEDStrip = new Solenoid(4);
+		yellowLEDStrip = new Solenoid(5);
+
+		discIntake.setDirection(Relay.Direction.kBoth);
+		hopperSolenoid.setDirection(Relay.Direction.kBoth);
+		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
+
+		shooterFeederSolenoid.set(false);
+		killAllLEDs(); // Turns off all the LEDs.
+
+		System.out.println("RobotActuators.init() finished");
     }
     
     //// LIGHT CONTROLING METHODS ----------------------------------------------
     
     /** Disables all LEDs on the robot. */
     public static void killAllLEDs() {
-	cameraLED.set(false);
-	greenLEDStrip.set(false);
-	redLEDStrip.set(false);
-	yellowLEDStrip.set(false);
+		cameraLED.set(false);
+		greenLEDStrip.set(false);
+		redLEDStrip.set(false);
+		yellowLEDStrip.set(false);
     }
     
     //// DRIVE -----------------------------------------------------------------

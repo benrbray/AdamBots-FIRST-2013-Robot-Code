@@ -58,8 +58,10 @@ public abstract class RobotDrive extends RobotBehavior {
 	private static double _driveRightDirection		= 1.0;
 	/** Guided driving will begin at (or below) this speed. */
 	private static double _driveSpeedInitial		= 0.2;
-	/** Accumulated guided driving speed. */
-	private static double _driveSpeed				= 0.0;
+	/** Accumulated guided driving speed for the left motor. */
+	private static double _driveLeftSpeed			= 0.0;
+	/** Accumulated guided driving speed for the right motor. */
+	private static double _driveRightSpeed			= 0.0;
 	/** A maximum speed for guided driving.  Note:  Actual speed accumulates 
 	 * gradually based on the desired acceleration.*/
 	private static double _driveSpeedTarget			= 1.0;
@@ -75,22 +77,28 @@ public abstract class RobotDrive extends RobotBehavior {
 	public static void update(){
 		// Guided Driving Logic
 		if(_guidedDriving){
-			// Accelerate
-			if(_driveSpeed < _driveSpeedTarget){
-				_driveSpeed += _driveAcceleration;
-			} else {
-				_driveSpeed = _driveSpeedTarget;
-			}
-			
 			// Check Encoders
 			double leftDistance = RobotSensors.encoderDriveLeft.getDistance();
 			double rightDistance = RobotSensors.encoderDriveRight.getDistance();
 			double leftDifference = _leftEncoderTargetInches - leftDistance;
 			double rightDifference = _rightEncoderTargetInches - rightDistance;
 			
-			if((leftDifference + rightDifference) / 2.0 < ENCODER_TOLERANCE){
-				
+			// Accelerate
+			/*
+			if(_driveSpeed < _driveSpeedTarget){
+				_driveSpeed += _driveAcceleration;
+			} else {
+				_driveSpeed = _driveSpeedTarget;
 			}
+			
+			// Set Motors (Drive in the Direction of the Target Value)
+			setMotors(_driveSpeed * MathUtils.sign(leftDifference),
+					  _driveSpeed * MathUtils.sign(rightDifference));
+			
+			// Have we Reached the Target?
+			if((leftDifference + rightDifference) / 2.0 < ENCODER_TOLERANCE){
+				endGuidedDriving();
+			}*/
 		}
 	}
 	
@@ -110,7 +118,22 @@ public abstract class RobotDrive extends RobotBehavior {
 		RobotSensors.encoderDriveRight.start();
 		
 		// Speed
-		_driveSpeed = Math.min(_driveSpeedInitial, Math.abs(_driveSpeedTarget));
+		//_driveSpeed = Math.min(_driveSpeedInitial, Math.abs(_driveSpeedTarget));
+	}
+	
+	private static void endGuidedDriving(){
+		_guidedDriving = false;
+		
+		// Stop Encoders
+		RobotSensors.encoderDriveLeft.reset();
+		RobotSensors.encoderDriveRight.reset();
+		RobotSensors.encoderDriveLeft.stop();
+		RobotSensors.encoderDriveRight.stop();
+		
+		//_driveSpeed = 0.0;
+		_driveSpeedTarget = 0.0;
+		_leftEncoderTargetInches = 0.0;
+		_rightEncoderTargetInches = 0.0;
 	}
 	
 	/**

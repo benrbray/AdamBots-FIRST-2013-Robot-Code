@@ -49,19 +49,14 @@ public abstract class RobotDrive extends RobotBehavior {
 	/** A right encoder target value, in inches, for guided driving. */
 	private static double _rightEncoderTargetInches = 0.0;
 	
-	
 	/** The desired acceleration, expressed as a PWM value.  Range 0.0-1.0. */
 	private static double _driveAcceleration		= 0.0;
-	/** Drive direction for guided driving.  (+ Forward, - Backward) */
-	private static double _driveLeftDirection		= 1.0;
-	/** Drive direction for guided driving.  (+ Forward, - Backward) */
-	private static double _driveRightDirection		= 1.0;
 	/** Guided driving will begin at (or below) this speed. */
 	private static double _driveSpeedInitial		= 0.2;
 	/** Accumulated guided driving speed for the left motor. */
-	private static double _driveLeftSpeed			= 0.0;
+	private static double _driveLeftVelocity		= 0.0;
 	/** Accumulated guided driving speed for the right motor. */
-	private static double _driveRightSpeed			= 0.0;
+	private static double _driveRightVelocity		= 0.0;
 	/** A maximum speed for guided driving.  Note:  Actual speed accumulates 
 	 * gradually based on the desired acceleration.*/
 	private static double _driveSpeedTarget			= 1.0;
@@ -80,25 +75,34 @@ public abstract class RobotDrive extends RobotBehavior {
 			// Check Encoders
 			double leftDistance = RobotSensors.encoderDriveLeft.getDistance();
 			double rightDistance = RobotSensors.encoderDriveRight.getDistance();
-			double leftDifference = _leftEncoderTargetInches - leftDistance;
-			double rightDifference = _rightEncoderTargetInches - rightDistance;
+			double leftDifference = _leftEncoderTargetInches - leftDistance; // Positive if wheels need to move in positive dir
+			double rightDifference = _rightEncoderTargetInches - rightDistance; // Positive if wheels need to move in positive dir
 			
 			// Accelerate
-			/*
-			if(_driveSpeed < _driveSpeedTarget){
-				_driveSpeed += _driveAcceleration;
+			double driveLeftDir = MathUtils.sign(leftDifference);
+			double driveRightDir = MathUtils.sign(rightDifference);
+			double driveLeftVelTarget = driveLeftDir * _driveSpeedTarget;
+			double driveRightVelTarget = driveRightDir * _driveSpeedTarget;
+			
+			if(Math.abs(_driveLeftVelocity - driveLeftVelTarget) > _driveAcceleration){
+				_driveLeftVelocity = driveLeftDir * _driveAcceleration;
 			} else {
-				_driveSpeed = _driveSpeedTarget;
+				_driveLeftVelocity = driveLeftVelTarget;
 			}
 			
-			// Set Motors (Drive in the Direction of the Target Value)
-			setMotors(_driveSpeed * MathUtils.sign(leftDifference),
-					  _driveSpeed * MathUtils.sign(rightDifference));
+			if(Math.abs(_driveRightVelocity - driveRightVelTarget) > _driveAcceleration){
+				_driveRightVelocity = driveRightDir * _driveAcceleration;
+			} else {
+				_driveRightVelocity = driveRightVelTarget;
+			}
 			
-			// Have we Reached the Target?
-			if((leftDifference + rightDifference) / 2.0 < ENCODER_TOLERANCE){
+			// Motors
+			setMotors(_driveLeftVelocity, _driveRightVelocity);
+			
+			// Have we Reached the Target Values?
+			if(Math.abs((leftDifference + rightDifference) / 2.0) < ENCODER_TOLERANCE){
 				endGuidedDriving();
-			}*/
+			}
 		}
 	}
 	
@@ -118,7 +122,9 @@ public abstract class RobotDrive extends RobotBehavior {
 		RobotSensors.encoderDriveRight.start();
 		
 		// Speed
-		//_driveSpeed = Math.min(_driveSpeedInitial, Math.abs(_driveSpeedTarget));
+		_driveLeftVelocity = MathUtils.sign(_leftEncoderTargetInches) * Math.min(_driveSpeedInitial, _driveSpeedTarget);
+		_driveRightVelocity = MathUtils.sign(_rightEncoderTargetInches) * Math.min(_driveSpeedInitial, _driveSpeedTarget);
+		
 	}
 	
 	private static void endGuidedDriving(){
@@ -130,10 +136,13 @@ public abstract class RobotDrive extends RobotBehavior {
 		RobotSensors.encoderDriveLeft.stop();
 		RobotSensors.encoderDriveRight.stop();
 		
-		//_driveSpeed = 0.0;
+		_driveLeftVelocity = 0.0;
+		_driveRightVelocity = 0.0;
 		_driveSpeedTarget = 0.0;
 		_leftEncoderTargetInches = 0.0;
 		_rightEncoderTargetInches = 0.0;
+		
+		stop();
 	}
 	
 	/**
@@ -182,16 +191,14 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive drives the robot
 	 * for the specified distance, then stops.
 	 * @param inches The number of inches to move forward.
-	 * @param speed The speed at which to move.
-	 * @param accRate Acceleration rate.
+	 * @param speed The speed at which to move (positive).
+	 * @param accRate Acceleration rate (positive).
 	 */
 	public static void driveDistanceInches(double inches, double speed, double accRate){
 		_leftEncoderTargetInches = inches;
 		_rightEncoderTargetInches = inches;
-		_driveLeftDirection = MathUtils.sign(speed);
-		_driveRightDirection = _driveLeftDirection;
 		_driveSpeedTarget = Math.abs(speed);
-		_driveAcceleration = accRate;
+		_driveAcceleration = Math.abs(accRate);
 		beginGuidedDriving();
 	}
 	
@@ -199,7 +206,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive turns the robot
 	 * a specified number of radians, then stops.
 	 * @param radians The number of radians to turn.
-	 * @param speed The speed at which to turn.
+	 * @param speed The speed at which to turn (positive).
 	 */
 	public static void turnRadians(double radians, double speed){
 		turnRadians(radians, speed, true);
@@ -209,7 +216,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive turns the robot
 	 * a specified number of radians, without acceleration then stops.
 	 * @param radians The number of radians to turn.
-	 * @param speed The speed at which to turn.
+	 * @param speed The speed at which to turn (positive).
 	 * @param gyroAssist Whether or not feedback from the Gyro should be used to
 	 * assist robot turning.
 	 */
@@ -221,7 +228,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive turns the robot
 	 * a specified number of degrees, without acceleration, then stops.
 	 * @param degrees The number of degrees to turn.
-	 * @param speed The speed at which to turn.
+	 * @param speed The speed at which to turn (positive).
 	 */
 	public static void turnDegrees(double degrees, double speed){
 		turnDegrees(degrees, speed, true);
@@ -231,7 +238,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive turns the robot
 	 * a specified number of degrees, without acceleration, then stops.
 	 * @param degrees The number of degrees to turn.
-	 * @param speed The speed at which to turn.  (-1 = Left, 1 = Right)
+	 * @param speed The speed at which to turn.  (positive)
 	 * @param gyroAssist Whether or not feedback from the Gyro should be used to
 	 * assist robot turning.
 	 */
@@ -243,18 +250,16 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Begins a guided driving period, during which RobotDrive turns the robot
 	 * a specified number of degrees, then stops.
 	 * @param degrees The number of degrees to turn. (CW)
-	 * @param speed The speed at which to turn.  (-1 = Left, 1 = Right)
-	 * @param accRate Acceleration Rate.
+	 * @param speed The speed at which to turn.  (positive)
+	 * @param accRate Acceleration Rate (positive).
 	 * @param gyroAssist Whether or not feedback from the Gyro should be used to
 	 * assist robot turning.
 	 */
 	public static void turnDegrees(double degrees, double speed, double accRate, boolean gyroAssist){
 		_rightEncoderTargetInches = -degrees / RobotSensors.DPI_ENCODER_DRIVE_RIGHT_DEGREES;
 		_leftEncoderTargetInches = degrees / RobotSensors.DPI_ENCODER_DRIVE_LEFT_DEGREES;
-		_driveLeftDirection = MathUtils.sign(speed);
-		_driveRightDirection = -_driveLeftDirection;
 		_driveSpeedTarget = Math.abs(speed);
-		_driveAcceleration = accRate;
+		_driveAcceleration = Math.abs(accRate);
 		RobotSensors.gyroChassis.reset();
 		beginGuidedDriving();
 	}

@@ -10,8 +10,24 @@ package robot.IO;
  */
 public class DataThread implements Runnable{
 
+    public static final int LOG_DATA = 0;
+    public static final int LOAD_CALIBRATIONS = 1;
+    
+    private int _process;
+    
+    public DataThread(int process){
+        _process = process;
+    }
+    
     public void run() {
-        DataIO.logData();
+        switch (_process){
+            case LOG_DATA:
+                DataIO.logData();
+                break;
+            case LOAD_CALIBRATIONS:
+                DataIO.loadCalibrations();
+                break;
+        }
     }
     
 }

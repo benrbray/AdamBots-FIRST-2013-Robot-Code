@@ -8,6 +8,7 @@ package robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
@@ -39,7 +40,7 @@ public final class RobotMain extends IterativeRobot {
 
     /** Gets the active instance of RobotMain. **/
     public static RobotMain getInstance() {
-	return _instance;
+		return _instance;
     }
     
     //// OUTPUT CONSTANTS ------------------------------------------------------
@@ -78,6 +79,8 @@ public final class RobotMain extends IterativeRobot {
 		// Initialize Classes with Static References
 		RobotActuators.init();
 		RobotSensors.init();
+		RobotActuators.configure();
+		RobotSensors.configure();
 
 		// Initialize Static Behavior Classes
 		RobotDrive.init();

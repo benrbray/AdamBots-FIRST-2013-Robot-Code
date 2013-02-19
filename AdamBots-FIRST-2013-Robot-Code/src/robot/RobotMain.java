@@ -55,6 +55,7 @@ public final class RobotMain extends IterativeRobot {
     public static final boolean VERBOSE_ROBOTSHOOT	= false;
     public static final boolean VERBOSE_ROBOTCAMERA	= false;
     public static final boolean VERBOSE_TARGETLOGIC	= false;
+	public static final boolean VERBOSE_FANCYMOTOR		= true;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -88,6 +89,7 @@ public final class RobotMain extends IterativeRobot {
 		RobotCamera.init();
 		RobotShoot.init();
 		RobotPickup.init();
+		FancyMotor.init();
 
 		//Initialize Static Logic Classes
 		TargetShooterAngleLogic.init();
@@ -103,6 +105,7 @@ public final class RobotMain extends IterativeRobot {
 		TargetShooterAngleLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 		TargetShooterSpeedLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 		TargetSpinLogic.verboseOutput = VERBOSE_TARGETLOGIC;
+		FancyMotor.verboseOutput = VERBOSE_FANCYMOTOR;
 
 		// Initialize Joysticks
 		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import robot.RobotObject;
+import robot.sensors.RobotSensors;
 
 /**
  * Contains static instances of robot actuators.
@@ -144,6 +145,10 @@ public class RobotActuators extends RobotObject {
 	 * to ensure full compatibility.
 	 */
 	public static void configure(){
+		// Finalize FancyMotors
+		shooterAngleMotor.setUpperLimit(RobotSensors.limitShooterA);
+		shooterAngleMotor.setLowerLimit(RobotSensors.limitShooterB);
+		
 		// Relays
 		discIntake.setDirection(Relay.Direction.kBoth);
 		compressor.setDirection(Relay.Direction.kForward);

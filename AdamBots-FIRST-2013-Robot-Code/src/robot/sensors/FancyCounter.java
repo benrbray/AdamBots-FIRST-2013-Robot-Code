@@ -13,7 +13,14 @@ import edu.wpi.first.wpilibj.PIDSource;
  */
 public class FancyCounter extends Counter implements PIDSource {
 
+	// New constructor with radius option
+	// getDiameter();
+	// setDiameter();
+	// getDistance();
+	
+	double diameter;
     double lastRpm;
+	double distance;
     int errorVal;
     private int _ticksPerPeriod;
 
@@ -21,6 +28,7 @@ public class FancyCounter extends Counter implements PIDSource {
         super(channel);
         lastRpm = 0;
         errorVal = 0;
+		diameter = 0;
 	_ticksPerPeriod = 1;
     }
 
@@ -28,6 +36,7 @@ public class FancyCounter extends Counter implements PIDSource {
         super(slot, channel);
         lastRpm = 0;
         errorVal = 0;
+		diameter = 0;
 	_ticksPerPeriod = 1;
     }
     
@@ -35,7 +44,25 @@ public class FancyCounter extends Counter implements PIDSource {
         super(slot, channel);
         lastRpm = 0;
         errorVal = 0;
+		diameter = 0;
 	_ticksPerPeriod = ticksPerPeriod;
+    }
+	
+	public FancyCounter(int slot, int channel, int ticksPerPeriod, double _diameter) {
+        super(slot, channel);
+        lastRpm = 0;
+        errorVal = 0;
+		diameter = _diameter;
+	_ticksPerPeriod = ticksPerPeriod;
+    }
+	
+	public FancyCounter(int slot, int channel, double _diameter) {
+        super(slot, channel);
+        lastRpm = 0;
+        errorVal = 0;
+		diameter = _diameter;
+	_ticksPerPeriod = 1;
+
     }
 
     public int getError() {
@@ -47,6 +74,18 @@ public class FancyCounter extends Counter implements PIDSource {
         errorVal = 0;
     }
 
+	public double getDiameter() {
+		return diameter;
+	}
+	
+	public void setDiameter(double _diameter) {
+		diameter = _diameter;
+	}
+	
+	public double getDistance() {
+		return get() * diameter * Math.PI / _ticksPerPeriod;
+	}
+	
     public double pidGet() {
         double time = getPeriod() * _ticksPerPeriod;
         double rpm = 60 / time;

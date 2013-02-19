@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class FancyCounterExtended {
     
-    private FancyCounter fancy;
+    public FancyCounter fancy;
     private SpeedController motor;
     private int count;
     private int currentCount;

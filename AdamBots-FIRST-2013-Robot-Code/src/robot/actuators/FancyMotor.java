@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import java.util.Vector;
 
 /**
  * Wrapper class for motors.  Controls motor access and makes limit switches
@@ -19,39 +20,26 @@ import edu.wpi.first.wpilibj.Victor;
 public class FancyMotor implements SpeedController {
     //// CONSTANTS -------------------------------------------------------------
     
-    //// PUBLIC VARIABLES ------------------------------------------------------
-    
-    //// PRIVATE VARIABLES -----------------------------------------------------
-    
-    // Motor Reference
-    private SpeedController _motor;
-    private boolean _jaguar;
-    
-    // Limit Switches
-    private DigitalInput _upperLimit = null;
-    private DigitalInput _lowerLimit = null;
-    
-    //// CONSTRUCTOR -----------------------------------------------------------
-    
-    /**
-     * Wrap the FancyMotor class around a pre-existing SpeedController instance.
-     * @param motor A SpeedController instance.
-     */
-    public FancyMotor(SpeedController motor){
-        // Initialize Variables
-        _motor = motor;
-        _jaguar = (motor instanceof Jaguar);
-    }
-    
-    public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
-        // Initialize Variables
-        _motor = motor;
-        _jaguar = (motor instanceof Jaguar);
-        _upperLimit = upperLimit;
-        _lowerLimit = lowerLimit;
-    }
-    
-    //// STATIC CONSTRUCTOR METHODS --------------------------------------------
+	//// STATIC MOTOR CONTROL --------------------------------------------------
+	
+	public static Vector _fancyMotors;
+	
+	public static void init(){
+		_fancyMotors = new Vector();
+	}
+	
+	/**
+	 * Iterates through the list of FancyMotor instances contained within this
+	 * class, and calls checkLimits() on each, to ensure that nothing breaks.
+	 */
+	public static void update(){
+		for(int i = 0; i < _fancyMotors.size(); i++){
+			FancyMotor fm = (FancyMotor) _fancyMotors.elementAt(i);
+			fm.checkLimits();
+		}
+	}
+	
+	//// STATIC CONSTRUCTOR METHODS --------------------------------------------
     
     /**
      * Create a new FancyMotor for a Jaguar.  Assumes the default digital module.
@@ -110,28 +98,75 @@ public class FancyMotor implements SpeedController {
 	public static FancyMotor createFancyTalon(int channel) {
 		return new FancyMotor(new Talon(channel));
 	}
+	
+    //// PUBLIC VARIABLES ------------------------------------------------------
     
-    //// INITIALIZATION --------------------------------------------------------
+    //// PRIVATE VARIABLES -----------------------------------------------------
     
+    // Motor Reference
+    private SpeedController _motor;
+    private boolean _jaguar;
+    
+    // Limit Switches
+    private DigitalInput _upperLimit = null;
+    private DigitalInput _lowerLimit = null;
+    
+    //// CONSTRUCTOR -----------------------------------------------------------
+    
+    /**
+     * Wrap the FancyMotor class around a pre-existing SpeedController instance.
+     * @param motor A SpeedController instance.
+     */
+    public FancyMotor(SpeedController motor){
+        // Initialize Variables
+        _motor = motor;
+        _jaguar = (motor instanceof Jaguar);
+    }
+    
+    public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
+        // Initialize Variables
+        _motor = motor;
+        _jaguar = (motor instanceof Jaguar);
+        _upperLimit = upperLimit;
+        _lowerLimit = lowerLimit;
+		
+		// Push to Static List of FancyMotors
+		_fancyMotors.addElement(this);
+    }
+    
+    //// UPDATE ----------------------------------------------------------------
+    
+	private void checkLimits(){
+		boolean limitUpper = (_upperLimit == null) ? false : _upperLimit.get();
+        boolean limitLower = (_lowerLimit == null) ? false : _lowerLimit.get();
+
+        if ((limitUpper && _motor.get() > 0) || (limitLower && _motor.get() < 0)) {
+            _motor.set(0, (byte)0);
+        }
+	}
+	
     //// MOTOR ACCESS ----------------------------------------------------------
     
-    public void set(double motorValue){
-        boolean limitUpper = _upperLimit.get();
-        boolean limitLower = _lowerLimit.get();
-
-        if ((!limitUpper && !limitLower) || (limitUpper && motorValue < 0) || (limitLower && motorValue > 0)) {
-            _motor.set(motorValue);
-        } else {
-            _motor.set(0);
-        }
+	/**
+	 * Sets the value of the motor, assuming that no limits have been reached.
+	 * @param speed The speed at which to run the motor.
+	 */
+    public void set(double speed){
+        set(speed, (byte)0);
     }
+	
+	/**
+	 * Sets the value of the motor, assuming that no limits have been reached.
+	 * @param speed The speed at which to run the motor.
+	 * @param syncGroup The sync group that the motor is part.
+	 */
+	public void set(double speed, byte syncGroup){
+		_motor.set(speed, syncGroup);
+		checkLimits();
+	}
 	
 	public void disable(){
 		_motor.disable();
-	}
-	
-	public void set(double speed, byte syncGroup){
-		_motor.set(speed, syncGroup);
 	}
 	
 	public double get(){

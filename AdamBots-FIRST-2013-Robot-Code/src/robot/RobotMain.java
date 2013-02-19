@@ -41,14 +41,6 @@ public final class RobotMain extends IterativeRobot {
     public static RobotMain getInstance() {
 	return _instance;
     }
-	
-	//// BOT CONFIGURATION -----------------------------------------------------
-	
-	/** 
-	 * Indicates which Robot the code is meant to run on.  This value
-	 * determines which values will be used for port constants, etc.. 
-	 */
-	public static final boolean COMPETITION_BOT		= false;
     
     //// OUTPUT CONSTANTS ------------------------------------------------------
     
@@ -180,11 +172,11 @@ public final class RobotMain extends IterativeRobot {
 		_currentLogicPhase.updatePhase();
 		
 		// Compressor
-		/*if (RobotSensors.pressureSwitch.get()) {
+		if (RobotSensors.pressureSwitch.get()) {
 			RobotActuators.compressor.set(Relay.Value.kOff);
 		} else {
 			RobotActuators.compressor.set(Relay.Value.kOn);
-		}*/
+		}
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();

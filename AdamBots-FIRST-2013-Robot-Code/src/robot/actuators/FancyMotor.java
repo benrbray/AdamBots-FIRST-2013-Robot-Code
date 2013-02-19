@@ -122,7 +122,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
     }
     
     public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
-		println("FancyMotor created.");
+		System.out.println("FancyMotor created.");
 		
         // Initialize Variables
         _motor = motor;
@@ -151,7 +151,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		
 		// If the limits have been reached, stop the motor
         if ((limitUpper && _motor.get() > 0) || (limitLower && _motor.get() < 0)) {
-			println("FancyMotor stopped, limits pressed.  (upper: " + limitUpper + ", lower: " + limitLower + ")");
+			System.out.println("FancyMotor stopped, limits pressed.  (upper: " + limitUpper + ", lower: " + limitLower + ")");
             _motor.set(0, (byte)0);
         }
 	}
@@ -174,7 +174,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see edu.wpi.first.wpilibj.SpeedController#set(double, byte) 
 	 */
 	public void set(double speed, byte syncGroup){
-		println("Setting FancyMotor (speed=" + speed + ")");
+		System.out.println("Setting FancyMotor (speed=" + speed + ")");
 		_motor.set(speed, syncGroup);
 		checkLimits();
 	}

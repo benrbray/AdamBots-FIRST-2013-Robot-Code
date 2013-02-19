@@ -26,7 +26,14 @@ public class FancyCounterExtended {
 	count = 0;
 	currentCount = 0;
 	direction = 0;
+	f.start();
     }
+	
+	public void reset()
+	{
+		fancy.reset();
+		count = 0;
+	}
     
     public void set(double speed) {
 	count += fancy.get() * direction;
@@ -52,6 +59,15 @@ public class FancyCounterExtended {
     public void setDistancePerTick(double distance) {
 	distancePerTick = distance;
     }
+	
+	public void setMaxPeriod(int period)
+	{
+		fancy.setMaxPeriod(period);
+	}
+	
+	public void setUpSourceEdge(boolean x,boolean y) {
+		fancy.setUpSourceEdge(x, y);
+	}
     
     public double getDistance() {
 	return (double) get() * distancePerTick;

@@ -90,6 +90,7 @@ public class RobotSensors {
 			public static final int DISC_ORIENTATION_LIMIT_B = 8;
 			public static final int SHOOTER_LIMIT_A = 9;
 			public static final int SHOOTER_LIMIT_B = 10;
+			public static final int PRESSURE_SWITCH = 11;
 		}
 		
 		/** Digital Card 1 Serial Port Constants. */
@@ -189,6 +190,9 @@ public class RobotSensors {
 	// Disc Pickup
     public static DigitalInput limitDiscTop;
     public static DigitalInput limitDiscBottom;
+	
+	// Compressor
+	public static DigitalInput pressureSwitch;
 
 	//// INITIALIZATION --------------------------------------------------------
 	
@@ -240,8 +244,7 @@ public class RobotSensors {
 		
         //// DIGITAL CARD 2 ----------------------------------------------------
         
-		//TODO: Fix the encoders man.
-        encoderShooterAngle = encoderDriveLeft;//new Encoder(DIO2, 2, DIO2, 3);
+        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.HOOK_LEFT_ARM_LIMIT);
         limitHookRightArm = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.HOOK_RIGHT_ARM_LIMIT);
@@ -253,6 +256,8 @@ public class RobotSensors {
 
         limitShooterA = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.SHOOTER_LIMIT_A);
         limitShooterB = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.SHOOTER_LIMIT_B);
+		
+		pressureSwitch = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.PRESSURE_SWITCH);
 		
 		//// DIGITAL SERIAL 1
 		
@@ -291,10 +296,8 @@ public class RobotSensors {
 
         //// DIGITAL CARD 2 ----------------------------------------------------
         
-		counterShooterSpeed = new FancyCounter(DIO2, SecondaryBot.DigitalIn2.SHOOTER_SPEED_ENCODER, TPP_COUNTER_SHOOTER_SPEED);
-		
-		//TODO: Fix the encoders man.
-        encoderShooterAngle = encoderDriveLeft;//new Encoder(DIO2, 2, DIO2, 3);
+		counterShooterSpeed = new FancyCounter(DIO1, SecondaryBot.DigitalIn2.SHOOTER_SPEED_ENCODER, TPP_COUNTER_SHOOTER_SPEED);
+        encoderShooterAngle = new Encoder(DIO2, 2, DIO2, 3);
 
         limitHookLeftArm = new DigitalInput(DIO2, SecondaryBot.DigitalIn2.HOOK_LEFT_ARM_LIMIT);
         limitHookRightArm = new DigitalInput(DIO2, SecondaryBot.DigitalIn2.HOOK_RIGHT_ARM_LIMIT);
@@ -325,15 +328,12 @@ public class RobotSensors {
 		//encoderDriveRight.start();
 		encoderWinch.start();
 		counterElevator.start();
-		// TODO:  Uncomment this when we fix the encoder
-		//encoderShooterAngle.start();
+		encoderShooterAngle.start();
 		
 		// Shooter Speed Counter
         counterShooterSpeed.start();
-		// TODO:  Counter Config?
-		//counterShooterSpeed.setTicksPerPeriod(TPP_COUNTER_SHOOTER_SPEED);
-        counterShooterSpeed.setMaxPeriod(100000);
-        counterShooterSpeed.setUpSourceEdge(true, false);
+		counterShooterSpeed.setMaxPeriod(10000);
+		counterShooterSpeed.setUpSourceEdge(true, false);
 		
 		// Gyro
 		// TODO:  Gyro Config?

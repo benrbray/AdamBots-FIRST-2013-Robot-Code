@@ -6,6 +6,7 @@ package robot.behavior;
 
 import robot.actuators.RobotActuators;
 import robot.logic.FancyPIDController;
+import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.sensors.RobotSensors;
 import utils.MathUtils;
 
@@ -98,11 +99,13 @@ public abstract class RobotShoot extends RobotBehavior {
 		 * TODO: Rewrite 'd' to be a proper angle. *
 		 * TODO: Check encoder at limits.
 		 */
-		if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
-			RobotActuators.shooterAngleMotor.set(0);
-		}
-		else {
-			RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
+		if (TargetShooterAngleLogic.isTargeting()) {
+			if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
+				RobotActuators.shooterAngleMotor.set(0);
+			}
+			else {
+				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
+			}
 		}
 	}
 }

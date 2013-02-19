@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Victor;
  * easier to implement.
  * @author Ben
  */
-public class FancyMotor {
+public class FancyMotor implements SpeedController {
     //// CONSTANTS -------------------------------------------------------------
     
     //// PUBLIC VARIABLES ------------------------------------------------------
@@ -115,7 +115,7 @@ public class FancyMotor {
     
     //// MOTOR ACCESS ----------------------------------------------------------
     
-    public void setMotor(double motorValue){
+    public void set(double motorValue){
         boolean limitUpper = _upperLimit.get();
         boolean limitLower = _lowerLimit.get();
 
@@ -125,6 +125,25 @@ public class FancyMotor {
             _motor.set(0);
         }
     }
+	
+	public void disable()
+	{
+		_motor.disable();
+	}
+	
+	public void set(double x,byte y)
+	{
+		_motor.set(x,y);
+	}
+	
+	public double get()
+	{
+		return _motor.get();
+	}
+	
+	public void pidWrite(double output) {
+		_motor.pidWrite(output);
+	}
     
     //// GETTER / SETTER METHODS -----------------------------------------------
 	
@@ -149,4 +168,6 @@ public class FancyMotor {
 	public void setLowerLimit(DigitalInput lowerLimit){
 		_lowerLimit = lowerLimit;
 	}
+
+
 }

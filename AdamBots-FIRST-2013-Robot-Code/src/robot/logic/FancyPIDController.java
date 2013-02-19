@@ -29,20 +29,20 @@ public class FancyPIDController extends PIDController {
     //// PID METHODS -----------------------------------------------------------
     // sets the RPM
     public void setRPM(double targetRPM) {
-	System.out.println("SETTING RPM");
-	
-	// enables the PID if it isn't enabled
-	if (!super.isEnable()) {
-	    super.enable();
-	}
-	
-	// sets the set point (Micklas - need to look at PIDController 
-        // source, even though this looks unnecessary I think we needed it
-        // because setSetpoint has some additional logic that resets
-        // accumulations?  or something like that
-	if (super.getSetpoint() != targetRPM) {
-	    super.setSetpoint(targetRPM);
-	}
+		System.out.println("SETTING RPM");
+
+		// enables the PID if it isn't enabled
+		if (!super.isEnable()) {
+			super.enable();
+		}
+
+		// sets the set point (Micklas - need to look at PIDController 
+			// source, even though this looks unnecessary I think we needed it
+			// because setSetpoint has some additional logic that resets
+			// accumulations?  or something like that
+		if (super.getSetpoint() != targetRPM) {
+			super.setSetpoint(targetRPM);
+		}
        // debug in case we need to tune PIDs
        // System.out.println(timer.get() + "\t" + topPid.get() + "\t" + _topGear.pidGet() + "\t" + bottomPid.get() + "\t" + _bottomGear.pidGet() + "\t" + shooterToSpeed());
     }

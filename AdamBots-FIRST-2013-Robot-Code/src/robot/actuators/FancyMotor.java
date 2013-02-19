@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import java.util.Vector;
+import robot.RobotObject;
 
 /**
  * Wrapper class for motors.  Controls motor access and makes limit switches
  * easier to implement.
  * @author Ben
  */
-public class FancyMotor implements SpeedController {
+public class FancyMotor extends RobotObject implements SpeedController {
     //// CONSTANTS -------------------------------------------------------------
     
 	//// STATIC MOTOR CONTROL --------------------------------------------------
@@ -117,11 +118,12 @@ public class FancyMotor implements SpeedController {
      * @param motor A SpeedController instance.
      */
     public FancyMotor(SpeedController motor){
-        // Initialize Variables
-        _motor = motor;
+        this(motor, null, null);
     }
     
     public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
+		println("FancyMotor created.");
+		
         // Initialize Variables
         _motor = motor;
         _upperLimit = upperLimit;
@@ -149,6 +151,7 @@ public class FancyMotor implements SpeedController {
 		
 		// If the limits have been reached, stop the motor
         if ((limitUpper && _motor.get() > 0) || (limitLower && _motor.get() < 0)) {
+			println("FancyMotor stopped, limits pressed.  (upper: " + limitUpper + ", lower: " + limitLower + ")");
             _motor.set(0, (byte)0);
         }
 	}
@@ -171,6 +174,7 @@ public class FancyMotor implements SpeedController {
 	 * @see edu.wpi.first.wpilibj.SpeedController#set(double, byte) 
 	 */
 	public void set(double speed, byte syncGroup){
+		println("Setting FancyMotor (speed=" + speed + ")");
 		_motor.set(speed, syncGroup);
 		checkLimits();
 	}

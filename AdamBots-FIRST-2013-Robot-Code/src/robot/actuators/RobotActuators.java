@@ -46,65 +46,10 @@ public class RobotActuators extends RobotObject {
 			public static final int YELLOW_GROUND_FX_STRIP = 5;
 		}
 	}
-    
-    //// INITIALIZATION --------------------------------------------------------
-    
-    /**
-     * Initializes static actuator instances.
-     */
-    public static void init(){
-		println("RobotActuators.init()");
-		
-		//// DIGITAL OUT 1 -----------------------------------------------------
-		
-		driveLeft			= new Victor(CompetitionBot.DigitalOut1.LEFT_DRIVE_VICTOR);
-		driveRight			= new Victor(CompetitionBot.DigitalOut1.RIGHT_DRIVE_VICTOR);
-		shooterWheelMotor   = new Victor(CompetitionBot.DigitalOut1.SHOOTER_VICTOR);
-		shooterAngleMotor   = new Talon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
-		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);
-		climbWinch			= new Talon(CompetitionBot.DigitalOut1.WINCH_TALON);
-		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
-		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
-		
-		//// DIGITAL RELAY 1 ---------------------------------------------------
-		
-		discIntake			= new Relay(CompetitionBot.DigitalRelay1.INTAKE_MOTOR);
-		compressor			= new Relay(CompetitionBot.DigitalRelay1.COMPRESSOR);
-		climbWinchSolenoid	= new Relay(CompetitionBot.DigitalRelay1.WINCH_SOLENOID);
-
-		//// SOLENOID ----------------------------------------------------------
-		
-		shooterFeederSolenoid = new Solenoid(CompetitionBot.Solenoid.SHOOTER_PNEUMATIC_SOLENOID);
-		cameraLED = new Solenoid(CompetitionBot.Solenoid.CAMERA_LED);
-		greenLEDStrip = new Solenoid(CompetitionBot.Solenoid.GREEN_LED_STRIP);
-		redLEDStrip = new Solenoid(CompetitionBot.Solenoid.RED_LED_STRIP);
-		yellowLEDStrip = new Solenoid(CompetitionBot.Solenoid.YELLOW_GROUND_FX_STRIP);
-
-		println("RobotActuators.init() finished");
-    }
 	
-	//// CONFIG ----------------------------------------------------------------
+	//// INSTANCES -------------------------------------------------------------
 	
-	private static void config(){
-		discIntake.setDirection(Relay.Direction.kBoth);
-		compressor.setDirection(Relay.Direction.kForward);
-		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
-
-		shooterFeederSolenoid.set(false);
-		killAllLEDs(); // Turns off all the LEDs.
-	}
-    
-    //// LIGHT CONTROLING METHODS ----------------------------------------------
-    
-    /** Disables all LEDs on the robot. */
-    public static void killAllLEDs() {
-		cameraLED.set(false);
-		greenLEDStrip.set(false);
-		redLEDStrip.set(false);
-		yellowLEDStrip.set(false);
-    }
-    
-    //// DRIVE -----------------------------------------------------------------
+	//// DRIVE -----------------------------------------------------------------
     
     /** Left drive Victor. */
     public static Victor driveLeft;
@@ -154,5 +99,66 @@ public class RobotActuators extends RobotObject {
     public static Solenoid redLEDStrip;
     /** Controls the yellow underglow lights. */
     public static Solenoid yellowLEDStrip;
+    
+    //// INITIALIZATION --------------------------------------------------------
+    
+    /**
+     * Initializes static actuator instances.
+     */
+    public static void init(){
+		println("RobotActuators.init()");
+		
+		//// DIGITAL OUT 1 -----------------------------------------------------
+		
+		driveLeft			= new Victor(CompetitionBot.DigitalOut1.LEFT_DRIVE_VICTOR);
+		driveRight			= new Victor(CompetitionBot.DigitalOut1.RIGHT_DRIVE_VICTOR);
+		shooterWheelMotor   = new Victor(CompetitionBot.DigitalOut1.SHOOTER_VICTOR);
+		shooterAngleMotor   = new Talon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
+		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);
+		climbWinch			= new Talon(CompetitionBot.DigitalOut1.WINCH_TALON);
+		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
+		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
+		
+		//// DIGITAL RELAY 1 ---------------------------------------------------
+		
+		discIntake			= new Relay(CompetitionBot.DigitalRelay1.INTAKE_MOTOR);
+		compressor			= new Relay(CompetitionBot.DigitalRelay1.COMPRESSOR);
+		climbWinchSolenoid	= new Relay(CompetitionBot.DigitalRelay1.WINCH_SOLENOID);
+
+		//// SOLENOID ----------------------------------------------------------
+		
+		shooterFeederSolenoid = new Solenoid(CompetitionBot.Solenoid.SHOOTER_PNEUMATIC_SOLENOID);
+		cameraLED = new Solenoid(CompetitionBot.Solenoid.CAMERA_LED);
+		greenLEDStrip = new Solenoid(CompetitionBot.Solenoid.GREEN_LED_STRIP);
+		redLEDStrip = new Solenoid(CompetitionBot.Solenoid.RED_LED_STRIP);
+		yellowLEDStrip = new Solenoid(CompetitionBot.Solenoid.YELLOW_GROUND_FX_STRIP);
+		
+		//// CONFIGURE ---------------------------------------------------------
+		
+		config();
+
+		println("RobotActuators.init() finished");
+    }
+	
+	//// CONFIG ----------------------------------------------------------------
+	
+	private static void config(){
+		discIntake.setDirection(Relay.Direction.kBoth);
+		compressor.setDirection(Relay.Direction.kForward);
+		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
+
+		shooterFeederSolenoid.set(false);
+		killAllLEDs(); // Turns off all the LEDs.
+	}
+    
+    //// LIGHT CONTROLING METHODS ----------------------------------------------
+    
+    /** Disables all LEDs on the robot. */
+    public static void killAllLEDs() {
+		cameraLED.set(false);
+		greenLEDStrip.set(false);
+		redLEDStrip.set(false);
+		yellowLEDStrip.set(false);
+    }
     
 }

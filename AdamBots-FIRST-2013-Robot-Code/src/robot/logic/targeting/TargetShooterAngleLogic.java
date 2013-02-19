@@ -38,6 +38,10 @@ public abstract class TargetShooterAngleLogic extends RobotObject {
 	public static void setIsTargeting( boolean doTarget ) {
 		_isTargeting = doTarget;
 	}
+	
+	public static boolean isTargeting() {
+		return _isTargeting;
+	}
 
 	/**
 	 * An update function to be called constantly.

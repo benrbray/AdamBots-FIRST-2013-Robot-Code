@@ -24,18 +24,18 @@ public class RobotActuators {
      */
     public static void init(){
 		System.out.println("RobotActuators.init()");
-		driveLeft	    = new Victor(1);
-		driveRight	    = new Victor(2);
+		driveLeft			= new Victor(1);
+		driveRight			= new Victor(2);
 		shooterWheelMotor   = new Victor(3);
 		shooterAngleMotor   = new Talon(4);
 		discElevator	    = new Talon(5);
-		climbWinch	    = new Talon(6);
+		climbWinch			= new Talon(6);
 		transmissionLeft    = new Servo(7);
 		transmissionRight   = new Servo(8);
-//Winch negative is in
-		discIntake	    = new Relay(1);
-		hopperSolenoid = new Relay(7);
-		climbWinchSolenoid   = new Relay(3);
+		
+		discIntake			= new Relay(1);
+		compressor			= new Relay(2);
+		climbWinchSolenoid	= new Relay(3);
 
 		shooterFeederSolenoid = new Solenoid(1);
 		cameraLED = new Solenoid(2);
@@ -44,7 +44,6 @@ public class RobotActuators {
 		yellowLEDStrip = new Solenoid(5);
 
 		discIntake.setDirection(Relay.Direction.kBoth);
-		hopperSolenoid.setDirection(Relay.Direction.kBoth);
 		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 
 		shooterFeederSolenoid.set(false);
@@ -88,8 +87,6 @@ public class RobotActuators {
     public static Talon discElevator;
     /** Spike to control the intake roller. */
     public static Relay discIntake;
-    /** Controls the hopper solenoid. */
-    public static Relay hopperSolenoid;
     
     //// SHOOTER ---------------------------------------------------------------
     
@@ -100,6 +97,10 @@ public class RobotActuators {
     /** Shooter feeder solenoid. */
     //public static Relay shooterFeederSolenoid;
     public static Solenoid shooterFeederSolenoid;
+	
+	//// COMPRESSOR ------------------------------------------------------------
+	/** Controls the compressor. */
+	public static Relay compressor;
     
     //// PRETTY LIGHTS ---------------------------------------------------------
     

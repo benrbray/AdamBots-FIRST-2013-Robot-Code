@@ -108,8 +108,8 @@ public class FancyMotor extends RobotObject implements SpeedController {
     private SpeedController _motor;
     
     // Limit Switches
-    private DigitalInput _upperLimit = null;
-    private DigitalInput _lowerLimit = null;
+    private DigitalInput _positiveLimit = null;
+    private DigitalInput _negativeLimit = null;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -126,8 +126,8 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		
         // Initialize Variables
         _motor = motor;
-        _upperLimit = upperLimit;
-        _lowerLimit = lowerLimit;
+        _positiveLimit = upperLimit;
+        _negativeLimit = lowerLimit;
 		
 		// Push to Static List of FancyMotors
 		_fancyMotors.addElement(this);
@@ -141,18 +141,18 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 */
 	private void checkLimits(){
 		// Get Limit Switch Values
-		boolean limitUpper = (_upperLimit == null) ? false : _upperLimit.get();
-        boolean limitLower = (_lowerLimit == null) ? false : _lowerLimit.get();
+		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
+        boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
 
 		// Print Warning if There Aren't Any Limit Switches Attached
-		if(_upperLimit == null && _lowerLimit == null){
+		if(_positiveLimit == null && _negativeLimit == null){
 			System.err.println("Warning:  A FancyMotor has no limit switch references!");
 		}
 		
 		// If the limits have been reached, stop the motor
-        if ((limitUpper && _motor.get() > 0) || (limitLower && _motor.get() < 0)) {
-			System.out.println("FancyMotor stopped, limits pressed.  (upper: " + limitUpper + ", lower: " + limitLower + ")");
-            _motor.set(0, (byte)0);
+        if ((limitPositive && _motor.get() > 0) || (limitNegative && _motor.get() < 0)) {
+			System.out.println("FancyMotor stopped, limits pressed.  (speed: " + _motor.get() + ", positive: " + limitPositive + ", negative: " + limitNegative + ")");
+            _motor.set(0);
         }
 	}
 	
@@ -201,7 +201,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see robot.sensors.RobotSensors
 	 */
 	public void setPositiveLimit(DigitalInput upperLimit){
-		_upperLimit = upperLimit;
+		_positiveLimit = upperLimit;
 	}
 	
 	/**
@@ -212,7 +212,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see robot.sensors.RobotSensors
 	 */
 	public void setNegativeLimit(DigitalInput lowerLimit){
-		_lowerLimit = lowerLimit;
+		_negativeLimit = lowerLimit;
 	}
 
 

@@ -200,7 +200,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see edu.wpi.first.wpilibj.DigitalInput
 	 * @see robot.sensors.RobotSensors
 	 */
-	public void setUpperLimit(DigitalInput upperLimit){
+	public void setPositiveLimit(DigitalInput upperLimit){
 		_upperLimit = upperLimit;
 	}
 	
@@ -211,7 +211,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see edu.wpi.first.wpilibj.DigitalInput
 	 * @see robot.sensors.RobotSensors
 	 */
-	public void setLowerLimit(DigitalInput lowerLimit){
+	public void setNegativeLimit(DigitalInput lowerLimit){
 		_lowerLimit = lowerLimit;
 	}
 

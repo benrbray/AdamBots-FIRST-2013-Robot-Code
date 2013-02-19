@@ -29,8 +29,6 @@ public class FancyPIDController extends PIDController {
     //// PID METHODS -----------------------------------------------------------
     // sets the RPM
     public void setRPM(double targetRPM) {
-		System.out.println("SETTING RPM");
-
 		// enables the PID if it isn't enabled
 		if (!super.isEnable()) {
 			super.enable();

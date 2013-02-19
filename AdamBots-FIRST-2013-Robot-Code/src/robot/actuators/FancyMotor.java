@@ -105,7 +105,6 @@ public class FancyMotor implements SpeedController {
     
     // Motor Reference
     private SpeedController _motor;
-    private boolean _jaguar;
     
     // Limit Switches
     private DigitalInput _upperLimit = null;
@@ -120,13 +119,11 @@ public class FancyMotor implements SpeedController {
     public FancyMotor(SpeedController motor){
         // Initialize Variables
         _motor = motor;
-        _jaguar = (motor instanceof Jaguar);
     }
     
     public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
         // Initialize Variables
         _motor = motor;
-        _jaguar = (motor instanceof Jaguar);
         _upperLimit = upperLimit;
         _lowerLimit = lowerLimit;
 		
@@ -136,6 +133,10 @@ public class FancyMotor implements SpeedController {
     
     //// UPDATE ----------------------------------------------------------------
     
+	/**
+	 * Checks the limit switches associated with this FancyMotor and stops the 
+	 * motor if they're pressed (and if the motor is trying to go past them!).
+	 */
 	private void checkLimits(){
 		boolean limitUpper = (_upperLimit == null) ? false : _upperLimit.get();
         boolean limitLower = (_lowerLimit == null) ? false : _lowerLimit.get();
@@ -150,6 +151,7 @@ public class FancyMotor implements SpeedController {
 	/**
 	 * Sets the value of the motor, assuming that no limits have been reached.
 	 * @param speed The speed at which to run the motor.
+	 * @see edu.wpi.first.wpilibj.SpeedController#set(double) 
 	 */
     public void set(double speed){
         set(speed, (byte)0);
@@ -159,6 +161,7 @@ public class FancyMotor implements SpeedController {
 	 * Sets the value of the motor, assuming that no limits have been reached.
 	 * @param speed The speed at which to run the motor.
 	 * @param syncGroup The sync group that the motor is part.
+	 * @see edu.wpi.first.wpilibj.SpeedController#set(double, byte) 
 	 */
 	public void set(double speed, byte syncGroup){
 		_motor.set(speed, syncGroup);

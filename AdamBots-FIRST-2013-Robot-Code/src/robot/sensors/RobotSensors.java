@@ -6,6 +6,7 @@ package robot.sensors;
 
 import edu.wpi.first.wpilibj.*;
 import robot.RobotMain;
+import robot.actuators.RobotActuators;
 
 /**
  * <p>Contains static instances of every sensor on the robot. Classes that
@@ -34,7 +35,7 @@ public class RobotSensors {
 	public static final double DPI_ENCODER_DRIVE_RIGHT_DEGREES = 1.0;	// Degrees Per Inch
 	
 	// FancyCounters (Ticks Per Period)
-	public static final int TPP_COUNTER_SHOOTER_ANGLE = 1;					// ?
+	public static final int DPT_COUNTER_SHOOTER_ANGLE = 1;					// ?
 	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;				// ?
 	
 	// Gyro
@@ -128,7 +129,7 @@ public class RobotSensors {
 	
 	// Shooter
     public static FancyCounter counterShooterSpeed;
-    public static FancyCounter counterShooterAngle;
+    public static FancyCounterExtended counterShooterAngle;
     public static DigitalInput limitShooterA;
     public static DigitalInput limitShooterB;
 	
@@ -179,8 +180,7 @@ public class RobotSensors {
         limitElevatorB = new DigitalInput(DIO1, CompetitionBot.DigitalIn1.ELEVATOR_LIMIT_B);
 
 		counterShooterSpeed = new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_SPEED_ENCODER, TPP_COUNTER_SHOOTER_SPEED);
-		counterShooterAngle = new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_ANGLE_ENCODER, TPP_COUNTER_SHOOTER_ANGLE);
-		
+		counterShooterAngle = new FancyCounterExtended(new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_ANGLE_ENCODER, DPT_COUNTER_SHOOTER_ANGLE),RobotActuators.shooterAngleMotor);
         //// DIGITAL CARD 2 ----------------------------------------------------
         
         encoderElevator = new Encoder(DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_A, DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_B);
@@ -215,11 +215,10 @@ public class RobotSensors {
 		//encoderDriveRight.start();
 		encoderWinch.start();
 		encoderElevator.start();
-		counterShooterAngle.start();
+
 		
 		// Shooter Counters
-		counterShooterAngle.setTicksPerPeriod(TPP_COUNTER_SHOOTER_ANGLE);
-		counterShooterAngle.start();
+		counterShooterAngle.setDistancePerTick(DPT_COUNTER_SHOOTER_ANGLE);
 		counterShooterAngle.setMaxPeriod(10000);
 		counterShooterAngle.setUpSourceEdge(true, false); // TODO:  Determine Correct Values
         counterShooterSpeed.start();

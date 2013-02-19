@@ -22,7 +22,6 @@ public final class TAwaitStatus extends LogicTask {
     public static final int WINCH_IN_POSITION = 0;
     public static final int SHOOTER_IN_POSITION = 1;
     public static final int SHOOTER_UP_TO_SPEED = 2;
-    public static final int WINCH_HOOK_LIMIT_SWITCHES_PRESSED = 3;
     public static final int TARGETING_COMPLETED = 98;
     
     //// PRIVATE VARIABLES -----------------------------------------------------
@@ -59,11 +58,6 @@ public final class TAwaitStatus extends LogicTask {
 			break;
 			case SHOOTER_UP_TO_SPEED:
 			_done = RobotShoot.isShooterUpToSpeed();
-			break;
-			case WINCH_HOOK_LIMIT_SWITCHES_PRESSED:
-			_done = RobotSensors.limitHookLeftArm.get() && RobotSensors.limitHookRightArm.get();
-				case TARGETING_COMPLETED:
-					_done = TargetSpinLogic.isPointedRight();
 			break;
 		}
     }

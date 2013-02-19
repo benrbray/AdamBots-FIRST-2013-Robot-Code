@@ -48,7 +48,7 @@ public class FancyCounter extends Counter implements PIDSource {
 	_ticksPerPeriod = ticksPerPeriod;
     }
 	
-	public FancyCounter(int slot, int channel, int ticksPerPeriod, double _diameter) {
+    public FancyCounter(int slot, int channel, int ticksPerPeriod, double _diameter) {
         super(slot, channel);
         lastRpm = 0;
         errorVal = 0;
@@ -56,7 +56,7 @@ public class FancyCounter extends Counter implements PIDSource {
 	_ticksPerPeriod = ticksPerPeriod;
     }
 	
-	public FancyCounter(int slot, int channel, double _diameter) {
+    public FancyCounter(int slot, int channel, double _diameter) {
         super(slot, channel);
         lastRpm = 0;
         errorVal = 0;
@@ -82,9 +82,9 @@ public class FancyCounter extends Counter implements PIDSource {
 		diameter = _diameter;
 	}
 	
-	public double getDistance() {
-		return get() * diameter * Math.PI / _ticksPerPeriod;
-	}
+//	public double getDistance() {
+//		return get() * diameter * Math.PI / _ticksPerPeriod;
+//	}
 	
     public double pidGet() {
         double time = getPeriod() * _ticksPerPeriod;

@@ -7,6 +7,7 @@
 package robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Relay;
 import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
@@ -174,6 +175,13 @@ public final class RobotMain extends IterativeRobot {
     public void update() {
 		// Update the current LogicPhase
 		_currentLogicPhase.updatePhase();
+		
+		// Compressor
+		if (RobotSensors.pressureSwitch.get()) {
+			RobotActuators.compressor.set(Relay.Value.kOff);
+		} else {
+			RobotActuators.compressor.set(Relay.Value.kOn);
+		}
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();

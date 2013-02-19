@@ -32,10 +32,10 @@ public class RobotActuators {
 		climbWinch	    = new Talon(6);
 		transmissionLeft    = new Servo(7);
 		transmissionRight   = new Servo(8);
-
+//Winch negative is in
 		discIntake	    = new Relay(1);
-		hopperSolenoid = new Relay(3);
-		climbWinchSolenoid   = new Relay(4);
+		hopperSolenoid = new Relay(7);
+		climbWinchSolenoid   = new Relay(3);
 
 		shooterFeederSolenoid = new Solenoid(1);
 		cameraLED = new Solenoid(2);

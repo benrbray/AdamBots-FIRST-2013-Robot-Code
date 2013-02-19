@@ -132,23 +132,28 @@ public class RobotActuators extends RobotObject {
 		greenLEDStrip = new Solenoid(CompetitionBot.Solenoid.GREEN_LED_STRIP);
 		redLEDStrip = new Solenoid(CompetitionBot.Solenoid.RED_LED_STRIP);
 		yellowLEDStrip = new Solenoid(CompetitionBot.Solenoid.YELLOW_GROUND_FX_STRIP);
-		
-		//// CONFIGURE ---------------------------------------------------------
-		
-		config();
 
 		println("RobotActuators.init() finished");
     }
 	
 	//// CONFIG ----------------------------------------------------------------
 	
-	private static void config(){
+	/** 
+	 * Configures the Actuators contained within this class.  This method
+	 * should be called after both RobotActuators.init() and RobotSensors.init()
+	 * to ensure full compatibility.
+	 */
+	public static void configure(){
+		// Relays
 		discIntake.setDirection(Relay.Direction.kBoth);
 		compressor.setDirection(Relay.Direction.kForward);
 		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 
+		// Solenoids
 		shooterFeederSolenoid.set(false);
-		killAllLEDs(); // Turns off all the LEDs.
+		
+		// Turn off LEDs
+		killAllLEDs();
 	}
     
     //// LIGHT CONTROLING METHODS ----------------------------------------------

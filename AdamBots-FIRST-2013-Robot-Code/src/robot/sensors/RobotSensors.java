@@ -6,6 +6,7 @@ package robot.sensors;
 
 import edu.wpi.first.wpilibj.*;
 import robot.RobotMain;
+import robot.RobotObject;
 import robot.actuators.RobotActuators;
 
 /**
@@ -19,7 +20,7 @@ import robot.actuators.RobotActuators;
  *
  * @author Ben
  */
-public class RobotSensors {
+public class RobotSensors extends RobotObject {
     //// CONSTANTS -------------------------------------------------------------
 	
 	// TODO:  Constants
@@ -28,15 +29,15 @@ public class RobotSensors {
 	public static final double DPP_ENCODER_DRIVE_LEFT_INCHES = 1.0;		// Inches
 	public static final double DPP_ENCODER_DRIVE_RIGHT_INCHES = 1.0;	// Inches
 	public static final double DPP_ENCODER_WINCH = 1.0;					// ?
-	public static final double DPP_ENCODER_ELEVATOR = 1.0;			// Degrees
+	public static final double DPP_ENCODER_ELEVATOR = 1.0;				// Degrees
 	
 	// Encoders (Degrees Per Inch)
 	public static final double DPI_ENCODER_DRIVE_LEFT_DEGREES = 1.0;	// Degrees Per Inch
 	public static final double DPI_ENCODER_DRIVE_RIGHT_DEGREES = 1.0;	// Degrees Per Inch
 	
 	// FancyCounters (Ticks Per Period)
-	public static final int DPT_COUNTER_SHOOTER_ANGLE = 1;					// ?
-	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;				// ?
+	public static final int DPT_COUNTER_SHOOTER_ANGLE = 1;				// Distance Per Tick
+	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;				// Ticks Per Pulse
 	
 	// Gyro
 	public static final double GYRO_VPDPS = 1.0;  // Volts per Degree Per Second
@@ -129,6 +130,7 @@ public class RobotSensors {
 	
 	// Shooter
     public static FancyCounter counterShooterSpeed;
+	private static FancyCounter _counterShooterAngleInternal;
     public static FancyCounterExtended counterShooterAngle;
     public static DigitalInput limitShooterA;
     public static DigitalInput limitShooterB;
@@ -180,8 +182,9 @@ public class RobotSensors {
         limitElevatorB = new DigitalInput(DIO1, CompetitionBot.DigitalIn1.ELEVATOR_LIMIT_B);
 
 		counterShooterSpeed = new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_SPEED_ENCODER, TPP_COUNTER_SHOOTER_SPEED);
-		counterShooterAngle = new FancyCounterExtended(new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_ANGLE_ENCODER, DPT_COUNTER_SHOOTER_ANGLE),RobotActuators.shooterAngleMotor);
-        //// DIGITAL CARD 2 ----------------------------------------------------
+		_counterShooterAngleInternal = new FancyCounter(DIO1, CompetitionBot.DigitalIn1.SHOOTER_ANGLE_ENCODER, DPT_COUNTER_SHOOTER_ANGLE);
+        
+		//// DIGITAL CARD 2 ----------------------------------------------------
         
         encoderElevator = new Encoder(DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_A, DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_B);
 		encoderElevator.start();
@@ -204,23 +207,27 @@ public class RobotSensors {
 	
 	//// CONFIGURATION ---------------------------------------------------------
 	
-	private static void configure(){
+	/** 
+	 * Configures the Sensors contained within this class.  This method
+	 * should be called after both RobotActuators.init() and RobotSensors.init()
+	 * to ensure full compatibility.
+	 */
+	public static void configure(){
 		// Encoders
 		encoderDriveLeft.setDistancePerPulse(DPP_ENCODER_DRIVE_LEFT_INCHES);
 		encoderDriveRight.setDistancePerPulse(DPP_ENCODER_DRIVE_RIGHT_INCHES);
 		encoderWinch.setDistancePerPulse(DPP_ENCODER_WINCH);
-		encoderElevator.setDistancePerPulse(DPP_ENCODER_ELEVATOR);
-		
-		//encoderDriveLeft.start();
-		//encoderDriveRight.start();
 		encoderWinch.start();
+		encoderElevator.setDistancePerPulse(DPP_ENCODER_ELEVATOR);
 		encoderElevator.start();
 
-		
-		// Shooter Counters
+		// Shooter Angle Counter:  Instantiated Here to Ensure Moter Existence
+		counterShooterAngle = new FancyCounterExtended(_counterShooterAngleInternal, RobotActuators.shooterAngleMotor);
 		counterShooterAngle.setDistancePerTick(DPT_COUNTER_SHOOTER_ANGLE);
 		counterShooterAngle.setMaxPeriod(10000);
 		counterShooterAngle.setUpSourceEdge(true, false); // TODO:  Determine Correct Values
+		
+		// Shooter Speed Counter
         counterShooterSpeed.start();
 		counterShooterSpeed.setMaxPeriod(10000);
 		counterShooterSpeed.setUpSourceEdge(true, false);

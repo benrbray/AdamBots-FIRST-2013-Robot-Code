@@ -81,7 +81,7 @@ public class RobotActuators extends RobotObject {
     /** Shooter wheel motor. */
     public static Victor shooterWheelMotor;
     /** Controls the angle of attack of the shooter. */
-    public static FancyMotor shooterAngleMotor;
+    public static Talon shooterAngleMotor;
     /** Shooter feeder solenoid. */
     //public static Relay shooterFeederSolenoid;
     public static Solenoid shooterFeederSolenoid;
@@ -114,7 +114,7 @@ public class RobotActuators extends RobotObject {
 		driveLeft			= new Victor(CompetitionBot.DigitalOut1.LEFT_DRIVE_VICTOR);
 		driveRight			= new Victor(CompetitionBot.DigitalOut1.RIGHT_DRIVE_VICTOR);
 		shooterWheelMotor   = new Victor(CompetitionBot.DigitalOut1.SHOOTER_VICTOR);
-		shooterAngleMotor   = FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
+		shooterAngleMotor   = new Talon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON); //FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
 		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);
 		climbWinch			= new Talon(CompetitionBot.DigitalOut1.WINCH_TALON);
 		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
@@ -146,8 +146,9 @@ public class RobotActuators extends RobotObject {
 	 */
 	public static void configure(){
 		// Finalize FancyMotors
-		shooterAngleMotor.setUpperLimit(RobotSensors.limitShooterA);
-		shooterAngleMotor.setLowerLimit(RobotSensors.limitShooterB);
+		// TODO:  Uncomment when limit switches are added.
+		//shooterAngleMotor.setUpperLimit(RobotSensors.limitShooterA);
+		//shooterAngleMotor.setLowerLimit(RobotSensors.limitShooterB);
 		
 		// Relays
 		discIntake.setDirection(Relay.Direction.kBoth);

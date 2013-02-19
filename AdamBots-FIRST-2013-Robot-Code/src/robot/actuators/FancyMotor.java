@@ -119,25 +119,22 @@ public class FancyMotor implements SpeedController {
         boolean limitUpper = _upperLimit.get();
         boolean limitLower = _lowerLimit.get();
 
-        if ((limitUpper && motorValue < 0) || (limitLower && motorValue > 0)) {
+        if ((!limitUpper && !limitLower) || (limitUpper && motorValue < 0) || (limitLower && motorValue > 0)) {
             _motor.set(motorValue);
         } else {
             _motor.set(0);
         }
     }
 	
-	public void disable()
-	{
+	public void disable(){
 		_motor.disable();
 	}
 	
-	public void set(double x,byte y)
-	{
-		_motor.set(x,y);
+	public void set(double speed, byte syncGroup){
+		_motor.set(speed, syncGroup);
 	}
 	
-	public double get()
-	{
+	public double get(){
 		return _motor.get();
 	}
 	

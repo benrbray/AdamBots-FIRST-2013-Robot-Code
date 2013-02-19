@@ -150,6 +150,9 @@ public final class RobotMain extends IterativeRobot {
 		segueToLogicPhase(_teleopLogic);
 
 		RobotActuators.cameraLED.set(true);
+		RobotActuators.greenLEDStrip.set(true);
+		RobotActuators.redLEDStrip.set(true);
+		RobotActuators.yellowLEDStrip.set(true);
 
 		if (_autonLogic != null) {
 			_autonLogic = null;
@@ -166,8 +169,8 @@ public final class RobotMain extends IterativeRobot {
     public void teleopPeriodic() {
 		// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
 		update();
-		System.out.println("L:" + RobotSensors.encoderDriveLeft.getRaw());
-		System.out.println("R:" + RobotSensors.encoderDriveRight.getRaw());
+		//System.out.println("L:" + RobotSensors.encoderDriveLeft.getRaw());
+		//System.out.println("R:" + RobotSensors.encoderDriveRight.getRaw());
     }
 
     //// UPDATE ----------------------------------------------------------------
@@ -177,11 +180,11 @@ public final class RobotMain extends IterativeRobot {
 		_currentLogicPhase.updatePhase();
 		
 		// Compressor
-		if (RobotSensors.pressureSwitch.get()) {
+		/*if (RobotSensors.pressureSwitch.get()) {
 			RobotActuators.compressor.set(Relay.Value.kOff);
 		} else {
 			RobotActuators.compressor.set(Relay.Value.kOn);
-		}
+		}*/
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();

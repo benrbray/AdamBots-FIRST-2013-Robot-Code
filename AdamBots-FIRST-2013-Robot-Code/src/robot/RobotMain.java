@@ -9,6 +9,7 @@ package robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.actuators.FancyMotor;
 import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
@@ -189,6 +190,7 @@ public final class RobotMain extends IterativeRobot {
 		RobotCamera.update();
 		RobotPickup.update();
 		RobotClimb.update();
+		FancyMotor.update();	// Checks Limit Switches
     }
 
     //// TEST ------------------------------------------------------------------

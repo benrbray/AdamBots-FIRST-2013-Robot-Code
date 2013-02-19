@@ -63,7 +63,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	 * Called periodically to control the shooterAngle motor.
 	 */
 	public static boolean isShooterInPosition() {
-		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		double d = convertFromEncoderToAngle(RobotSensors.counterShooterAngle.getDistance());
 		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
 
@@ -93,7 +93,8 @@ public abstract class RobotShoot extends RobotBehavior {
 	}
 
 	public static void update() {
-		double d = convertFromEncoderToAngle(RobotSensors.encoderShooterAngle.getDistance());
+		// TODO:  Fix Counter Value; NEEEEEEED THISSSSS
+		double d = convertFromEncoderToAngle(RobotSensors.counterShooterAngle.getDistance());
 		/**
 		 * TODO: Rewrite 'd' to be a proper angle. *
 		 * TODO: Check encoder at limits.

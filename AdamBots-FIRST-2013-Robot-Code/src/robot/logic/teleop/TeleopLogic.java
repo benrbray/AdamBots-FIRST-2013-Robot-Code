@@ -103,6 +103,9 @@ public class TeleopLogic extends LogicPhase {
      * Update method. To be called periodically by MainControl.
      */
     public void updatePhase() {
+		
+		RobotActuators.cameraLED.set(true);
+		
 		//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
 
 		updateJoystickValues();
@@ -167,7 +170,6 @@ public class TeleopLogic extends LogicPhase {
 		// Winch operation
 		if (_winchEnabled) {
 
-			//TODO: Drive winch based on primary axis right y
 			if (_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] <= 0) {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 				RobotActuators.climbWinch.set(_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
@@ -265,7 +267,6 @@ public class TeleopLogic extends LogicPhase {
 		RobotActuators.discElevator.set(_elevatorDrive);
 
 		// Disk fire control
-		//TODO: Check shooter pneumatic control
 		if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
 			//RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
 			RobotActuators.shooterFeederSolenoid.set(true);

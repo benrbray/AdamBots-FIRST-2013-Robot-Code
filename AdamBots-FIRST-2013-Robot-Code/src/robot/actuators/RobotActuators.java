@@ -44,6 +44,7 @@ public class RobotActuators {
 		yellowLEDStrip = new Solenoid(5);
 
 		discIntake.setDirection(Relay.Direction.kBoth);
+		compressor.setDirection(Relay.Direction.kForward);
 		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 
 		shooterFeederSolenoid.set(false);

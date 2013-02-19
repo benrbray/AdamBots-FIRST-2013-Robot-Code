@@ -103,17 +103,17 @@ public class TeleopLogic extends LogicPhase {
      * Update method. To be called periodically by MainControl.
      */
     public void updatePhase() {
-	//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
+    //// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
 
 	updateJoystickValues();
 	updateMagicBox();
 
-	//// PRIMARY DRIVER ----------------------------------------------------
+    //// PRIMARY DRIVER ----------------------------------------------------
 
-	_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
-	_rightDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X];
+	_leftDrive = -_primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X];
+	_rightDrive = -_primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 
-	// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
+    // If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 	if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
 	    TargetSpinLogic.setIsTargeting(true);
 	    SmartDashboard.putString("chassisTargeting", "Enabled");
@@ -128,7 +128,7 @@ public class TeleopLogic extends LogicPhase {
 	    SmartDashboard.putString("chassisTargeting", "Disabled");
 	}
 
-	// Handle shifting
+    // Handle shifting
 	if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
 	    if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 		_highGear = false;
@@ -141,8 +141,9 @@ public class TeleopLogic extends LogicPhase {
 
 	SmartDashboard.putBoolean("highGear", _highGear);
 
-	// Infeed roller for pickup mechanism
-	if (_primaryButtons[FancyJoystick.BUTTON_X]) {
+    // Infeed roller for pickup mechanism
+	//TODO: Enable infeed roller logic
+	/*if (_primaryButtons[FancyJoystick.BUTTON_X]) {
 	    RobotPickup.intakeRoller(Relay.Value.kForward);
 	    SmartDashboard.putString("intakeRoller", "forward");
 	} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
@@ -151,9 +152,9 @@ public class TeleopLogic extends LogicPhase {
 	} else {
 	    RobotPickup.intakeRoller(Relay.Value.kOff);
 	    SmartDashboard.putString("intakeRoller", "off");
-	}
+	}*/
 
-	// Winch Safety
+    // Winch Safety
 	if (_primaryButtons[FancyJoystick.BUTTON_START] && _primaryButtons[FancyJoystick.BUTTON_BACK] && _winchEnabledToggleReleased) {
 	    _winchEnabled = !_winchEnabled;
 	    _winchEnabledToggleReleased = false;
@@ -163,20 +164,41 @@ public class TeleopLogic extends LogicPhase {
 
 	SmartDashboard.putBoolean("winchSafetyEnabled", _winchEnabled);
 
-	// Winch operation
+    // Winch operation
 	if (_winchEnabled) {
+	    
 	    //TODO: Drive winch based on primary axis right y
+	    if (_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] <= 0) {
+		RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
+		RobotActuators.climbWinch.set(_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
+	    } else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
+		RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
+		RobotActuators.climbWinch.set(_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
+	    }
+	    
 	} else {
 	    //TODO: Set winch drive to 0
+	    RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
+	    RobotActuators.climbWinch.set(0);
 	}
+	
+	SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
+	
+    // Winch solenoid Operation
+	/*
+	if (_winchEnabled && _primaryButtons[FancyJoystick.BUTTON_BACK]) {
+	    RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
+	} else {
+	    RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
+	}*/
 
 	// Autonomous Climbing
 	// TODO:  Finalize Autonomous Climbing Controls
-	if (_primaryButtons[FancyJoystick.BUTTON_A] && _primaryButtons[FancyJoystick.BUTTON_Y]) {
+	/*if (_primaryButtons[FancyJoystick.BUTTON_A] && _primaryButtons[FancyJoystick.BUTTON_Y]) {
 	    RobotMain.getInstance().segueToLogicPhase(LogicPhase.CLIMB);
-	}
+	}*/
 
-	//// SECONDARY DRIVER --------------------------------------------------
+    //// SECONDARY DRIVER --------------------------------------------------
 	_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
 	// If the secondary driver requests auto targeting...Else keep speed at a constant.
@@ -185,7 +207,7 @@ public class TeleopLogic extends LogicPhase {
 	    TargetShooterAngleLogic.setIsTargeting(true);
 	    TargetShooterSpeedLogic.setIsTargeting(true);
 
-	    // Shooter angle control.
+	// Shooter angle control.
 	    // Start by driving based on joystick if the joystick has input.
 	    if (_shooterAngleChangerDrive != 0) {
 		RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
@@ -203,7 +225,7 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putString("shooterAngleChanger", "full court");
 	    }
 
-	    // Shooter speed control
+	// Shooter speed control
 	    // Start with automatic speed if it is enabled.
 	    if (_magicBoxButtons[MagicBox.AUTO_SHOOTER_SPEED_ENABLED]) {
 		TargetShooterSpeedLogic.setIsTargeting(true);
@@ -233,13 +255,14 @@ public class TeleopLogic extends LogicPhase {
 	}
 
 	SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
+	SmartDashboard.putNumber("shooterAngleChangerMotor", RobotActuators.shooterAngleMotor.get());
 
-	// Drive elevator
+    // Drive elevator
 	_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
 
 	RobotActuators.discElevator.set(_elevatorDrive);
 
-	// Disk fire control
+    // Disk fire control
 	//TODO: Check shooter pneumatic control
 	if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
 	    //RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);

@@ -104,7 +104,7 @@ public class TeleopLogic extends LogicPhase {
      */
     public void updatePhase() {
 		
-		RobotActuators.cameraLED.set(true);
+		//RobotActuators.cameraLED.set(true);
 		
 		//// UPDATE JOYSTICK AND MAGIC BOX VALUES ------------------------------
 
@@ -113,8 +113,8 @@ public class TeleopLogic extends LogicPhase {
 
 		//// PRIMARY DRIVER ----------------------------------------------------
 
-		_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X];
-		_rightDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
+		_leftDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] - _primaryAxis[FancyJoystick.AXIS_LEFT_X];
+		_rightDrive = _primaryAxis[FancyJoystick.AXIS_TRIGGERS] + _primaryAxis[FancyJoystick.AXIS_LEFT_X];
 
 		// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 		if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
@@ -130,6 +130,9 @@ public class TeleopLogic extends LogicPhase {
 			RobotDrive.drive(_leftDrive, _rightDrive);
 			SmartDashboard.putString("chassisTargeting", "Disabled");
 		}
+		
+		SmartDashboard.putNumber("leftEncoder", RobotSensors.encoderDriveLeft.get());
+		SmartDashboard.putNumber("rightEncoder", RobotSensors.encoderDriveRight.get());
 
 		// Handle shifting
 		if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
@@ -251,8 +254,9 @@ public class TeleopLogic extends LogicPhase {
 		} else {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
-			RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
-			RobotActuators.shooterAngleMotor.set(_shooterAngleChangerDrive);
+			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.getShooterManualSpeed());
+			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
+			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
 			SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
 			SmartDashboard.putString("secondaryAutoTarget", "false");
 		}

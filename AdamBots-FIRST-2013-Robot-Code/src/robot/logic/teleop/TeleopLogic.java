@@ -256,6 +256,7 @@ public class TeleopLogic extends LogicPhase {
 
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
 		SmartDashboard.putNumber("shooterAngleChangerMotor", RobotActuators.shooterAngleMotor.get());
+		SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.encoderShooterAngle.get());
 
 		// Drive elevator
 		_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];

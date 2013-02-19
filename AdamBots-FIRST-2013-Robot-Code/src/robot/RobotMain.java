@@ -109,7 +109,7 @@ public final class RobotMain extends IterativeRobot {
 		FancyMotor.verboseOutput = VERBOSE_FANCYMOTOR;
 
 		// Initialize Joysticks
-		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER);
+		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER, .15);
 		secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
 
 		// Turn lights on
@@ -231,6 +231,12 @@ public final class RobotMain extends IterativeRobot {
      */
     public void disabledPeriodic() {
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
+		SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
+		//SmartDashboard.putNumber("accelerometerAccel", RobotSensors.accelerometerChassis.getAcceleration());
+		SmartDashboard.putNumber("configSwitchA Raw Value", RobotSensors.configA.getVoltage());
+		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configOn(RobotSensors.configA));
+		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configOn(RobotSensors.configB));
+		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configOn(RobotSensors.configC));
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------

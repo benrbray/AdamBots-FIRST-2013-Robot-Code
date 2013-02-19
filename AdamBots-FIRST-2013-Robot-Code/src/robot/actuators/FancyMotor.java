@@ -138,9 +138,16 @@ public class FancyMotor implements SpeedController {
 	 * motor if they're pressed (and if the motor is trying to go past them!).
 	 */
 	private void checkLimits(){
+		// Get Limit Switch Values
 		boolean limitUpper = (_upperLimit == null) ? false : _upperLimit.get();
         boolean limitLower = (_lowerLimit == null) ? false : _lowerLimit.get();
 
+		// Print Warning if There Aren't Any Limit Switches Attached
+		if(_upperLimit == null && _lowerLimit == null){
+			System.err.println("Warning:  A FancyMotor has no limit switch references!");
+		}
+		
+		// If the limits have been reached, stop the motor
         if ((limitUpper && _motor.get() > 0) || (limitLower && _motor.get() < 0)) {
             _motor.set(0, (byte)0);
         }

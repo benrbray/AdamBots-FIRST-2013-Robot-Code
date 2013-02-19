@@ -77,8 +77,9 @@ public final class RobotMain extends IterativeRobot {
      */
     public void robotInit() {
 		_instance = this;
-
+		
 		// Initialize Classes with Static References
+		FancyMotor.init();
 		RobotActuators.init();
 		RobotSensors.init();
 		RobotActuators.configure();
@@ -89,7 +90,6 @@ public final class RobotMain extends IterativeRobot {
 		RobotCamera.init();
 		RobotShoot.init();
 		RobotPickup.init();
-		FancyMotor.init();
 
 		//Initialize Static Logic Classes
 		TargetShooterAngleLogic.init();
@@ -97,6 +97,7 @@ public final class RobotMain extends IterativeRobot {
 		TargetSpinLogic.init();
 
 		// Output Filtering
+		// TODO:  Print Filtering Broken
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
 		RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
 		RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;

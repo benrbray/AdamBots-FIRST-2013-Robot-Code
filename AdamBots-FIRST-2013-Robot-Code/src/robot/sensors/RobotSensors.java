@@ -183,7 +183,7 @@ public class RobotSensors {
 		
         //// DIGITAL CARD 2 ----------------------------------------------------
         
-        encoderElevator = new Encoder(DIO1, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_A, DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_B);
+        encoderElevator = new Encoder(DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_A, DIO2, CompetitionBot.DigitalIn2.ELEVATOR_ENCODER_B);
 		encoderElevator.start();
 		
         limitHookLeftBase = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.HOOK_LEFT_BASE_LIMIT);

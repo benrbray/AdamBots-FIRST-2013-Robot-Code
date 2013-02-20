@@ -32,6 +32,7 @@ public abstract class RobotCamera extends RobotObject {
 	private static final double VIEW_HEIGHT_OVER_WIDTH = 0.75;
 	private static final double CAMERA_ANGLE_CENTER_ELEVATION_DEGREES = 20;//CHECK
 	private static final double CAMERA_HEIGHT_INCHES = 12;//CHECK
+	private static boolean _alreadyInit = false;
 	/**
 	 * The camera instance used in tracking.
 	 */
@@ -43,7 +44,7 @@ public abstract class RobotCamera extends RobotObject {
 	/**
 	 * The current identified green target.
 	 */
-	private static Target _greenTarget;
+	public static Target _greenTarget;
 	/**
 	 * Distance in FEET to target based on most recent exposure.
 	 **/
@@ -158,14 +159,14 @@ public abstract class RobotCamera extends RobotObject {
 					board = greens[i];
 				}
 			}
-			double size = board.particleArea;
+			double largestsize = board.particleArea;
 			ParticleAnalysisReport q = null;
 			for (int i = 0; i < greens.length; i++) {
-				if (greens[i].particleArea> size * 0.5)
+				if (greens[i].particleArea> largestsize * 0.5)
 				{
 					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}
-				if ( (greens[i].particleArea > size * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
+				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
 					q = greens[i];
 				}
 			}
@@ -191,6 +192,10 @@ public abstract class RobotCamera extends RobotObject {
 	 Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
 	 **/
 	public static void init() {
+		if (_alreadyInit)
+		{
+			return;
+		}
 		//how it will be on the robot ; 
 		_camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
 		//_camera = AxisCamera.getInstance("192.168.0.90");
@@ -198,6 +203,7 @@ public abstract class RobotCamera extends RobotObject {
 		_camera.writeExposurePriority(AxisCamera.ExposurePriorityT.frameRate);
 		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);
 		_camera.writeCompression(10);
+		_alreadyInit = true;
 	}
 
 	/**

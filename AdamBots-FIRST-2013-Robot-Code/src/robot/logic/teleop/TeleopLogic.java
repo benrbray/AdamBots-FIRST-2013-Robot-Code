@@ -41,6 +41,7 @@ public class TeleopLogic extends LogicPhase {
     // Chassis drive
     private double _leftDrive;
     private double _rightDrive;
+	private double _setWinch;
     
     private boolean _highGear;
     private boolean _winchEnabled;
@@ -86,6 +87,7 @@ public class TeleopLogic extends LogicPhase {
 
 		_leftDrive = 0;
 		_rightDrive = 0;
+		_setWinch = 0;
 
 		_shooterAngleChangerDrive = 0;
 		_elevatorDrive = 0;
@@ -145,7 +147,7 @@ public class TeleopLogic extends LogicPhase {
 			}
 		}
 
-		SmartDashboard.putBoolean("highGear", _highGear);
+		//SmartDashboard.putBoolean("highGear", _highGear);
 
 		// Infeed roller for pickup mechanism
 		//TODO: Enable infeed roller logic
@@ -172,13 +174,19 @@ public class TeleopLogic extends LogicPhase {
 
 		// Winch operation
 		if (_winchEnabled) {
-
-			if (_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] <= 0) {
-				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
-				RobotActuators.climbWinch.set(_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
-			} else if (_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] > 0) {
-				RobotActuators.climbWinch.set(_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
+			//Positive pulls winch in
+			//Negative lets winch out
+			
+			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y];
+			
+			if (_setWinch <= 0) {
+				RobotActuators.climbWinch.set(_setWinch);
+			} else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
+				RobotActuators.climbWinch.set(_setWinch);
+			} else {
+				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
+				RobotActuators.climbWinch.set(0);
 			}
 
 		} else {
@@ -255,13 +263,21 @@ public class TeleopLogic extends LogicPhase {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.getShooterManualSpeed());
+			
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
 			SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
 			SmartDashboard.putString("secondaryAutoTarget", "false");
 		}
+		
+		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
+			RobotActuators.shooterWheelMotor.set(1);
+			System.out.println("Setting to 1");
+		}
 
+		SmartDashboard.putNumber("shooterVoltage", RobotActuators.shooterWheelMotor.get());
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
+		SmartDashboard.putNumber("shooterEncoderPeriod", RobotSensors.counterShooterSpeed.getPeriod());
 		SmartDashboard.putNumber("shooterAngleChangerMotor", RobotActuators.shooterAngleMotor.get());
 		SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.counterShooterAngle.get());
 		
@@ -287,6 +303,10 @@ public class TeleopLogic extends LogicPhase {
 		}
 
 		SmartDashboard.putNumber("numShots", _numShots);
+		
+		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
+			RobotSensors.counterShooterAngle.reset();
+		}
     }
 
     /**

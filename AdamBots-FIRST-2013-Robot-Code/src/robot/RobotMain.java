@@ -87,7 +87,6 @@ public final class RobotMain extends IterativeRobot {
 
 		// Initialize Static Behavior Classes
 		RobotDrive.init();
-		RobotCamera.init();
 		RobotShoot.init();
 		RobotPickup.init();
 
@@ -122,6 +121,7 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the autonomous period.
      */
     public void autonomousInit() {
+		RobotCamera.init();
 		_autonLogic = new AutonLogic();
 		_autonLogic.verboseOutput = VERBOSE_AUTON;
 		segueToLogicPhase(_autonLogic);
@@ -143,6 +143,8 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the teleoperated period.
      */
     public void teleopInit() {
+		
+		RobotCamera.init();
 		_teleopLogic = new TeleopLogic();
 		_climbLogic = new ClimbLogic();
 		_teleopLogic.verboseOutput = VERBOSE_TELEOP;
@@ -195,6 +197,13 @@ public final class RobotMain extends IterativeRobot {
 		RobotPickup.update();
 		RobotClimb.update();
 		FancyMotor.update();	// Checks Limit Switches
+		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
+		SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
+		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());
+		if (RobotCamera._greenTarget != null) {
+			SmartDashboard.putString("Target Location","(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
+		}
+		
     }
 
     //// TEST ------------------------------------------------------------------
@@ -231,12 +240,12 @@ public final class RobotMain extends IterativeRobot {
      */
     public void disabledPeriodic() {
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
-		SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
+		//SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
 		//SmartDashboard.putNumber("accelerometerAccel", RobotSensors.accelerometerChassis.getAcceleration());
-		SmartDashboard.putNumber("configSwitchA Raw Value", RobotSensors.configA.getVoltage());
-		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configOn(RobotSensors.configA));
-		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configOn(RobotSensors.configB));
-		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configOn(RobotSensors.configC));
+//		SmartDashboard.putNumber("configSwitchA Raw Value", RobotSensors.configA.getVoltage());
+//		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configOn(RobotSensors.configA));
+//		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configOn(RobotSensors.configB));
+//		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configOn(RobotSensors.configC));
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------

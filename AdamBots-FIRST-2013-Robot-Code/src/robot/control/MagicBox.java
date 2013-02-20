@@ -87,10 +87,12 @@ public class MagicBox {
 	    _angleOffset += ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 
+		_shooterManualSpeed += 500;
 	} else if (!_ds.getDigitalIn(ANGLE_OFFSET_DOWN) && _angleOffsetButtonReleased) {
 	    _angleOffset -= ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 
+		_shooterManualSpeed -= 500;
 	} else if (_ds.getDigitalIn(ANGLE_OFFSET_UP) && _ds.getDigitalIn(ANGLE_OFFSET_DOWN)) {
 	    _angleOffsetButtonReleased = true;
 	}

@@ -231,6 +231,7 @@ public class RobotSensors extends RobotObject {
         counterShooterSpeed.start();
 		counterShooterSpeed.setMaxPeriod(10000);
 		counterShooterSpeed.setUpSourceEdge(true, false);
+		counterShooterSpeed.clearDownSource();
 		
 		// Gyro
 		// TODO:  Gyro Config?

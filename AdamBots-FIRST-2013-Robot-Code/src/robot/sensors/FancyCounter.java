@@ -91,12 +91,15 @@ public class FancyCounter extends Counter implements PIDSource {
         double rpm = 60 / time;
 
         // if (rom > 5000)  // was that before, but i thought i might need something different that wasn't 5000
-        if (rpm > 10000) {
+        if (rpm > 6000) {
             errorVal++;
             rpm = lastRpm;
-        }
-
-        lastRpm = rpm;
+        } else if (rpm < 300) {
+			errorVal++;
+            rpm = lastRpm;
+		} else {
+			lastRpm = rpm;
+		}
 
         return rpm;
     }

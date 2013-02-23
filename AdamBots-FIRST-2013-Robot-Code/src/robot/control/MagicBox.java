@@ -14,15 +14,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class MagicBox {
     
     //// MAGIC BOX CONSTANTS ---------------------------------------------------
-    public static final int NUM_BUTTONS = 8;
+    public static final int NUM_BUTTONS = 14;
     
-    public static final int AUTO_SHOOTER_SPEED_ENABLED	= 5;
+    public static final int AUTO_SHOOTER_SPEED_ENABLED	= 9;
     public static final int SHOOTER_MULTIPLIER_UP	= 3;
-    public static final int SHOOTER_MULTIPLIER_DOWN	= 4;
+    public static final int SHOOTER_MULTIPLIER_DOWN	= 5;
     
-    public static final int AUTO_ANGLE_ENABLED	= 6;
-    public static final int ANGLE_OFFSET_UP	= 1;
-    public static final int ANGLE_OFFSET_DOWN	= 2;
+    public static final int AUTO_ANGLE_ENABLED	= 7;
+    public static final int ANGLE_OFFSET_UP		= 4;
+    public static final int ANGLE_OFFSET_DOWN	= 6;
+	
+	public static final int CHASSIS_OFFSET_LEFT = 1;
+	public static final int CHASSIS_OFFSET_RIGHT = 2;
     
     public static final int SHOOT_FROM_PYRAMID	    = 7;
     public static final int SHOOT_FROM_FULL_COURT   = 8;
@@ -30,6 +33,7 @@ public class MagicBox {
     public static final double SHOOTER_MULTIPLIER_INCREMENT	= .05;
     public static final double SHOOTER_MANUAL_SPEED_INCREMENT	= 25;
     public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
+	public static final double CHASSIS_OFFSET_INCREMENT		= 1;
     
     public static final double PYRAMID_SHOT_SPEED = 1200;
     public static final double PYRAMID_SHOT_ANGLE = 50;
@@ -41,9 +45,11 @@ public class MagicBox {
     private static double _shooterMultiplier;
     private static double _shooterManualSpeed;
     private static double _angleOffset;
+	private static double _chassisOffset;
     
     private static boolean _shooterMultiplierButtonReleased;
     private static boolean _angleOffsetButtonReleased;
+	private static boolean _chassisOffsetButtonReleased;
     
     private static DriverStation _ds;
     
@@ -58,9 +64,11 @@ public class MagicBox {
 	_shooterMultiplier = 1.0;
 	_shooterManualSpeed = 500;
 	_angleOffset = 0;
+	_chassisOffset = 0;
 
 	_shooterMultiplierButtonReleased = false;
 	_angleOffsetButtonReleased = false;
+	_chassisOffsetButtonReleased = false;
     }
     
     /**
@@ -87,14 +95,27 @@ public class MagicBox {
 	    _angleOffset += ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 
-		_shooterManualSpeed += 500;
 	} else if (!_ds.getDigitalIn(ANGLE_OFFSET_DOWN) && _angleOffsetButtonReleased) {
 	    _angleOffset -= ANGLE_OFFSET_INCREMENT;
 	    _angleOffsetButtonReleased = false;
 
-		_shooterManualSpeed -= 500;
 	} else if (_ds.getDigitalIn(ANGLE_OFFSET_UP) && _ds.getDigitalIn(ANGLE_OFFSET_DOWN)) {
 	    _angleOffsetButtonReleased = true;
+	}
+	
+	//// CHASSIS OFFSET LOGIC ------------------------------------------------
+	if (!_ds.getDigitalIn(CHASSIS_OFFSET_LEFT) && _chassisOffsetButtonReleased) {
+	    _chassisOffset += CHASSIS_OFFSET_INCREMENT;
+	    _chassisOffsetButtonReleased = false;
+
+		_shooterManualSpeed += 500;
+	} else if (!_ds.getDigitalIn(CHASSIS_OFFSET_RIGHT) && _chassisOffsetButtonReleased) {
+	    _chassisOffset -= CHASSIS_OFFSET_INCREMENT;
+	    _chassisOffsetButtonReleased = false;
+
+		_shooterManualSpeed -= 500;
+	} else if (_ds.getDigitalIn(CHASSIS_OFFSET_LEFT) && _ds.getDigitalIn(CHASSIS_OFFSET_RIGHT)) {
+	    _chassisOffsetButtonReleased = true;
 	}
     }
     

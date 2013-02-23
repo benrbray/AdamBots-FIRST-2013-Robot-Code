@@ -160,6 +160,20 @@ public class MagicBox {
     public static void setAngleOffset(double angleOffset) {
 	_angleOffset = angleOffset;
     }
+	
+	/**
+	 * @return The current chassis offset in degrees.
+	 */
+	public static double getChassisOffset() {
+		return _chassisOffset;
+	}
+	
+	/**
+	 * @param chassisOffset The angle to set the chassis offset to.
+	 */
+	public static void setChassisOffset(double chassisOffset) {
+		_chassisOffset = chassisOffset;
+	}
     
     /**
      * This method is a more convenient way to access the digital inputs

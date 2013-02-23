@@ -27,8 +27,8 @@ public class MagicBox {
 	public static final int CHASSIS_OFFSET_LEFT = 1;
 	public static final int CHASSIS_OFFSET_RIGHT = 2;
     
-    public static final int SHOOT_FROM_PYRAMID	    = 7;
-    public static final int SHOOT_FROM_FULL_COURT   = 8;
+    public static final int SHOOT_FROM_PYRAMID	    = 10;
+    public static final int SHOOT_FROM_FULL_COURT   = 11;
     
     public static final double SHOOTER_MULTIPLIER_INCREMENT	= .05;
     public static final double SHOOTER_MANUAL_SPEED_INCREMENT	= 25;

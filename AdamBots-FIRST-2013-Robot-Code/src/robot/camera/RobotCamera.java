@@ -150,7 +150,7 @@ public abstract class RobotCamera extends RobotObject {
 			_srcImage.replaceGreenPlane(saturationHSVOriginal);
 			_srcImage.replaceBluePlane(valueOriginal);
 
-			result = _srcImage.thresholdRGB(110, 140, 200, 256, 225, 256);
+			result = _srcImage.thresholdRGB(107, 124, 211, 256, 243, 256);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
 			ParticleAnalysisReport board = null;

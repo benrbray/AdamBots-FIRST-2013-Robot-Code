@@ -188,7 +188,10 @@ public final class RobotMain extends IterativeRobot {
 			RobotActuators.compressor.set(Relay.Value.kOn);
 		}
 		
-		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
+		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
+		if(RobotSensors.limitShooterB.get()){
+			RobotSensors.counterShooterAngle.reset();
+		}
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();
@@ -198,7 +201,10 @@ public final class RobotMain extends IterativeRobot {
 		RobotCamera.update();
 		RobotPickup.update();
 		RobotClimb.update();
-		FancyMotor.update();	// Checks Limit Switches
+		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
+		
+		// Print to Dashboard
+		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
 		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
 		//SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
 		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());

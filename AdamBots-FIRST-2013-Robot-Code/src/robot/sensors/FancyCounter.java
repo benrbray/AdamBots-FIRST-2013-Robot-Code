@@ -87,8 +87,8 @@ public class FancyCounter extends Counter implements PIDSource {
 //	}
 	
     public double pidGet() {
-        double time = getPeriod() * _ticksPerPeriod;
-        double rpm = 60 / time;
+        double time = getPeriod();
+        double rpm = (60 / time) / _ticksPerPeriod;
 
         // if (rom > 5000)  // was that before, but i thought i might need something different that wasn't 5000
         if (rpm > 6000) {

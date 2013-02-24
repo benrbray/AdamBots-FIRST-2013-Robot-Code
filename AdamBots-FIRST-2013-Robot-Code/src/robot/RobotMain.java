@@ -187,6 +187,8 @@ public final class RobotMain extends IterativeRobot {
 		} else {
 			RobotActuators.compressor.set(Relay.Value.kOn);
 		}
+		
+		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();
@@ -198,7 +200,7 @@ public final class RobotMain extends IterativeRobot {
 		RobotClimb.update();
 		FancyMotor.update();	// Checks Limit Switches
 		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
-		SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
+		//SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
 		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());
 		if (RobotCamera._greenTarget != null) {
 			SmartDashboard.putString("Target Location","(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
@@ -242,10 +244,9 @@ public final class RobotMain extends IterativeRobot {
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
 		//SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
 		//SmartDashboard.putNumber("accelerometerAccel", RobotSensors.accelerometerChassis.getAcceleration());
-//		SmartDashboard.putNumber("configSwitchA Raw Value", RobotSensors.configA.getVoltage());
-//		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configOn(RobotSensors.configA));
-//		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configOn(RobotSensors.configB));
-//		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configOn(RobotSensors.configC));
+		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configA.get());
+		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configB.get());
+		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configC.get());
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------

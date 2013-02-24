@@ -50,6 +50,7 @@ public class TeleopLogic extends LogicPhase {
     // Secondary drive
     private double _shooterAngleChangerDrive;
     private double _elevatorDrive;
+	private double _secondaryBCount;
     private int _numShots;
     private boolean _numShotsReleased;
 
@@ -92,6 +93,7 @@ public class TeleopLogic extends LogicPhase {
 		_shooterAngleChangerDrive = 0;
 		_elevatorDrive = 0;
 		_numShots = 0;
+		_secondaryBCount = 0;
 		_numShotsReleased = true;
 
 		_highGear = false;
@@ -307,7 +309,12 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putNumber("numShots", _numShots);
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
-			RobotSensors.counterShooterAngle.reset();
+			_secondaryBCount++;
+			if (_secondaryBCount > 15 ) {
+				RobotSensors.counterShooterAngle.reset();
+			}
+		} else {
+			_secondaryBCount = 0;
 		}
     }
 

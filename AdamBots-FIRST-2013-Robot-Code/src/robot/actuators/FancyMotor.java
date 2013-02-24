@@ -36,7 +36,10 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	public static void update(){
 		for(int i = 0; i < _fancyMotors.size(); i++){
 			FancyMotor fm = (FancyMotor) _fancyMotors.elementAt(i);
-			fm.checkLimits();
+			if(!fm.checkLimits(fm.get())){
+				fm.set(0.0);
+				
+			}
 		}
 	}
 	
@@ -138,8 +141,10 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	/**
 	 * Checks the limit switches associated with this FancyMotor and stops the 
 	 * motor if they're pressed (and if the motor is trying to go past them!).
+	 * @param motorValue The desired motor value.
+	 * @return Returns TRUE if it is OK to set the motor.
 	 */
-	private void checkLimits(){
+	private boolean checkLimits(double motorValue){
 		// Get Limit Switch Values
 		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
         boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
@@ -150,10 +155,12 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		}
 		
 		// If the limits have been reached, stop the motor
-        if ((limitPositive && _motor.get() > 0) || (limitNegative && _motor.get() < 0)) {
-			System.out.println("FancyMotor stopped, limits pressed.  (speed: " + _motor.get() + ", positive: " + limitPositive + ", negative: " + limitNegative + ")");
-            _motor.set(0);
-        }
+        if ((limitPositive && motorValue > 0) || (limitNegative && motorValue < 0)) {
+			System.out.println("FancyMotor stopped, limits pressed.  (speed: " + motorValue + ", positive: " + limitPositive + ", negative: " + limitNegative + ")");
+			return false;
+        } else {
+			return true;
+		}
 	}
 	
     //// MOTOR ACCESS ----------------------------------------------------------
@@ -175,8 +182,12 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 */
 	public void set(double speed, byte syncGroup){
 		System.out.println("Setting FancyMotor (speed=" + speed + ")");
-		_motor.set(speed, syncGroup);
-		checkLimits();
+		
+		if(checkLimits(speed)){
+			_motor.set(speed, syncGroup);
+		} else {
+			_motor.set(0);
+		}
 	}
 	
 	public void disable(){

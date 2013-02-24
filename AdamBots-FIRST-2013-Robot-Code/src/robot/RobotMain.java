@@ -189,9 +189,9 @@ public final class RobotMain extends IterativeRobot {
 		}
 		
 		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
-		if(RobotSensors.limitShooterB.get()){
-			RobotSensors.counterShooterAngle.reset();
-		}
+//		if(RobotSensors.limitShooterB.get()){
+//			RobotSensors.counterShooterAngle.reset();
+//		}
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();

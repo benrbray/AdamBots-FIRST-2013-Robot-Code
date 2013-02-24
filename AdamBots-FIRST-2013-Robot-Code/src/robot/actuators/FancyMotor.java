@@ -36,10 +36,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	public static void update(){
 		for(int i = 0; i < _fancyMotors.size(); i++){
 			FancyMotor fm = (FancyMotor) _fancyMotors.elementAt(i);
-			if(!fm.checkLimits(fm.get())){
-				fm.set(0.0);
-				
-			}
+			fm.enforceLimits();
 		}
 	}
 	
@@ -103,8 +100,6 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		return new FancyMotor(new Talon(channel));
 	}
 	
-    //// PUBLIC VARIABLES ------------------------------------------------------
-    
     //// PRIVATE VARIABLES -----------------------------------------------------
     
     // Motor Reference
@@ -136,30 +131,80 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		_fancyMotors.addElement(this);
     }
     
-    //// UPDATE ----------------------------------------------------------------
-    
+    //// LIMIT SWITCHES --------------------------------------------------------
+	
 	/**
-	 * Checks the limit switches associated with this FancyMotor and stops the 
-	 * motor if they're pressed (and if the motor is trying to go past them!).
-	 * @param motorValue The desired motor value.
-	 * @return Returns TRUE if it is OK to set the motor.
+	 * Check to see if there is at least one limit switch available.  Prints a
+	 * warning if there are no limit switches currently associated with this 
+	 * instance.
+	 * @return FALSE if there are no limit switches currently associated with
+	 * this instance.
 	 */
-	private boolean checkLimits(double motorValue){
-		// Get Limit Switch Values
-		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
-        boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
-
+	private boolean checkLimitAvailability(){
 		// Print Warning if There Aren't Any Limit Switches Attached
 		if(_positiveLimit == null && _negativeLimit == null){
 			System.err.println("Warning:  A FancyMotor has no limit switch references!");
+			return false;
+		} else {
+			return true;
 		}
+	}
+	
+	/**
+	 * Stops this FancyMotor if a limit has been reached.
+	 * @return TRUE if a limit was reached.
+	 */
+	private boolean enforceLimits(){
+		checkLimitAvailability();
+		
+		// Get Limit Switch Values
+		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
+        boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
+		
+		// If the limits have been reached, stop the motor
+        if (limitPositive || limitNegative) {
+			this.set(0.0);
+			return true;
+        } else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Determines whether or not the desired motor value would turn the motor
+	 * past one of the limit switches associated with this FancyMotor.  If not,
+	 * it sets the motor to the desired value.  Otherwise, the motor is set to
+	 * zero.
+	 * @param motorValue The desired motor value. (-1.0-1.0)
+	 * @return TRUE if a limit was reached.
+	 */
+	private boolean enforceLimitsAndSet(double motorValue){
+		return enforceLimitsAndSet(motorValue, (byte)0);
+	}
+	
+	/**
+	 * Determines whether or not the desired motor value would turn the motor
+	 * past one of the limit switches associated with this FancyMotor.  If not,
+	 * it sets the motor to the desired value.  Otherwise, the motor is set to
+	 * zero.
+	 * @param motorValue The desired motor value. (-1.0-1.0)
+	 * @param syncGroup Motor sync group.
+	 * @return TRUE if a limit was reached.
+	 */
+	private boolean enforceLimitsAndSet(double motorValue, byte syncGroup){
+		checkLimitAvailability();
+		
+		// Get Limit Switch Values
+		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
+        boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
 		
 		// If the limits have been reached, stop the motor
         if ((limitPositive && motorValue > 0) || (limitNegative && motorValue < 0)) {
-			System.out.println("FancyMotor stopped, limits pressed.  (speed: " + motorValue + ", positive: " + limitPositive + ", negative: " + limitNegative + ")");
-			return false;
-        } else {
+			_motor.set(0.0);
 			return true;
+        } else {
+			_motor.set(motorValue, (byte)syncGroup);
+			return false;
 		}
 	}
 	
@@ -181,13 +226,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @see edu.wpi.first.wpilibj.SpeedController#set(double, byte) 
 	 */
 	public void set(double speed, byte syncGroup){
-		System.out.println("Setting FancyMotor (speed=" + speed + ")");
-		
-		if(checkLimits(speed)){
-			_motor.set(speed, syncGroup);
-		} else {
-			_motor.set(0);
-		}
+		enforceLimitsAndSet(speed, syncGroup);
 	}
 	
 	public void disable(){

@@ -47,7 +47,7 @@ public final class RobotMain extends IterativeRobot {
     //// OUTPUT CONSTANTS ------------------------------------------------------
     
     public static final boolean VERBOSE_AUTON		= false;
-    public static final boolean VERBOSE_TELEOP		= false;
+    public static final boolean VERBOSE_TELEOP		= true;
     public static final boolean VERBOSE_CLIMB			= true;
     public static final boolean VERBOSE_ROBOTCLIMB		= true;
     public static final boolean VERBOSE_ROBOTDRIVE	= false;

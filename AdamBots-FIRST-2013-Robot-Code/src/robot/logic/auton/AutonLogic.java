@@ -27,36 +27,36 @@ public class AutonLogic extends LogicPhase {
     //// CONSTRUCTOR -----------------------------------------------------------
     
     public AutonLogic(){
-	super();
+		super();
     }
     
     //// INITIALIZATION --------------------------------------------------------
     
     public void initPhase() {
-	// Populate Tasks Array
-	_tasks = new Vector();
-	
-	// Begin First Task
-	_currentIndex = 0;
-	setCurrentTask((LogicTask)_tasks.elementAt(_currentIndex));
+		// Populate Tasks Array
+		_tasks = new Vector();
+
+		// Begin First Task
+		_currentIndex = 0;
+		setCurrentTask((LogicTask)_tasks.elementAt(_currentIndex));
     }
 
     //// UPDATE ----------------------------------------------------------------
     
     public void updatePhase() {
-	// Check for Emergency Stop (START and BACK on primary joystick)
-	if(RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)
-	&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)){
-	    emergencyStop();
-	}
-	
-	// Update Current Task
-	_currentTask.updateTask();
-	
-	if(_currentTask.isDone()){
-	    println("Task Reported DONE, moving to next Task...");
-	    nextTask();
-	}
+		// Check for Emergency Stop (START and BACK on primary joystick)
+		if(RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)
+		&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)){
+			emergencyStop();
+		}
+
+		// Update Current Task
+		_currentTask.updateTask();
+
+		if(_currentTask.isDone()){
+			println("Task Reported DONE, moving to next Task...");
+			nextTask();
+		}
     }
 
     //// FINISH ----------------------------------------------------------------
@@ -65,9 +65,9 @@ public class AutonLogic extends LogicPhase {
      * Stops the current Task and transitions to the TeleopLogic Phase.
      */
     public void finishPhase() {
-	_currentTask.finishTask();
-	_currentTask = null;
-	RobotMain.getInstance().segueToLogicPhase(LogicPhase.TELEOP);
+		_currentTask.finishTask();
+		_currentTask = null;
+		RobotMain.getInstance().segueToLogicPhase(LogicPhase.TELEOP);
     }
     
     /**
@@ -75,7 +75,7 @@ public class AutonLogic extends LogicPhase {
      * @see #finishPhase()
      */
     public void emergencyStop(){
-	finishPhase();  // TODO:  Additional Logic Here?
+		finishPhase();  // TODO:  Additional Logic Here?
     }
     
     //// TASK LOGIC ------------------------------------------------------------
@@ -85,7 +85,7 @@ public class AutonLogic extends LogicPhase {
      * @see #setCurrentTask(robot.logic.LogicTask) 
      */
     public void nextTask(){
-	setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+		setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
     }
     
     /**
@@ -96,18 +96,18 @@ public class AutonLogic extends LogicPhase {
      * @see LogicTask#initializeTask() 
      */
     public void setCurrentTask(LogicTask newTask){
-	// Finish Old Task
-	if(_currentTask != null){
-	    int status = _currentTask.finishTask();
-	    if(status == LogicTask.SUCCESS){
-		println("Task Finished Successfully.");
-	    } else {
-		println("Task Failed.");
-	    }
-	}
-	
-	// Begin New Task
-	_currentTask = newTask;
-	_currentTask.initializeTask();
+		// Finish Old Task
+		if(_currentTask != null){
+			int status = _currentTask.finishTask();
+			if(status == LogicTask.SUCCESS){
+				println("Task Finished Successfully.");
+			} else {
+				println("Task Failed.");
+			}
+		}
+		
+		// Begin New Task
+		_currentTask = newTask;
+		_currentTask.initializeTask();
     }
 }

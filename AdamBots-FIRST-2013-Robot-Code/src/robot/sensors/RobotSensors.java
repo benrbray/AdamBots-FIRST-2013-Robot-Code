@@ -37,7 +37,7 @@ public class RobotSensors extends RobotObject {
 	
 	// FancyCounters (Ticks Per Period)
 	public static final int DPT_COUNTER_SHOOTER_ANGLE = 1;				// Distance Per Tick
-	public static final int TPP_COUNTER_SHOOTER_SPEED = 1;				// Ticks Per Pulse
+	public static final int TPP_COUNTER_SHOOTER_SPEED = 2;				// Ticks Per Pulse
 	
 	// Gyro
 	public static final double GYRO_VPDPS = 1.0;  // Volts per Degree Per Second
@@ -57,9 +57,6 @@ public class RobotSensors extends RobotObject {
 		/** Analog Card 1 Port Constants. */
 		public static final class Analog {
 			public static final int GYRO		= 1;
-			public static final int CONFIG_A	= 2;
-			public static final int CONFIG_B	= 3;
-			public static final int CONFIG_C	= 4;
 		}
 		
 		/** Digital Card 1 Port Constants. */
@@ -91,6 +88,9 @@ public class RobotSensors extends RobotObject {
 			public static final int SHOOTER_LIMIT_A = 9;
 			public static final int SHOOTER_LIMIT_B = 10;
 			public static final int PRESSURE_SWITCH = 11;
+			public static final int CONFIG_A	= 12;
+			public static final int CONFIG_B	= 13;
+			public static final int CONFIG_C	= 14;
 		}
 		
 		/** Digital Card 1 Serial Port Constants. */
@@ -124,9 +124,6 @@ public class RobotSensors extends RobotObject {
 	// Chassis
     public static Gyro gyroChassis;
     public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
-    public static AnalogChannel configA;
-    public static AnalogChannel configB;
-    public static AnalogChannel configC;
 	
 	// Shooter
     public static FancyCounter counterShooterSpeed;
@@ -141,6 +138,11 @@ public class RobotSensors extends RobotObject {
 	
 	// Compressor
 	public static DigitalInput pressureSwitch;
+	
+	// Config switches
+	public static DigitalInput configA;
+    public static DigitalInput configB;
+    public static DigitalInput configC;
 
 	//// INITIALIZATION --------------------------------------------------------
 	
@@ -158,9 +160,6 @@ public class RobotSensors extends RobotObject {
 		//// ANALOG CARD -------------------------------------------------------
 
         gyroChassis = new Gyro(ANA1, CompetitionBot.Analog.GYRO); //?
-        configA = new AnalogChannel(ANA1, CompetitionBot.Analog.CONFIG_A);
-        configB = new AnalogChannel(ANA1, CompetitionBot.Analog.CONFIG_B);
-        configC = new AnalogChannel(ANA1, CompetitionBot.Analog.CONFIG_C);
 
         //// DIGITAL CARD 1 ----------------------------------------------------
 
@@ -199,6 +198,10 @@ public class RobotSensors extends RobotObject {
         limitShooterB = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.SHOOTER_LIMIT_B);
 		
 		pressureSwitch = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.PRESSURE_SWITCH);
+		
+		configA = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.CONFIG_A);
+        configB = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.CONFIG_B);
+        configC = new DigitalInput(DIO2, CompetitionBot.DigitalIn2.CONFIG_C);
 		
 		//// DIGITAL SERIAL 1
 		

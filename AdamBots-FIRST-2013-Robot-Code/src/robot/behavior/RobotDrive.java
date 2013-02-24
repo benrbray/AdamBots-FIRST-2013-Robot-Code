@@ -23,13 +23,17 @@ public abstract class RobotDrive extends RobotBehavior {
 	public static final double SHIFTER_HIGH = 0.3;
 	/** Neutral */
 	public static final double SHIFTER_NEUTRAL = 0.65;
+	
 	// Tolerance Constants
 	/** Encoder Tolerance (in inches) */
 	public static double ENCODER_TOLERANCE = 0.5;
 	/** Gyro Tolerance (in degrees) for Gyro-Assisted Turning. */
 	public static double GYRO_TOLERANCE_DEGREES = 3.0;
+	
 	//// PRIVATE VARIABLES -----------------------------------------------------
+	
 	// Autonomous / Guided Drive Control
+	
 	/** Use guided driving? */
 	private static boolean _guidedDriving = false;
 	/** Use gyroscope input during guided driving? */
@@ -57,6 +61,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// UPDATE ----------------------------------------------------------------
+	
 	public static void update() {
 		// Guided Driving Logic
 		if ( _guidedDriving ) {
@@ -97,6 +102,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// DRIVE TYPE ------------------------------------------------------------
+	
 	/**
 	 * Prepares the robot for guided driving.  During guided driving, RobotDrive
 	 * should be continuously updated until it reaches its target.
@@ -109,8 +115,8 @@ public abstract class RobotDrive extends RobotBehavior {
 		RobotSensors.encoderDriveLeft.start();
 		RobotSensors.encoderDriveRight.start();
 
+		// Set Velocities if Not Already Guided Driving
 		if ( !_guidedDriving ) {
-			// Speed
 			_driveLeftVelocity = MathUtils.sign(_leftEncoderTargetInches) * Math.min(_driveSpeedInitial, _driveSpeedTarget);
 			_driveRightVelocity = MathUtils.sign(_rightEncoderTargetInches) * Math.min(_driveSpeedInitial, _driveSpeedTarget);
 		}
@@ -146,6 +152,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// AUTONOMOUS / GUIDED DRIVE METHODS -------------------------------------
+	
 	/**
 	 * Begins a guided driving period, during which RobotDrive drives the robot
 	 * for the specified distance, then stops.
@@ -255,6 +262,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// DIRECT DRIVE METHODS --------------------------------------------------
+	
 	/**
 	 * Sets the speed of both sets of drive motors to the same value.
 	 * @param speed for the speed of both wheels (+ Forwards, - Backwards)
@@ -284,6 +292,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// SET MOTORS ------------------------------------------------------------
+	
 	/**
 	 * Sets the speed of each drive motor.  The right motor has been inverted to
 	 * ensure logical directional control.  (+ Forward, - Backwards)
@@ -296,6 +305,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// STOP ------------------------------------------------------------------
+	
 	/**
 	 * Stops every drive motor.
 	 */
@@ -305,14 +315,12 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	//// GEAR SHIFTING ---------------------------------------------------------
+	
 	/**
 	 * switches gear when called
 	 * @param ServoPosition used to set transmissionLeft position
 	 */
 	public static void switchGear( double ServoPosition ) {
-		//RobotActuators.transmissionLeft.set(ServoPosition);
-		//println(RobotActuators.transmissionLeft.get());
-
 		RobotActuators.transmissionLeft.set(ServoPosition);
 		RobotActuators.transmissionRight.set(ServoPosition);
 	}

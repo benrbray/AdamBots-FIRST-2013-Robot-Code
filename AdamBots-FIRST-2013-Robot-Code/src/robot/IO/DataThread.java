@@ -28,6 +28,12 @@ public class DataThread implements Runnable{
                 DataIO.loadCalibrations();
                 break;
         }
+		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
     }
     
 }

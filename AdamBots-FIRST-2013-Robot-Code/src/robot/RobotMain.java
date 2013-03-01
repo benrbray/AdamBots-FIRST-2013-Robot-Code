@@ -212,10 +212,10 @@ public final class RobotMain extends IterativeRobot {
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		
 		// Print to Dashboard
-		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
-		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
-		//SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
-		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());
+//		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
+//		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
+//		SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
+//		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());
 		if (RobotCamera._greenTarget != null) {
 			SmartDashboard.putString("Target Location","(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
 		}

@@ -259,10 +259,9 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.counterShooterAngle.get());
 		
 		// Drive elevator
-//TODO: Re implement disc pickup
-//		_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
-//
-//		RobotActuators.discElevator.set(_elevatorDrive);
+		//TODO: Re implement disc pickup
+		//_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
+		//RobotActuators.discElevator.set(_elevatorDrive);
 
 		// Disk fire control
 		if (_secondaryButtons[FancyJoystick.BUTTON_A]) {

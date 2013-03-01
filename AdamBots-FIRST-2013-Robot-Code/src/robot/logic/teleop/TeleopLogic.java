@@ -99,6 +99,8 @@ public class TeleopLogic extends LogicPhase {
 		_highGear = false;
 		_winchEnabled = false;
 		_winchEnabledToggleReleased = false;
+		
+		RobotDrive.switchGear(RobotDrive.SHIFTER_HIGH);
 
 		println("Completed.");
     }

@@ -57,11 +57,20 @@ public class FancyDigitalInput extends DigitalInput {
 	//// DIGITAL INPUT OVERRIDE METHODS ----------------------------------------
 	
 	/**
-	 * Returns the value of this DigitalInput.
+	 * Returns the value (possibly inverted) of this DigitalInput.
 	 * @return Digital input value.
-	 * @see DigitalInput
+	 * @see DigitalInput#get() 
 	 */
 	public boolean get(){
 		return _inverted ? !super.get() : super.get();
+	}
+	
+	/**
+	 * Returns the raw, uninverted value of this DigitalInput.
+	 * @return Digital input value.
+	 * @see DigitalInput#get() 
+	 */
+	public boolean getRaw(){
+		return super.get();
 	}
 }

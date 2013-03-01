@@ -36,7 +36,8 @@ public class TSetShooterSpeed extends LogicTask {
 	//// INITIALIZATION --------------------------------------------------------
 	
 	protected void initialize() {
-		RobotShoot.setSpeed(_targetSpeedRPM);
+		System.out.println("TSetShooterSpeed :: Shooter Speed Set to " + _targetSpeedRPM);
+		TargetShooterSpeedLogic.setRestSpeedRPM(_targetSpeedRPM);
 		_done = true;
 	}
 

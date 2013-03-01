@@ -40,13 +40,11 @@ public class AutonLogic extends LogicPhase {
 
     //// UPDATE ----------------------------------------------------------------
     
+	/**
+	 * Manages task flow.  Should be called periodically while AutonLogic is
+	 * active.
+	 */
     public void updatePhase() {
-		// Check for Emergency Stop (START and BACK on primary joystick)
-		if(RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)
-		&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)){
-			emergencyStop();
-		}
-
 		// Update Current Task
 		_currentTask.updateTask();
 
@@ -67,14 +65,6 @@ public class AutonLogic extends LogicPhase {
 		_currentTask = null;
     }
     
-    /**
-     * Emergency stops Climbing.
-     * @see #finishPhase()
-     */
-    public void emergencyStop(){
-		finishPhase();  // TODO:  Additional Logic Here?
-    }
-    
     //// TASK LOGIC ------------------------------------------------------------
     
     /**
@@ -82,7 +72,12 @@ public class AutonLogic extends LogicPhase {
      * @see #setCurrentTask(robot.logic.LogicTask) 
      */
     public void nextTask(){
-		setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+		if(_currentIndex < _tasks.size() - 1){
+			setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+		} else {
+			System.out.println("AutonLogic :: No Tasks Remain.  Finishing...");
+			RobotMain.getInstance().endPhase();
+		}
     }
     
     /**

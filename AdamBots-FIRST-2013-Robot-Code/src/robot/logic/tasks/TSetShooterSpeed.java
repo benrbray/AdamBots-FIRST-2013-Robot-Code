@@ -37,13 +37,12 @@ public class TSetShooterSpeed extends LogicTask {
 	
 	protected void initialize() {
 		TargetShooterSpeedLogic.setRestSpeedRPM(_targetSpeedRPM);
-		_done = true;
 	}
 
 	//// UPDATE ----------------------------------------------------------------
 	
 	protected void update() {
-		
+		_done = true;
 	}
 
 	//// FINISH ----------------------------------------------------------------

@@ -116,8 +116,10 @@ public abstract class RobotCamera extends RobotObject {
 	public static void update() {
 		if (_cameraThread == null) {
 			_cameraThread = new Thread(new CameraThread());
+			//TODO: NATHAN CAMERA FIX _cameraThread.start();
 		}
 		if (!_cameraThread.isAlive()) {
+			//TODOL NATHAN CAMERA FIX _cameraThread = new Thread(new CameraThread());
 			_cameraThread.start();
 		}
 	}

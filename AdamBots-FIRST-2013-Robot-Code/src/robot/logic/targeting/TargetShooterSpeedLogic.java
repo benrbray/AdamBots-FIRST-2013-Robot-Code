@@ -17,7 +17,6 @@ public class TargetShooterSpeedLogic extends RobotObject {
 	private static boolean _isTargeting = false;
 	private static double _restSpeed = 0;
 	private static double _speedMultiplier = 1;
-	
 
 	/**
 	 * Initializes anything the class might need.
@@ -57,8 +56,8 @@ public class TargetShooterSpeedLogic extends RobotObject {
 	public static void update() {
 		if ( !_isTargeting ) {
 			RobotShoot.setSpeed(_restSpeed * _speedMultiplier);
-			return;
+		} else {
+			RobotShoot.setSpeed(calculateSpeed() * _speedMultiplier);
 		}
-		RobotShoot.setSpeed(calculateSpeed() * _speedMultiplier);
 	}
 }

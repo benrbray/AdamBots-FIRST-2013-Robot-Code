@@ -54,6 +54,8 @@ public class TeleopLogic extends LogicPhase {
 	private double _secondaryBCount;
     private int _numShots;
     private boolean _numShotsReleased;
+	private boolean _shooterEnabled;
+	private boolean _shooterEnabledToggleReleased;
 
     /**
      * Creates an instance of TeleopLogic.
@@ -96,6 +98,8 @@ public class TeleopLogic extends LogicPhase {
 		_numShots = 0;
 		_secondaryBCount = 0;
 		_numShotsReleased = true;
+		_shooterEnabled = true;
+		_shooterEnabledToggleReleased = false;
 
 		_highGear = false;
 		_winchEnabled = false;
@@ -199,6 +203,15 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
 
 		//// SECONDARY DRIVER --------------------------------------------------
+		
+		// Stop the shooter completely, intended for use while climbing
+		if (_shooterEnabledToggleReleased && _secondaryButtons[FancyJoystick.BUTTON_BACK] && _secondaryButtons[FancyJoystick.BUTTON_START]) {
+			_shooterEnabled = !_shooterEnabled;
+			_shooterEnabledToggleReleased = false;
+		} else if (!(_secondaryButtons[FancyJoystick.BUTTON_BACK] || _secondaryButtons[FancyJoystick.BUTTON_START])) {
+			_shooterEnabledToggleReleased = true;
+		}
+		
 		_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.
@@ -242,13 +255,17 @@ public class TeleopLogic extends LogicPhase {
 			}
 
 			SmartDashboard.putString("secondaryAutoTarget", "true");
-		} else {
+		} else if (_shooterEnabled) {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
 			
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+		} else {
+			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
+			TargetShooterSpeedLogic.setIsTargeting(false);
+			TargetShooterAngleLogic.setIsTargeting(false);
 		}
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {

@@ -4,6 +4,7 @@
  */
 package robot.logic.auton;
 
+import edu.wpi.first.wpilibj.networktables2.util.List;
 import java.util.Vector;
 import robot.RobotMain;
 import robot.control.FancyJoystick;
@@ -17,7 +18,7 @@ import robot.logic.LogicTask;
 public class AutonLogic extends LogicPhase {
     //// TASK LIST -------------------------------------------------------------
     
-    private Vector _tasks;
+    private List _tasks;
     private int _currentIndex = 0;
     private LogicTask _currentTask;
     
@@ -32,11 +33,11 @@ public class AutonLogic extends LogicPhase {
     public void initPhase() {
 		println("AutonLogic :: initPhase()");
 		// Populate Tasks Array
-		_tasks = new Vector();
+		_tasks = AutonType.Simple.SIMPLE_THREE_SHOTS;
 
 		// Begin First Task
 		_currentIndex = 0;
-		setCurrentTask((LogicTask)_tasks.elementAt(_currentIndex));
+		setCurrentTask((LogicTask)_tasks.get(_currentIndex));
     }
 
     //// UPDATE ----------------------------------------------------------------
@@ -74,7 +75,7 @@ public class AutonLogic extends LogicPhase {
      */
     public void nextTask(){
 		if(_currentIndex < _tasks.size() - 1){
-			setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
+			setCurrentTask((LogicTask)_tasks.get(++_currentIndex));
 		} else {
 			println("AutonLogic :: No Tasks Remain.  Finishing...");
 			RobotMain.getInstance().endPhase();

@@ -179,7 +179,7 @@ public class TeleopLogic extends LogicPhase {
 			
 			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y];
 			
-			if (_setWinch <= 0) {
+			if (_setWinch < 0) {
 				RobotActuators.climbWinch.set(_setWinch);
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			} else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
@@ -198,21 +198,7 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
 
-		// Winch solenoid Operation
-		/*
-		if (_winchEnabled && _primaryButtons[FancyJoystick.BUTTON_BACK]) {
-			RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
-		} else {
-			RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
-		}*/
-
-		// Autonomous Climbing
-		// TODO:  Finalize Autonomous Climbing Controls
-		/*if (_primaryButtons[FancyJoystick.BUTTON_A] && _primaryButtons[FancyJoystick.BUTTON_Y]) {
-			RobotMain.getInstance().segueToLogicPhase(LogicPhase.CLIMB);
-		}*/
-
-	//// SECONDARY DRIVER --------------------------------------------------
+		//// SECONDARY DRIVER --------------------------------------------------
 		_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.

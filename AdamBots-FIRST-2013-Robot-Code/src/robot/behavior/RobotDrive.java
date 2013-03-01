@@ -127,7 +127,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	private static void endGuidedDriving() {
 		if(_guidedDriving){
 			_guidedDriving = false;
-
+			
 			// Stop Encoders
 			RobotSensors.encoderDriveLeft.reset();
 			RobotSensors.encoderDriveRight.reset();
@@ -309,9 +309,10 @@ public abstract class RobotDrive extends RobotBehavior {
 	//// STOP ------------------------------------------------------------------
 	
 	/**
-	 * Stops every drive motor.
+	 * Stops every drive motor.  Ends guided driving if guided driving is active.
 	 */
 	public static void stop() {
+		if(_guidedDriving) endGuidedDriving();
 		RobotActuators.driveRight.set(0);
 		RobotActuators.driveLeft.set(0);
 	}
@@ -319,7 +320,7 @@ public abstract class RobotDrive extends RobotBehavior {
 	//// GEAR SHIFTING ---------------------------------------------------------
 	
 	/**
-	 * switches gear when called
+	 * Switches gear.
 	 * @param ServoPosition used to set transmissionLeft position
 	 */
 	public static void switchGear( double ServoPosition ) {

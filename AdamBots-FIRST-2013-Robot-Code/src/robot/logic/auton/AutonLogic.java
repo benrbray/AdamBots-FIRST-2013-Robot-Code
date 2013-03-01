@@ -9,9 +9,6 @@ import robot.RobotMain;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
-import robot.logic.tasks.TAwaitStatus;
-import robot.logic.tasks.TMoveWinch;
-import robot.logic.tasks.TStopWinch;
 
 /**
  * Performs logic during the autonomous period of gameplay.
@@ -62,12 +59,12 @@ public class AutonLogic extends LogicPhase {
     //// FINISH ----------------------------------------------------------------
     
     /**
-     * Stops the current Task and transitions to the TeleopLogic Phase.
+     * Stops the current Task and any ongoing processes.  Not responsible for
+	 * the segue to TeleopLogic.
      */
     public void finishPhase() {
 		_currentTask.finishTask();
 		_currentTask = null;
-		RobotMain.getInstance().segueToLogicPhase(LogicPhase.TELEOP);
     }
     
     /**

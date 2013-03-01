@@ -15,13 +15,16 @@ import robot.RobotObject;
  * @see TeleopLogic
  */
 public abstract class LogicPhase extends RobotObject {
-    
+    //// CONSTANTS -------------------------------------------------------------
+	
     /** Autonomous Phase Constant. */
     public static final int AUTONOMOUS = 0;
     /** Teleop Phase Constant. */
     public static final int TELEOP = 1;
     /** Climb Phase Constant. */
     public static final int CLIMB = 2;
+	
+	//// CONSTRUCTOR -----------------------------------------------------------
     
     /**
      * Contains methods that should be implemented by each "logic phase".
@@ -31,6 +34,8 @@ public abstract class LogicPhase extends RobotObject {
 	
     }
     
+	//// ABSTRACT FLOW METHODS -------------------------------------------------
+	
     /**
      * Called when this Logic Phase is granted control of the robot.
      */

@@ -321,10 +321,10 @@ public abstract class RobotDrive extends RobotBehavior {
 	
 	/**
 	 * Switches gear.
-	 * @param ServoPosition used to set transmissionLeft position
+	 * @param servoPosition used to set transmissionLeft position
 	 */
-	public static void switchGear( double ServoPosition ) {
-		RobotActuators.transmissionLeft.set(ServoPosition);
-		RobotActuators.transmissionRight.set(ServoPosition);
+	public static void switchGear( double servoPosition ) {
+		RobotActuators.transmissionLeft.set(servoPosition);
+		RobotActuators.transmissionRight.set(servoPosition);
 	}
 }

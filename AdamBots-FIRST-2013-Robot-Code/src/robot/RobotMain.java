@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +32,8 @@ import robot.sensors.RobotSensors;
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation.
+ * 
+ * Controls program flow and initializes all necessary classes.  
  *
  * @author Ben Bray
  * @author Steven Ploog
@@ -126,15 +129,19 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the autonomous period.
      */
     public void autonomousInit() {
+		System.out.println("RobotMain :: autonomousInit()");
+		
+		// Manage Camera & Lights
 		RobotCamera.init();
+		RobotActuators.cameraLED.set(true);
+		
+		// Initialize AutonLogic
 		_autonLogic = new AutonLogic();
 		segueToLogicPhase(_autonLogic);
-
-		RobotActuators.cameraLED.set(true);
     }
 
     /**
-     * This function is called periodically during autonomous.
+     * Called periodically during autonomous.
      */
     public void autonomousPeriodic() {
 		// Update the Current Logic Phase (should be _autonLogic)
@@ -147,36 +154,37 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the teleoperated period.
      */
     public void teleopInit() {
-		System.out.println("Teleop Init");
+		System.out.println("RobotMain :: teleopInit()");
 		// Camera Init
 		RobotCamera.init();
 		
-		RobotCamera.init();
+		// Initialize Climbing and Teleop
 		_teleopLogic = new TeleopLogic();
 		_climbLogic = new ClimbLogic();
 		segueToLogicPhase(_teleopLogic);
 
+		// Manage LEDs
 		RobotActuators.cameraLED.set(true);
 		RobotActuators.greenLEDStrip.set(true);
 		RobotActuators.redLEDStrip.set(true);
 		RobotActuators.yellowLEDStrip.set(true);
 
+		// Destroy Autonomous if it Exists
 		if (_autonLogic != null) {
 			_autonLogic = null;
 		}
+		
+		// Start and Reset Encoders
 		RobotSensors.encoderDriveLeft.start();
 		RobotSensors.encoderDriveLeft.reset();
 		RobotSensors.encoderDriveRight.start();
 		RobotSensors.encoderDriveRight.reset();
-		
-		System.out.println("TeleopInit finished.");
     }
 
     /**
      * This function is called periodically during operator control.
      */
     public void teleopPeriodic() {
-		// Update the Current Logic Phase (should be _teleopLogic or _climbLogic)
 		update();
 		//System.out.println("L:" + RobotSensors.encoderDriveLeft.getRaw());
 		//System.out.println("R:" + RobotSensors.encoderDriveRight.getRaw());
@@ -220,7 +228,6 @@ public final class RobotMain extends IterativeRobot {
 		if (RobotCamera._greenTarget != null) {
 			SmartDashboard.putString("Target Location","(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
 		}
-		
     }
 
     //// TEST ------------------------------------------------------------------
@@ -229,7 +236,7 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for test mode should go here
      */
     public void testInit() {
-    
+		System.out.println("RobotMain :: testInit()");
 	}
 
     /**
@@ -245,9 +252,10 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for disabled mode should go here
      */
     public void disabledInit() {
-		System.out.println("Disabled Init");
+		System.out.println("RobotMain :: disabledInit()");
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
 
+		// Turn off LEDs
 		RobotActuators.cameraLED.set(false);
 		RobotActuators.greenLEDStrip.set(false);
 		RobotActuators.redLEDStrip.set(false);
@@ -268,35 +276,55 @@ public final class RobotMain extends IterativeRobot {
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------
-    /**
+    
+	/**
+	 * Ends the current logic phase by calling its finish() method and nulling
+	 * the current LogicPhase instance.  Does <i>not</i> segue to another phase,
+	 * but rather waits for the next phase to be initiated by another process.
+	 */
+	public void endPhase(){
+		System.out.println("RobotMain :: endPhase()");
+		
+		if(_currentLogicPhase != null){
+			_currentLogicPhase.finishPhase();
+			_currentLogicPhase = null;
+		}
+	}
+	
+	/**
      * Revokes power from the logic phase currently in control and grants
      * control to the phase specified. Before the segue, this method invokes
      * finish() in the original phase, and after the segue, this method invokes
      * init() in the new phase.
      *
      * @param phase An integer indicating the phase to switch to.
-     * @return Boolean value indicating the success or failure of the segue.
+     * @return Boolean value indicating the success or failure of the segue.  
+	 * (Success=TRUE, Failure=FALSE)
      * @see LogicPhase#AUTONOMOUS
      * @see LogicPhase#TELEOP
      * @see LogicPhase#CLIMB
      */
     public boolean segueToLogicPhase(int phase) {
-		System.out.println("SegueToLogicPhase() with int");
+		System.out.println("RobotMain :: segueToLogicPhase(int)");
+		
 		LogicPhase segueTo;
 		switch (phase) {
 			case LogicPhase.AUTONOMOUS:
-			System.out.println("Moving to auton phase");
-			segueTo = new AutonLogic();
+				if(DriverStation.getInstance().isAutonomous()) { return false; }
+				System.out.println("\tTransitioning to AutonLogic...");
+				segueTo = new AutonLogic();
 			break;
 			case LogicPhase.TELEOP:
-			System.out.println("Moving to teleop phase");
-			segueTo = new TeleopLogic();
+				if(DriverStation.getInstance().isOperatorControl()) { return false; }
+				System.out.println("\tTransitioning to TeleopLogic...");
+				segueTo = new TeleopLogic();
 			break;
 			case LogicPhase.CLIMB:
-			segueTo = new ClimbLogic();
+				System.out.println("\tTransitioning to ClimbLogic...");
+				segueTo = new ClimbLogic();
 			break;
 			default:
-			throw new IllegalArgumentException();
+				throw new IllegalArgumentException();
 		}
 
 		return segueToLogicPhase(segueTo);
@@ -315,14 +343,15 @@ public final class RobotMain extends IterativeRobot {
      * @see LogicPhase#initPhase()
      */
     public boolean segueToLogicPhase(LogicPhase phase) {
+		System.out.println("RobotMain :: segueToLogicPhase(LogicPhase)");
+		// Finish the Current Phase
 		if (_currentLogicPhase != null) {
 			_currentLogicPhase.finishPhase();
 		}
 
+		// Initialize the Specified New Phase
 		_currentLogicPhase = phase;
 		_currentLogicPhase.initPhase();
-		
-		System.out.println("SegueToLogicPhase() finished");
 
 		return true; // TODO:  Update segueToLogicPhase() return value as needed.
     }

@@ -41,13 +41,13 @@ public class TFeedDisc extends LogicTask {
 	 * @param delay The number of milliseconds to wait before retracting the solenoid.
 	 */
 	public TFeedDisc(int delay){
-		_initialTimeMillis = System.currentTimeMillis();
 		_delayMillis = delay;
 	}
 	
 	//// INITIALIZATION --------------------------------------------------------
 	
 	protected void initialize() {
+		_initialTimeMillis = System.currentTimeMillis();
 		RobotActuators.shooterFeederSolenoid.set(true);
 	}
 

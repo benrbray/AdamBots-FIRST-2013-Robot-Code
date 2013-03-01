@@ -17,6 +17,12 @@ public class CameraThread implements Runnable
 		while (true)
 		{
 			RobotCamera.work();
+			
+			try {
+				Thread.sleep(20);
+			} catch (Exception e) {
+				System.err.print(e);
+			}
 		}
 	}
 }

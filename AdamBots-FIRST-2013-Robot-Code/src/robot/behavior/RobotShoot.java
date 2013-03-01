@@ -108,6 +108,6 @@ public abstract class RobotShoot extends RobotBehavior {
 			}
 		}
 		
-		System.out.println("RobotShoot :: update() : target=" + _shooterPID.getSetpoint() + "\terror=" + _shooterPID.getError());
+		//System.out.println("RobotShoot :: update() : target=" + _shooterPID.getSetpoint() + "\terror=" + _shooterPID.getError());
 	}
 }

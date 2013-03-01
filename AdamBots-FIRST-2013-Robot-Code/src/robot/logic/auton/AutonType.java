@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.networktables2.util.List;
 import robot.control.MagicBox;
 import robot.logic.tasks.TAwaitStatus;
 import robot.logic.tasks.TDelay;
+import robot.logic.tasks.TDriveDistance;
 import robot.logic.tasks.TFeedDisc;
 import robot.logic.tasks.TSetShooterSpeed;
+import robot.logic.tasks.TStopShooter;
 
 /**
  *
@@ -19,7 +21,7 @@ public class AutonType {
 	//// INIT ------------------------------------------------------------------
 	
 	public static void init(){
-		Fancy.init();
+		AutonType.Fancy.init();
 	}
 	
 	//// STATIC AUTONOMOUS TYPES -----------------------------------------------
@@ -51,12 +53,21 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_THREE_SHOTS = Fancy.shootDiscs(3);
+		public static final List SIMPLE_THREE_SHOTS = AutonType.Fancy.shootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 	}
 	
 	//// DYNAMIC AUTONOMOUS TYPES ----------------------------------------------
 	
 	public static final class Fancy {
+		//// CONSTANTS ---------------------------------------------------------
+		
+		/** Default initial delay for Autonomous (to wait for the compressor). */
+		public static final int DEFAULT_INITIAL_DELAY_MILLIS = 4;
+		/** Default feed arm delay.  Determines for how long the arm is extended. */ 
+		public static final int DEFAULT_FEED_DELAY_MILLIS = 1500;
+		/** Default shot delay. */
+		public static final int DEFAULT_SHOT_DELAY_MILLIS = 1500;
+		
 		//// INITIALIZATION ----------------------------------------------------
 		
 		private static void init(){
@@ -85,20 +96,71 @@ public class AutonType {
 		 * </ol>
 		 * 
 		 * @param discs The number of discs to shoot.
+		 * @param shotDelayMillis The number of milliseconds to wait after each shot.
 		 * @return A list of LogicTasks.
 		 * @see robot.logic.LogicTask
 		 * @see Fancy#shootDiscs(int) 
 		 */
 		public static List shootDiscs(int discs){
+			return shootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, 0);
+		}
+		
+		public static List shootDiscs(int discs, int initialDelayMillis){
+			return shootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, initialDelayMillis);
+		}
+		
+		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
+			return shootDiscs(discs, feedDelayMillis, shotDelayMillis, 0);
+		}
+		
+		/**
+		 * Generates the task list for an Autonomous Phase that shoots a
+		 * specified number of discs.  Remember that we can only hold four at 
+		 * once, so it is silly to shoot more than four times in this mode,
+		 * except, perhaps, to protect against flawed magazine design.
+		 * 
+		 * <ol>
+		 *	<li>Set shooter speed.</li>
+		 *  <li>Shoot X Times.
+		 *		<ul>
+		 *			<li>Enable shooter feeder solenoid.
+		 *			<li>Give the shooter feeder solenoid time to expand.
+		 *			<li>Disable the shooter feeder solenoid.
+		 *			<li>Wait for the shooter wheel to recover.
+		 *		</ul>
+		 *	<li>Shoot
+		 *  <li>Shoot
+		 * </ol>
+		 * 
+		 * @param discs The number of discs to shoot.
+		 * @param shotDelayMillis The number of milliseconds to wait after each shot.
+		 * @return A list of LogicTasks.
+		 * @see robot.logic.LogicTask
+		 * @see Fancy#shootDiscs(int) 
+		 */
+		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
 			List tasks = new List();
 			
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
-			tasks.add(new TDelay(4000));
+			tasks.add(new TDelay(initialDelayMillis));
 		
-			for(int i = 0; i < 3; i++){	// Shoot Three Times
+			for(int i = 0; i < discs; i++){	// Shoot Sequences
 				tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_UP_TO_SPEED));
-				tasks.add(new TFeedDisc());
+				tasks.add(new TFeedDisc(feedDelayMillis));
+				tasks.add(new TDelay(shotDelayMillis));
 			}
+			
+			tasks.add(new TStopShooter());
+			
+			return tasks;
+		}
+		
+		//// DRIVE STRAIGHT ----------------------------------------------------
+		
+		public static List driveStraight(double distanceInches){
+			List tasks = new List();
+			
+			//tasks.add(new TDriveDistance2(distanceInches, true));
 			
 			return tasks;
 		}

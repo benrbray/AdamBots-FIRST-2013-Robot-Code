@@ -51,14 +51,14 @@ public final class TAwaitStatus extends LogicTask {
     public void update() {
 		switch(_status){
 			case WINCH_IN_POSITION:
-			_done = RobotClimb.isWinchInPosition();
-			break;
+				_done = RobotClimb.isWinchInPosition();
+				break;
 			case SHOOTER_IN_POSITION:
-			_done = RobotShoot.isShooterInPosition();
-			break;
+				_done = RobotShoot.isShooterInPosition();
+				break;
 			case SHOOTER_UP_TO_SPEED:
-			_done = RobotShoot.isShooterUpToSpeed();
-			break;
+				_done = RobotShoot.isShooterUpToSpeed();
+				break;
 		}
     }
 

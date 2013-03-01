@@ -24,6 +24,7 @@ import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.logic.targeting.TargetShooterSpeedLogic;
 import robot.logic.targeting.TargetSpinLogic;
 import robot.logic.auton.AutonLogic;
+import robot.logic.auton.AutonType;
 import robot.logic.climb.ClimbLogic;
 import robot.logic.teleop.TeleopLogic;
 import robot.sensors.RobotSensors;
@@ -99,6 +100,7 @@ public final class RobotMain extends IterativeRobot {
 		TargetShooterAngleLogic.init();
 		TargetShooterSpeedLogic.init();
 		TargetSpinLogic.init();
+		AutonType.init();
 
 		// Output Filtering
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;

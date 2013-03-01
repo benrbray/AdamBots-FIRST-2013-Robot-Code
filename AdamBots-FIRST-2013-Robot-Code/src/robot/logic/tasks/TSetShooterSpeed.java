@@ -48,9 +48,7 @@ public class TSetShooterSpeed extends LogicTask {
 
 	//// FINISH ----------------------------------------------------------------
 	protected int finish() {
-		System.out.println("Finishing TSetShooterSpeed");
 		TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
-		System.out.println("Done finishing TSetShooterSpeed");
 		return _done ? SUCCESS : FAILURE;
 	}
 }

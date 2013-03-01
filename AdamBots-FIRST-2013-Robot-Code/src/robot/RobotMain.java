@@ -189,8 +189,6 @@ public final class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
 		update();
-		//System.out.println("L:" + RobotSensors.encoderDriveLeft.getRaw());
-		//System.out.println("R:" + RobotSensors.encoderDriveRight.getRaw());
     }
 
     //// UPDATE ----------------------------------------------------------------

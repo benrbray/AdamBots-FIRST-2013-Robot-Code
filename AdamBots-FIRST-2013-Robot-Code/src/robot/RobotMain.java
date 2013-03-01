@@ -62,7 +62,7 @@ public final class RobotMain extends IterativeRobot {
     public static final boolean VERBOSE_ROBOTCAMERA	= false;
     public static final boolean VERBOSE_TARGETLOGIC	= false;
 	public static final boolean VERBOSE_FANCYMOTOR	= false;
-	public static final boolean VERBOSE_LOGICTASK	= false;
+	public static final boolean VERBOSE_LOGICTASK	= true;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -199,7 +199,9 @@ public final class RobotMain extends IterativeRobot {
     
     public void update() {
 		// Update the current LogicPhase
-		_currentLogicPhase.updatePhase();
+		if(_currentLogicPhase != null){
+			_currentLogicPhase.updatePhase();
+		}
 		
 		// Compressor
 		if (RobotSensors.pressureSwitch.get()) {
@@ -227,12 +229,8 @@ public final class RobotMain extends IterativeRobot {
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		
 		// Print to Dashboard
-//		SmartDashboard.putBoolean("pressureSwitch", RobotSensors.pressureSwitch.get());
-//		SmartDashboard.putNumber("CameraDistance", RobotCamera.getDistanceInches());
-//		SmartDashboard.putNumber("Speed Wheel", RobotSensors.counterShooterSpeed.get());
-//		SmartDashboard.putNumber("Encoder Angle", RobotSensors.counterShooterAngle.get());
 		if (RobotCamera._greenTarget != null) {
-			SmartDashboard.putString("Target Location","(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
+			SmartDashboard.putString("Target Location", "(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
 		}
     }
 

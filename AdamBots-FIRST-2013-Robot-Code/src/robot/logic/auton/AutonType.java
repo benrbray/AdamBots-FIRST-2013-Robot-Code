@@ -62,7 +62,7 @@ public class AutonType {
 		//// CONSTANTS ---------------------------------------------------------
 		
 		/** Default initial delay for Autonomous (to wait for the compressor). */
-		public static final int DEFAULT_INITIAL_DELAY_MILLIS = 4;
+		public static final int DEFAULT_INITIAL_DELAY_MILLIS = 4000;
 		/** Default feed arm delay.  Determines for how long the arm is extended. */ 
 		public static final int DEFAULT_FEED_DELAY_MILLIS = 1500;
 		/** Default shot delay. */

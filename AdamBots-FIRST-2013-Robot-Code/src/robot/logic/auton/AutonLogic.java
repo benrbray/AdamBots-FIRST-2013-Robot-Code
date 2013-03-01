@@ -90,17 +90,19 @@ public class AutonLogic extends LogicPhase {
      * @see LogicTask#initializeTask() 
      */
     public void setCurrentTask(LogicTask newTask){
+		println("AutonLogic :: setCurrentTask() : " + newTask.getClass().getName());
 		// Finish Old Task
 		if(_currentTask != null){
 			int status = _currentTask.finishTask();
 			if(status == LogicTask.SUCCESS){
-				println("AutonLogic :: Task Finished Successfully.");
+				println("\tTask Finished Successfully.");
 			} else {
-				println("AutonLogic :: Task Failed.");
+				println("\tTask Failed.");
 			}
 		}
 		
 		// Begin New Task
+		println("\tInitializing New Task...");
 		_currentTask = newTask;
 		_currentTask.initializeTask();
     }

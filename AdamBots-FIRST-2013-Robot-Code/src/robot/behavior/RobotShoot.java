@@ -107,5 +107,7 @@ public abstract class RobotShoot extends RobotBehavior {
 				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
 			}
 		}
+		
+		System.out.println("RobotShoot :: update() : target=" + _shooterPID.getSetpoint() + "\terror=" + _shooterPID.getError());
 	}
 }

@@ -36,7 +36,6 @@ public class TSetShooterSpeed extends LogicTask {
 	//// INITIALIZATION --------------------------------------------------------
 	
 	protected void initialize() {
-		System.out.println("TSetShooterSpeed :: Shooter Speed Set to " + _targetSpeedRPM);
 		TargetShooterSpeedLogic.setRestSpeedRPM(_targetSpeedRPM);
 		_done = true;
 	}
@@ -49,7 +48,6 @@ public class TSetShooterSpeed extends LogicTask {
 
 	//// FINISH ----------------------------------------------------------------
 	protected int finish() {
-		TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
 		return _done ? SUCCESS : FAILURE;
 	}
 }

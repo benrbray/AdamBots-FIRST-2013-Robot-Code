@@ -36,6 +36,7 @@ public abstract class LogicTask extends RobotObject {
      * Called when the Task is started.
      */
     public final void initializeTask(){
+		println("LogicTask :: initializeTask()");
 		_initialized = true;
 		initialize();
     }
@@ -44,6 +45,7 @@ public abstract class LogicTask extends RobotObject {
      * Called periodically while the Task is being executed.
      */
     public final void updateTask(){
+		println("...");
 		update();
     }
     
@@ -56,6 +58,7 @@ public abstract class LogicTask extends RobotObject {
      * @return A status message.  (0 = success)
      */
     public final int finishTask(){
+		println("LogicTask :: finishTask() : " + this.getClass().getName());
 		int status = finish();
 		return (!_initialized && status==SUCCESS)?FAILURE:status;
     }

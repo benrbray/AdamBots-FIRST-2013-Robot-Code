@@ -4,11 +4,13 @@
  */
 package robot.logic;
 
+import robot.RobotObject;
+
 /**
  *
  * @author Ben
  */
-public abstract class LogicTask {
+public abstract class LogicTask extends RobotObject {
     
     //// CONSTANTS -------------------------------------------------------------
     
@@ -34,15 +36,15 @@ public abstract class LogicTask {
      * Called when the Task is started.
      */
     public final void initializeTask(){
-	_initialized = true;
-	initialize();
+		_initialized = true;
+		initialize();
     }
     
     /**
      * Called periodically while the Task is being executed.
      */
     public final void updateTask(){
-	update();
+		update();
     }
     
     /**
@@ -54,8 +56,8 @@ public abstract class LogicTask {
      * @return A status message.  (0 = success)
      */
     public final int finishTask(){
-	int status = finish();
-	return (!_initialized && status==SUCCESS)?FAILURE:status;
+		int status = finish();
+		return (!_initialized && status==SUCCESS)?FAILURE:status;
     }
     
     //// ABSTRACT TASK METHODS -------------------------------------------------
@@ -82,6 +84,6 @@ public abstract class LogicTask {
      * @return Has the task been completed?
      */
     public final boolean isDone(){
-	return _done;
+		return _done;
     }
 }

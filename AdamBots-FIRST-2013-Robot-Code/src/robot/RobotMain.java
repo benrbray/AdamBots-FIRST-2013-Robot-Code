@@ -101,7 +101,6 @@ public final class RobotMain extends IterativeRobot {
 		TargetSpinLogic.init();
 
 		// Output Filtering
-		// TODO:  Print Filtering Broken
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
 		RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
 		RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;

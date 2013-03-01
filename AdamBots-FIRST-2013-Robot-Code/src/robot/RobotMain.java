@@ -20,6 +20,7 @@ import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
+import robot.logic.LogicTask;
 import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.logic.targeting.TargetShooterSpeedLogic;
 import robot.logic.targeting.TargetSpinLogic;
@@ -51,16 +52,17 @@ public final class RobotMain extends IterativeRobot {
     
     //// OUTPUT CONSTANTS ------------------------------------------------------
     
-    public static final boolean VERBOSE_AUTON		= false;
+    public static final boolean VERBOSE_AUTON		= true;
     public static final boolean VERBOSE_TELEOP		= false;
-    public static final boolean VERBOSE_CLIMB		= true;
-    public static final boolean VERBOSE_ROBOTCLIMB	= true;
+    public static final boolean VERBOSE_CLIMB		= false;
+    public static final boolean VERBOSE_ROBOTCLIMB	= false;
     public static final boolean VERBOSE_ROBOTDRIVE	= false;
     public static final boolean VERBOSE_ROBOTPICKUP	= false;
     public static final boolean VERBOSE_ROBOTSHOOT	= false;
     public static final boolean VERBOSE_ROBOTCAMERA	= false;
     public static final boolean VERBOSE_TARGETLOGIC	= false;
-	public static final boolean VERBOSE_FANCYMOTOR	= true;
+	public static final boolean VERBOSE_FANCYMOTOR	= false;
+	public static final boolean VERBOSE_LOGICTASK	= false;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -115,6 +117,7 @@ public final class RobotMain extends IterativeRobot {
 		AutonLogic.verboseOutput = VERBOSE_AUTON;
 		TeleopLogic.verboseOutput = VERBOSE_TELEOP;
 		ClimbLogic.verboseOutput = VERBOSE_CLIMB;
+		LogicTask.verboseOutput = VERBOSE_LOGICTASK;
 
 		// Initialize Joysticks
 		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER, .15);

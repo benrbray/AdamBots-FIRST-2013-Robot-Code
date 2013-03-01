@@ -123,7 +123,6 @@ public class TeleopLogic extends LogicPhase {
 		// If the left and right drive variables are both equal to 0 and the auto target button is held then let's auto target
 		if (_leftDrive == 0 && _rightDrive == 0 && _primaryButtons[FancyJoystick.BUTTON_RB]) {
 			TargetSpinLogic.setIsTargeting(true);
-			SmartDashboard.putString("chassisTargeting", "Enabled");
 		} else {
 			TargetSpinLogic.setIsTargeting(false);
 
@@ -132,11 +131,7 @@ public class TeleopLogic extends LogicPhase {
 			_rightDrive = Math.max(-1, Math.min(1, _rightDrive));
 
 			RobotDrive.drive(_leftDrive, _rightDrive);
-			SmartDashboard.putString("chassisTargeting", "Disabled");
 		}
-		
-		SmartDashboard.putNumber("leftEncoder", RobotSensors.encoderDriveLeft.get());
-		SmartDashboard.putNumber("rightEncoder", RobotSensors.encoderDriveRight.get());
 
 		// Handle shifting
 		if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
@@ -183,6 +178,7 @@ public class TeleopLogic extends LogicPhase {
 			
 			if (_setWinch <= 0) {
 				RobotActuators.climbWinch.set(_setWinch);
+				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			} else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
 				RobotActuators.climbWinch.set(_setWinch);
@@ -190,7 +186,6 @@ public class TeleopLogic extends LogicPhase {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 				RobotActuators.climbWinch.set(0);
 			}
-
 		} else {
 			//TODO: Set winch drive to 0
 			RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
@@ -219,9 +214,6 @@ public class TeleopLogic extends LogicPhase {
 
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.
 		if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
-
-			TargetShooterAngleLogic.setIsTargeting(true);
-			TargetShooterSpeedLogic.setIsTargeting(true);
 
 		// Shooter angle control.
 			// Start by driving based on joystick if the joystick has input.
@@ -255,40 +247,33 @@ public class TeleopLogic extends LogicPhase {
 				TargetShooterSpeedLogic.setIsTargeting(false);
 				SmartDashboard.putString("shooterSpeed", "full court");
 			} else {
-				TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.getShooterManualSpeed());
+				TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
 				TargetShooterSpeedLogic.setIsTargeting(false);
-				SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
+				SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.SHOOTER_REST_SPEED);
 			}
 
 			SmartDashboard.putString("secondaryAutoTarget", "true");
 		} else {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
-			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.getShooterManualSpeed());
+			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
 			
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
-			SmartDashboard.putString("shooterSpeed", "manual " + MagicBox.getShooterManualSpeed());
-			SmartDashboard.putString("secondaryAutoTarget", "false");
 		}
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
 			RobotActuators.shooterWheelMotor.set(1);
-			System.out.println("Setting to 1");
 		}
-
-		SmartDashboard.putNumber("shooterVoltage", RobotActuators.shooterWheelMotor.get());
+		
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
-		SmartDashboard.putNumber("shooterEncoderPeriod", RobotSensors.counterShooterSpeed.getPeriod());
-		SmartDashboard.putNumber("shooterAngleChangerMotor", RobotActuators.shooterAngleMotor.get());
 		SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.counterShooterAngle.get());
 		
-		System.out.println("ShooterAngleEncoder:\t" + RobotSensors.counterShooterAngle.get());
-		
 		// Drive elevator
-		_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
-
-		RobotActuators.discElevator.set(_elevatorDrive);
+//TODO: Re implement disc pickup
+//		_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
+//
+//		RobotActuators.discElevator.set(_elevatorDrive);
 
 		// Disk fire control
 		if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
@@ -316,6 +301,8 @@ public class TeleopLogic extends LogicPhase {
 		} else {
 			_secondaryBCount = 0;
 		}
+		
+		//TODO: Add in safety like winch safety for shooter off
     }
 
     /**
@@ -340,10 +327,6 @@ public class TeleopLogic extends LogicPhase {
      */
     private void updateMagicBox() {
 		MagicBox.update();
-
-		//TODO: Implement multipliers
-		//TargetLogic.setShooterSpeedMultiplier(MagicBox.getShooterMultiplier());
-		//TargetLogic.setShooterAngleOffset(MagicBox.getAngleOffset());
 
 		for (int i = 0; i < MagicBox.NUM_BUTTONS; i++) {
 			_magicBoxButtons[i] = MagicBox.getDigitalIn(i);

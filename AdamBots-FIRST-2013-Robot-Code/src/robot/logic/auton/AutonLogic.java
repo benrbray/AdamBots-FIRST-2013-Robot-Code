@@ -30,6 +30,7 @@ public class AutonLogic extends LogicPhase {
     //// INITIALIZATION --------------------------------------------------------
     
     public void initPhase() {
+		println("AutonLogic :: initPhase()");
 		// Populate Tasks Array
 		_tasks = new Vector();
 
@@ -49,7 +50,7 @@ public class AutonLogic extends LogicPhase {
 		_currentTask.updateTask();
 
 		if(_currentTask.isDone()){
-			println("Task Reported DONE, moving to next Task...");
+			println("AutonLogic :: Task Reported DONE, moving on...");
 			nextTask();
 		}
     }
@@ -75,7 +76,7 @@ public class AutonLogic extends LogicPhase {
 		if(_currentIndex < _tasks.size() - 1){
 			setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
 		} else {
-			System.out.println("AutonLogic :: No Tasks Remain.  Finishing...");
+			println("AutonLogic :: No Tasks Remain.  Finishing...");
 			RobotMain.getInstance().endPhase();
 		}
     }
@@ -92,9 +93,9 @@ public class AutonLogic extends LogicPhase {
 		if(_currentTask != null){
 			int status = _currentTask.finishTask();
 			if(status == LogicTask.SUCCESS){
-				println("Task Finished Successfully.");
+				println("AutonLogic :: Task Finished Successfully.");
 			} else {
-				println("Task Failed.");
+				println("AutonLogic :: Task Failed.");
 			}
 		}
 		

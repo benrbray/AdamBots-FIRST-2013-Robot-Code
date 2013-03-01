@@ -49,14 +49,14 @@ public final class RobotMain extends IterativeRobot {
     
     public static final boolean VERBOSE_AUTON		= false;
     public static final boolean VERBOSE_TELEOP		= false;
-    public static final boolean VERBOSE_CLIMB			= true;
-    public static final boolean VERBOSE_ROBOTCLIMB		= true;
+    public static final boolean VERBOSE_CLIMB		= true;
+    public static final boolean VERBOSE_ROBOTCLIMB	= true;
     public static final boolean VERBOSE_ROBOTDRIVE	= false;
     public static final boolean VERBOSE_ROBOTPICKUP	= false;
     public static final boolean VERBOSE_ROBOTSHOOT	= false;
     public static final boolean VERBOSE_ROBOTCAMERA	= false;
     public static final boolean VERBOSE_TARGETLOGIC	= false;
-	public static final boolean VERBOSE_FANCYMOTOR		= true;
+	public static final boolean VERBOSE_FANCYMOTOR	= true;
     
     //// ROBOT LOGIC PHASES ----------------------------------------------------
     
@@ -108,6 +108,9 @@ public final class RobotMain extends IterativeRobot {
 		TargetShooterSpeedLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 		TargetSpinLogic.verboseOutput = VERBOSE_TARGETLOGIC;
 		FancyMotor.verboseOutput = VERBOSE_FANCYMOTOR;
+		AutonLogic.verboseOutput = VERBOSE_AUTON;
+		TeleopLogic.verboseOutput = VERBOSE_TELEOP;
+		ClimbLogic.verboseOutput = VERBOSE_CLIMB;
 
 		// Initialize Joysticks
 		primaryJoystick = new FancyJoystick(FancyJoystick.PRIMARY_DRIVER, .15);
@@ -125,7 +128,6 @@ public final class RobotMain extends IterativeRobot {
     public void autonomousInit() {
 		RobotCamera.init();
 		_autonLogic = new AutonLogic();
-		_autonLogic.verboseOutput = VERBOSE_AUTON;
 		segueToLogicPhase(_autonLogic);
 
 		RobotActuators.cameraLED.set(true);
@@ -152,8 +154,6 @@ public final class RobotMain extends IterativeRobot {
 		RobotCamera.init();
 		_teleopLogic = new TeleopLogic();
 		_climbLogic = new ClimbLogic();
-		_teleopLogic.verboseOutput = VERBOSE_TELEOP;
-		_climbLogic.verboseOutput = VERBOSE_AUTON;
 		segueToLogicPhase(_teleopLogic);
 
 		RobotActuators.cameraLED.set(true);

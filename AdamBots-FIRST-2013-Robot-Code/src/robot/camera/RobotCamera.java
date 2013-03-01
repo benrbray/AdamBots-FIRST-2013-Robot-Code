@@ -32,6 +32,9 @@ public abstract class RobotCamera extends RobotObject {
 	private static final double VIEW_HEIGHT_OVER_WIDTH = 0.75;
 	private static final double CAMERA_ANGLE_CENTER_ELEVATION_DEGREES = 20;//CHECK
 	private static final double CAMERA_HEIGHT_INCHES = 12;//CHECK
+	
+	private static boolean _firstImageCapture = true;
+	
 	private static boolean _alreadyInit = false;
 	/**
 	 * The camera instance used in tracking.
@@ -109,12 +112,8 @@ public abstract class RobotCamera extends RobotObject {
 	 * Periodic update function which ensures CameraThread is running.
 	 */
 	public static void update() {
-		if (_cameraThread == null) {
+		if (_cameraThread == null || !_cameraThread.isAlive()) {
 			_cameraThread = new Thread(new CameraThread());
-			//TODO: NATHAN CAMERA FIX _cameraThread.start();
-		}
-		if (!_cameraThread.isAlive()) {
-			//TODOL NATHAN CAMERA FIX _cameraThread = new Thread(new CameraThread());
 			_cameraThread.start();
 		}
 	}
@@ -151,7 +150,11 @@ public abstract class RobotCamera extends RobotObject {
 			_srcImage.replaceRedPlane(hueHSVOriginal);
 			_srcImage.replaceGreenPlane(saturationHSVOriginal);
 			_srcImage.replaceBluePlane(valueOriginal);
-
+			if (_firstImageCapture)
+			{
+				_srcImage.write("/Swapped.png");
+			}
+			_firstImageCapture = false;
 			result = _srcImage.thresholdRGB(107, 124, 211, 256, 243, 256);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
@@ -164,17 +167,16 @@ public abstract class RobotCamera extends RobotObject {
 			double largestsize = board.particleArea;
 			ParticleAnalysisReport q = null;
 			for (int i = 0; i < greens.length; i++) {
-				if (greens[i].particleArea> largestsize * 0.5)
-				{
+				/*if (greens[i].particleArea> largestsize * 0.5){
 					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
-				}
+				}*/
 				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
 					q = greens[i];
 				}
 			}
 			board = q;
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
-			println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
+			//println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
 		}
 		catch (NIVisionException e) {
 		}

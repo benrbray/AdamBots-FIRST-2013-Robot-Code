@@ -4,14 +4,14 @@
  */
 package robot.logic.auton;
 
-import edu.wpi.first.wpilibj.networktables2.util.List;
+import java.util.Vector;
 import robot.RobotMain;
-import robot.control.MagicBox;
+import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
 import robot.logic.tasks.TAwaitStatus;
-import robot.logic.tasks.TFeedDisc;
-import robot.logic.tasks.TSetShooterSpeed;
+import robot.logic.tasks.TMoveWinch;
+import robot.logic.tasks.TStopWinch;
 
 /**
  * Performs logic during the autonomous period of gameplay.
@@ -20,11 +20,9 @@ import robot.logic.tasks.TSetShooterSpeed;
 public class AutonLogic extends LogicPhase {
     //// TASK LIST -------------------------------------------------------------
     
-    protected List _tasks;
-    protected int _currentIndex = 0;
-    protected LogicTask _currentTask;
-	
-	protected boolean _done = false;
+    private Vector _tasks;
+    private int _currentIndex = 0;
+    private LogicTask _currentTask;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -34,28 +32,24 @@ public class AutonLogic extends LogicPhase {
     
     //// INITIALIZATION --------------------------------------------------------
     
-	/**
-	 * Called before the autonomous phase begins.  Populates the task list and
-	 * calls the first task in the sequence.
-	 */
-    public final void initPhase() {
+    public void initPhase() {
 		// Populate Tasks Array
-		_tasks = AutonType.Simple.SIMPLE_THREE_SHOTS;
+		_tasks = new Vector();
 
 		// Begin First Task
 		_currentIndex = 0;
-		setCurrentTask((LogicTask)_tasks.get(_currentIndex));
+		setCurrentTask((LogicTask)_tasks.elementAt(_currentIndex));
     }
 
     //// UPDATE ----------------------------------------------------------------
     
-	/**
-	 * Called periodically during the autonomous phase.  Performs central logic
-	 * and controls task flow.
-	 */
-    public final void updatePhase() {
-		if(_done) return;
-		
+    public void updatePhase() {
+		// Check for Emergency Stop (START and BACK on primary joystick)
+		if(RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)
+		&& RobotMain.primaryJoystick.getRawButton(FancyJoystick.BUTTON_START)){
+			emergencyStop();
+		}
+
 		// Update Current Task
 		_currentTask.updateTask();
 
@@ -70,10 +64,18 @@ public class AutonLogic extends LogicPhase {
     /**
      * Stops the current Task and transitions to the TeleopLogic Phase.
      */
-    public final void finishPhase() {
+    public void finishPhase() {
 		_currentTask.finishTask();
 		_currentTask = null;
 		RobotMain.getInstance().segueToLogicPhase(LogicPhase.TELEOP);
+    }
+    
+    /**
+     * Emergency stops Climbing.
+     * @see #finishPhase()
+     */
+    public void emergencyStop(){
+		finishPhase();  // TODO:  Additional Logic Here?
     }
     
     //// TASK LOGIC ------------------------------------------------------------
@@ -82,13 +84,8 @@ public class AutonLogic extends LogicPhase {
      * Transitions to the next Task in the sequence.
      * @see #setCurrentTask(robot.logic.LogicTask) 
      */
-    public final void nextTask(){
-		if(_currentIndex < _tasks.size() - 1){
-			setCurrentTask((LogicTask)_tasks.get(++_currentIndex));
-		} else {
-			println("AutonLogic finished.  No more tasks left to run.");
-			_done = true;
-		}
+    public void nextTask(){
+		setCurrentTask((LogicTask)_tasks.elementAt(++_currentIndex));
     }
     
     /**
@@ -98,7 +95,7 @@ public class AutonLogic extends LogicPhase {
      * @see LogicTask#finishTask() 
      * @see LogicTask#initializeTask() 
      */
-    public final void setCurrentTask(LogicTask newTask){
+    public void setCurrentTask(LogicTask newTask){
 		// Finish Old Task
 		if(_currentTask != null){
 			int status = _currentTask.finishTask();

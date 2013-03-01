@@ -100,6 +100,13 @@ public class DataIO {
         _storage.storeGeneral(s);
     }
     
+	/**
+	 * Logs the information from the last shot taken
+	 */
+	public static void storeShot(){
+		_storage.storeShot();
+	}
+	
     /**
      * Returns the StoredData class as a string
      * Prefix data with "Title: " to save it in a specified category.
@@ -275,7 +282,7 @@ public class DataIO {
                 date.get(Calendar.DAY_OF_MONTH) + "_" + 
                 (date.get(Calendar.MONTH)+1);
             
-        String filename = "Log_"+ fileTime;
+        String filename = "logFiles/Log_"+ fileTime;
         writeToFile(filename, data);
         
     }

@@ -35,10 +35,12 @@ public class MagicBox {
     public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
 	public static final double CHASSIS_OFFSET_INCREMENT		= 1;
     
-    public static final double PYRAMID_SHOT_SPEED = 1200;
+	public static final double SHOOTER_REST_SPEED = 2900;
+	
+    public static final double PYRAMID_SHOT_SPEED = 2900;
     public static final double PYRAMID_SHOT_ANGLE = 50;
     
-    public static final double FULL_COURT_SHOT_SPEED = 1200;
+    public static final double FULL_COURT_SHOT_SPEED = 3600;
     public static final double FULL_COURT_SHOT_ANGLE = 30;
     
     //// MAGIC BOX VARIABLES ---------------------------------------------------
@@ -136,8 +138,9 @@ public class MagicBox {
     /**
      * @return The current value of the manual shooter speed.
      */
-    public static double getShooterManualSpeed() {
-	return _shooterManualSpeed;
+    public static double getShooterManualSpeed() throws Exception {
+		throw(new Exception("MagicBox.getShooterManualSpeed should not be used while multiplier is being used."));
+		//return _shooterManualSpeed;
     }
     
     /**

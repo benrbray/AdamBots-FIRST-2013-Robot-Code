@@ -6,20 +6,21 @@ import robot.RobotObject;
 
 /**
  * This class is called ONLY by TargetLogic; it processes camera data.
+ *
  * @author Nathan Fenner et al
  */
 /**
- * Directions for camera IP:
- * On bridge, camera IP is: 10.2.45.11
- * On cRIO port 2, IP is: 192.168.0.90
- * In computer, IP is either BUT local IP must be in the same block i.e. (10.2.45.* / 192.168.0.*)
- * User/pass is frc/frc or root/admin
- * Must configure camera IP to be the correct IP
- * When initializing camera instance, give it the correct IP.
- * 
- * This class must be initialized with initialize() and asked to work using work().
- * After work() is finished, you may request distance or direction to the visible best target.
- **/
+ * Directions for camera IP: On bridge, camera IP is: 10.2.45.11 On cRIO port 2,
+ * IP is: 192.168.0.90 In computer, IP is either BUT local IP must be in the
+ * same block i.e. (10.2.45.* / 192.168.0.*) User/pass is frc/frc or root/admin
+ * Must configure camera IP to be the correct IP When initializing camera
+ * instance, give it the correct IP.
+ *
+ * This class must be initialized with initialize() and asked to work using
+ * work(). After work() is finished, you may request distance or direction to
+ * the visible best target.
+ *
+ */
 public abstract class RobotCamera extends RobotObject {
 
 	private static final double TARGET_WIDTH_INCHES = 62;
@@ -47,11 +48,14 @@ public abstract class RobotCamera extends RobotObject {
 	public static Target _greenTarget;
 	/**
 	 * Distance in FEET to target based on most recent exposure.
-	 **/
+	 *
+	 */
 	private static double _recentDistanceInches = 0;
 	/**
-	 * In DEGREES, direction (negative left?) toward target based on most recent exposure.
-	 **/
+	 * In DEGREES, direction (negative left?) toward target based on most recent
+	 * exposure.
+	 *
+	 */
 	private static double _recentThetaDegrees = 0; //Radians
 	/**
 	 * The reference to the CameraThread object which calls work().
@@ -63,15 +67,16 @@ public abstract class RobotCamera extends RobotObject {
 	private static boolean _freshImage = false;
 
 	/**
-	 A class essentially equivalent to ParticleAnalysisReport sans some data.
-	 **/
+	 * A class essentially equivalent to ParticleAnalysisReport sans some data.
+	 *
+	 */
 	/* Test different lighting
 	 * Test 1 light v 2 lights (brightness)
 	 * (interfering light?)
 	 */
 	static public class Target {
 
-		Target( int nx, int ny, int nw, int nh ) {
+		Target(int nx, int ny, int nw, int nh) {
 			x = nx;
 			y = ny;
 			w = nw;
@@ -109,25 +114,29 @@ public abstract class RobotCamera extends RobotObject {
 	 * Periodic update function which ensures CameraThread is running.
 	 */
 	public static void update() {
-		if ( _cameraThread == null ) {
+		if (_cameraThread == null) {
 			_cameraThread = new Thread(new CameraThread());
 		}
-		if ( !_cameraThread.isAlive() ) {
+		if (!_cameraThread.isAlive()) {
 			_cameraThread.start();
 		}
 	}
 
 	/**
-	 * Returns the distance in inches to the target according to the most recent available exposure.
-	 **/
+	 * Returns the distance in inches to the target according to the most recent
+	 * available exposure.
+	 *
+	 */
 	public static double getDistanceInches() {
 		return _recentDistanceInches;
 	}
 
 	/**
-	 Returns the direction (in radians) to the target according to the most recent available exposure.
-	 Negative is left of center, positive is right of center. 0 is on target.
-	 **/
+	 * Returns the direction (in radians) to the target according to the most
+	 * recent available exposure. Negative is left of center, positive is right
+	 * of center. 0 is on target.
+	 *
+	 */
 	public static double getDirectionDegrees() {
 		return _recentThetaDegrees;
 	}
@@ -149,51 +158,53 @@ public abstract class RobotCamera extends RobotObject {
 			_srcImage.replaceRedPlane(hueHSVOriginal);
 			_srcImage.replaceGreenPlane(saturationHSVOriginal);
 			_srcImage.replaceBluePlane(valueOriginal);
-
+			
+			/*if (!blahblahblah) {
+				_srcImage.write("/RGBSWAPPEDCOMPETITIONPICTURE.png");
+				blahblahblah = true;
+			}*/
+			
 			result = _srcImage.thresholdRGB(107, 124, 211, 256, 243, 256);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
 			ParticleAnalysisReport board = null;
 			for (int i = 0; i < greens.length; i++) {
-				if ( (board == null || board.particleArea < greens[i].particleArea) && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55 ) {
+				if ((board == null || board.particleArea < greens[i].particleArea) && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.55) {
 					board = greens[i];
 				}
 			}
 			double largestsize = board.particleArea;
 			ParticleAnalysisReport q = null;
 			for (int i = 0; i < greens.length; i++) {
-				if (greens[i].particleArea> largestsize * 0.5)
-				{
+				if (greens[i].particleArea > largestsize * 0.5) {
 					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}
-				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
+				if ((greens[i].particleArea > largestsize * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || q.center_mass_y > greens[i].center_mass_y)) {
 					q = greens[i];
 				}
 			}
 			board = q;
 			_greenTarget = new Target(board.boundingRectLeft, board.boundingRectTop, board.boundingRectWidth, board.boundingRectHeight);
 			println("Target location:" + _greenTarget.x + " ," + _greenTarget.y + " |w,h,a " + _greenTarget.w + "|" + _greenTarget.h + " ," + board.particleArea);
-		}
-		catch (NIVisionException e) {
-		}
-		finally {
+		} catch (NIVisionException e) {
+		} finally {
 			try {
 				free(valueOriginal);
 				free(saturationHSVOriginal);
 				free(hueHSVOriginal);
 				free(result);
-			}
-			catch (NIVisionException e) {
+			} catch (NIVisionException e) {
 			}
 		}
 	}
 
 	/**
-	 Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
-	 **/
+	 * Initializes AxisCamera instance and sets camera parameters. Should be
+	 * called once, at robot initialization.
+	 *
+	 */
 	public static void init() {
-		if (_alreadyInit)
-		{
+		if (_alreadyInit) {
 			return;
 		}
 		//how it will be on the robot ; 
@@ -208,6 +219,7 @@ public abstract class RobotCamera extends RobotObject {
 
 	/**
 	 * Tells whether the current is fresh
+	 *
 	 * @return Freshness of image (true for "is fresh")
 	 */
 	public static boolean imageIsFresh() {
@@ -215,89 +227,84 @@ public abstract class RobotCamera extends RobotObject {
 	}
 
 	/**
-	 * Alerts RobotCamera that current image is no longer fresh; is called immediately after collecting image data.
+	 * Alerts RobotCamera that current image is no longer fresh; is called
+	 * immediately after collecting image data.
 	 */
 	public static void imageUnfresh() {
 		_freshImage = false;
 	}
 
-
-	
-	public static void calculateAngle()
-	{
+	public static void calculateAngle() {
 		_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS_HORIZONTAL / 2.0) * (VIEW_ANGLE_DEGREES_HORIZONTAL) / (VIEW_ANGLE_PIXELS_HORIZONTAL);
 	}
-	
-	public static void calculateDistance()
-	{
+
+	public static void calculateDistance() {
 		_recentDistanceInches = 14874.0 * VIEW_ANGLE_PIXELS_HORIZONTAL / 320.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
 	}
-	public static void calculateDistanceAlternate()
-	{
+
+	public static void calculateDistanceAlternate() {
 		double m = (_greenTarget.w + _greenTarget.h / 2) / VIEW_ANGLE_PIXELS_VERTICAL * VIEW_ANGLE_DEGREES_VERTICAL;
 		double a = CAMERA_ANGLE_CENTER_ELEVATION_DEGREES + VIEW_ANGLE_DEGREES_VERTICAL / 2;
 		double h = TARGET_HEIGHT_INCHES / 2 + TARGET_ELEVATION_INCHES_TO_BOTTOM;
-		_recentDistanceInches = h / Math.tan(Math.PI / 180 * (a-m));
+		_recentDistanceInches = h / Math.tan(Math.PI / 180 * (a - m));
 	}
-	
 	/**
-	 * Performs "work" on the image, excluding "greenbox." Called by CameraThread only.
-	 1. Grabs source image and saves it.
-	 2. Calls greenbox.
-	 3. Free all objects
-	 4. Calculates distance / angle.
-	 **/
+	 * Performs "work" on the image, excluding "greenbox." Called by
+	 * CameraThread only. 1. Grabs source image and saves it. 2. Calls greenbox.
+	 * 3. Free all objects 4. Calculates distance / angle.
+	 *
+	 */
+	//static boolean blahblahblah = false;
+
 	public static void work() {
 		_srcImage = null;
-		try
-		{
+		try {
 			_srcImage = _camera.getImage();
-			_srcImage.write("/raw.png");
 			greenBox();
 			calculateDistance();
 			calculateAngle();
 			_freshImage = true;
-		}
-		catch (Exception e) {
-		}
-		finally {
+		} catch (Exception e) {
+		} finally {
 			try {
 				free(_srcImage);
-			}
-			catch (NIVisionException e) {
+			} catch (NIVisionException e) {
 			}
 		}
 	}
 
 	/**
 	 * Free functions avoid freeing images which are `null`.
+	 *
 	 * @param x The ColorImage/BinaryImage/MonoImage to free.
-	 * @throws NIVisionException 
+	 * @throws NIVisionException
 	 */
-	private static void free( ColorImage x ) throws NIVisionException {
-		if ( x != null ) {
+	private static void free(ColorImage x) throws NIVisionException {
+		if (x != null) {
 			x.free();
 		}
 	}
 
 	/**
 	 * Free functions avoid freeing images which are `null`.
+	 *
 	 * @param x The ColorImage/BinaryImage/MonoImage to free.
-	 * @throws NIVisionException 
+	 * @throws NIVisionException
 	 */
-	private static void free( BinaryImage x ) throws NIVisionException {
-		if ( x != null ) {
+	private static void free(BinaryImage x) throws NIVisionException {
+		if (x != null) {
 			x.free();
 		}
 	}
 
 	/**
 	 * Free functions avoid freeing images which are `null`.
+	 *
 	 * @param x The ColorImage/BinaryImage/MonoImage to free.
-	 * @throws NIVisionException 
+	 * @throws NIVisionException
 	 */
-	private static void free( MonoImage x ) throws NIVisionException {
-		if ( x != null ) {
+	private static void free(MonoImage x) throws NIVisionException {
+		if (x != null) {
 			x.free();
 		}
 	}

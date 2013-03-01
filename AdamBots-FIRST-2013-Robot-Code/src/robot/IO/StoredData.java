@@ -3,7 +3,11 @@
  * and open the template in the editor.
  */
 package robot.IO;
+import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Calendar;
+import robot.camera.RobotCamera;
+import robot.sensors.RobotSensors;
+
 
 /**
  * Provides a way to store and format data before it is logged.
@@ -17,7 +21,9 @@ public class StoredData {
     private Category[] _shooter;
     private Category[] _climbing;
     private Category[] _drive;
-
+	private String[] _shotLog;
+	
+	
     public static final String NL = "\r\n";
     
     /**
@@ -28,6 +34,7 @@ public class StoredData {
         _climbing = new Category[0];
         _shooter = new Category[0];
         _drive = new Category[0];
+		_shotLog = new String[0];
     }
 
     /**
@@ -95,18 +102,33 @@ public class StoredData {
             if (index != -1) {
                 a[index].add(info);
             } else {
-                a = addIndex(a);
+                a = addCategoryIndex(a);
                 a[a.length - 1] = new Category(title);
                 a[a.length - 1].add(info);
             }
         } else {
-            a = addIndex(a);
+            a = addCategoryIndex(a);
             a[a.length - 1] = new Category(title);
             a[a.length - 1].add(info);
         }
         return a;
     }
 
+	/**
+	 * Stores match time from beginning of autonomous, the distance the camera
+	 * returns, the angle from the sensor, and the RPM from the sensor.
+	 */
+	public void storeShot(){
+		DriverStation temp = DriverStation.getInstance();
+		String log = "" + temp.getMatchTime() + "\t" + 
+				RobotCamera.getDistanceInches() + "\t" + 
+				RobotSensors.counterShooterAngle.getDistance() + "\t" +
+				RobotSensors.counterShooterSpeed.pidGet();
+		
+		_shotLog = addStringIndex(_shotLog);
+		_shotLog[_shotLog.length-1] = log;
+	}
+	
     /**
      * Returns the index of a category in the array.
      *
@@ -183,12 +205,18 @@ public class StoredData {
      * @param in The Category array to be modified.
      * @return A Category array with a new empty index.
      */
-    private Category[] addIndex(Category[] in) {
+    private Category[] addCategoryIndex(Category[] in) {
         Category[] temp = new Category[in.length + 1];
         System.arraycopy(in, 0, temp, 0, in.length);
         return temp;
     }
 
+	private String[] addStringIndex(String[] in) {
+        String[] temp = new String[in.length + 1];
+        System.arraycopy(in, 0, temp, 0, in.length);
+        return temp;
+    }
+	
     /**
      * Formats and returns the StoredData class as a string.
      *
@@ -197,8 +225,8 @@ public class StoredData {
     public String toString() {
         String all = new String();
 
-        all += addArray(_general, "General") + addArray(_shooter, "Shooter") 
-                + addArray(_climbing, "Climbing") + addArray(_drive, "Drive");
+        all += addStringArray(_shotLog) + addCategoryArray(_general, "General") + addCategoryArray(_shooter, "Shooter") 
+                + addCategoryArray(_climbing, "Climbing") + addCategoryArray(_drive, "Drive");
 
         return all;
     }
@@ -209,7 +237,7 @@ public class StoredData {
      * @param c The Category array to be combined.
      * @return The full String of the Category array.
      */
-    private String addArray(Category[] c, String title) {
+    private String addCategoryArray(Category[] c, String title) {
         String a = new String();
         int l = c.length;
         if (l != 0) {
@@ -222,6 +250,21 @@ public class StoredData {
 
         return a;
     }
+	
+	private String addStringArray(String[] s){
+		String a = new String();
+		int l = s.length;
+		if (l != 0){
+			a = NL + NL + NL + "ShotLog" + " " + wrap("-", 18) + NL;
+		}
+		
+		for (int i = 0; i < l; i ++){
+			a+=s[i]+NL;
+		}
+		
+		return a;
+	}
+	
     
     /**
      * Adds a string a certain number of times

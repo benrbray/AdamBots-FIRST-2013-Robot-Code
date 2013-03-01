@@ -31,23 +31,23 @@ public abstract class RobotClimb extends RobotBehavior {
      */
     public static void update()
     {
-        
-        if (RobotSensors.limitWinchA.get()) //TODO: Determine 1 vs 2 for limits, winch speed pairing.
-        {
+        /*
+        if (RobotSensors.limitWinchA.get()) { //TODO: Determine 1 vs 2 for limits, winch speed pairing.
             _winchTarget = Math.min(_winchTarget,getWinchPosition()-TOLERANCE/2);
         }
-        if (RobotSensors.limitWinchB.get())
-        {
+        
+		if (RobotSensors.limitWinchB.get()) {
             _winchTarget = Math.max(_winchTarget,getWinchPosition()+TOLERANCE/2);
         }
-        if (_winchTarget > getWinchPosition() + TOLERANCE)
+        
+		if (_winchTarget > getWinchPosition() + TOLERANCE)
         {
         RobotActuators.climbWinch.set(0.1); //TODO: Verify sign
         }
-        if (_winchTarget < getWinchPosition() - TOLERANCE)
-        {
+		
+        if (_winchTarget < getWinchPosition() - TOLERANCE){
             RobotActuators.climbWinch.set(-0.1);
-        }
+        }*/
     }
     
     

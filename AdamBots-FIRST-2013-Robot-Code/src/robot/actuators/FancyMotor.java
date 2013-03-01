@@ -119,13 +119,13 @@ public class FancyMotor extends RobotObject implements SpeedController {
         this(motor, null, null);
     }
     
-    public FancyMotor(SpeedController motor, DigitalInput upperLimit, DigitalInput lowerLimit){
-		System.out.println("FancyMotor created.");
+    public FancyMotor(SpeedController motor, DigitalInput positiveLimit, DigitalInput negativeLimit){
+		println("FancyMotor created.");
 		
         // Initialize Variables
         _motor = motor;
-        _positiveLimit = upperLimit;
-        _negativeLimit = lowerLimit;
+        _positiveLimit = positiveLimit;
+        _negativeLimit = negativeLimit;
 		
 		// Push to Static List of FancyMotors
 		_fancyMotors.addElement(this);
@@ -228,6 +228,8 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	public void set(double speed, byte syncGroup){
 		enforceLimitsAndSet(speed, syncGroup);
 	}
+	
+	//// DUMMY MOTOR METHODS ---------------------------------------------------
 	
 	public void disable(){
 		_motor.disable();

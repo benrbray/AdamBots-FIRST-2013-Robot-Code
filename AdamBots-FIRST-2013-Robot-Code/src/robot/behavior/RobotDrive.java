@@ -125,21 +125,23 @@ public abstract class RobotDrive extends RobotBehavior {
 	}
 
 	private static void endGuidedDriving() {
-		_guidedDriving = false;
+		if(_guidedDriving){
+			_guidedDriving = false;
 
-		// Stop Encoders
-		RobotSensors.encoderDriveLeft.reset();
-		RobotSensors.encoderDriveRight.reset();
-		RobotSensors.encoderDriveLeft.stop();
-		RobotSensors.encoderDriveRight.stop();
+			// Stop Encoders
+			RobotSensors.encoderDriveLeft.reset();
+			RobotSensors.encoderDriveRight.reset();
+			RobotSensors.encoderDriveLeft.stop();
+			RobotSensors.encoderDriveRight.stop();
 
-		_driveLeftVelocity = 0.0;
-		_driveRightVelocity = 0.0;
-		_driveSpeedTarget = 0.0;
-		_leftEncoderTargetInches = 0.0;
-		_rightEncoderTargetInches = 0.0;
+			_driveLeftVelocity = 0.0;
+			_driveRightVelocity = 0.0;
+			_driveSpeedTarget = 0.0;
+			_leftEncoderTargetInches = 0.0;
+			_rightEncoderTargetInches = 0.0;
 
-		stop();
+			stop();
+		}
 	}
 
 	/**

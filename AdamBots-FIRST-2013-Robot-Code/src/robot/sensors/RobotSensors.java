@@ -107,7 +107,7 @@ public class RobotSensors extends RobotObject {
 	
 	// Winch
     public static Encoder encoderWinch;
-    public static DigitalInput limitWinchA;
+    public static FancyDigitalInput limitWinchA;
     public static DigitalInput limitWinchB;
     public static DigitalInput limitArmA;
     public static DigitalInput limitArmB;
@@ -171,7 +171,7 @@ public class RobotSensors extends RobotObject {
         encoderWinch = new Encoder(DIO1, CompetitionBot.DigitalIn1.WINCH_ENCODER_A, 
 								   DIO1, CompetitionBot.DigitalIn1.WINCH_ENCODER_B);
 
-        limitWinchA = new DigitalInput(DIO1, CompetitionBot.DigitalIn1.WINCH_LIMIT_A);
+        limitWinchA = new FancyDigitalInput(DIO1, CompetitionBot.DigitalIn1.WINCH_LIMIT_A, true);
         limitWinchB = new DigitalInput(DIO1, CompetitionBot.DigitalIn1.WINCH_LIMIT_B);
 
         limitArmA = new DigitalInput(DIO1, CompetitionBot.DigitalIn1.ARM_LIMIT_A);

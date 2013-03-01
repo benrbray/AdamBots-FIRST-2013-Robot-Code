@@ -9,6 +9,7 @@ package robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.IO.DataIO;
 import robot.actuators.FancyMotor;
 import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
@@ -47,7 +48,7 @@ public final class RobotMain extends IterativeRobot {
     //// OUTPUT CONSTANTS ------------------------------------------------------
     
     public static final boolean VERBOSE_AUTON		= false;
-    public static final boolean VERBOSE_TELEOP		= true;
+    public static final boolean VERBOSE_TELEOP		= false;
     public static final boolean VERBOSE_CLIMB			= true;
     public static final boolean VERBOSE_ROBOTCLIMB		= true;
     public static final boolean VERBOSE_ROBOTDRIVE	= false;
@@ -143,6 +144,9 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the teleoperated period.
      */
     public void teleopInit() {
+		System.out.println("Teleop Init");
+		// Camera Init
+		RobotCamera.init();
 		
 		RobotCamera.init();
 		_teleopLogic = new TeleopLogic();
@@ -163,6 +167,8 @@ public final class RobotMain extends IterativeRobot {
 		RobotSensors.encoderDriveLeft.reset();
 		RobotSensors.encoderDriveRight.start();
 		RobotSensors.encoderDriveRight.reset();
+		
+		System.out.println("TeleopInit finished.");
     }
 
     /**
@@ -189,9 +195,11 @@ public final class RobotMain extends IterativeRobot {
 		}
 		
 		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
-//		if(RobotSensors.limitShooterB.get()){
-//			RobotSensors.counterShooterAngle.reset();
-//		}
+		if(RobotSensors.limitShooterB.get()){
+			RobotSensors.counterShooterAngle.reset();
+		}
+		
+		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();
@@ -236,11 +244,14 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for disabled mode should go here
      */
     public void disabledInit() {
+		System.out.println("Disabled Init");
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
 
 		RobotActuators.cameraLED.set(false);
 		RobotActuators.greenLEDStrip.set(false);
 		RobotActuators.redLEDStrip.set(false);
+		
+		DataIO.logData();
     }
 
     /**
@@ -250,9 +261,9 @@ public final class RobotMain extends IterativeRobot {
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
 		//SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
 		//SmartDashboard.putNumber("accelerometerAccel", RobotSensors.accelerometerChassis.getAcceleration());
-		SmartDashboard.putBoolean("configSwitchA", RobotSensors.configA.get());
-		SmartDashboard.putBoolean("configSwitchB", RobotSensors.configB.get());
-		SmartDashboard.putBoolean("configSwitchC", RobotSensors.configC.get());
+		//SmartDashboard.putBoolean("configSwitchA", RobotSensors.configA.get());
+		//SmartDashboard.putBoolean("configSwitchB", RobotSensors.configB.get());
+		//SmartDashboard.putBoolean("configSwitchC", RobotSensors.configC.get());
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------
@@ -269,12 +280,15 @@ public final class RobotMain extends IterativeRobot {
      * @see LogicPhase#CLIMB
      */
     public boolean segueToLogicPhase(int phase) {
+		System.out.println("SegueToLogicPhase() with int");
 		LogicPhase segueTo;
 		switch (phase) {
 			case LogicPhase.AUTONOMOUS:
+			System.out.println("Moving to auton phase");
 			segueTo = new AutonLogic();
 			break;
 			case LogicPhase.TELEOP:
+			System.out.println("Moving to teleop phase");
 			segueTo = new TeleopLogic();
 			break;
 			case LogicPhase.CLIMB:
@@ -306,6 +320,8 @@ public final class RobotMain extends IterativeRobot {
 
 		_currentLogicPhase = phase;
 		_currentLogicPhase.initPhase();
+		
+		System.out.println("SegueToLogicPhase() finished");
 
 		return true; // TODO:  Update segueToLogicPhase() return value as needed.
     }

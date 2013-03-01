@@ -10,6 +10,7 @@ package robot.logic.teleop;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.IO.DataIO;
 import robot.RobotMain;
 import robot.actuators.RobotActuators;
 import robot.behavior.*;
@@ -285,6 +286,7 @@ public class TeleopLogic extends LogicPhase {
 			if (_numShotsReleased) {
 				_numShots++;
 				_numShotsReleased = false;
+				DataIO.storeShot();
 			}
 		} else {
 			//RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);

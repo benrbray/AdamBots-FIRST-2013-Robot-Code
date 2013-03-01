@@ -35,9 +35,9 @@ public class MagicBox {
     public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
 	public static final double CHASSIS_OFFSET_INCREMENT		= 1;
     
-	public static final double SHOOTER_REST_SPEED = 2900;
+	public static final double SHOOTER_REST_SPEED = 3050;
 	
-    public static final double PYRAMID_SHOT_SPEED = 2900;
+    public static final double PYRAMID_SHOT_SPEED = 3050;
     public static final double PYRAMID_SHOT_ANGLE = 50;
     
     public static final double FULL_COURT_SHOT_SPEED = 3600;

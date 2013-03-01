@@ -129,6 +129,7 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the autonomous period.
      */
     public void autonomousInit() {
+		if(!RobotSensors.configA.get()) return;
 		System.out.println("RobotMain :: autonomousInit()");
 		
 		// Manage Camera & Lights
@@ -144,6 +145,8 @@ public final class RobotMain extends IterativeRobot {
      * Called periodically during autonomous.
      */
     public void autonomousPeriodic() {
+		if(!RobotSensors.configA.get()) return;
+		
 		// Update the Current Logic Phase (should be _autonLogic)
 		update();
     }

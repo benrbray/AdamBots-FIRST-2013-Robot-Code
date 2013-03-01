@@ -34,6 +34,7 @@ public class StoredData {
         _climbing = new Category[0];
         _shooter = new Category[0];
         _drive = new Category[0];
+		_shotLog = new String[0];
     }
 
     /**

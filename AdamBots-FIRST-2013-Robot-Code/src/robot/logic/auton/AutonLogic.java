@@ -33,7 +33,7 @@ public class AutonLogic extends LogicPhase {
     public void initPhase() {
 		println("AutonLogic :: initPhase()");
 		// Populate Tasks Array
-		_tasks = AutonType.Simple.SIMPLE_THREE_SHOTS;
+		_tasks = AutonType.Simple.SIMPLE_FOUR_SHOTS;
 
 		// Begin First Task
 		_currentIndex = 0;

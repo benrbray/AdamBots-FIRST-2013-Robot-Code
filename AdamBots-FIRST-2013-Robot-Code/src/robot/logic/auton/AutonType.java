@@ -33,7 +33,7 @@ public class AutonType {
 			
 		}
 		
-		//// SHOOT THREE DISCS -------------------------------------------------
+		//// SHOOT 3 DISCS -------------------------------------------------
 		
 		/**
 		 * A simple autonomous program that shoots three discs.
@@ -54,6 +54,28 @@ public class AutonType {
 		 * @see Fancy#shootDiscs(int) 
 		 */
 		public static final List SIMPLE_THREE_SHOTS = AutonType.Fancy.shootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		
+		//// SHOOT 4 DISCS -------------------------------------------------
+		
+		/**
+		 * A simple autonomous program that shoots three discs.
+		 * 
+		 * <ol>
+		 *	<li>Set shooter speed.</li>
+		 *  <li>Shoot (x4).
+		 *		<ul>
+		 *			<li>Enable shooter feeder solenoid.
+		 *			<li>Give the shooter feeder solenoid time to expand.
+		 *			<li>Disable the shooter feeder solenoid.
+		 *			<li>Wait for the shooter wheel to recover.
+		 *		</ul>
+		 *	<li>Shoot
+		 *  <li>Shoot
+		 * </ol>
+		 * 
+		 * @see Fancy#shootDiscs(int) 
+		 */
+		public static final List SIMPLE_FOUR_SHOTS = AutonType.Fancy.shootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 	}
 	
 	//// DYNAMIC AUTONOMOUS TYPES ----------------------------------------------
@@ -62,11 +84,11 @@ public class AutonType {
 		//// CONSTANTS ---------------------------------------------------------
 		
 		/** Default initial delay for Autonomous (to wait for the compressor). */
-		public static final int DEFAULT_INITIAL_DELAY_MILLIS = 4000;
+		public static final int DEFAULT_INITIAL_DELAY_MILLIS = 2000;
 		/** Default feed arm delay.  Determines for how long the arm is extended. */ 
-		public static final int DEFAULT_FEED_DELAY_MILLIS = 1500;
+		public static final int DEFAULT_FEED_DELAY_MILLIS = 800;
 		/** Default shot delay. */
-		public static final int DEFAULT_SHOT_DELAY_MILLIS = 1500;
+		public static final int DEFAULT_SHOT_DELAY_MILLIS = 800;
 		
 		//// INITIALIZATION ----------------------------------------------------
 		

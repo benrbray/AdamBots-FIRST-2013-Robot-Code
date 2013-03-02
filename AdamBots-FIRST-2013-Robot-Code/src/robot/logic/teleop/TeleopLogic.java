@@ -215,7 +215,7 @@ public class TeleopLogic extends LogicPhase {
 		_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.
-		if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
+/*		if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 
 		// Shooter angle control.
 			// Start by driving based on joystick if the joystick has input.
@@ -255,7 +255,8 @@ public class TeleopLogic extends LogicPhase {
 			}
 
 			SmartDashboard.putString("secondaryAutoTarget", "true");
-		} else if (_shooterEnabled) {
+} else */
+		if (_shooterEnabled) {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());

@@ -263,9 +263,10 @@ public class TeleopLogic extends LogicPhase {
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
 			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
 		} else {
-			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
+			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
+			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
 		}
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {

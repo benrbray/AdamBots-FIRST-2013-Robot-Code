@@ -270,6 +270,7 @@ public class TeleopLogic extends LogicPhase {
 			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
 		}
 		
+		// Sets shooter motor value to .7 to get it moving after a pid stall or to shoot manually.
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
 			RobotActuators.shooterWheelMotor.set(.7);
 		}

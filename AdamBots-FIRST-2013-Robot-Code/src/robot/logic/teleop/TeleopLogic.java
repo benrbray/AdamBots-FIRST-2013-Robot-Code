@@ -271,7 +271,7 @@ public class TeleopLogic extends LogicPhase {
 		}
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
-			RobotActuators.shooterWheelMotor.set(1);
+			RobotActuators.shooterWheelMotor.set(.7);
 		}
 		
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());

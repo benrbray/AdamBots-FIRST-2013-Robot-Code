@@ -21,28 +21,39 @@ public class StoredData {
     private Category[] _shooter;
     private Category[] _climbing;
     private Category[] _drive;
-	private String[] _shotLog;
-	
-	
-    public static final String NL = "\r\n";
+    private Category[] _shots;
+    private String[] _shotLog;
+    private boolean _gameTime;
     
     /**
-     * Initializes all of the Category arrays.
+     * New Line Character recognized by Windows.
      */
-    public StoredData() {
+    public static final String NL = "\r\n";
+    
+
+    /**
+     * Initializes all of the Category arrays.
+     * @param gameTime Whether the time variable is time from match start or current time
+     */
+    public StoredData(boolean gameTime) {
         _general = new Category[0];
         _climbing = new Category[0];
         _shooter = new Category[0];
         _drive = new Category[0];
-		_shotLog = new String[0];
+        _shots = new Category[0];
+        
+	_shotLog = new String[0];
+        _gameTime = gameTime;
     }
 
+    
+    
     /**
      * Stores data in the General Category array.
      *
      * @param s The string of data to be stored.
      */
-    protected void storeGeneral(String s) {
+    protected void storeGeneralData(String s) {
         _general = addData(_general, s);
     }
 
@@ -51,7 +62,7 @@ public class StoredData {
      *
      * @param s The string of data to be stored.
      */
-    protected void storeShooter(String s) {
+    protected void storeShooterData(String s) {
         _shooter = addData(_shooter, s);
     }
 
@@ -60,7 +71,7 @@ public class StoredData {
      *
      * @param s The string of data to be stored.
      */
-    protected void storeClimbing(String s) {
+    protected void storeClimbingData(String s) {
         _climbing = addData(_climbing, s);
     }
 
@@ -69,10 +80,23 @@ public class StoredData {
      *
      * @param s The string of data to be stored.
      */
-    protected void storeDrive(String s) {
+    protected void storeDriveData(String s) {
         _drive = addData(_drive, s);
     }
 
+     /**
+     * Stores the distance the camera returns, the angle from the sensor, 
+     * and the RPM from the sensor.
+     */
+    public void storeShot(){
+	String log = "" + RobotCamera.getDistanceInches() + "\t" + 
+		RobotSensors.counterShooterAngle.getDistance() + "\t" +
+		RobotSensors.counterShooterSpeed.pidGet();
+	
+        _shots = addData(_shots, log);
+        
+    }
+    
     /**
      * Adds data into a index in the category array.
      *
@@ -113,21 +137,6 @@ public class StoredData {
         }
         return a;
     }
-
-	/**
-	 * Stores match time from beginning of autonomous, the distance the camera
-	 * returns, the angle from the sensor, and the RPM from the sensor.
-	 */
-	public void storeShot(){
-		DriverStation temp = DriverStation.getInstance();
-		String log = "" + temp.getMatchTime() + "\t" + 
-				RobotCamera.getDistanceInches() + "\t" + 
-				RobotSensors.counterShooterAngle.getDistance() + "\t" +
-				RobotSensors.counterShooterSpeed.pidGet();
-		
-		_shotLog = addStringIndex(_shotLog);
-		_shotLog[_shotLog.length-1] = log;
-	}
 	
     /**
      * Returns the index of a category in the array.
@@ -177,7 +186,7 @@ public class StoredData {
         private void add(String add) {
             Calendar date = Calendar.getInstance();
 
-            _contents += NL + currentTime() + "\t" + add;
+            _contents += NL + getTime() + "\t" + add;
         }
 
         /**
@@ -225,14 +234,14 @@ public class StoredData {
     public String toString() {
         String all = new String();
 
-        all += addStringArray(_shotLog) + addCategoryArray(_general, "General") + addCategoryArray(_shooter, "Shooter") 
+        all += addCategoryArray(_shots, "Shots") + addCategoryArray(_general, "General") + addCategoryArray(_shooter, "Shooter") 
                 + addCategoryArray(_climbing, "Climbing") + addCategoryArray(_drive, "Drive");
 
         return all;
     }
 
     /**
-     * Combines all the contents of a Category array.
+     * Combines all the contents of a Category array, split with new lines.
      *
      * @param c The Category array to be combined.
      * @return The full String of the Category array.
@@ -251,19 +260,25 @@ public class StoredData {
         return a;
     }
 	
-	private String addStringArray(String[] s){
-		String a = new String();
-		int l = s.length;
-		if (l != 0){
-			a = NL + NL + NL + "ShotLog" + " " + wrap("-", 18) + NL;
-		}
-		
-		for (int i = 0; i < l; i ++){
-			a+=s[i]+NL;
-		}
-		
-		return a;
+    /**
+     * Combines all the contents of a String array, split with new lines.
+     *
+     * @param c The String array to be combined.
+     * @return The full String of the String array.
+     */
+    private String addStringArray(String[] s){
+	String a = new String();
+	int l = s.length;
+	if (l != 0){
+		a = NL + NL + NL + "ShotLog" + " " + wrap("-", 18) + NL;
 	}
+	
+	for (int i = 0; i < l; i ++){
+		a+=s[i]+NL;
+	}
+		
+	return a;
+    }
 	
     
     /**
@@ -284,7 +299,7 @@ public class StoredData {
     /**
      * Returns the current Time (H:M:S)
      */
-    public static String currentTime(){
+    public static String getCurrentTime(){
         Calendar date = Calendar.getInstance();
         
         String time = (((date.get(Calendar.HOUR_OF_DAY) + 2) % 24) + ":"
@@ -295,10 +310,28 @@ public class StoredData {
     }
     
     /**
+     * Gets the time from match start.
+     * @return Time from start of match.
+     */
+    public static double getMatchTime(){
+        DriverStation game = DriverStation.getInstance();
+        return game.getMatchTime();
+    }
+    
+    /**
+     * Returns a time dependent on whether current time or match time is
+     * being stored
+     * @return Match time or current time.
+     */
+    public String getTime(){
+       return ((_gameTime)?(String.valueOf(getMatchTime())):(getCurrentTime()));
+    }
+    
+    /**
      * Returns the current day (M/D/Y)
      * @return 
      */
-    protected static String currentDay(){
+    public static String getCurrentDay(){
         Calendar date = Calendar.getInstance();
         
         String currentDate = (date.get(Calendar.MONTH)) + "/" 

@@ -86,6 +86,9 @@ public final class RobotMain extends IterativeRobot {
     public void robotInit() {
 		_instance = this;
 		
+		//Loads the calibration file
+		DataIO.loadCalibrations();
+		
 		// Initialize Classes with Static References
 		FancyMotor.init();
 		RobotActuators.init();
@@ -265,7 +268,7 @@ public final class RobotMain extends IterativeRobot {
 		RobotActuators.greenLEDStrip.set(false);
 		RobotActuators.redLEDStrip.set(false);
 		
-		DataIO.logData();
+		DataIO.writeLogFile();
     }
 
     /**

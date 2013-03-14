@@ -69,6 +69,7 @@ public class RobotActuators extends RobotObject {
     
     /** Climbing Winch. */
     public static FancyMotor climbWinch;
+	public static Talon climbWinch2;
     /** Winch ratchet release solenoid. */
     public static Relay climbWinchSolenoid;
     
@@ -122,6 +123,8 @@ public class RobotActuators extends RobotObject {
 		climbWinch			= FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.WINCH_TALON);
 		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
 		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
+		
+		climbWinch2 = new Talon(CompetitionBot.DigitalOut1.WINCH_TALON_2);
 		
 		//// DIGITAL RELAY 1 ---------------------------------------------------
 		

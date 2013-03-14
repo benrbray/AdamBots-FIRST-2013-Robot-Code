@@ -246,14 +246,4 @@ public class RobotSensors extends RobotObject {
 		// TODO:  Gyro Config?
 		//gyroChassis.setSensitivity(GYRO_VPDPS);
 	}
-	
-	//// CONFIG SWITCH METHODS -------------------------------------------------
-	
-	public static boolean configOn(AnalogChannel input) {
-		if (input.getValue() > 512) {
-			return true;
-		}
-		
-		return false;
-	}
 }

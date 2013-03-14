@@ -51,33 +51,37 @@ public abstract class RobotShoot extends RobotBehavior {
 		_shooterPID.enable();
 	}
 	
-	public static double getTargetAngleDegrees() {
-		return _targetAngleDegrees;
+	/**
+	 * Calculates and returns the shooter angle from the string potentiometer.
+	 * @return angle of elevation (above horizontal).
+	 */
+	public static double getShooterAngleDegrees()
+	{
+		return 5;//TODO: Use potentiometer calculations
 	}
-
-	private static double convertFromEncoderToAngle( double enc ) {
-		return enc;//TODO: actually write the method.
+	
+	/**
+	 * Sets the target angle of elevation to go for while TargetShooterAngleLogic.isTargeting() is true.
+	 * @param angle The target angle of elevation.
+	 */
+	public static void setTargetAngleDegrees(double angle)
+	{
+		_targetAngleDegrees = angle;
 	}
-
+	
 	/**
 	 * Called periodically to control the shooterAngle motor.
 	 */
 	public static boolean isShooterInPosition() {
-		double d = convertFromEncoderToAngle(RobotSensors.counterShooterAngle.getDistance());
-		return Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
+		return Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE;
 	}
-
+ 
+	/**
+	 * Returns whether or not the PID on the shooter motor reports it's at speed.
+	 * @return Whether or not the PID on the shooter motor reports it's at speed.
+	 */
 	public static boolean isShooterUpToSpeed() {
 		return _shooterPID.isAtSpeed();
-	}
-
-	/**
-	 * Assigns a target angle to the shooter. Sets private _targetAngle.
-	 * @param angle The desired angled for the shooter from horizontal.
-	 */
-	public static void setAngleDegrees( double angle ) {
-		//TODO: Fix pulse count...
-		_targetAngleDegrees = angle;
 	}
 
 	/**
@@ -88,26 +92,18 @@ public abstract class RobotShoot extends RobotBehavior {
 		_shooterPID.setRPM(speed_rpm);
 	}
 
-	public static void changeTargetAngleDegrees( double delta ) {
-		_targetAngleDegrees += delta;
-	}
-
+	/**
+	 * To be called constantly. Adjusts the angle of the shooter if TargetShooterAngleLogic.isTargeting().
+	 * Tries to move shooter to match the value set by setShooterAngleDegrees(double).
+	 */
 	public static void update() {
-		// TODO:  Fix Counter Value; NEEEEEEED THISSSSS
-		double d = convertFromEncoderToAngle(RobotSensors.counterShooterAngle.getDistance());
-		/**
-		 * TODO: Rewrite 'd' to be a proper angle. *
-		 * TODO: Check encoder at limits.
-		 */
 		if (TargetShooterAngleLogic.isTargeting()) {
-			if ( Math.abs(d - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
+			if ( Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
-				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - d) / 10.0));
+				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 10.0));
 			}
 		}
-		
-		//System.out.println("RobotShoot :: update() : target=" + _shooterPID.getSetpoint() + "\terror=" + _shooterPID.getError());
 	}
 }

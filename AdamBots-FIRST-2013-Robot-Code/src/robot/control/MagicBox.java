@@ -48,6 +48,7 @@ public class MagicBox {
     private static double _shooterManualSpeed;
     private static double _angleOffset;
 	private static double _chassisOffset;
+	private static double _climbWinchMultiplier;
     
     private static boolean _shooterMultiplierButtonReleased;
     private static boolean _angleOffsetButtonReleased;
@@ -67,6 +68,7 @@ public class MagicBox {
 	_shooterManualSpeed = 500;
 	_angleOffset = 0;
 	_chassisOffset = 0;
+	_climbWinchMultiplier = .7;
 
 	_shooterMultiplierButtonReleased = false;
 	_angleOffsetButtonReleased = false;
@@ -111,11 +113,13 @@ public class MagicBox {
 	    _chassisOffsetButtonReleased = false;
 
 		_shooterManualSpeed += 500;
+		_climbWinchMultiplier += .1;
 	} else if (!_ds.getDigitalIn(CHASSIS_OFFSET_RIGHT) && _chassisOffsetButtonReleased) {
 	    _chassisOffset -= CHASSIS_OFFSET_INCREMENT;
 	    _chassisOffsetButtonReleased = false;
 
 		_shooterManualSpeed -= 500;
+		_climbWinchMultiplier -= .1;
 	} else if (_ds.getDigitalIn(CHASSIS_OFFSET_LEFT) && _ds.getDigitalIn(CHASSIS_OFFSET_RIGHT)) {
 	    _chassisOffsetButtonReleased = true;
 	}
@@ -176,6 +180,10 @@ public class MagicBox {
 	 */
 	public static void setChassisOffset(double chassisOffset) {
 		_chassisOffset = chassisOffset;
+	}
+	
+	public static double getClimbWinchMultiplier() {
+		return _climbWinchMultiplier;
 	}
     
     /**

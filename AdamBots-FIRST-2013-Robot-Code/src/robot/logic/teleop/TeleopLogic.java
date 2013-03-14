@@ -181,7 +181,8 @@ public class TeleopLogic extends LogicPhase {
 			//Positive pulls winch in
 			//Negative lets winch out
 			
-			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y];
+			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] * MagicBox.getClimbWinchMultiplier();
+			SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
 			
 			if (_setWinch < 0) {
 				RobotActuators.climbWinch.set(_setWinch);
@@ -199,6 +200,7 @@ public class TeleopLogic extends LogicPhase {
 			RobotActuators.climbWinch.set(0);
 		}
 
+		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
 		SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
 

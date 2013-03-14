@@ -143,8 +143,11 @@ public class RobotSensors extends RobotObject {
 	public static DigitalInput pressureSwitch;
 	
 	// Config switches
+	/** Leftmost configuration switch.  Currently used to disable/enable autonomous. */
 	public static DigitalInput configA;
+	/** Middle configuration switch.  Currently used for autonomous initial delay (MSB). */
     public static DigitalInput configB;
+	/** Rightmost configuration switch.  Currently used for autonomous initial delay (LSB). */
     public static DigitalInput configC;
 
 	//// INITIALIZATION --------------------------------------------------------
@@ -242,15 +245,5 @@ public class RobotSensors extends RobotObject {
 		// Gyro
 		// TODO:  Gyro Config?
 		//gyroChassis.setSensitivity(GYRO_VPDPS);
-	}
-	
-	//// CONFIG SWITCH METHODS -------------------------------------------------
-	
-	public static boolean configOn(AnalogChannel input) {
-		if (input.getValue() > 512) {
-			return true;
-		}
-		
-		return false;
 	}
 }

@@ -181,24 +181,34 @@ public class TeleopLogic extends LogicPhase {
 			//Positive pulls winch in
 			//Negative lets winch out
 			
-			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y];
+			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] * MagicBox.getClimbWinchMultiplier();
+			SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
 			
 			if (_setWinch < 0) {
 				RobotActuators.climbWinch.set(_setWinch);
+				
+				RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
+				
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			} else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
 				RobotActuators.climbWinch.set(_setWinch);
+				
+				RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
 			} else {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 				RobotActuators.climbWinch.set(0);
+				RobotActuators.climbWinch2.set(0);
 			}
 		} else {
 			//TODO: Set winch drive to 0
 			RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			RobotActuators.climbWinch.set(0);
+			RobotActuators.climbWinch2.set(0);
 		}
 
+		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
+		SmartDashboard.putNumber("winchVoltage2", RobotActuators.climbWinch.get());
 		SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
 

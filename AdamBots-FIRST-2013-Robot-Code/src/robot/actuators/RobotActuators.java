@@ -31,6 +31,9 @@ public class RobotActuators extends RobotObject {
 			public static final int WINCH_TALON = 6;
 			public static final int LEFT_SHIFTER_SERVO = 7;
 			public static final int RIGHT_SHIFTER_SERVO = 8;
+			
+			//TODO: REMOVE SECOND WINCH TALON
+			public static final int WINCH_TALON_2 = 9;
 		}
 		
 		public static final class DigitalRelay1 {

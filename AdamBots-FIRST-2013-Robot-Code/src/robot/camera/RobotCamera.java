@@ -203,10 +203,10 @@ public abstract class RobotCamera extends RobotObject {
 		//how it will be on the robot ; 
 		_camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
 		//_camera = AxisCamera.getInstance("192.168.0.90");
-		_camera.writeMaxFPS(10);
+		_camera.writeMaxFPS(30);
 		_camera.writeExposurePriority(AxisCamera.ExposurePriorityT.frameRate);
 		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);
-		_camera.writeCompression(10);
+		_camera.writeCompression(50);
 		_alreadyInit = true;
 	}
 

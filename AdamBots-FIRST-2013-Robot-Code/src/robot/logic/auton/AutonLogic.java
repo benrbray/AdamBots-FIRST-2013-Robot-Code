@@ -10,6 +10,7 @@ import robot.RobotMain;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
+import robot.sensors.RobotSensors;
 
 /**
  * Performs logic during the autonomous period of gameplay.
@@ -32,8 +33,13 @@ public class AutonLogic extends LogicPhase {
     
     public void initPhase() {
 		println("AutonLogic :: initPhase()");
-		// Populate Tasks Array
-		_tasks = AutonType.Simple.SIMPLE_FOUR_SHOTS;
+		
+		// Initial Delay (Switches B & C)
+		int switchMode = ((RobotSensors.configB.get()?1:0)<<1) | ((RobotSensors.configC.get()?1:0)<<1);
+		int initialDelayMillis = (2 + switchMode) * 1000;
+		
+		// Determine Task Array
+		_tasks = AutonType.Fancy.shootDiscs(4, initialDelayMillis);
 
 		// Begin First Task
 		_currentIndex = 0;

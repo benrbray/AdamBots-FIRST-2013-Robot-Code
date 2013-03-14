@@ -143,8 +143,11 @@ public class RobotSensors extends RobotObject {
 	public static DigitalInput pressureSwitch;
 	
 	// Config switches
+	/** Leftmost configuration switch.  Currently used to disable/enable autonomous. */
 	public static DigitalInput configA;
+	/** Middle configuration switch.  Currently used for autonomous initial delay (MSB). */
     public static DigitalInput configB;
+	/** Rightmost configuration switch.  Currently used for autonomous initial delay (LSB). */
     public static DigitalInput configC;
 
 	//// INITIALIZATION --------------------------------------------------------

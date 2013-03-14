@@ -232,11 +232,20 @@ public class StoredData {
      * @return The data class as a string.
      */
     public String toString() {
+        
+		boolean write = false;
+		int s = _shots.length+_general.length+_shooter.length+_climbing.length+_drive.length;
+        if (s!=0){
+			write = true;
+		}
+		
         String all = new String();
-
-        all += addCategoryArray(_shots, "Shots") + addCategoryArray(_general, "General") + addCategoryArray(_shooter, "Shooter") 
+		if(write){
+			all += addCategoryArray(_shots, "Shots") + addCategoryArray(_general, "General") + addCategoryArray(_shooter, "Shooter") 
                 + addCategoryArray(_climbing, "Climbing") + addCategoryArray(_drive, "Drive");
-
+		}else{
+			all = "";
+		}
         return all;
     }
 

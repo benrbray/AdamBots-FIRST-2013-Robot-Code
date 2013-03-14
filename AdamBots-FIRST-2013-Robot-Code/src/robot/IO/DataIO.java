@@ -50,7 +50,6 @@ public class DataIO {
      * The name of the calibration file
      */
     public static String CALIBRATION_FILE = "calib";
-    
     //Calibration Index Values -------------------------------------------------
     
     //Add a comment to describe the purpose of the value
@@ -64,7 +63,7 @@ public class DataIO {
     //--------------------------------------------------------------------------
     
     //Data Storage -------------------------------------------------------------
-    private static StoredData _storage = new StoredData(false);
+    private static StoredData _storage = new StoredData(true);
     private static String[] fullCalib;
     private static double[] calib;
     //--------------------------------------------------------------------------
@@ -234,18 +233,19 @@ public class DataIO {
      * @param data A string of data to be logged.
      */
     public static void writeLogFile(String data){
-        Calendar date = Calendar.getInstance();
+			if (!data.equals("")){
+            Calendar date = Calendar.getInstance();
         
             String currentDate = StoredData.getCurrentDay() + " " + StoredData.getCurrentTime();
         
-        data = ("Logged on " + currentDate + "\n" + data);
-        String fileTime = StoredData.getCurrentTime().replace(':', '!') + " " + 
+            data = ("Logged on " + currentDate + "\n" + data);
+            String fileTime = StoredData.getCurrentTime().replace(':', '!') + " " + 
                 date.get(Calendar.DAY_OF_MONTH) + "_" + 
                 (date.get(Calendar.MONTH)+1);
             
-        String filename = "logFiles/Log_"+ fileTime;
-        writeToFile(filename, data);
-        
+            String filename = "logFiles/Log_"+ fileTime;
+            writeToFile(filename, data);
+			}
     }
     
     /**
@@ -277,14 +277,14 @@ public class DataIO {
         
     }
     
-    /**
-     * Updates the array of calibration data with new values
-     * @param lineNumber The location of information in the calibration array.
-     * @param value The new value.
-     */
-    public static void changeCalibValue(int lineNumber, int value){
-        calib[lineNumber] = value; 
-    }
+//    /**
+//     * Updates the array of calibration data with new values
+//     * @param lineNumber The location of information in the calibration array.
+//     * @param value The new value.
+//     */
+//    public static void changeCalibValue(int lineNumber, int value){
+//        calib[lineNumber] = value; 
+//    }
     
     /**
      * Gets the calibration value at a given index
@@ -295,35 +295,35 @@ public class DataIO {
         return calib[lineNumber];
     }
     
-    /**
-     * Rewrites the calibration file with updated information
-     */
-    public static void overwriteCalibrations(){
-        String full = "";
-        boolean write = false;
-        if (calib.length == fullCalib.length){
-        for (int i = 0; i < fullCalib.length; i++){
-            if (calib[i] != parseCalib(fullCalib[i])){
-                String c = fullCalib[i];
-                write = true;
-                String prefix;
-                String suffix = "";
-                prefix = c.substring(0, c.indexOf('=')+1);
-                if (c.indexOf('%') != -1){
-                   suffix = c.substring('%');
-                }
-                fullCalib[i] = prefix + calib[i] + suffix;
-            }
-            
-            full = fullCalib[i] + StoredData.NL;
-            
-        }
-        
-        if (write){
-            writeToFile(CALIBRATION_FILE, full);
-        }
-        }
-    }
+//    /**
+//     * Rewrites the calibration file with updated information
+//     */
+//    public static void overwriteCalibrations(){
+//        String full = "";
+//        boolean write = false;
+//        if (calib.length == fullCalib.length){
+//        for (int i = 0; i < fullCalib.length; i++){
+//            if (calib[i] != parseCalib(fullCalib[i])){
+//                String c = fullCalib[i];
+//                write = true;
+//                String prefix;
+//                String suffix = "";
+//                prefix = c.substring(0, c.indexOf('=')+1);
+//                if (c.indexOf('%') != -1){
+//                   suffix = c.substring('%');
+//                }
+//                fullCalib[i] = prefix + calib[i] + suffix;
+//            }
+//            
+//            full = fullCalib[i] + StoredData.NL;
+//            
+//        }
+//        
+//        if (write){
+//            writeToFile(CALIBRATION_FILE, full);
+//        }
+//        }
+//    }
 
     /**
      * Parses a line of calibration to get a value

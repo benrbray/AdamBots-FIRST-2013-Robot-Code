@@ -57,6 +57,7 @@ public class RobotSensors extends RobotObject {
 		/** Analog Card 1 Port Constants. */
 		public static final class Analog {
 			public static final int GYRO		= 1;
+			public static final int STRING_POT	= 2;
 		}
 		
 		/** Digital Card 1 Port Constants. */
@@ -129,6 +130,7 @@ public class RobotSensors extends RobotObject {
     public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
 	
 	// Shooter
+	public static AnalogChannel stringPot;
     public static FancyCounter counterShooterSpeed;
 	private static FancyCounter _counterShooterAngleInternal;
     public static FancyCounterExtended counterShooterAngle;
@@ -166,6 +168,7 @@ public class RobotSensors extends RobotObject {
 		//// ANALOG CARD -------------------------------------------------------
 
         gyroChassis = new Gyro(ANA1, CompetitionBot.Analog.GYRO); //?
+		stringPot = new AnalogChannel(ANA1, CompetitionBot.Analog.STRING_POT);
 
         //// DIGITAL CARD 1 ----------------------------------------------------
 

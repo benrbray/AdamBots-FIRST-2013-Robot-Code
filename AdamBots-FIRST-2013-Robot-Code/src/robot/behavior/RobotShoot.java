@@ -20,7 +20,7 @@ public abstract class RobotShoot extends RobotBehavior {
 
 	public static double SHOOTER_KI = 0.0001;									//// WAS 0.001 as well as 0.0015 changed for different shooter
 	public static double SHOOTER_KP = 0.001;									//// WAS 0.002 as well as 0.002 changed for different shooter
-	public static double SHOOTER_KD = 0.0001;									//// WAS 0.000
+	public static double SHOOTER_KD = 0.0005;									//// WAS 0.000
 	public static double SHOOTER_PID_TOLERANCE = 0.15;
 	public static double SHOOTER_MAX_INPUT = 10000;
 	public static double SHOOTER_MIN_INPUT = 0;

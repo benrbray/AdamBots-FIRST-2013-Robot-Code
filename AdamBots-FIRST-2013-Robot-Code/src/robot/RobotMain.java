@@ -8,6 +8,7 @@ package robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.IO.DataIO;
@@ -76,7 +77,10 @@ public final class RobotMain extends IterativeRobot {
     
     public static FancyJoystick primaryJoystick;
     public static FancyJoystick secondaryJoystick;
-
+	
+	// Smartdashboard "RobotPreferences" widget getter
+	private static Preferences prefs;
+	
     //// ITERATIVE ROBOT METHODS -----------------------------------------------
     
     /**
@@ -202,6 +206,16 @@ public final class RobotMain extends IterativeRobot {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
+		
+		// Smartdashboard get variables
+		RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
+		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
+		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
+		
+		SmartDashboard.putNumber("shooterPidKP", RobotShoot.SHOOTER_KP);
+		SmartDashboard.putNumber("shooterPidKI", RobotShoot.SHOOTER_KI);
+		SmartDashboard.putNumber("shooterPidKD", RobotShoot.SHOOTER_KD);
+		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){
 			_currentLogicPhase.updatePhase();

@@ -1,37 +1,35 @@
 package robot.IO;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import javax.microedition.io.Connector;
 import com.sun.squawk.io.BufferedReader;
 import com.sun.squawk.microedition.io.FileConnection;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
+import javax.microedition.io.Connector;
 
 
 /**
  * Handles reading and writing of text files on the cRIO.
  * Also used for storing data to be logged.
  * 
- * Use DataIO.store() or .storeShooter/Climbing/Drive to save information
+ * Use DataIO.store() or .storeShooterData/Climbing/Drive to save information
  *      in a specific category.
  * When storing data, prefix the string with "Title: " to give your sub-category
  *      a title. Otherwise, it will default to "Info".
  * 
- * Use DataIO.logData() to write all saved information into a text file.
- * Manually write information with .logData(String data).
- * DataIO.threadLog() should write the text file on a separate thread.
+ * Use DataIO.writeLogFile() to write all saved information into a text file.
+ * Manually write information with .writeLogFile(String data).
  * 
  * Run DataIO.loadCalibrations() to load the calibration data from the text file
  * 
  * Store data in the log file using the following format:
  * CALIBRATION_NAME_X=2200 % This is a comment
  * 
- * StoredData.threadLoad() should load the file on a separate thread.
  * Use DataIO.getCalibration(int lineNumber) to get data from the index.
  * 
  * TL;DR 
- * LOGGING: Store with .store(), write file with .logData().
+ * LOGGING: Store with .store(), write file with .writeLogFile().
  * LOADING: Load calibrations with .loadCalibrations(), get calibration with
  *       .getCalibrations(int lineNumber).
  * 
@@ -39,11 +37,19 @@ import java.util.Calendar;
  */
 public class DataIO {
     
+    /*
+     * TODO: Create folder on CRIO for logs to be stored
+     * Check if writing works in disabledInit();
+     * Confirm overwriting the calibration file will work
+     * 
+     */
+    
+    
+    
     /**
      * The name of the calibration file
      */
     public static String CALIBRATION_FILE = "calib";
-    
     //Calibration Index Values -------------------------------------------------
     
     //Add a comment to describe the purpose of the value
@@ -57,12 +63,13 @@ public class DataIO {
     //--------------------------------------------------------------------------
     
     //Data Storage -------------------------------------------------------------
-    private static StoredData _storage = new StoredData();
+    private static StoredData _storage = new StoredData(true);
+    private static String[] fullCalib;
     private static double[] calib;
     //--------------------------------------------------------------------------
     
     
-    //Storing StoredData -------------------------------------------------------------
+    //Storing Data -------------------------------------------------------------
     
     /**
      * Stores data for the shooter.
@@ -70,7 +77,7 @@ public class DataIO {
      * @param s The String of data to be stored.
      */
     public static void storeShooter(String s){
-        _storage.storeShooter(s);
+        _storage.storeShooterData(s);
     }
     
     /**
@@ -79,7 +86,7 @@ public class DataIO {
      * @param s The String of data to be stored.
      */
     public static void storeClimbing(String s){
-        _storage.storeClimbing(s);
+        _storage.storeClimbingData(s);
     }
     
     /**
@@ -88,7 +95,7 @@ public class DataIO {
      * @param s The String of data to be stored.
      */
     public static void storeDrive(String s){
-        _storage.storeDrive(s);
+        _storage.storeDriveData(s);
     }
     
     /**
@@ -97,32 +104,33 @@ public class DataIO {
      * @param s The String of data to be stored.
      */
     public static void store(String s){
-        _storage.storeGeneral(s);
+        _storage.storeGeneralData(s);
     }
     
-	/**
-	 * Logs the information from the last shot taken
-	 */
-	public static void storeShot(){
-		_storage.storeShot();
-	}
+    /**
+    * Logs the information from the last shot taken
+    */
+    public static void storeShot(){
+            _storage.storeShot();
+    }
 	
     /**
      * Returns the StoredData class as a string
-     * Prefix data with "Title: " to save it in a specified category.
      * @return a string representation of the data class.
      */
-    public static String getData(){
+    private String getData(){
         return _storage.toString();
     }
+    //--------------------------------------------------------------------------
     
-    //Reading Files ------------------------------------------------------------
+    
+    //File Reading -------------------------------------------------------------
     
     /**
-     * Returns a string containing all of the lines in the specified text file
+     * Returns a string containing all of the lines in the specified text file.
      * 
-     * @param filename The name of the file on the cRIO
-     * @return A string containing the text file, separated by line
+     * @param filename The name of the file on the cRIO.
+     * @return A string containing the text file, separated by line.
      */
     public static String getFileContents(String filename){
         
@@ -132,7 +140,7 @@ public class DataIO {
         }
         String url = "file:///" + filename + ".txt";
        
-        String contents = new String();
+        String contents = "";
         
         /* 
          * Opens a FileConnection at the given URL. Creates a reader from the
@@ -150,58 +158,15 @@ public class DataIO {
             buf.close();
         } catch (IOException e){}
         
-       
-        
         return contents;
     }
     
-   /**
-    * Loads and parses the calibration file to store it in an array of doubles.
-    * Needs to be run before the calibration data can be accessed.
-    */
-    public static void loadCalibrations(){
-        String[] tempCalib = splitLines(getFileContents(CALIBRATION_FILE));
-        calib = new double[tempCalib.length];
-        
-        
-        for (int i = 0; i < tempCalib.length; i++){
-            String line = tempCalib[i];
-        
-            
-            if (line.indexOf('%') != -1){
-                line = line.substring(line.indexOf('='), line.indexOf('%'));
-            }else{
-                line = line.substring(line.indexOf('='));
-            }
-            
-            String value = new String();
-            
-            for (int j = 0; j < line.length(); j++){
-                if(Character.isDigit(line.charAt(j)) || line.charAt(j)=='.'){
-                    value+=line.charAt(j);
-                }
-            }
-            
-            calib[i] = Double.parseDouble(value);
-        }
-        
-    }
-    
     /**
-     * Gets the calibration value at a given index
-     * @param lineNumber The line to get the value from
-     * @return The calibration value
+     * Splits the given string by line into an array of strings.
+     * @param full The full string to be split.
+     * @return An array filled with the given string split by line.
      */
-    public static double getCalibrations(int lineNumber){
-        return calib[lineNumber];
-    }
-    
-    /**
-     * Splits the given string by line into an array of strings
-     * @param full The full string to be split
-     * @return An array filled with the given string split by line
-     */
-    public static String[] splitLines(String full){
+    private static String[] splitLines(String full){
         int last = 0;
         int next;
         int i = 0;
@@ -227,14 +192,9 @@ public class DataIO {
         
         return split;
     }
+    //--------------------------------------------------------------------------
     
-    /**
-     * Loads the calibration file on a separate thread
-     */
-    public void threadLoad(){
-        Thread load = new Thread(new DataThread(DataThread.LOAD_CALIBRATIONS));
-        load.start();
-    }
+    
     
     // Writing Files -----------------------------------------------------------
     
@@ -272,36 +232,122 @@ public class DataIO {
      * Log file format: "Log_HH!MM_DD_MM.txt"
      * @param data A string of data to be logged.
      */
-    public static void logData(String data){
-        Calendar date = Calendar.getInstance();
+    public static void writeLogFile(String data){
+			if (!data.equals("")){
+            Calendar date = Calendar.getInstance();
         
-        String currentDate = StoredData.currentDay() + " " + StoredData.currentTime();
+            String currentDate = StoredData.getCurrentDay() + " " + StoredData.getCurrentTime();
         
-        data = ("Logged on " + currentDate + "\n" + data);
-        String fileTime = StoredData.currentTime().replace(':', '!') + " " + 
+            data = ("Logged on " + currentDate + "\n" + data);
+            String fileTime = StoredData.getCurrentTime().replace(':', '!') + " " + 
                 date.get(Calendar.DAY_OF_MONTH) + "_" + 
                 (date.get(Calendar.MONTH)+1);
             
-        String filename = "logFiles/Log_"+ fileTime;
-        writeToFile(filename, data);
-        
+            String filename = "logFiles/Log_"+ fileTime;
+            writeToFile(filename, data);
+			}
     }
     
     /**
      * Logs all stored and formatted data.
      * Log file format: "Log_HH!MM_DD_MM.txt"
      */
-    public static void logData(){
-        logData(_storage.toString());
+    public static void writeLogFile(){
+        writeLogFile(_storage.toString());
     }
+    //--------------------------------------------------------------------------
+    
+    
+    // Calibrations ------------------------------------------------------------
     
     /**
-     * Logs the stored data from a new thread.
-     */
-    public static void threadLog(){
-        Thread log = new Thread(new DataThread(DataThread.LOG_DATA));
-        log.start();
+    * Loads and parses the calibration file to store it in an array of doubles.
+    * Needs to be run before the calibration data can be accessed.
+    */
+    public static void loadCalibrations(){
+        try{
+            fullCalib = splitLines(getFileContents(CALIBRATION_FILE));
+            calib = new double[fullCalib.length];
+        
+            for (int i = 0; i < fullCalib.length; i++){
+                calib[i] = parseCalib(fullCalib[i]);
+            }
+        
+        }catch(Exception e){}
         
     }
+    
+//    /**
+//     * Updates the array of calibration data with new values
+//     * @param lineNumber The location of information in the calibration array.
+//     * @param value The new value.
+//     */
+//    public static void changeCalibValue(int lineNumber, int value){
+//        calib[lineNumber] = value; 
+//    }
+    
+    /**
+     * Gets the calibration value at a given index
+     * @param lineNumber The line to get the value from
+     * @return The calibration value
+     */
+    public static double getCalibrations(int lineNumber){
+        return calib[lineNumber];
+    }
+    
+//    /**
+//     * Rewrites the calibration file with updated information
+//     */
+//    public static void overwriteCalibrations(){
+//        String full = "";
+//        boolean write = false;
+//        if (calib.length == fullCalib.length){
+//        for (int i = 0; i < fullCalib.length; i++){
+//            if (calib[i] != parseCalib(fullCalib[i])){
+//                String c = fullCalib[i];
+//                write = true;
+//                String prefix;
+//                String suffix = "";
+//                prefix = c.substring(0, c.indexOf('=')+1);
+//                if (c.indexOf('%') != -1){
+//                   suffix = c.substring('%');
+//                }
+//                fullCalib[i] = prefix + calib[i] + suffix;
+//            }
+//            
+//            full = fullCalib[i] + StoredData.NL;
+//            
+//        }
+//        
+//        if (write){
+//            writeToFile(CALIBRATION_FILE, full);
+//        }
+//        }
+//    }
 
+    /**
+     * Parses a line of calibration to get a value
+     * @param c The line to parse
+     * @return The calibration value
+     */
+    private static double parseCalib(String c){
+        
+            if (c.indexOf('%') != -1){
+                c = c.substring(c.indexOf('='), c.indexOf('%'));
+            }else{
+                c = c.substring(c.indexOf('='));
+            }
+            
+            String value = "";
+            
+            for (int j = 0; j < c.length(); j++){
+                if(Character.isDigit(c.charAt(j)) || c.charAt(j)=='.'){
+                    value+=c.charAt(j);
+                }
+            }
+            
+            return Double.parseDouble(value);
+            
+    }
+    
 }

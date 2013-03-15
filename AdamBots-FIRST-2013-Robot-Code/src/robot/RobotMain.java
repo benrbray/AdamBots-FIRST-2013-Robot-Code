@@ -221,6 +221,12 @@ public final class RobotMain extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
+		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
+		if (RobotCamera._greenTarget != null)
+		{
+		SmartDashboard.putNumber("Target Height", RobotCamera._greenTarget.y + RobotCamera._greenTarget.h / 2.0);
+		}
+		
 		
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();

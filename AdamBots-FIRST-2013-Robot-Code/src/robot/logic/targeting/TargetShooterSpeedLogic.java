@@ -15,6 +15,7 @@ import robot.camera.RobotCamera;
 public class TargetShooterSpeedLogic extends RobotObject {
 
 	private static boolean _isTargeting = false;
+	private static boolean _manualVoltage = false;
 	private static double _restSpeed = 0;
 	private static double _speedMultiplier = 1;
 
@@ -44,6 +45,20 @@ public class TargetShooterSpeedLogic extends RobotObject {
 	public static void setIsTargeting( boolean x ) {
 		_isTargeting = x;
 	}
+	
+	/**
+	 * Releases RobotShoot's control of the shooter motor.
+	 * @param b 
+	 */
+	public static void enableManualVoltage(boolean b) {
+		_manualVoltage = b;
+		
+		if (_manualVoltage) {
+			RobotShoot.stopPID();
+		} else {
+			RobotShoot.startPID();
+		}
+	}
 
 	/**
 	 * Calculates the RPM speed to set shooter to hit the target from RobotCamera.getDistance().
@@ -56,7 +71,7 @@ public class TargetShooterSpeedLogic extends RobotObject {
 	public static void update() {
 		if ( !_isTargeting ) {
 			RobotShoot.setSpeed(_restSpeed * _speedMultiplier);
-		} else {
+		} else if (!_manualVoltage) {
 			RobotShoot.setSpeed(calculateSpeed() * _speedMultiplier);
 		}
 	}

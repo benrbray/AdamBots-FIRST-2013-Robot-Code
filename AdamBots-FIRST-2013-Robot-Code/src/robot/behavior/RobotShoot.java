@@ -18,9 +18,9 @@ import utils.MathUtils;
  */
 public abstract class RobotShoot extends RobotBehavior {
 
-	public static double SHOOTER_KI = 0.001;
-	public static double SHOOTER_KP = 0.002;
-	public static double SHOOTER_KD = 0.000;
+	public static double SHOOTER_KI = 0.0015;									//// WAS 0.001 changed for different shooter
+	public static double SHOOTER_KP = 0.002;									//// WAS 0.002 changed for different shooter
+	public static double SHOOTER_KD = 0.000;									//// WAS 0.000
 	public static double SHOOTER_PID_TOLERANCE = 0.15;
 	public static double SHOOTER_MAX_INPUT = 10000;
 	public static double SHOOTER_MIN_INPUT = 0;
@@ -57,7 +57,10 @@ public abstract class RobotShoot extends RobotBehavior {
 	 */
 	public static double getShooterAngleDegrees()
 	{
-		return 5;//TODO: Use potentiometer calculations
+		double x = (RobotSensors.stringPot.getAverageVoltage()-4.88)/-0.8156; // Length of string in inches
+		double y = 14 + 1/16.0; // Length of triangle side #1
+		double z = 12 + 5/8.0; // Length of triangle side #2
+		return  com.sun.squawk.util.MathUtils.acos((x*x-y*y-z*z)/-2.0/y/z)*180.0/Math.PI+20;//TODO: Use potentiometer calculations
 	}
 	
 	/**

@@ -94,6 +94,18 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static void setSpeed( double speed_rpm ) {
 		_shooterPID.setRPM(speed_rpm);
 	}
+	
+	public static void stopPID() {
+		if (_shooterPID.isEnable()) {
+			_shooterPID.disable();
+		}
+	}
+	
+	public static void startPID() {
+		if (!_shooterPID.isEnable()) {
+			_shooterPID.enable();
+		}
+	}
 
 	/**
 	 * To be called constantly. Adjusts the angle of the shooter if TargetShooterAngleLogic.isTargeting().

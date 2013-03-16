@@ -267,6 +267,7 @@ public class TeleopLogic extends LogicPhase {
 			SmartDashboard.putString("secondaryAutoTarget", "true");
 } else */
 		if (_shooterEnabled) {
+			TargetShooterSpeedLogic.enableManualVoltage(false);
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
@@ -280,6 +281,7 @@ public class TeleopLogic extends LogicPhase {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
+			TargetShooterSpeedLogic.enableManualVoltage(true);
 			if (!MagicBox.getDigitalIn(7))
 			{
 				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);

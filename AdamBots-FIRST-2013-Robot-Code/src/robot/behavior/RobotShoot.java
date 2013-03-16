@@ -5,6 +5,8 @@
 package robot.behavior;
 
 import robot.actuators.RobotActuators;
+import robot.camera.RobotCamera;
+import robot.control.MagicBox;
 import robot.logic.FancyPIDController;
 import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.sensors.RobotSensors;
@@ -58,9 +60,14 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static double getShooterAngleDegrees()
 	{
 		double x = (RobotSensors.stringPot.getAverageVoltage()-4.88)/-0.8156; // Length of string in inches
-		double y = 12 + 1/4.0; // Length of triangle side #1
-		double z = 12 + 5/8.0; // Length of triangle side #2
-		return  com.sun.squawk.util.MathUtils.acos((x*x-y*y-z*z)/-2.0/y/z)*180.0/Math.PI+20;//TODO: Use potentiometer calculations
+		double y = 12.0 + 1/4.0; // Length of triangle side #1
+		double z = 12.0 + 5/8.0; // Length of triangle side #2
+		return com.sun.squawk.util.MathUtils.acos(Math.min(1,Math.max(0,(x*x-y*y-z*z)/(-2.0*y*z))))*180.0/Math.PI + 20;//TODO: Use potentiometer calculations
+	}
+	
+	public static double getIdealShooterAngle()
+	{
+		return -0.086631272 * RobotCamera.getTargetLocationUnits() + 37.01279173;
 	}
 	
 	/**
@@ -116,12 +123,13 @@ public abstract class RobotShoot extends RobotBehavior {
 	 * Tries to move shooter to match the value set by setShooterAngleDegrees(double).
 	 */
 	public static void update() {
-		if (TargetShooterAngleLogic.isTargeting()) {
+		if (MagicBox.getDigitalIn(7)) {
+			_targetAngleDegrees = getIdealShooterAngle();
 			if ( Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
-				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 10.0));
+				RobotActuators.shooterAngleMotor.set(-MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 40.0));
 			}
 		}
 	}

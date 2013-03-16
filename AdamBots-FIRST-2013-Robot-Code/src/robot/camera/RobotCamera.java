@@ -155,7 +155,7 @@ public abstract class RobotCamera extends RobotObject {
 				_srcImage.write("/Swapped.png");
 			}
 			_firstImageCapture = false;
-			result = _srcImage.thresholdRGB(107, 124, 211, 256, 243, 256);
+			result = _srcImage.thresholdRGB(107, 133, 169, 256, 219, 256);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
 			ParticleAnalysisReport board = null;

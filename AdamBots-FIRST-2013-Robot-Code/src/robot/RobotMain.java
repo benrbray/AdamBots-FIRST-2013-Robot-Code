@@ -157,9 +157,6 @@ public final class RobotMain extends IterativeRobot {
      * Called periodically during autonomous.
      */
     public void autonomousPeriodic() {
-		if(!RobotSensors.configA.get()) return;
-		
-		// Update the Current Logic Phase (should be _autonLogic)
 		update();
     }
 
@@ -194,6 +191,8 @@ public final class RobotMain extends IterativeRobot {
 		RobotSensors.encoderDriveLeft.reset();
 		RobotSensors.encoderDriveRight.start();
 		RobotSensors.encoderDriveRight.reset();
+		
+		RobotShoot.stopMovingToTarget();
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 package robot.behavior;
 
+import robot.RobotMain;
 import robot.actuators.RobotActuators;
 import robot.camera.RobotCamera;
 import robot.control.MagicBox;
@@ -31,7 +32,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.
 	 */
-	public static final double SHOOTER_ANGLE_TOLERANCE = 1;
+	public static final double SHOOTER_ANGLE_TOLERANCE = 0.15;
 	/**
 	 * The angle that the shooter is currently moving towards.
 	 */
@@ -67,7 +68,11 @@ public abstract class RobotShoot extends RobotBehavior {
 	
 	public static double getIdealShooterAngle()
 	{
-		return -0.086631272 * RobotCamera.getTargetLocationUnits() + 37.01279173;
+		double x = RobotCamera.getTargetLocationUnits();
+		double a = .0002195378;
+		double b = -0.1315442966;
+		double c = 37.98049416;
+		return a*x*x + b*x + c;
 	}
 	
 	/**
@@ -117,19 +122,50 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static void updatePIDConstants() {
 		_shooterPID.setPID(SHOOTER_KP, SHOOTER_KI, SHOOTER_KD);
 	}
+	
+	public static void setTargetAngle(double ang)
+	{
+		_targetAngleDegrees = ang;
+	}
+	
+	private static boolean _moveToTarget = false;
+	
+	public static void startMovingToTarget()
+	{
+		_moveToTarget = true;
+	}
+	public static void stopMovingToTarget()
+	{
+		_moveToTarget = false;
+	}
+	
+	
 
 	/**
 	 * To be called constantly. Adjusts the angle of the shooter if TargetShooterAngleLogic.isTargeting().
 	 * Tries to move shooter to match the value set by setShooterAngleDegrees(double).
 	 */
 	public static void update() {
-		if (MagicBox.getDigitalIn(7)) {
-			_targetAngleDegrees = getIdealShooterAngle();
+		if (RobotMain.getInstance().isAutonomous())
+		{
 			if ( Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
 				RobotActuators.shooterAngleMotor.set(-MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 40.0));
+			}
+		}
+		else
+		{
+			if (MagicBox.getDigitalIn(7))
+			{
+				_targetAngleDegrees = getIdealShooterAngle();
+				if ( Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
+					RobotActuators.shooterAngleMotor.set(0);
+				}
+				else {
+					RobotActuators.shooterAngleMotor.set(-MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 40.0));
+				}
 			}
 		}
 	}

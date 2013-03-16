@@ -324,7 +324,10 @@ public class TeleopLogic extends LogicPhase {
 			_secondaryBCount = 0;
 		}
 		
-		//TODO: Add in safety like winch safety for shooter off
+		// TODO: Remove this to disable pid updates from smartdashboard
+		if (_secondaryButtons[FancyJoystick.BUTTON_RIGHTJOY]) {
+			RobotShoot.updatePIDConstants();
+		}
     }
 
     /**

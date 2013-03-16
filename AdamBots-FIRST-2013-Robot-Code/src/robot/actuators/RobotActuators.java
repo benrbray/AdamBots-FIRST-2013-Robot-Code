@@ -33,7 +33,7 @@ public class RobotActuators extends RobotObject {
 			public static final int RIGHT_SHIFTER_SERVO = 8;
 			
 			//TODO: REMOVE SECOND WINCH TALON
-			public static final int WINCH_TALON_2 = 9;
+			//public static final int WINCH_TALON_2 = 9;
 		}
 		
 		public static final class DigitalRelay1 {
@@ -69,8 +69,8 @@ public class RobotActuators extends RobotObject {
     
     /** Climbing Winch. */
 	//TODO: CHANGE TO FANCY MOTOR
-    public static Talon climbWinch;
-	public static Talon climbWinch2;
+    public static FancyMotor climbWinch;
+	//public static Talon climbWinch2;
     /** Winch ratchet release solenoid. */
     public static Relay climbWinchSolenoid;
     
@@ -120,12 +120,12 @@ public class RobotActuators extends RobotObject {
 		driveRight			= new Victor(CompetitionBot.DigitalOut1.RIGHT_DRIVE_VICTOR);
 		shooterWheelMotor   = new Victor(CompetitionBot.DigitalOut1.SHOOTER_VICTOR);
 		shooterAngleMotor   = FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
-		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);//TODO: FIX TO FANCY MOTOR
-		climbWinch			= new Talon(CompetitionBot.DigitalOut1.WINCH_TALON);//FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.WINCH_TALON);
+		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);
+		climbWinch			= FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.WINCH_TALON);
 		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
 		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
 		
-		climbWinch2 = new Talon(CompetitionBot.DigitalOut1.WINCH_TALON_2);
+		//climbWinch2 = new Talon(CompetitionBot.DigitalOut1.WINCH_TALON_2);
 		
 		//// DIGITAL RELAY 1 ---------------------------------------------------
 		
@@ -156,7 +156,7 @@ public class RobotActuators extends RobotObject {
 		// TODO:  Uncomment when limit switches are added.
 		shooterAngleMotor.setPositiveLimit(RobotSensors.limitShooterB);
 		//shooterAngleMotor.setNegativeLimit(RobotSensors.limitShooterA);
-		//TODO: UNCOMMENT TO CHANGE CLIMBWINCH BACK climbWinch.setPositiveLimit(RobotSensors.limitWinchA);
+		climbWinch.setPositiveLimit(RobotSensors.limitWinchA);
 		
 		// Relays
 		discIntake.setDirection(Relay.Direction.kBoth);

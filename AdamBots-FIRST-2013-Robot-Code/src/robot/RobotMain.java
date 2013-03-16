@@ -255,8 +255,8 @@ public final class RobotMain extends IterativeRobot {
 		RobotClimb.update();
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		
-		// Print to Dashboard
-			SmartDashboard.putNumber("Target Location", RobotCamera.getTargetLocationUnits());
+		// Print to Dashboardp
+			SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
     }
 
     //// TEST ------------------------------------------------------------------

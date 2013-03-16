@@ -8,6 +8,7 @@ package robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.IO.DataIO;
@@ -76,7 +77,10 @@ public final class RobotMain extends IterativeRobot {
     
     public static FancyJoystick primaryJoystick;
     public static FancyJoystick secondaryJoystick;
-
+	
+	// Smartdashboard "RobotPreferences" widget getter
+	private static Preferences prefs;
+	
     //// ITERATIVE ROBOT METHODS -----------------------------------------------
     
     /**
@@ -202,6 +206,18 @@ public final class RobotMain extends IterativeRobot {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
+		
+		// Smartdashboard get variables
+		RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
+		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
+		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
+		
+		SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
+		SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
+		SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
+		
+		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
+		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){
 			_currentLogicPhase.updatePhase();
@@ -221,6 +237,9 @@ public final class RobotMain extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
+		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
+		SmartDashboard.putNumber("stringPot.getVoltage", RobotSensors.stringPot.getVoltage());
+		
 		
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();
@@ -233,9 +252,7 @@ public final class RobotMain extends IterativeRobot {
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		
 		// Print to Dashboard
-		if (RobotCamera._greenTarget != null) {
-			SmartDashboard.putString("Target Location", "(" + RobotCamera._greenTarget.x + "," + RobotCamera._greenTarget.y + ")");
-		}
+			SmartDashboard.putNumber("Target Location", RobotCamera.getTargetLocationUnits());
     }
 
     //// TEST ------------------------------------------------------------------
@@ -268,7 +285,7 @@ public final class RobotMain extends IterativeRobot {
 		RobotActuators.greenLEDStrip.set(false);
 		RobotActuators.redLEDStrip.set(false);
 		
-		DataIO.writeLogFile();
+		//DataIO.writeLogFile();
     }
 
     /**

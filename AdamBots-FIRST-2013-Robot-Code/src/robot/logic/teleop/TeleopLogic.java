@@ -272,17 +272,26 @@ public class TeleopLogic extends LogicPhase {
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
 			
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
-			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			if (!MagicBox.getDigitalIn(7))
+			{
+				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			}
 		} else {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
-			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			if (!MagicBox.getDigitalIn(7))
+			{
+				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			}
 		}
 		
 		// Sets shooter motor value to .7 to get it moving after a pid stall or to shoot manually.
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
-			RobotActuators.shooterWheelMotor.set(.7);
+			TargetShooterSpeedLogic.enableManualVoltage(true);
+			RobotActuators.shooterWheelMotor.set(.7 * MagicBox.getShooterMultiplier());
+		} else {
+			TargetShooterSpeedLogic.enableManualVoltage(false);
 		}
 		
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
@@ -321,7 +330,10 @@ public class TeleopLogic extends LogicPhase {
 			_secondaryBCount = 0;
 		}
 		
-		//TODO: Add in safety like winch safety for shooter off
+		// TODO: Remove this to disable pid updates from smartdashboard
+		if (_secondaryButtons[FancyJoystick.BUTTON_RIGHTJOY]) {
+			RobotShoot.updatePIDConstants();
+		}
     }
 
     /**

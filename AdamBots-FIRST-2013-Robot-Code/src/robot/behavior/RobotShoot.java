@@ -5,6 +5,8 @@
 package robot.behavior;
 
 import robot.actuators.RobotActuators;
+import robot.camera.RobotCamera;
+import robot.control.MagicBox;
 import robot.logic.FancyPIDController;
 import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.sensors.RobotSensors;
@@ -18,9 +20,9 @@ import utils.MathUtils;
  */
 public abstract class RobotShoot extends RobotBehavior {
 
-	public static double SHOOTER_KI = 0.001;
-	public static double SHOOTER_KP = 0.002;
-	public static double SHOOTER_KD = 0.000;
+	public static double SHOOTER_KI = 0.0001;									//// WAS 0.001 as well as 0.0015 changed for different shooter
+	public static double SHOOTER_KP = 0.001;									//// WAS 0.002 as well as 0.002 changed for different shooter
+	public static double SHOOTER_KD = 0.0005;									//// WAS 0.000
 	public static double SHOOTER_PID_TOLERANCE = 0.15;
 	public static double SHOOTER_MAX_INPUT = 10000;
 	public static double SHOOTER_MIN_INPUT = 0;
@@ -57,7 +59,15 @@ public abstract class RobotShoot extends RobotBehavior {
 	 */
 	public static double getShooterAngleDegrees()
 	{
-		return 5;//TODO: Use potentiometer calculations
+		double x = (RobotSensors.stringPot.getAverageVoltage()-4.88)/-0.8156; // Length of string in inches
+		double y = 12.0 + 1/4.0; // Length of triangle side #1
+		double z = 12.0 + 5/8.0; // Length of triangle side #2
+		return com.sun.squawk.util.MathUtils.acos(Math.min(1,Math.max(0,(x*x-y*y-z*z)/(-2.0*y*z))))*180.0/Math.PI + 20;//TODO: Use potentiometer calculations
+	}
+	
+	public static double getIdealShooterAngle()
+	{
+		return -0.086631272 * RobotCamera.getTargetLocationUnits() + 37.01279173;
 	}
 	
 	/**
@@ -91,18 +101,35 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static void setSpeed( double speed_rpm ) {
 		_shooterPID.setRPM(speed_rpm);
 	}
+	
+	public static void stopPID() {
+		if (_shooterPID.isEnable()) {
+			_shooterPID.disable();
+		}
+	}
+	
+	public static void startPID() {
+		if (!_shooterPID.isEnable()) {
+			_shooterPID.enable();
+		}
+	}
+	
+	public static void updatePIDConstants() {
+		_shooterPID.setPID(SHOOTER_KP, SHOOTER_KI, SHOOTER_KD);
+	}
 
 	/**
 	 * To be called constantly. Adjusts the angle of the shooter if TargetShooterAngleLogic.isTargeting().
 	 * Tries to move shooter to match the value set by setShooterAngleDegrees(double).
 	 */
 	public static void update() {
-		if (TargetShooterAngleLogic.isTargeting()) {
+		if (MagicBox.getDigitalIn(7)) {
+			_targetAngleDegrees = getIdealShooterAngle();
 			if ( Math.abs(getShooterAngleDegrees() - _targetAngleDegrees) < SHOOTER_ANGLE_TOLERANCE ) {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
-				RobotActuators.shooterAngleMotor.set(MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 10.0));
+				RobotActuators.shooterAngleMotor.set(-MathUtils.sign((_targetAngleDegrees - getShooterAngleDegrees()) / 40.0));
 			}
 		}
 	}

@@ -272,12 +272,18 @@ public class TeleopLogic extends LogicPhase {
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
 			
 			//RobotActuators.shooterWheelMotor.set(MagicBox.getShooterManualSpeed());
-			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			if (!MagicBox.getDigitalIn(7))
+			{
+				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			}
 		} else {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
-			RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			if (!MagicBox.getDigitalIn(7))
+			{
+				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);
+			}
 		}
 		
 		// Sets shooter motor value to .7 to get it moving after a pid stall or to shoot manually.

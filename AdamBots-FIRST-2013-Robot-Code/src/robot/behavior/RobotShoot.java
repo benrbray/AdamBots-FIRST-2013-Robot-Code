@@ -58,7 +58,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static double getShooterAngleDegrees()
 	{
 		double x = (RobotSensors.stringPot.getAverageVoltage()-4.88)/-0.8156; // Length of string in inches
-		double y = 14 + 1/16.0; // Length of triangle side #1
+		double y = 12 + 1/4.0; // Length of triangle side #1
 		double z = 12 + 5/8.0; // Length of triangle side #2
 		return  com.sun.squawk.util.MathUtils.acos((x*x-y*y-z*z)/-2.0/y/z)*180.0/Math.PI+20;//TODO: Use potentiometer calculations
 	}
@@ -105,6 +105,10 @@ public abstract class RobotShoot extends RobotBehavior {
 		if (!_shooterPID.isEnable()) {
 			_shooterPID.enable();
 		}
+	}
+	
+	public static void updatePIDConstants() {
+		_shooterPID.setPID(SHOOTER_KP, SHOOTER_KI, SHOOTER_KD);
 	}
 
 	/**

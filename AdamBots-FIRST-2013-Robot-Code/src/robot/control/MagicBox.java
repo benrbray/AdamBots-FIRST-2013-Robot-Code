@@ -68,7 +68,7 @@ public class MagicBox {
 	_shooterManualSpeed = 500;
 	_angleOffset = 0;
 	_chassisOffset = 0;
-	_climbWinchMultiplier = .7;
+	_climbWinchMultiplier = 1;
 
 	_shooterMultiplierButtonReleased = false;
 	_angleOffsetButtonReleased = false;
@@ -183,6 +183,10 @@ public class MagicBox {
 	}
 	
 	public static double getClimbWinchMultiplier() {
+		if (_climbWinchMultiplier > 1) {
+			return 1;
+		}
+		
 		return _climbWinchMultiplier;
 	}
     

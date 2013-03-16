@@ -218,6 +218,10 @@ public final class RobotMain extends IterativeRobot {
 		
 		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
 		
+		SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
+		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
+		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
+		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){
 			_currentLogicPhase.updatePhase();

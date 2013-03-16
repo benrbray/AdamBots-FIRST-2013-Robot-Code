@@ -10,8 +10,10 @@ import robot.logic.tasks.TAwaitStatus;
 import robot.logic.tasks.TDelay;
 import robot.logic.tasks.TDriveDistance;
 import robot.logic.tasks.TFeedDisc;
+import robot.logic.tasks.TSetShooterAngle;
 import robot.logic.tasks.TSetShooterSpeed;
 import robot.logic.tasks.TStopShooter;
+import robot.sensors.RobotSensors;
 
 /**
  *
@@ -164,10 +166,11 @@ public class AutonType {
 			List tasks = new List();
 			
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
+			tasks.add(new TSetShooterAngle(RobotSensors.configA.get()?MagicBox.PYRAMID_SIDE_SHOT_ANGLE:MagicBox.PYRAMID_MIDDLE_SHOT_ANGLE));
 			tasks.add(new TDelay(initialDelayMillis));
+			tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_IN_POSITION));
 		
 			for(int i = 0; i < discs; i++){	// Shoot Sequences
-				//tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_UP_TO_SPEED));
 				tasks.add(new TFeedDisc(feedDelayMillis));
 				tasks.add(new TDelay(shotDelayMillis));
 			}

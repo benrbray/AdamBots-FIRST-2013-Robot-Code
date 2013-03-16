@@ -283,7 +283,7 @@ public class TeleopLogic extends LogicPhase {
 		// Sets shooter motor value to .7 to get it moving after a pid stall or to shoot manually.
 		if (_secondaryButtons[FancyJoystick.BUTTON_X]) {
 			TargetShooterSpeedLogic.enableManualVoltage(true);
-			RobotActuators.shooterWheelMotor.set(.7);
+			RobotActuators.shooterWheelMotor.set(.7 * MagicBox.getShooterMultiplier());
 		} else {
 			TargetShooterSpeedLogic.enableManualVoltage(false);
 		}

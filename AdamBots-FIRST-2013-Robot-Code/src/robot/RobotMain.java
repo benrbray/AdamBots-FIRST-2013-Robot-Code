@@ -218,6 +218,10 @@ public final class RobotMain extends IterativeRobot {
 		
 		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
 		
+		SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
+		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
+		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
+		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){
 			_currentLogicPhase.updatePhase();
@@ -293,11 +297,10 @@ public final class RobotMain extends IterativeRobot {
      */
     public void disabledPeriodic() {
 		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
-		//SmartDashboard.putNumber("gyroAngle", RobotSensors.gyroChassis.getAngle());
-		//SmartDashboard.putNumber("accelerometerAccel", RobotSensors.accelerometerChassis.getAcceleration());
-		//SmartDashboard.putBoolean("configSwitchA", RobotSensors.configA.get());
-		//SmartDashboard.putBoolean("configSwitchB", RobotSensors.configB.get());
-		//SmartDashboard.putBoolean("configSwitchC", RobotSensors.configC.get());
+		
+		SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
+		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
+		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
     }
 
     //// LOGICPHASE METHODS ----------------------------------------------------

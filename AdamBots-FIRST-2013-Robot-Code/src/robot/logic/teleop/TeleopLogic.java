@@ -187,24 +187,24 @@ public class TeleopLogic extends LogicPhase {
 			if (_setWinch < 0) {
 				RobotActuators.climbWinch.set(_setWinch);
 				
-				RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
+				//RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
 				
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			} else if (_primaryButtons[FancyJoystick.BUTTON_BACK]) {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
 				RobotActuators.climbWinch.set(_setWinch);
 				
-				RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
+				//RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
 			} else {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 				RobotActuators.climbWinch.set(0);
-				RobotActuators.climbWinch2.set(0);
+				//RobotActuators.climbWinch2.set(0);
 			}
 		} else {
 			//TODO: Set winch drive to 0
 			RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 			RobotActuators.climbWinch.set(0);
-			RobotActuators.climbWinch2.set(0);
+			//RobotActuators.climbWinch2.set(0);
 		}
 
 		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
@@ -267,6 +267,7 @@ public class TeleopLogic extends LogicPhase {
 			SmartDashboard.putString("secondaryAutoTarget", "true");
 } else */
 		if (_shooterEnabled) {
+			TargetShooterSpeedLogic.enableManualVoltage(false);
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(MagicBox.SHOOTER_REST_SPEED * MagicBox.getShooterMultiplier());
@@ -280,6 +281,7 @@ public class TeleopLogic extends LogicPhase {
 			TargetShooterSpeedLogic.setIsTargeting(false);
 			TargetShooterAngleLogic.setIsTargeting(false);
 			TargetShooterSpeedLogic.setRestSpeedRPM(0.0);
+			TargetShooterSpeedLogic.enableManualVoltage(true);
 			if (!MagicBox.getDigitalIn(7))
 			{
 				RobotSensors.counterShooterAngle.set(_shooterAngleChangerDrive);

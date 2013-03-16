@@ -212,9 +212,9 @@ public final class RobotMain extends IterativeRobot {
 		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
 		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
 		
-		SmartDashboard.putNumber("shooterPidKP", RobotShoot.SHOOTER_KP);
-		SmartDashboard.putNumber("shooterPidKI", RobotShoot.SHOOTER_KI);
-		SmartDashboard.putNumber("shooterPidKD", RobotShoot.SHOOTER_KD);
+		SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
+		SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
+		SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
 		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){

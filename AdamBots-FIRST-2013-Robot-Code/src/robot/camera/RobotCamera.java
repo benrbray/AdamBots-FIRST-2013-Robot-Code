@@ -47,7 +47,7 @@ public abstract class RobotCamera extends RobotObject {
 	/**
 	 * The current identified green target.
 	 */
-	public static Target _greenTarget;
+	private static Target _greenTarget;
 	/**
 	 * Distance in FEET to target based on most recent exposure.
 	 **/
@@ -64,6 +64,11 @@ public abstract class RobotCamera extends RobotObject {
 	 * Whether the current image is fresh; employed by TargetLogic.
 	 */
 	private static boolean _freshImage = false;
+	
+	/**
+	 * Previous location of the image.
+	 */
+	private static double _previousLocation = 0;
 
 	/**
 	 A class essentially equivalent to ParticleAnalysisReport sans some data.
@@ -124,6 +129,18 @@ public abstract class RobotCamera extends RobotObject {
 	public static double getDistanceInches() {
 		return _recentDistanceInches;
 	}
+	
+	/**
+	 * Tells location of target in units.
+	 */
+	public static double getTargetLocationUnits()
+	{
+		if (_greenTarget == null)
+		{
+			return 150;
+		}
+		return _greenTarget.y + _greenTarget.h / 2.0;
+	}
 
 	/**
 	 Returns the direction (in radians) to the target according to the most recent available exposure.
@@ -140,6 +157,7 @@ public abstract class RobotCamera extends RobotObject {
 		MonoImage saturationHSVOriginal = null;
 		MonoImage hueHSVOriginal = null;
 		MonoImage valueOriginal = null;
+		BinaryImage thresholdImage = null;
 
 		BinaryImage result = null;
 		try {
@@ -155,7 +173,9 @@ public abstract class RobotCamera extends RobotObject {
 				_srcImage.write("/Swapped.png");
 			}
 			_firstImageCapture = false;
-			result = _srcImage.thresholdRGB(107, 133, 169, 256, 219, 256);
+			thresholdImage = _srcImage.thresholdRGB(107, 133, 97, 256, 178, 256);
+			
+			result = thresholdImage.removeSmallObjects(true,1);
 
 			ParticleAnalysisReport[] greens = result.getOrderedParticleAnalysisReports();
 			ParticleAnalysisReport board = null;
@@ -170,7 +190,7 @@ public abstract class RobotCamera extends RobotObject {
 				/*if (greens[i].particleArea> largestsize * 0.5){
 					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}*/
-				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || q.center_mass_y > greens[i].center_mass_y) ) {
+				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].boundingRectWidth > 70 && greens[i].boundingRectHeight > 20 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || Math.abs(q.center_mass_x - VIEW_ANGLE_PIXELS_HORIZONTAL/2.0 ) > Math.abs(greens[i].center_mass_x - VIEW_ANGLE_PIXELS_HORIZONTAL/2.0)) ) {
 					q = greens[i];
 				}
 			}
@@ -185,6 +205,7 @@ public abstract class RobotCamera extends RobotObject {
 				free(valueOriginal);
 				free(saturationHSVOriginal);
 				free(hueHSVOriginal);
+				free(thresholdImage);
 				free(result);
 			}
 			catch (NIVisionException e) {
@@ -224,6 +245,15 @@ public abstract class RobotCamera extends RobotObject {
 	public static void imageUnfresh() {
 		_freshImage = false;
 	}
+	
+	/**
+	 * Identifies whether the camera's target location is subject to change; ie when the robot moves and camera lags behind.
+	 * @return Truth value of above proposition.
+	 */
+	public static boolean isCameraReady()
+	{
+		return Math.abs(getTargetLocationUnits() - _previousLocation) < 5;
+	}
 
 
 	
@@ -252,6 +282,7 @@ public abstract class RobotCamera extends RobotObject {
 	 4. Calculates distance / angle.
 	 **/
 	public static void work() {
+		_previousLocation = getTargetLocationUnits();
 		_srcImage = null;
 		try
 		{

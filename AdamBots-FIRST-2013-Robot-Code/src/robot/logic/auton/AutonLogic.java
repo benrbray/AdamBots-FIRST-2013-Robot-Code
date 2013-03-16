@@ -35,8 +35,10 @@ public class AutonLogic extends LogicPhase {
 		println("AutonLogic :: initPhase()");
 		
 		// Initial Delay (Switches B & C)
-		int switchMode = ((RobotSensors.configB.get()?1:0)<<1) | ((RobotSensors.configC.get()?1:0)<<1);
+		int switchMode = ((RobotSensors.configB.get()?1:0)<<1) | ((RobotSensors.configC.get()?1:0));
 		int initialDelayMillis = (2 + switchMode) * 1000;
+		
+		println("Setting Auton Initial Delay to:  " + initialDelayMillis);
 		
 		// Determine Task Array
 		_tasks = AutonType.Fancy.shootDiscs(4, initialDelayMillis);

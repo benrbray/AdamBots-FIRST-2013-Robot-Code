@@ -4,6 +4,7 @@
  */
 package robot.behavior;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotMain;
 import robot.actuators.RobotActuators;
 import robot.camera.RobotCamera;
@@ -30,7 +31,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.
 	 */
-	public static final double SHOOTER_ANGLE_TOLERANCE = 0.15;
+	public static final double SHOOTER_ANGLE_TOLERANCE = 0.25;
 	/**
 	 * The angle that the shooter is currently moving towards.
 	 */
@@ -153,12 +154,14 @@ public abstract class RobotShoot extends RobotBehavior {
 	 * Adjusts shooter angle if .startMovingToTarget() has been called or Magic Box Siwtch #7 is on.
 	 */
 	public static void update() {
+		SmartDashboard.putString("Shooter Angle Offset", (getShooterAngleDegrees() - _targetAngleDegrees)+"/"+SHOOTER_ANGLE_TOLERANCE );
+		SmartDashboard.putBoolean("Shooter In Position",isShooterInPosition());
 		if ( _moveToTarget || (!RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7)) ) {
 			if ( !RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7) ) {
 				_targetAngleDegrees = getIdealShooterAngle();
 			}
 			double target = Math.max(19, _targetAngleDegrees);
-			if ( Math.abs(getShooterAngleDegrees() - target) < SHOOTER_ANGLE_TOLERANCE ) {
+			if ( isShooterInPosition() ) {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {

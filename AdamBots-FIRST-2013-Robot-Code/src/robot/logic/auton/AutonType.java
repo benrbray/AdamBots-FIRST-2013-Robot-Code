@@ -60,6 +60,54 @@ public class AutonType {
 		//// SHOOT 4 DISCS -------------------------------------------------
 		
 		/**
+		 * A simple autonomous program that sets the shooter's target angle
+		 * and shoots three discs.
+		 * 
+		 * <ol>
+		 *	<li>Set shooter speed.</li>
+		 *  <li>Set shooter angle.</li>
+		 *  <li>Shoot (x4).
+		 *		<ul>
+		 *			<li>Enable shooter feeder solenoid.
+		 *			<li>Give the shooter feeder solenoid time to expand.
+		 *			<li>Disable the shooter feeder solenoid.
+		 *			<li>Wait for the shooter wheel to recover.
+		 *		</ul>
+		 *	<li>Shoot
+		 *  <li>Shoot
+		 * </ol>
+		 * 
+		 * @see Fancy#shootDiscs(int) 
+		 */
+		public static final List SIMPLE_FOUR_SHOTS = AutonType.Fancy.shootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		
+		//// SHOOT 3 DISCS -------------------------------------------------
+		
+		/**
+		 * A simple autonomous program that sets the shooter's target angle
+		 * and shoots three discs.
+		 * 
+		 * <ol>
+		 *	<li>Set shooter speed.</li>
+		 *  <li>Set shooter angle.</li>
+		 *  <li>Shoot (x3).
+		 *		<ul>
+		 *			<li>Enable shooter feeder solenoid.
+		 *			<li>Give the shooter feeder solenoid time to expand.
+		 *			<li>Disable the shooter feeder solenoid.
+		 *			<li>Wait for the shooter wheel to recover.
+		 *		</ul>
+		 *	<li>Shoot
+		 *  <li>Shoot
+		 * </ol>
+		 * 
+		 * @see Fancy#shootDiscs(int) 
+		 */
+		public static final List SIMPLE_ANGLED_THREE_SHOTS = AutonType.Fancy.angledShootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		
+		//// SHOOT 4 DISCS -------------------------------------------------
+		
+		/**
 		 * A simple autonomous program that shoots three discs.
 		 * 
 		 * <ol>
@@ -77,7 +125,7 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_FOUR_SHOTS = AutonType.Fancy.shootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		public static final List SIMPLE_ANGLED_FOUR_SHOTS = AutonType.Fancy.angledShootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 	}
 	
 	//// DYNAMIC AUTONOMOUS TYPES ----------------------------------------------
@@ -100,31 +148,6 @@ public class AutonType {
 		
 		//// FANCY SHOOT DISCS -------------------------------------------------
 		
-		/**
-		 * Generates the task list for an Autonomous Phase that shoots a
-		 * specified number of discs.  Remember that we can only hold four at 
-		 * once, so it is silly to shoot more than four times in this mode,
-		 * except, perhaps, to protect against flawed magazine design.
-		 * 
-		 * <ol>
-		 *	<li>Set shooter speed.</li>
-		 *  <li>Shoot X Times.
-		 *		<ul>
-		 *			<li>Enable shooter feeder solenoid.
-		 *			<li>Give the shooter feeder solenoid time to expand.
-		 *			<li>Disable the shooter feeder solenoid.
-		 *			<li>Wait for the shooter wheel to recover.
-		 *		</ul>
-		 *	<li>Shoot
-		 *  <li>Shoot
-		 * </ol>
-		 * 
-		 * @param discs The number of discs to shoot.
-		 * @param shotDelayMillis The number of milliseconds to wait after each shot.
-		 * @return A list of LogicTasks.
-		 * @see robot.logic.LogicTask
-		 * @see Fancy#shootDiscs(int) 
-		 */
 		public static List shootDiscs(int discs){
 			return shootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, 0);
 		}
@@ -157,12 +180,73 @@ public class AutonType {
 		 * </ol>
 		 * 
 		 * @param discs The number of discs to shoot.
+		 * @param feedDelayMillis Delay between expanding and contracting the feeder arm.
 		 * @param shotDelayMillis The number of milliseconds to wait after each shot.
+		 * @param initialDelayMillis Initial Delay.
 		 * @return A list of LogicTasks.
 		 * @see robot.logic.LogicTask
 		 * @see Fancy#shootDiscs(int) 
 		 */
 		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
+			List tasks = new List();
+			
+			tasks.add(new TDelay(initialDelayMillis));
+			tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_IN_POSITION));
+		
+			for(int i = 0; i < discs; i++){	// Shoot Sequences
+				tasks.add(new TFeedDisc(feedDelayMillis));
+				tasks.add(new TDelay(shotDelayMillis));
+			}
+			
+			tasks.add(new TStopShooter());
+			
+			return tasks;
+		}
+		
+		//// ANGLED SHOOT DISCS ------------------------------------------------
+		
+		public static List angledShootDiscs(int discs){
+			return angledShootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, 0);
+		}
+		
+		public static List angledShootDiscs(int discs, int initialDelayMillis){
+			return angledShootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, initialDelayMillis);
+		}
+		
+		public static List angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
+			return angledShootDiscs(discs, feedDelayMillis, shotDelayMillis, 0);
+		}
+		
+		/**
+		 * Generates the task list for an Autonomous Phase that shoots a
+		 * specified number of discs.  Remember that we can only hold four at 
+		 * once, so it is silly to shoot more than four times in this mode,
+		 * except, perhaps, to protect against flawed magazine design.
+		 * 
+		 * <ol>
+		 *	<li>Set shooter speed target.</li>
+		 *	<li>Set shooter angle target.</li>
+		 *  <li>Wait for the correct shooter angle.</li>
+		 *  <li>Shoot X Times.
+		 *		<ul>
+		 *			<li>Enable shooter feeder solenoid.</li>
+		 *			<li>Give the shooter feeder solenoid time to expand.</li>
+		 *			<li>Disable the shooter feeder solenoid.</li>
+		 *			<li>Wait.</li>
+		 *		</ul>
+		 *	<li>Shoot
+		 *  <li>Shoot
+		 * </ol>
+		 * 
+		 * @param discs The number of discs to shoot.
+		 * @param feedDelayMillis Delay between expanding and contracting the feeder arm.
+		 * @param shotDelayMillis The number of milliseconds to wait after each shot.
+		 * @param initialDelayMillis Initial Delay.
+		 * @return A list of LogicTasks.
+		 * @see robot.logic.LogicTask
+		 * @see Fancy#angledShootDiscs(int) 
+		 */
+		public static List angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
 			List tasks = new List();
 			
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));

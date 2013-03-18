@@ -10,10 +10,11 @@ import robot.RobotMain;
 import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
+import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.sensors.RobotSensors;
 
 /**
- * Performs logic during the autonomous period of gameplay.
+ * Performs logic during the autonomous period of gameplay. LEFT(23.1deg, 23.8)
  * @author Ben
  */
 public class AutonLogic extends LogicPhase {
@@ -41,7 +42,7 @@ public class AutonLogic extends LogicPhase {
 		println("Setting Auton Initial Delay to:  " + initialDelayMillis);
 		
 		// Determine Task Array
-		_tasks = AutonType.Fancy.shootDiscs(4, initialDelayMillis);
+		_tasks = AutonType.Fancy.angledShootDiscs(4, initialDelayMillis);
 
 		// Begin First Task
 		_currentIndex = 0;
@@ -57,7 +58,7 @@ public class AutonLogic extends LogicPhase {
     public void updatePhase() {
 		// Update Current Task
 		_currentTask.updateTask();
-
+		
 		if(_currentTask.isDone()){
 			println("AutonLogic :: Task Reported DONE, moving on...");
 			nextTask();

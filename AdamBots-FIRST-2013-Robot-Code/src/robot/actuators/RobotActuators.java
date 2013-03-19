@@ -13,6 +13,11 @@ import robot.sensors.RobotSensors;
  * @author Ben
  */
 public class RobotActuators extends RobotObject {
+	//// PRINT FILTERING -------------------------------------------------------
+	
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
     //// ENFORCE NONINSTANTIABILITY --------------------------------------------
     
     private RobotActuators() throws Exception {

@@ -26,19 +26,32 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	
 	//// STATIC MOTOR CONTROL --------------------------------------------------
 	
-	public static Vector _fancyMotors;
+	/** 
+	 * A running list of all existing FancyMotors, so that they may be
+	 * monitored during runtime in case a limit is reached.
+	 */
+	public static Vector fancyMotors;
 	
+	//// INITIALIZATION --------------------------------------------------------
+	
+	/**
+	 * Initializes the Vector of FancyMotors.  Should be called when the robot
+	 * is initialized.
+	 */
 	public static void init(){
-		_fancyMotors = new Vector();
+		fancyMotors = new Vector();
 	}
+	
+	//// UPDATE ----------------------------------------------------------------
 	
 	/**
 	 * Iterates through the list of FancyMotor instances contained within this
-	 * class, and calls checkLimits() on each, to ensure that nothing breaks.
+	 * class, and checks the limit switches associated with each, stopping the
+	 * motor if a limit is reached to ensure that nothing breaks.
 	 */
 	public static void update(){
-		for(int i = 0; i < _fancyMotors.size(); i++){
-			FancyMotor fm = (FancyMotor) _fancyMotors.elementAt(i);
+		for(int i = 0; i < fancyMotors.size(); i++){
+			FancyMotor fm = (FancyMotor) fancyMotors.elementAt(i);
 			fm.enforceLimits();
 		}
 	}
@@ -84,9 +97,9 @@ public class FancyMotor extends RobotObject implements SpeedController {
     }
 	
 	/**
-     * Create a new FancyMotor for a Jaguar.  
+     * Create a new FancyMotor for a Talon.  
      * @param slot The slot in the chassis that the digital module is plugged into.
-     * @param channel The PWM channel on the digital module that the Jaguar is attached to.
+     * @param channel The PWM channel on the digital module that the Talon is attached to.
      * @return A new FancyMotor object.
      */
 	public static FancyMotor createFancyTalon(int slot, int channel){
@@ -94,9 +107,9 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	}
 	
 	/**
-     * Create a new FancyMotor for a Jaguar.  
+     * Create a new FancyMotor for a Talon.  
      * @param slot The slot in the chassis that the digital module is plugged into.
-     * @param channel The PWM channel on the digital module that the Jaguar is attached to.
+     * @param channel The PWM channel on the digital module that the Talon is attached to.
      * @return A new FancyMotor object.
      */
 	public static FancyMotor createFancyTalon(int channel) {
@@ -116,12 +129,23 @@ public class FancyMotor extends RobotObject implements SpeedController {
     
     /**
      * Wrap the FancyMotor class around a pre-existing SpeedController instance.
+	 * Note that the FancyMotor class is essentially useless without utilizing
+	 * its limit switch functionality.  If you use this constructor, you should
+	 * call setPositiveLimit() or setNegativeLimit() later.
      * @param motor A SpeedController instance.
+	 * @see FancyMotor#setPositiveLimit(edu.wpi.first.wpilibj.DigitalInput) 
+	 * @see FancyMotor#setNegativeLimit(edu.wpi.first.wpilibj.DigitalInput) 
      */
     public FancyMotor(SpeedController motor){
         this(motor, null, null);
     }
     
+	/**
+     * Wrap the FancyMotor class around a pre-existing SpeedController instance.
+	 * @param motor A SpeedController instance.
+	 * @param positiveLimit A limit switch for the positive PWM direction.
+	 * @param negativeLimit A limit switch for the negative PWM direction.
+	 */
     public FancyMotor(SpeedController motor, DigitalInput positiveLimit, DigitalInput negativeLimit){
 		println("FancyMotor created.");
 		
@@ -131,7 +155,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
         _negativeLimit = negativeLimit;
 		
 		// Push to Static List of FancyMotors
-		_fancyMotors.addElement(this);
+		fancyMotors.addElement(this);
     }
     
     //// LIMIT SWITCHES --------------------------------------------------------
@@ -234,14 +258,26 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	
 	//// DUMMY MOTOR METHODS ---------------------------------------------------
 	
+	/**
+	 * Nothing but a wrapper method for SpeedController.disable().
+	 * @see SpeedController#disable() 
+	 */
 	public void disable(){
 		_motor.disable();
 	}
 	
+	/**
+	 * Nothing but a wrapper method for SpeedController.get().
+	 * @see SpeedController#get() 
+	 */
 	public double get(){
 		return _motor.get();
 	}
 	
+	/**
+	 * Nothing but a wrapper method for SpeedController.pidWrite().
+	 * @see SpeedController#pidWrite() 
+	 */
 	public void pidWrite(double output) {
 		_motor.pidWrite(output);
 	}

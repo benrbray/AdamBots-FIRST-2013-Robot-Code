@@ -20,18 +20,13 @@ import robot.sensors.RobotSensors;
  * @author Steven
  */
 public class AutonType {
-	//// INIT ------------------------------------------------------------------
-	
-	public static void init(){
-		AutonType.Fancy.init();
-	}
-	
 	//// STATIC AUTONOMOUS TYPES -----------------------------------------------
 	
 	public static final class Simple {
 		//// INITIALIZATION ----------------------------------------------------
 		
-		private static void init(){
+		// Perform any necessary initialization here.
+		static {
 			
 		}
 		
@@ -142,7 +137,8 @@ public class AutonType {
 		
 		//// INITIALIZATION ----------------------------------------------------
 		
-		private static void init(){
+		// Perform any necessary initialization here.
+		static {
 			
 		}
 		
@@ -190,14 +186,19 @@ public class AutonType {
 		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
 			List tasks = new List();
 			
+			// Set Shooter Speed
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
+			
+			// Wait
 			tasks.add(new TDelay(initialDelayMillis));
 		
-			for(int i = 0; i < discs; i++){	// Shoot Sequences
+			// Shoot X Discs
+			for(int i = 0; i < discs; i++){
 				tasks.add(new TFeedDisc(feedDelayMillis));
 				tasks.add(new TDelay(shotDelayMillis));
 			}
 			
+			// Stop the Shooter
 			tasks.add(new TStopShooter());
 			
 			return tasks;

@@ -32,6 +32,10 @@ public class AutonLogic extends LogicPhase {
     
     //// INITIALIZATION --------------------------------------------------------
     
+	/**
+	 * Initialize Autonomous.  Determine initial delay based on config switches,
+	 * choose which AutonType we should be in, and start the task sequence.
+	 */
     public void initPhase() {
 		println("AutonLogic :: initPhase()");
 		

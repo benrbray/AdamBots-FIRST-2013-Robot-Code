@@ -26,7 +26,11 @@ public class RobotActuators extends RobotObject {
 	
 	//// PORT CONSTANTS --------------------------------------------------------
 	
+	/**
+	 * Port constants for the Competition Robot.
+	 */
 	public static final class CompetitionBot {
+		/** Digital Out 1 Constants. */
 		public static final class DigitalOut1 {
 			public static final int LEFT_DRIVE_VICTOR = 1;
 			public static final int RIGHT_DRIVE_VICTOR = 2;
@@ -41,12 +45,14 @@ public class RobotActuators extends RobotObject {
 			//public static final int WINCH_TALON_2 = 9;
 		}
 		
+		/** Digital Relay Constants. */
 		public static final class DigitalRelay1 {
 			public static final int INTAKE_MOTOR = 1;
 			public static final int COMPRESSOR = 2;
 			public static final int WINCH_SOLENOID = 3;
 		}
 		
+		/** Solenoid port constants. */
 		public static final class Solenoid {
 			public static final int SHOOTER_PNEUMATIC_SOLENOID = 1;
 			public static final int CAMERA_LED = 2;
@@ -73,9 +79,7 @@ public class RobotActuators extends RobotObject {
     //// CLIMBING --------------------------------------------------------------
     
     /** Climbing Winch. */
-	//TODO: CHANGE TO FANCY MOTOR
     public static FancyMotor climbWinch;
-	//public static Talon climbWinch2;
     /** Winch ratchet release solenoid. */
     public static Relay climbWinchSolenoid;
     
@@ -93,10 +97,10 @@ public class RobotActuators extends RobotObject {
     /** Controls the angle of attack of the shooter. (UP is Negative, DOWN is Positive)*/
     public static FancyMotor shooterAngleMotor;
     /** Shooter feeder solenoid. */
-    //public static Relay shooterFeederSolenoid;
     public static Solenoid shooterFeederSolenoid;
 	
 	//// COMPRESSOR ------------------------------------------------------------
+	
 	/** Controls the compressor. */
 	public static Relay compressor;
     
@@ -130,8 +134,6 @@ public class RobotActuators extends RobotObject {
 		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
 		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
 		
-		//climbWinch2 = new Talon(CompetitionBot.DigitalOut1.WINCH_TALON_2);
-		
 		//// DIGITAL RELAY 1 ---------------------------------------------------
 		
 		discIntake			= new Relay(CompetitionBot.DigitalRelay1.INTAKE_MOTOR);
@@ -158,9 +160,7 @@ public class RobotActuators extends RobotObject {
 	 */
 	public static void configure(){
 		// Finalize FancyMotors
-		// TODO:  Uncomment when limit switches are added.
 		shooterAngleMotor.setPositiveLimit(RobotSensors.limitShooterB);
-		//shooterAngleMotor.setNegativeLimit(RobotSensors.limitShooterA);
 		climbWinch.setPositiveLimit(RobotSensors.limitWinchA);
 		
 		// Relays

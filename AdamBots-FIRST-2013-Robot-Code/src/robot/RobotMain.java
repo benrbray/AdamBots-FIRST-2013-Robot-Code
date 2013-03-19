@@ -109,7 +109,6 @@ public final class RobotMain extends IterativeRobot {
 		TargetShooterAngleLogic.init();
 		TargetShooterSpeedLogic.init();
 		TargetSpinLogic.init();
-		AutonType.init();
 
 		// Output Filtering
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;

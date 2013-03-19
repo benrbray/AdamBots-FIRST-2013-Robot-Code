@@ -190,7 +190,7 @@ public abstract class RobotCamera extends RobotObject {
 				/*if (greens[i].particleArea> largestsize * 0.5){
 					println("Candidate: " + greens[i].boundingRectLeft + "," + greens[i].boundingRectTop);
 				}*/
-				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].boundingRectWidth > 70 && greens[i].boundingRectHeight > 20 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || Math.abs(q.center_mass_x - VIEW_ANGLE_PIXELS_HORIZONTAL/2.0 ) > Math.abs(greens[i].center_mass_x - VIEW_ANGLE_PIXELS_HORIZONTAL/2.0)) ) {
+				if ( (greens[i].particleArea > largestsize * 0.5 && greens[i].boundingRectWidth > 70 && greens[i].boundingRectHeight > 20 && greens[i].particleArea < greens[i].boundingRectWidth * greens[i].boundingRectHeight * 0.8) && (q == null || Math.abs(q.center_mass_x - 77.0 ) > Math.abs(greens[i].center_mass_x - 77.0)) ) {
 					q = greens[i];
 				}
 			}

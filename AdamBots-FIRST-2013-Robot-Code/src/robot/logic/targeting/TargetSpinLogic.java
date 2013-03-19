@@ -14,35 +14,32 @@ import robot.logic.tasks.TTurnDegrees;
  * @author Nathan
  */
 public class TargetSpinLogic extends RobotObject {
+	//// PRINT FILTERING -------------------------------------------------------
+	
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
+	//// CONSTANTS -------------------------------------------------------------
 
 	public static double TARGET_TOLERANCE_DEGREES = 1;
+	
+	//// PRIVATE VARIABLES -----------------------------------------------------
+	
 	private static boolean _pointedRight = false;
 	private static boolean _isTargeting = false;
 	private static TTurnDegrees _turnTask = null;
 
+	//// INITIALIZATION --------------------------------------------------------
+	
 	/**
 	 * Inits anything the class might need.
 	 */
 	public static void init() {
 	}
 	
-	/**
-	 * True if the robot need not turn more to face the target.
-	 * @return whether needs to turn more
-	 */
-	public static boolean isPointedRight()
-	{
-		return _pointedRight;
-	}
-
-	/**
-	 * Sets whether the robot is targeting.
-	 * @param x Whether to target.
-	 */
-	public static void setIsTargeting( boolean x ) {
-		_isTargeting = x;
-	}
-
+	//// UPDATE ----------------------------------------------------------------
+	
+	//TODO:  Comment TargetSpinLogic (NATHAN)
 	public static void update() {
 		if ( _isTargeting ) {
 			if ( RobotCamera.imageIsFresh() ) {
@@ -72,5 +69,26 @@ public class TargetSpinLogic extends RobotObject {
 				_turnTask = null;
 			}
 		}
+	}
+	
+	//// GETTER METHODS --------------------------------------------------------
+	
+	/**
+	 * True if the robot need not turn more to face the target.
+	 * @return whether needs to turn more
+	 */
+	public static boolean isPointedRight()
+	{
+		return _pointedRight;
+	}
+	
+	//// SETTER METHODS --------------------------------------------------------
+
+	/**
+	 * Sets whether the robot is targeting.
+	 * @param x Whether to target.
+	 */
+	public static void setIsTargeting( boolean x ) {
+		_isTargeting = x;
 	}
 }

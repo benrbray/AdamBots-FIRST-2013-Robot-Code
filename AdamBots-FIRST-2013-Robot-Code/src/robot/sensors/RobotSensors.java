@@ -21,9 +21,13 @@ import robot.actuators.RobotActuators;
  * @author Ben
  */
 public class RobotSensors extends RobotObject {
-    //// CONSTANTS -------------------------------------------------------------
+	//// PRINT FILTERING -------------------------------------------------------
 	
-	// TODO:  Constants
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
+	
+    //// CONSTANTS -------------------------------------------------------------
 	
 	// Encoders (Distance Per Pulse)
 	public static final double DPP_ENCODER_DRIVE_LEFT_INCHES = 1.0;		// Inches
@@ -40,14 +44,19 @@ public class RobotSensors extends RobotObject {
 	public static final int TPP_COUNTER_SHOOTER_SPEED = 2;				// Ticks Per Pulse
 	
 	// Gyro
-	public static final double GYRO_VPDPS = 1.0;  // Volts per Degree Per Second
+	public static final double GYRO_VPDPS = 1.0;						// Volts per Degree Per Second
 	
 	//// PORT CONSTANTS --------------------------------------------------------
 	
 	// Card Constants (by card, not by slot)
+	
+	/** Analog Card 1 */
     public static final int ANA1 = 1;
+	/** Digital Card 1 */
     public static final int DIO1 = 1;
+	/** Digital Card 2 */
     public static final int DIO2 = 2;
+	/** Solenoid Inputs 1 */
     public static final int SOL1 = 1;
 	
 	/**
@@ -110,7 +119,8 @@ public class RobotSensors extends RobotObject {
     public static Encoder encoderWinch;
 	
 	/** This limit is inverted electrically (unintentionally?).  If this changes,
-	 * invert using FancyDigitalInput so that the winch logic still works. */
+	 * invert using FancyDigitalInput so that the winch logic still works. 
+	 */
     public static FancyDigitalInput limitWinchA;
     public static DigitalInput limitWinchB;
     public static DigitalInput limitArmA;
@@ -127,7 +137,7 @@ public class RobotSensors extends RobotObject {
 	
 	// Chassis
     public static Gyro gyroChassis;
-    public static Accelerometer accelerometerChassis; // ?? ?? Is this the right class?
+    public static Accelerometer accelerometerChassis;
 	
 	// Shooter
 	public static AnalogChannel stringPot;
@@ -164,6 +174,11 @@ public class RobotSensors extends RobotObject {
 		configure();
     }
 	
+	/**
+	 * Initializes sensors for the competition robot, using port constants
+	 * specified by the CompetitionBot internal class.
+	 * @see CompetitionBot
+	 */
 	private static void initCompetition(){
 		//// ANALOG CARD -------------------------------------------------------
 

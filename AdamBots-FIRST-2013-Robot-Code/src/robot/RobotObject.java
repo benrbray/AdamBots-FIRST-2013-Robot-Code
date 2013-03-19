@@ -16,6 +16,10 @@ public abstract class RobotObject {
     
     //// OUTPUT FILTERING ------------------------------------------------------
     
+	/**
+	 * Returns a boolean indicating whether or not this class is allowed to print.
+	 */
+	
     /**
      * Prints a String to the output window if verboseOutput is set to TRUE.
      * @param s The message to print.
@@ -24,6 +28,7 @@ public abstract class RobotObject {
     public static final void print(String s){
 		if(verboseOutput) { System.out.print(s); }
     }
+	
     /**
      * Prints a String, followed by a newline character, to the output window
      * if verboseOutput is set to TRUE.

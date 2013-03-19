@@ -211,12 +211,9 @@ public final class RobotMain extends IterativeRobot {
 		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
 		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
 		
-		
 		SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
 		SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
 		SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
-		
-		
 		
 		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
 		
@@ -229,7 +226,6 @@ public final class RobotMain extends IterativeRobot {
 			_currentLogicPhase.updatePhase();
 		}
 		
-		
 		// Compressor
 		if (RobotSensors.pressureSwitch.get()) {
 			RobotActuators.compressor.set(Relay.Value.kOff);
@@ -237,16 +233,11 @@ public final class RobotMain extends IterativeRobot {
 			RobotActuators.compressor.set(Relay.Value.kOn);
 		}
 		
-		
 		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
-		//if(RobotSensors.limitShooterB.get()){
-		//	RobotSensors.counterShooterAngle.reset();
-		//}
 		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
 		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
 		SmartDashboard.putNumber("stringPot.getVoltage", RobotSensors.stringPot.getVoltage());
-		
 		
 		// Update Subsystems
 		TargetShooterSpeedLogic.update();
@@ -259,7 +250,7 @@ public final class RobotMain extends IterativeRobot {
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		
 		// Print to Dashboardp
-			SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
+		SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
     }
 
     //// TEST ------------------------------------------------------------------

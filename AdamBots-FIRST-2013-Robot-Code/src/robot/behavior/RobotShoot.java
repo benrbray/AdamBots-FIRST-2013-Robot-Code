@@ -170,7 +170,7 @@ public abstract class RobotShoot extends RobotBehavior {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
-				RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 40.0);
+				RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 10.0);
 			}
 		}
 	}

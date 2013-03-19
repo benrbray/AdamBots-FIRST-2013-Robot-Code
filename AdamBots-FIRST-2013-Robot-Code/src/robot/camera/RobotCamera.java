@@ -21,7 +21,13 @@ import robot.RobotObject;
  * After work() is finished, you may request distance or direction to the visible best target.
  **/
 public abstract class RobotCamera extends RobotObject {
-
+	//// PRINT FILTERING -------------------------------------------------------
+	
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
+	//// CONSTANTS -------------------------------------------------------------
+	
 	private static final double TARGET_WIDTH_INCHES = 62;
 	private static final double TARGET_HEIGHT_INCHES = 20;
 	private static final double TARGET_ELEVATION_INCHES_TO_BOTTOM = 100;
@@ -33,49 +39,36 @@ public abstract class RobotCamera extends RobotObject {
 	private static final double CAMERA_ANGLE_CENTER_ELEVATION_DEGREES = 20;//CHECK
 	private static final double CAMERA_HEIGHT_INCHES = 12;//CHECK
 	
+	//// PRIVATE VARIABLES -----------------------------------------------------
+	
 	private static boolean _firstImageCapture = true;
 	
 	private static boolean _alreadyInit = false;
-	/**
-	 * The camera instance used in tracking.
-	 */
+	/** The camera instance used in tracking. */
 	private static AxisCamera _camera;
-	/**
-	 * The current captured imaged.
-	 */
+	/** The current captured imaged. */
 	private static ColorImage _srcImage = null;
-	/**
-	 * The current identified green target.
-	 */
+	/** The current identified green target. */
 	private static Target _greenTarget;
-	/**
-	 * Distance in FEET to target based on most recent exposure.
-	 **/
+	/** Distance in FEET to target based on most recent exposure. */
 	private static double _recentDistanceInches = 0;
-	/**
-	 * In DEGREES, direction (negative left?) toward target based on most recent exposure.
-	 **/
+	/** In DEGREES, direction (negative left?) toward target based on most recent exposure. */
 	private static double _recentThetaDegrees = 0; //Radians
-	/**
-	 * The reference to the CameraThread object which calls work().
-	 */
+	/** The reference to the CameraThread object which calls work(). */
 	private static Thread _cameraThread = null;
-	/**
-	 * Whether the current image is fresh; employed by TargetLogic.
-	 */
+	/** Whether the current image is fresh; employed by TargetLogic. */
 	private static boolean _freshImage = false;
 	
-	/**
-	 * Previous location of the image.
-	 */
+	/** Previous location of the image. */
 	private static double _previousLocation = 0;
 
+	//// TARGET CLASS ----------------------------------------------------------
+	
 	/**
-	 A class essentially equivalent to ParticleAnalysisReport sans some data.
-	 **/
-	/* Test different lighting
-	 * Test 1 light v 2 lights (brightness)
-	 * (interfering light?)
+	 * A class essentially equivalent to ParticleAnalysisReport sans some data.
+	 * TODO:  Test different lighting
+	 * TODO:  Test 1 light v 2 lights (brightness)
+	 * TODO:  (interfering light?)
 	 */
 	static public class Target {
 
@@ -87,31 +80,40 @@ public abstract class RobotCamera extends RobotObject {
 			x2 = x + w;
 			y2 = y + h;
 		}
-		/**
-		 * The left edge's x position.
-		 */
+		/** The left edge's x position. */
 		public int x;
-		/**
-		 * The top edge's y position.
-		 */
+		/** The top edge's y position. */
 		public int y;
-		/**
-		 * The width of the bounding box.
-		 */
+		/**  The width of the bounding box. */
 		public int w;
-		/**
-		 * The height of the bounding box.
-		 */
+		/** The height of the bounding box. */
 		public int h;
-		/**
-		 * The right edge's x position.
-		 */
+		/** The right edge's x position. */
 		public int x2;
-		/**
-		 * The bottom edge's y position.
-		 */
+		/** The bottom edge's y position. */
 		public int y2;
 	}
+	
+	//// INITIALIZATION --------------------------------------------------------
+	
+	/**
+	 * Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
+	 */
+	public static void init() {
+		if (_alreadyInit){
+			return;
+		}
+		//how it will be on the robot ; 
+		_camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
+		//_camera = AxisCamera.getInstance("192.168.0.90");
+		_camera.writeMaxFPS(30);
+		_camera.writeExposurePriority(AxisCamera.ExposurePriorityT.frameRate);
+		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);
+		_camera.writeCompression(50);
+		_alreadyInit = true;
+	}
+	
+	//// UPDATE ----------------------------------------------------------------
 
 	/**
 	 * Periodic update function which ensures CameraThread is running.
@@ -122,10 +124,42 @@ public abstract class RobotCamera extends RobotObject {
 			_cameraThread.start();
 		}
 	}
+	
+	/**
+	 * Performs "work" on the image, excluding "greenbox." Called by CameraThread only.
+	 * 1. Grabs source image and saves it.
+	 * 2. Calls greenbox.
+	 * 3. Free all objects
+	 * 4. Calculates distance / angle.
+	 */
+	public static void work() {
+		_previousLocation = getTargetLocationUnits();
+		_srcImage = null;
+		try {
+			_srcImage = _camera.getImage();
+			//_srcImage.write("/raw.png");
+			greenBox();
+			calculateDistance();
+			calculateAngle();
+			_freshImage = true;
+		}
+		catch (Exception e) {
+		}
+		
+		finally {
+			try {
+				free(_srcImage);
+			} 
+			catch (NIVisionException e) {
+			}
+		}
+	}
+	
+	//// GETTER METHODS --------------------------------------------------------
 
 	/**
 	 * Returns the distance in inches to the target according to the most recent available exposure.
-	 **/
+	 */
 	public static double getDistanceInches() {
 		return _recentDistanceInches;
 	}
@@ -133,8 +167,7 @@ public abstract class RobotCamera extends RobotObject {
 	/**
 	 * Tells location of target in units.
 	 */
-	public static double getTargetLocationUnits()
-	{
+	public static double getTargetLocationUnits() {
 		if (_greenTarget == null)
 		{
 			return 150;
@@ -143,12 +176,14 @@ public abstract class RobotCamera extends RobotObject {
 	}
 
 	/**
-	 Returns the direction (in radians) to the target according to the most recent available exposure.
-	 Negative is left of center, positive is right of center. 0 is on target.
-	 **/
+	 * Returns the direction (in radians) to the target according to the most recent available exposure.
+	 * Negative is left of center, positive is right of center. 0 is on target.
+	 */
 	public static double getDirectionDegrees() {
 		return _recentThetaDegrees;
 	}
+	
+	//// IMAGE PROCESSING ------------------------------------------------------
 
 	/**
 	 * Internal image-processing which isolates the green board.
@@ -214,24 +249,6 @@ public abstract class RobotCamera extends RobotObject {
 	}
 
 	/**
-	 Initializes AxisCamera instance and sets camera parameters. Should be called once, at robot initialization.
-	 **/
-	public static void init() {
-		if (_alreadyInit)
-		{
-			return;
-		}
-		//how it will be on the robot ; 
-		_camera = AxisCamera.getInstance("10.2.45.11");  // get an instance ofthe camera
-		//_camera = AxisCamera.getInstance("192.168.0.90");
-		_camera.writeMaxFPS(30);
-		_camera.writeExposurePriority(AxisCamera.ExposurePriorityT.frameRate);
-		_camera.writeResolution(AxisCamera.ResolutionT.k320x240);
-		_camera.writeCompression(50);
-		_alreadyInit = true;
-	}
-
-	/**
 	 * Tells whether the current is fresh
 	 * @return Freshness of image (true for "is fresh")
 	 */
@@ -250,22 +267,25 @@ public abstract class RobotCamera extends RobotObject {
 	 * Identifies whether the camera's target location is subject to change; ie when the robot moves and camera lags behind.
 	 * @return Truth value of above proposition.
 	 */
-	public static boolean isCameraReady()
-	{
+	public static boolean isCameraReady() {
 		return Math.abs(getTargetLocationUnits() - _previousLocation) < 5;
 	}
 
+	//// CALCULATIONS ----------------------------------------------------------
 
-	
+	// TODO:  Camera Javadoc (NATHAN)
 	public static void calculateAngle()
 	{
 		_recentThetaDegrees = (double) (_greenTarget.x + _greenTarget.w / 2 - VIEW_ANGLE_PIXELS_HORIZONTAL / 2.0) * (VIEW_ANGLE_DEGREES_HORIZONTAL) / (VIEW_ANGLE_PIXELS_HORIZONTAL);
 	}
 	
+	// TODO:  Camera Javadoc (NATHAN)
 	public static void calculateDistance()
 	{
 		_recentDistanceInches = 14874.0 * VIEW_ANGLE_PIXELS_HORIZONTAL / 320.0 / ((_greenTarget.w + _greenTarget.h) / 2.0);
 	}
+	
+	// TODO:  Camera Javadoc (NATHAN)
 	public static void calculateDistanceAlternate()
 	{
 		double m = (_greenTarget.w + _greenTarget.h / 2) / VIEW_ANGLE_PIXELS_VERTICAL * VIEW_ANGLE_DEGREES_VERTICAL;
@@ -274,35 +294,7 @@ public abstract class RobotCamera extends RobotObject {
 		_recentDistanceInches = h / Math.tan(Math.PI / 180 * (a-m));
 	}
 	
-	/**
-	 * Performs "work" on the image, excluding "greenbox." Called by CameraThread only.
-	 1. Grabs source image and saves it.
-	 2. Calls greenbox.
-	 3. Free all objects
-	 4. Calculates distance / angle.
-	 **/
-	public static void work() {
-		_previousLocation = getTargetLocationUnits();
-		_srcImage = null;
-		try
-		{
-			_srcImage = _camera.getImage();
-			//_srcImage.write("/raw.png");
-			greenBox();
-			calculateDistance();
-			calculateAngle();
-			_freshImage = true;
-		}
-		catch (Exception e) {
-		}
-		finally {
-			try {
-				free(_srcImage);
-			}
-			catch (NIVisionException e) {
-			}
-		}
-	}
+	//// FREE METHODS ----------------------------------------------------------
 
 	/**
 	 * Free functions avoid freeing images which are `null`.

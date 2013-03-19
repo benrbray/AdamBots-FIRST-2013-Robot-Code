@@ -11,7 +11,11 @@ import robot.RobotObject;
  * @author Ben
  */
 public abstract class LogicTask extends RobotObject {
-    
+    //// PRINT FILTERING -------------------------------------------------------
+	
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
     //// CONSTANTS -------------------------------------------------------------
     
     /** Success Status */

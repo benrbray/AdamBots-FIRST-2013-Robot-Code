@@ -54,7 +54,7 @@ public final class RobotMain extends IterativeRobot {
     //// OUTPUT CONSTANTS ------------------------------------------------------
     
 	public static final boolean ALLOW_OUTPUT		= false; // TODO:  implement ALLOW_OUTPUT
-    public static final boolean VERBOSE_AUTON		= false;
+    public static final boolean VERBOSE_AUTON		= true;
     public static final boolean VERBOSE_TELEOP		= false;
     public static final boolean VERBOSE_CLIMB		= false;
     public static final boolean VERBOSE_ROBOTCLIMB	= false;
@@ -141,7 +141,6 @@ public final class RobotMain extends IterativeRobot {
      * Initialization code for the autonomous period.
      */
     public void autonomousInit() {
-		if(!RobotSensors.configA.get()) return;
 		System.out.println("RobotMain :: autonomousInit()");
 		
 		// Manage Camera & Lights
@@ -149,8 +148,10 @@ public final class RobotMain extends IterativeRobot {
 		RobotActuators.cameraLED.set(true);
 		
 		// Initialize AutonLogic
+		System.out.println("\tautonInit() :: creating new instance of AutonLogic()");
 		_autonLogic = new AutonLogic();
 		segueToLogicPhase(_autonLogic);
+		System.out.println("\tautonInit() :: end of autoninit");
     }
 
     /**
@@ -205,15 +206,17 @@ public final class RobotMain extends IterativeRobot {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
-		
 		// Smartdashboard get variables
 		RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
 		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
 		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
 		
+		
 		SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
 		SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
 		SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
+		
+		
 		
 		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
 		
@@ -226,6 +229,7 @@ public final class RobotMain extends IterativeRobot {
 			_currentLogicPhase.updatePhase();
 		}
 		
+		
 		// Compressor
 		if (RobotSensors.pressureSwitch.get()) {
 			RobotActuators.compressor.set(Relay.Value.kOff);
@@ -233,11 +237,11 @@ public final class RobotMain extends IterativeRobot {
 			RobotActuators.compressor.set(Relay.Value.kOn);
 		}
 		
-		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
-		if(RobotSensors.limitShooterB.get()){
-			RobotSensors.counterShooterAngle.reset();
-		}
 		
+		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
+		//if(RobotSensors.limitShooterB.get()){
+		//	RobotSensors.counterShooterAngle.reset();
+		//}
 		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
 		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
@@ -377,8 +381,10 @@ public final class RobotMain extends IterativeRobot {
 		}
 
 		// Initialize the Specified New Phase
+		System.out.println("\tSetting current logic phase and initializing...");
 		_currentLogicPhase = phase;
 		_currentLogicPhase.initPhase();
+		System.out.println("\tDone initializing.");
 
 		return true; // TODO:  Update segueToLogicPhase() return value as needed.
     }

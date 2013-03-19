@@ -39,10 +39,12 @@ public class AutonLogic extends LogicPhase {
 		int switchMode = ((RobotSensors.configB.get()?1:0)<<1) | ((RobotSensors.configC.get()?1:0));
 		int initialDelayMillis = (2 + switchMode) * 1000;
 		
-		println("Setting Auton Initial Delay to:  " + initialDelayMillis);
+		System.out.println("Setting Auton Initial Delay to:  " + initialDelayMillis);
 		
 		// Determine Task Array
 		_tasks = AutonType.Fancy.angledShootDiscs(4, initialDelayMillis);
+		
+		System.out.println("AutonLogic initPhase done creating tasks");
 
 		// Begin First Task
 		_currentIndex = 0;
@@ -99,14 +101,14 @@ public class AutonLogic extends LogicPhase {
      * @see LogicTask#initializeTask() 
      */
     public void setCurrentTask(LogicTask newTask){
-		println("AutonLogic :: setCurrentTask() : " + newTask.getClass().getName());
+		System.out.println("AutonLogic :: setCurrentTask() : " + newTask.getClass().getName());
 		// Finish Old Task
 		if(_currentTask != null){
 			int status = _currentTask.finishTask();
 			if(status == LogicTask.SUCCESS){
-				println("\tTask Finished Successfully.");
+				System.out.println("\tTask Finished Successfully.");
 			} else {
-				println("\tTask Failed.");
+				System.out.println("\tTask Failed.");
 			}
 		}
 		

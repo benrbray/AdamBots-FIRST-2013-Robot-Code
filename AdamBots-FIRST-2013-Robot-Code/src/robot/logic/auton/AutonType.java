@@ -188,22 +188,17 @@ public class AutonType {
 		 * @see Fancy#shootDiscs(int) 
 		 */
 		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
-			System.out.println("Creating new AutonType:  ShootDiscs()");
 			List tasks = new List();
 			
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
 			tasks.add(new TDelay(initialDelayMillis));
 		
-			System.out.println("\tFor loop...");
 			for(int i = 0; i < discs; i++){	// Shoot Sequences
 				tasks.add(new TFeedDisc(feedDelayMillis));
 				tasks.add(new TDelay(shotDelayMillis));
 			}
-			System.out.println("\tEnd for loop...");
 			
 			tasks.add(new TStopShooter());
-			
-			System.out.println("\tEnd autonType create.");
 			
 			return tasks;
 		}
@@ -252,24 +247,26 @@ public class AutonType {
 		 * @see Fancy#angledShootDiscs(int) 
 		 */
 		public static List angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
-			System.out.println("Creating new AutonType:  AngledShootDiscs()");
 			List tasks = new List();
 			
+			// Set Speed & Angle
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
 			tasks.add(new TSetShooterAngle(RobotSensors.configA.get()?MagicBox.PYRAMID_SIDE_SHOT_ANGLE:MagicBox.PYRAMID_MIDDLE_SHOT_ANGLE));
-			tasks.add(new TDelay(initialDelayMillis));
-			tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_IN_POSITION));
-		
-			System.out.println("\tFor loop...");
-			for(int i = 0; i < discs; i++){	// Shoot Sequences
+			
+			// Wait
+			tasks.add(new TDelay(initialDelayMillis)); 
+			
+			// Wait for Shooter with a 2s timeout
+			tasks.add(new TAwaitStatus(TAwaitStatus.SHOOTER_IN_POSITION, 2000));
+			
+			// Shoot X Times
+			for(int i = 0; i < discs; i++){
 				tasks.add(new TFeedDisc(feedDelayMillis));
 				tasks.add(new TDelay(shotDelayMillis));
 			}
-			System.out.println("\tend for loop.");
 			
+			// Stop the Shooter
 			tasks.add(new TStopShooter());
-			
-			System.out.println("\t end autonType create");
 			
 			return tasks;
 		}

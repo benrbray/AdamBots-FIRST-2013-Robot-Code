@@ -21,6 +21,9 @@ import robot.RobotObject;
 public class FancyMotor extends RobotObject implements SpeedController {
     //// CONSTANTS -------------------------------------------------------------
     
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = false;
+	
 	//// STATIC MOTOR CONTROL --------------------------------------------------
 	
 	public static Vector _fancyMotors;

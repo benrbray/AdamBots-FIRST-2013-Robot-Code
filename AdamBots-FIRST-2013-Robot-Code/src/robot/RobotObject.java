@@ -26,7 +26,7 @@ public abstract class RobotObject {
      * @see #verboseOutput
      */
     public static final void print(String s){
-		if(verboseOutput) { System.out.print(s); }
+		if(verboseOutput && RobotMain.ALLOW_OUTPUT) { System.out.print(s); }
     }
 	
     /**
@@ -36,6 +36,6 @@ public abstract class RobotObject {
      * @see #verboseOutput
      */
     public static final void println(String s){
-		if(verboseOutput) { System.out.println(s); }
+		if(verboseOutput && RobotMain.ALLOW_OUTPUT) { System.out.println(s); }
     }
 }

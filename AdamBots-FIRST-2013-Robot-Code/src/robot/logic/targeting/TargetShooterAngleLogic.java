@@ -11,15 +11,34 @@ import robot.RobotObject;
  * @author Nathan
  */
 public abstract class TargetShooterAngleLogic extends RobotObject {
+	//// PRINT FILTERING -------------------------------------------------------
+	
+	/** Hide RobotObject field to allow for proper print filtering. */
+	public static boolean verboseOutput = true;
+	
+	//// PRIVATE VARIABLES -----------------------------------------------------
+    
 	private static double _restAngle = 0;
 	private static boolean _isTargeting = false;
 	private static double _degreeOffset = 0;
 
+	//// INITIALIZATION --------------------------------------------------------
+	
 	/**
 	 * Initializes any class data needed.
 	 */
 	public static void init() {
 	}
+	
+	//// UPDATE ----------------------------------------------------------------
+	
+	/**
+	 * An update function to be called constantly.
+	 */
+	public static void update() {
+	}
+	
+	//// SETTER METHODS --------------------------------------------------------
 	
 	public static void setRestAngle(double angle)
 	{
@@ -39,13 +58,9 @@ public abstract class TargetShooterAngleLogic extends RobotObject {
 		_isTargeting = doTarget;
 	}
 	
+	//// GETTER METHODS --------------------------------------------------------
+	
 	public static boolean isTargeting() {
 		return _isTargeting;
-	}
-
-	/**
-	 * An update function to be called constantly.
-	 */
-	public static void update() {
 	}
 }

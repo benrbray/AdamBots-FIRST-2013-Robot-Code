@@ -154,9 +154,14 @@ public abstract class RobotShoot extends RobotBehavior {
 	 * Adjusts shooter angle if .startMovingToTarget() has been called or Magic Box Siwtch #7 is on.
 	 */
 	public static void update() {
-		SmartDashboard.putString("Shooter Angle Offset", (getShooterAngleDegrees() - _targetAngleDegrees)+"/"+SHOOTER_ANGLE_TOLERANCE );
-		SmartDashboard.putBoolean("Shooter In Position",isShooterInPosition());
+		if (!RobotMain.getInstance().isAutonomous())
+		{
+			SmartDashboard.putString("Shooter Angle Offset", (getShooterAngleDegrees() - _targetAngleDegrees)+"/"+SHOOTER_ANGLE_TOLERANCE );
+			SmartDashboard.putBoolean("Shooter In Position",isShooterInPosition());
+		}
+		SmartDashboard.putBoolean("DO TARGET", false);
 		if ( _moveToTarget || (!RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7)) ) {
+			SmartDashboard.putBoolean("DO TARGET", true);
 			if ( !RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7) ) {
 				_targetAngleDegrees = getIdealShooterAngle();
 			}

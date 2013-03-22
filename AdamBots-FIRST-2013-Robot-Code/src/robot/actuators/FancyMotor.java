@@ -192,12 +192,13 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
         boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
 		
-		if (_positiveLimit != null)
+		/*if (_positiveLimit != null)
 		System.out.println("Positive: " + _positiveLimit.get() + "\t limitPositive: " + limitPositive);
 		
 		if (_negativeLimit != null)
 		System.out.println("Negative: " + _negativeLimit.get() + "\t limitNegative: " + limitNegative);
-		
+		*/
+
 		// If the limits have been reached, stop the motor
         if ( (limitPositive || limitNegative) && _useLimits) {
 			this.set(0.0);

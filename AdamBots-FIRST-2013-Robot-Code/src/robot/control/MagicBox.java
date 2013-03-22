@@ -38,7 +38,7 @@ public class MagicBox {
 	public static final double SHOOTER_REST_SPEED = 3050;
 	
     public static final double PYRAMID_SHOT_SPEED = 3050;
-    public static final double PYRAMID_SIDE_SHOT_ANGLE = 23.0;
+    public static final double PYRAMID_SIDE_SHOT_ANGLE = 21.5;
     public static final double PYRAMID_MIDDLE_SHOT_ANGLE = 23.8;
     
     public static final double FULL_COURT_SHOT_SPEED = 3600;

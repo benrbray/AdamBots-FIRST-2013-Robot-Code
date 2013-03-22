@@ -32,7 +32,7 @@ public class MagicBox {
     
     public static final double SHOOTER_MULTIPLIER_INCREMENT	= .05;
     public static final double SHOOTER_MANUAL_SPEED_INCREMENT	= 25;
-    public static final double ANGLE_OFFSET_INCREMENT		= 2.5;
+    public static final double ANGLE_OFFSET_INCREMENT		= 0.5;
 	public static final double CHASSIS_OFFSET_INCREMENT		= 1;
     
 	public static final double SHOOTER_REST_SPEED = 3050;

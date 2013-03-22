@@ -124,6 +124,9 @@ public class FancyMotor extends RobotObject implements SpeedController {
     // Limit Switches
     private DigitalInput _positiveLimit = null;
     private DigitalInput _negativeLimit = null;
+	
+	// Booleans
+	private boolean _useLimits = true;
     
     //// CONSTRUCTOR -----------------------------------------------------------
     
@@ -153,6 +156,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
         _motor = motor;
         _positiveLimit = positiveLimit;
         _negativeLimit = negativeLimit;
+		_useLimits = true;
 		
 		// Push to Static List of FancyMotors
 		fancyMotors.addElement(this);
@@ -188,8 +192,14 @@ public class FancyMotor extends RobotObject implements SpeedController {
 		boolean limitPositive = (_positiveLimit == null) ? false : _positiveLimit.get();
         boolean limitNegative = (_negativeLimit == null) ? false : _negativeLimit.get();
 		
+		if (_positiveLimit != null)
+		System.out.println("Positive: " + _positiveLimit.get() + "\t limitPositive: " + limitPositive);
+		
+		if (_negativeLimit != null)
+		System.out.println("Negative: " + _negativeLimit.get() + "\t limitNegative: " + limitNegative);
+		
 		// If the limits have been reached, stop the motor
-        if (limitPositive || limitNegative) {
+        if ( (limitPositive || limitNegative) && _useLimits) {
 			this.set(0.0);
 			return true;
         } else {
@@ -219,6 +229,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 * @return TRUE if a limit was reached.
 	 */
 	private boolean enforceLimitsAndSet(double motorValue, byte syncGroup){
+		_useLimits = true;
 		checkLimitAvailability();
 		
 		// Get Limit Switch Values
@@ -244,6 +255,7 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	 */
 	public void setIgnoreLimit(double speed) {
 		_motor.set(speed);
+		_useLimits = false;
 	}
 	
 	/**

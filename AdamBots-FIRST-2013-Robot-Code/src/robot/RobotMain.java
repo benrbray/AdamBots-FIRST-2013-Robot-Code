@@ -219,6 +219,8 @@ public final class RobotMain extends IterativeRobot {
 		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
 		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
 		
+		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
+		
 		// Update the current LogicPhase
 		if(_currentLogicPhase != null){
 			_currentLogicPhase.updatePhase();

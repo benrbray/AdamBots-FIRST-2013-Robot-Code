@@ -208,7 +208,6 @@ public class TeleopLogic extends LogicPhase {
 			//RobotActuators.climbWinch2.set(0);
 		}
 
-		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
 		SmartDashboard.putNumber("winchVoltage2", RobotActuators.climbWinch.get());
 		SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());

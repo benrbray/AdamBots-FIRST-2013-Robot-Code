@@ -162,8 +162,8 @@ public abstract class RobotShoot extends RobotBehavior {
 		SmartDashboard.putBoolean("DO TARGET", false);
 		if ( _moveToTarget || (!RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7)) ) {
 			SmartDashboard.putBoolean("DO TARGET", true);
-			if ( !RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7) ) {
-				_targetAngleDegrees = getIdealShooterAngle();
+			if ( RobotMain.getInstance().isOperatorControl() && MagicBox.getDigitalIn(7) ) {
+				_targetAngleDegrees = getIdealShooterAngle() + MagicBox.getAngleOffset();
 			}
 			double target = Math.max(19, _targetAngleDegrees);
 			if ( isShooterInPosition() ) {

@@ -236,7 +236,16 @@ public class FancyMotor extends RobotObject implements SpeedController {
 	}
 	
     //// MOTOR ACCESS ----------------------------------------------------------
-    
+	
+	/**
+	 * DANGER Sets the motor speed directly. ABSOLUTLY NO interference from the LIMIT SWITCH LOGIC.
+	 * @param speed The speed at which to run the motor.
+	 * @see edu.wpi.first.wpilibj.SpeedController#set(double)
+	 */
+	public void setIgnoreLimit(double speed) {
+		_motor.set(speed);
+	}
+	
 	/**
 	 * Sets the value of the motor, assuming that no limits have been reached.
 	 * @param speed The speed at which to run the motor.

@@ -204,6 +204,32 @@ public final class RobotMain extends IterativeRobot {
     //// UPDATE ----------------------------------------------------------------
     
     public void update() {
+		
+		// Update the current LogicPhase
+		if(_currentLogicPhase != null){
+			_currentLogicPhase.updatePhase();
+		}
+		
+		// Compressor
+		if (RobotSensors.pressureSwitch.get()) {
+			RobotActuators.compressor.set(Relay.Value.kOff);
+		} else {
+			RobotActuators.compressor.set(Relay.Value.kOn);
+		}
+		
+		// Update Subsystems
+		TargetShooterSpeedLogic.update();
+		TargetShooterAngleLogic.update();
+		TargetSpinLogic.update();
+		RobotShoot.update();
+		RobotCamera.update();
+		RobotPickup.update();
+		RobotClimb.update();
+		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
+		
+		// Print to Dashboardp
+		SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
+		
 		// Smartdashboard get variables
 		RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
 		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
@@ -221,36 +247,11 @@ public final class RobotMain extends IterativeRobot {
 		
 		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
 		
-		// Update the current LogicPhase
-		if(_currentLogicPhase != null){
-			_currentLogicPhase.updatePhase();
-		}
-		
-		// Compressor
-		if (RobotSensors.pressureSwitch.get()) {
-			RobotActuators.compressor.set(Relay.Value.kOff);
-		} else {
-			RobotActuators.compressor.set(Relay.Value.kOn);
-		}
-		
 		// Reset Shooter Lift Encoder if it's at the Bottom of its Range
 		SmartDashboard.putBoolean("shooterAngleLimitB", RobotSensors.limitShooterB.get());
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
 		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
 		SmartDashboard.putNumber("stringPot.getVoltage", RobotSensors.stringPot.getVoltage());
-		
-		// Update Subsystems
-		TargetShooterSpeedLogic.update();
-		TargetShooterAngleLogic.update();
-		TargetSpinLogic.update();
-		RobotShoot.update();
-		RobotCamera.update();
-		RobotPickup.update();
-		RobotClimb.update();
-		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
-		
-		// Print to Dashboardp
-		SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
     }
 
     //// TEST ------------------------------------------------------------------

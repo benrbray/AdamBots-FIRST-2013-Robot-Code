@@ -130,7 +130,7 @@ public final class RobotMain extends IterativeRobot {
 		secondaryJoystick = new FancyJoystick(FancyJoystick.SECONDARY_DRIVER);
 
 		// Turn lights on
-		//RobotActuators.yellowLEDStrip.set(true);
+		//RobotActuators.ledGreenEffect.set(true);
     }
 
     //// AUTONOMOUS ------------------------------------------------------------
@@ -176,9 +176,9 @@ public final class RobotMain extends IterativeRobot {
 
 		// Manage LEDs
 		RobotActuators.cameraLED.set(true);
-		RobotActuators.greenLEDStrip.set(true);
-		RobotActuators.redLEDStrip.set(true);
-		RobotActuators.yellowLEDStrip.set(true);
+		RobotActuators.ledGroundEffect.set(true);
+		RobotActuators.ledArmEffect.set(true);
+		RobotActuators.ledGreenEffect.set(true);
 
 		// Destroy Autonomous if it Exists
 		if (_autonLogic != null) {
@@ -252,6 +252,22 @@ public final class RobotMain extends IterativeRobot {
 		SmartDashboard.putBoolean("Can Expand Winch", !RobotSensors.limitWinchA.getRaw());
 		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
 		SmartDashboard.putNumber("stringPot.getVoltage", RobotSensors.stringPot.getVoltage());
+		SmartDashboard.putBoolean("Shooter In Position", RobotShoot.isShooterInPosition());
+		
+		if (RobotShoot.isShooterInPosition())
+		{
+			long u = System.currentTimeMillis();
+			//RobotActuators.ledGreenEffect.set((u % 300) < 150);
+			//RobotActuators.ledArmEffect.set((u % 300) < 150);
+			//RobotActuators.ledGroundEffect.set((u % 300) < 150);
+		}
+		else
+		{
+			RobotActuators.ledGreenEffect.set(true);
+			RobotActuators.ledArmEffect.set(true);
+			RobotActuators.ledGroundEffect.set(true);
+		}
+		
     }
 
     //// TEST ------------------------------------------------------------------
@@ -281,8 +297,8 @@ public final class RobotMain extends IterativeRobot {
 
 		// Turn off LEDs
 		RobotActuators.cameraLED.set(false);
-		RobotActuators.greenLEDStrip.set(false);
-		RobotActuators.redLEDStrip.set(false);
+		RobotActuators.ledGroundEffect.set(false);
+		RobotActuators.ledArmEffect.set(false);
 		
 		//DataIO.writeLogFile();
     }

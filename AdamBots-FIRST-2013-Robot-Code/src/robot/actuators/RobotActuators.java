@@ -56,9 +56,9 @@ public class RobotActuators extends RobotObject {
 		public static final class Solenoid {
 			public static final int SHOOTER_PNEUMATIC_SOLENOID = 1;
 			public static final int CAMERA_LED = 2;
-			public static final int GREEN_LED_STRIP = 3;
-			public static final int RED_LED_STRIP = 4;
-			public static final int YELLOW_GROUND_FX_STRIP = 5;
+			public static final int LED_GROUND_EFFECT = 3;
+			public static final int LED_ARM_EFFECT = 4;
+			public static final int LED_GREEN = 5;
 		}
 	}
 	
@@ -109,11 +109,11 @@ public class RobotActuators extends RobotObject {
     /** Controls the led rings around the camera. */
     public static Solenoid cameraLED;
     /** Controls the green led strips on the robot. */
-    public static Solenoid greenLEDStrip;
+    public static Solenoid ledGroundEffect;
     /** Controls the red led strips on the robot */
-    public static Solenoid redLEDStrip;
+    public static Solenoid ledArmEffect;
     /** Controls the yellow underglow lights. */
-    public static Solenoid yellowLEDStrip;
+    public static Solenoid ledGreenEffect;
     
     //// INITIALIZATION --------------------------------------------------------
     
@@ -144,9 +144,9 @@ public class RobotActuators extends RobotObject {
 		
 		shooterFeederSolenoid = new Solenoid(CompetitionBot.Solenoid.SHOOTER_PNEUMATIC_SOLENOID);
 		cameraLED = new Solenoid(CompetitionBot.Solenoid.CAMERA_LED);
-		greenLEDStrip = new Solenoid(CompetitionBot.Solenoid.GREEN_LED_STRIP);
-		redLEDStrip = new Solenoid(CompetitionBot.Solenoid.RED_LED_STRIP);
-		yellowLEDStrip = new Solenoid(CompetitionBot.Solenoid.YELLOW_GROUND_FX_STRIP);
+		ledGroundEffect = new Solenoid(CompetitionBot.Solenoid.LED_GROUND_EFFECT);
+		ledArmEffect = new Solenoid(CompetitionBot.Solenoid.LED_ARM_EFFECT);
+		ledGreenEffect = new Solenoid(CompetitionBot.Solenoid.LED_GREEN);
 
 		println("RobotActuators.init() finished");
     }
@@ -180,9 +180,9 @@ public class RobotActuators extends RobotObject {
     /** Disables all LEDs on the robot. */
     public static void killAllLEDs() {
 		cameraLED.set(false);
-		greenLEDStrip.set(false);
-		redLEDStrip.set(false);
-		yellowLEDStrip.set(false);
+		ledGroundEffect.set(false);
+		ledArmEffect.set(false);
+		ledGreenEffect.set(false);
     }
     
 }

@@ -74,9 +74,9 @@ public abstract class RobotShoot extends RobotBehavior {
 	 */
 	public static double getIdealShooterAngle() {
 		double x = RobotCamera.getTargetLocationUnits();
-		double a = .0002195378;//Constants determined from quadratic best fit.
-		double b = -0.1315442966;
-		double c = 37.98049416;
+		double a = 0.0;//Constants determined from quadratic best fit.
+		double b = -0.0834654;
+		double c = 34.7007;
 		return a * x * x + b * x + c;
 	}
 
@@ -170,7 +170,12 @@ public abstract class RobotShoot extends RobotBehavior {
 				RobotActuators.shooterAngleMotor.set(0);
 			}
 			else {
-				RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 10.0);
+				if (Math.abs(_targetAngleDegrees - getShooterAngleDegrees()) < SHOOTER_ANGLE_TOLERANCE * 5) {
+					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 2);
+				}
+				else {
+					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 1.5);
+				}
 			}
 		}
 	}

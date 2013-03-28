@@ -11,6 +11,7 @@ import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
 import robot.logic.targeting.TargetShooterAngleLogic;
+import robot.logic.tasks.TDriveMillis;
 import robot.sensors.RobotSensors;
 
 /**
@@ -48,6 +49,7 @@ public class AutonLogic extends LogicPhase {
 		
 		// Determine Task Array
 		_tasks = AutonType.Fancy.angledShootDiscs(4, initialDelayMillis);
+		_tasks.add(new TDriveMillis(500, 0.4, 0.4));
 
 		// Begin First Task
 		_currentIndex = 0;

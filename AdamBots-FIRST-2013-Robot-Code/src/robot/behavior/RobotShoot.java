@@ -28,7 +28,7 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static double SHOOTER_MIN_INPUT = 0;
 	public static double SHOOTER_MAX_OUTPUT = 1.0;
 	public static double SHOOTER_MIN_OUTPUT = 0.15;
-	public static double SHOOTER_ADJUST_SLOW_MULTIPLIER = .67;
+	public static double SHOOTER_ADJUST_SLOW_MULTIPLIER = .50;
 	public static double SHOOTER_ADJUST_FAST_MULTIPLIER = .80;
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.

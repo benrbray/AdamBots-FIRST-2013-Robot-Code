@@ -208,9 +208,9 @@ public class TeleopLogic extends LogicPhase {
 			//RobotActuators.climbWinch2.set(0);
 		}
 
-		SmartDashboard.putNumber("winchVoltage2", RobotActuators.climbWinch.get());
-		SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
-		SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
+		//SmartDashboard.putNumber("winchVoltage2", RobotActuators.climbWinch.get());
+		//SmartDashboard.putNumber("primaryJoyRightYAxis", _primaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
+		//SmartDashboard.putNumber("winchEncoder", RobotSensors.encoderWinch.get());
 
 		//// SECONDARY DRIVER --------------------------------------------------
 		
@@ -297,7 +297,7 @@ public class TeleopLogic extends LogicPhase {
 		}
 		
 		SmartDashboard.putNumber("shooterRPM", RobotSensors.counterShooterSpeed.pidGet());
-		SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.counterShooterAngle.get());
+		//SmartDashboard.putNumber("shooterAngleEncoder", RobotSensors.counterShooterAngle.get());
 		
 		// Drive elevator
 		//TODO: Re implement disc pickup
@@ -321,7 +321,7 @@ public class TeleopLogic extends LogicPhase {
 			_numShotsReleased = true;
 		}
 
-		SmartDashboard.putNumber("numShots", _numShots);
+		//SmartDashboard.putNumber("numShots", _numShots);
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
 			_secondaryBCount++;

@@ -28,6 +28,8 @@ public abstract class RobotShoot extends RobotBehavior {
 	public static double SHOOTER_MIN_INPUT = 0;
 	public static double SHOOTER_MAX_OUTPUT = 1.0;
 	public static double SHOOTER_MIN_OUTPUT = 0.15;
+	public static double SHOOTER_ADJUST_SLOW_MULTIPLIER = .50;
+	public static double SHOOTER_ADJUST_FAST_MULTIPLIER = .75;
 	/**
 	 * The degrees of tolerance permitted in setting the target angle.
 	 */
@@ -171,10 +173,10 @@ public abstract class RobotShoot extends RobotBehavior {
 			}
 			else {
 				if (Math.abs(_targetAngleDegrees - getShooterAngleDegrees()) < SHOOTER_ANGLE_TOLERANCE * 5) {
-					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 2);
+					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) * SHOOTER_ADJUST_SLOW_MULTIPLIER);
 				}
 				else {
-					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) / 1.5);
+					RobotActuators.shooterAngleMotor.set(-utils.MathUtils.sign(target - getShooterAngleDegrees()) * SHOOTER_ADJUST_FAST_MULTIPLIER);
 				}
 			}
 		}

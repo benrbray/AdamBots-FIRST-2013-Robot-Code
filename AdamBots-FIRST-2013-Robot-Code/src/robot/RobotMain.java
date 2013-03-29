@@ -231,19 +231,19 @@ public final class RobotMain extends IterativeRobot {
 		SmartDashboard.putNumber("Target Place", RobotCamera.getTargetLocationUnits());
 		
 		// Smartdashboard get variables
-		RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
-		RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
-		RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
+		//RobotShoot.SHOOTER_KP = SmartDashboard.getNumber("shooterPidKP", 0.0001);
+		//RobotShoot.SHOOTER_KI = SmartDashboard.getNumber("shooterPidKI", 0.0010);
+		//RobotShoot.SHOOTER_KD = SmartDashboard.getNumber("shooterPidKD", 0.0000);
 		
-		SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
-		SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
-		SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
+		//SmartDashboard.putNumber("currentShooterPidKP", RobotShoot.SHOOTER_KP);
+		//SmartDashboard.putNumber("currentShooterPidKI", RobotShoot.SHOOTER_KI);
+		//SmartDashboard.putNumber("currentShooterPidKD", RobotShoot.SHOOTER_KD);
 		
 		SmartDashboard.putNumber("shooterWheelVoltage", RobotActuators.shooterWheelMotor.get());
 		
-		SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
-		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
-		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
+		//SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
+		//SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
+		//SmartDashboard.putBoolean("configC", RobotSensors.configC.get());
 		
 		SmartDashboard.putNumber("winchVoltage", RobotActuators.climbWinch.get());
 		
@@ -253,6 +253,11 @@ public final class RobotMain extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter Angle", RobotShoot.getShooterAngleDegrees());
 		SmartDashboard.putNumber("stringPot.getVoltage", RobotSensors.stringPot.getVoltage());
 		SmartDashboard.putBoolean("Shooter In Position", RobotShoot.isShooterInPosition());
+		
+		if (RobotCamera._greenTarget != null) {
+			SmartDashboard.putNumber("Target x", RobotCamera._greenTarget.x + RobotCamera._greenTarget.w / 2);
+			SmartDashboard.putNumber("Target y", RobotCamera._greenTarget.y + RobotCamera._greenTarget.h / 2);
+		}
 		
 		if (RobotShoot.isShooterInPosition())
 		{

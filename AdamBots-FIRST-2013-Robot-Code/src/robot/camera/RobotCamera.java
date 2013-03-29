@@ -49,7 +49,7 @@ public abstract class RobotCamera extends RobotObject {
 	/** The current captured imaged. */
 	private static ColorImage _srcImage = null;
 	/** The current identified green target. */
-	private static Target _greenTarget;
+	public static Target _greenTarget;
 	/** Distance in FEET to target based on most recent exposure. */
 	private static double _recentDistanceInches = 0;
 	/** In DEGREES, direction (negative left?) toward target based on most recent exposure. */
@@ -208,7 +208,7 @@ public abstract class RobotCamera extends RobotObject {
 				_srcImage.write("/Swapped.png");
 			}
 			_firstImageCapture = false;
-			thresholdImage = _srcImage.thresholdRGB(107, 133, 97, 256, 178, 256);
+			thresholdImage = _srcImage.thresholdRGB(98, 138, 254, 300, 242, 300);
 			
 			result = thresholdImage.removeSmallObjects(true,1);
 

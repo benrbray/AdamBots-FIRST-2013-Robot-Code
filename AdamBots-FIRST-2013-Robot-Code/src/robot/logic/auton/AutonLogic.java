@@ -49,7 +49,7 @@ public class AutonLogic extends LogicPhase {
 		println("\tSetting Auton Initial Delay to:  " + initialDelayMillis);
 		
 		// Determine Task Array
-		_tasks = AutonType.Fancy.angledShootDiscs(4, initialDelayMillis);
+		_tasks = AutonType.Fancy.shootDiscs(4, initialDelayMillis);
 		_tasks.add(new TShiftGear(TShiftGear.HIGH_GEAR));
 		_tasks.add(new TDriveMillis(1000, 0.7, 0.7));
 

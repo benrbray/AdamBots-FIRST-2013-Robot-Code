@@ -4,16 +4,15 @@
  */
 package robot.logic.auton;
 
-import edu.wpi.first.wpilibj.networktables2.util.List;
-import java.util.Vector;
+
+
 import robot.RobotMain;
-import robot.control.FancyJoystick;
 import robot.logic.LogicPhase;
 import robot.logic.LogicTask;
-import robot.logic.targeting.TargetShooterAngleLogic;
 import robot.logic.tasks.TDriveMillis;
 import robot.logic.tasks.TShiftGear;
 import robot.sensors.RobotSensors;
+import utils.Listy;
 
 /**
  * Performs logic during the autonomous period of gameplay. LEFT(23.1deg, 23.8)
@@ -22,7 +21,7 @@ import robot.sensors.RobotSensors;
 public class AutonLogic extends LogicPhase {
     //// TASK LIST -------------------------------------------------------------
     
-    private List _tasks;
+    private Listy _tasks;
     private int _currentIndex = 0;
     private LogicTask _currentTask;
     

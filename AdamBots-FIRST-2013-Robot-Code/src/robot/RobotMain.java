@@ -293,7 +293,7 @@ public final class RobotMain extends IterativeRobot {
      */
     public void disabledInit() {
 		System.out.println("RobotMain :: disabledInit()");
-		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
+                RobotDrive.shiftNeutral();
 
 		// Turn off LEDs
 		RobotActuators.cameraLED.set(false);
@@ -307,8 +307,7 @@ public final class RobotMain extends IterativeRobot {
      * Periodic code for disabled mode should go here.
      */
     public void disabledPeriodic() {
-		RobotDrive.switchGear(RobotDrive.SHIFTER_NEUTRAL);
-		
+        RobotDrive.shiftNeutral();
 		SmartDashboard.putBoolean("configA", RobotSensors.configA.get());
 		SmartDashboard.putBoolean("configB", RobotSensors.configB.get());
 		SmartDashboard.putBoolean("configC", RobotSensors.configC.get());

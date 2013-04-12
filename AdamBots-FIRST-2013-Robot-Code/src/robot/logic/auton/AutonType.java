@@ -4,16 +4,16 @@
  */
 package robot.logic.auton;
 
-import edu.wpi.first.wpilibj.networktables2.util.List;
+//import edu.wpi.first.wpilibj.networktables2.util.List;
 import robot.control.MagicBox;
 import robot.logic.tasks.TAwaitStatus;
 import robot.logic.tasks.TDelay;
-import robot.logic.tasks.TDriveDistance;
 import robot.logic.tasks.TFeedDisc;
 import robot.logic.tasks.TSetShooterAngle;
 import robot.logic.tasks.TSetShooterSpeed;
 import robot.logic.tasks.TStopShooter;
 import robot.sensors.RobotSensors;
+import utils.Listy;
 
 /**
  *
@@ -50,7 +50,7 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_THREE_SHOTS = AutonType.Fancy.shootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		public static final Listy SIMPLE_THREE_SHOTS = AutonType.Fancy.shootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 		
 		//// SHOOT 4 DISCS -------------------------------------------------
 		
@@ -74,7 +74,7 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_FOUR_SHOTS = AutonType.Fancy.shootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		public static final Listy SIMPLE_FOUR_SHOTS = AutonType.Fancy.shootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 		
 		//// SHOOT 3 DISCS -------------------------------------------------
 		
@@ -98,7 +98,7 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_ANGLED_THREE_SHOTS = AutonType.Fancy.angledShootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		public static final Listy SIMPLE_ANGLED_THREE_SHOTS = AutonType.Fancy.angledShootDiscs(3, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 		
 		//// SHOOT 4 DISCS -------------------------------------------------
 		
@@ -120,7 +120,7 @@ public class AutonType {
 		 * 
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static final List SIMPLE_ANGLED_FOUR_SHOTS = AutonType.Fancy.angledShootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
+		public static final Listy SIMPLE_ANGLED_FOUR_SHOTS = AutonType.Fancy.angledShootDiscs(4, AutonType.Fancy.DEFAULT_INITIAL_DELAY_MILLIS);
 	}
 	
 	//// DYNAMIC AUTONOMOUS TYPES ----------------------------------------------
@@ -144,15 +144,15 @@ public class AutonType {
 		
 		//// FANCY SHOOT DISCS -------------------------------------------------
 		
-		public static List shootDiscs(int discs){
+		public static Listy shootDiscs(int discs){
 			return shootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, 0);
 		}
 		
-		public static List shootDiscs(int discs, int initialDelayMillis){
+		public static Listy shootDiscs(int discs, int initialDelayMillis){
 			return shootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, initialDelayMillis);
 		}
 		
-		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
+		public static Listy shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
 			return shootDiscs(discs, feedDelayMillis, shotDelayMillis, 0);
 		}
 		
@@ -183,8 +183,8 @@ public class AutonType {
 		 * @see robot.logic.LogicTask
 		 * @see Fancy#shootDiscs(int) 
 		 */
-		public static List shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
-			List tasks = new List();
+		public static Listy shootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
+			Listy tasks = new Listy();
 			
 			// Set Shooter Speed
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
@@ -206,15 +206,15 @@ public class AutonType {
 		
 		//// ANGLED SHOOT DISCS ------------------------------------------------
 		
-		public static List angledShootDiscs(int discs){
+		public static Listy angledShootDiscs(int discs){
 			return angledShootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, 0);
 		}
 		
-		public static List angledShootDiscs(int discs, int initialDelayMillis){
+		public static Listy angledShootDiscs(int discs, int initialDelayMillis){
 			return angledShootDiscs(discs, DEFAULT_FEED_DELAY_MILLIS, DEFAULT_SHOT_DELAY_MILLIS, initialDelayMillis);
 		}
 		
-		public static List angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
+		public static Listy angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis){
 			return angledShootDiscs(discs, feedDelayMillis, shotDelayMillis, 0);
 		}
 		
@@ -247,8 +247,8 @@ public class AutonType {
 		 * @see robot.logic.LogicTask
 		 * @see Fancy#angledShootDiscs(int) 
 		 */
-		public static List angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
-			List tasks = new List();
+		public static Listy angledShootDiscs(int discs, int feedDelayMillis, int shotDelayMillis, int initialDelayMillis){
+			Listy tasks = new Listy();
 			
 			// Set Speed & Angle
 			tasks.add(new TSetShooterSpeed(MagicBox.PYRAMID_SHOT_SPEED));
@@ -268,14 +268,13 @@ public class AutonType {
 			
 			// Stop the Shooter
 			tasks.add(new TStopShooter());
-			
 			return tasks;
 		}
 		
 		//// DRIVE STRAIGHT ----------------------------------------------------
 		
-		public static List driveStraight(double distanceInches){
-			List tasks = new List();
+		public static Listy driveStraight(double distanceInches){
+			Listy tasks = new Listy();
 			
 			//tasks.add(new TDriveDistance2(distanceInches, true));
 			

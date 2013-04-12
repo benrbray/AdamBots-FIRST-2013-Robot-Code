@@ -105,7 +105,7 @@ public class TeleopLogic extends LogicPhase {
 		_winchEnabled = false;
 		_winchEnabledToggleReleased = false;
 		
-                RobotDrive.switchGearHigh();
+                RobotDrive.shiftHigh();
 
 		println("Completed.");
     }
@@ -144,10 +144,10 @@ public class TeleopLogic extends LogicPhase {
 		if (_primaryButtons[FancyJoystick.BUTTON_LB]) {
 			if (_primaryButtons[FancyJoystick.BUTTON_A]) {
 				_highGear = false;
-                                RobotDrive.switchGearLow();
+                                RobotDrive.shiftLow();
 			} else if (_primaryButtons[FancyJoystick.BUTTON_Y]) {
 				_highGear = true;
-                                RobotDrive.switchGearHigh();
+                                RobotDrive.shiftHigh();
 			}
 		}
 

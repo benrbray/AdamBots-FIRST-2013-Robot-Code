@@ -181,8 +181,8 @@ public class TeleopLogic extends LogicPhase {
 			//Positive pulls winch in
 			//Negative lets winch out
 			
-			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y] * MagicBox.getClimbWinchMultiplier();
-			SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
+			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]; // * MagicBox.getClimbWinchMultiplier();
+			//SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
 			
 			if (_setWinch < 0) {
 		//// DANGER DANGER DANGER DANGER DANGER SET IGNORE LIMIT IS DANGEROUS, ROBOT DESTRUCTION CAN RESULT
@@ -224,6 +224,10 @@ public class TeleopLogic extends LogicPhase {
 		
 		_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
+		if (_shooterAngleChangerDrive == 0) {
+			_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS] / 6;
+		}
+		
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.
 /*		if (_secondaryButtons[FancyJoystick.BUTTON_RB]) {
 

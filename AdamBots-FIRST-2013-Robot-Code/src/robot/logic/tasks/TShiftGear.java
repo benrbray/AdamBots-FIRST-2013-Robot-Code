@@ -19,22 +19,23 @@ public class TShiftGear extends LogicTask {
 	
 	//// PRIVATE VARIABLES -----------------------------------------------------
 	
-	private double _servoValue;
+        private boolean whichGear;
 	
 	//// CONSTRUCTOR -----------------------------------------------------------
 	
 	public TShiftGear(boolean high){
-		this(high?RobotDrive.SHIFTER_HIGH:RobotDrive.SHIFTER_LOW);
+            whichGear = high;
 	}
 	
-	public TShiftGear(double servoValue){
-		_servoValue = servoValue;
-	}
 	
 	//// INITIALIZE ------------------------------------------------------------
 	
 	protected void initialize() {
-		RobotDrive.switchGear(_servoValue);
+            if (whichGear) {
+                RobotDrive.shiftHigh();
+            } else {
+                RobotDrive.shiftLow();
+            }
 	}
 
 	//// UPDATE ----------------------------------------------------------------

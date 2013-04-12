@@ -4,7 +4,6 @@
  */
 package robot.behavior;
 
-import edu.wpi.first.wpilibj.*;
 import robot.actuators.RobotActuators;
 import robot.sensors.RobotSensors;
 import utils.MathUtils;
@@ -18,12 +17,15 @@ public abstract class RobotDrive extends RobotBehavior {
 
 	// Shifter Value Constants
 	/** Low Gear */
-	public static final double SHIFTER_LOW = 0.8;
+	public static final double SHIFTER_LOW_LEFT = 0.8;
 	/** High Gear */
-	public static final double SHIFTER_HIGH = 0.3;
+	public static final double SHIFTER_HIGH_LEFT = 0.3;
 	/** Neutral */
 	public static final double SHIFTER_NEUTRAL = 0.65;
-	
+        /** Low for right only */
+        public static final double SHIFTER_LOW_RIGHT = 0.9;
+	/** High for right only */
+        public static final double SHIFTER_HIGH_RIGHT = 0.2;
 	// Tolerance Constants
 	/** Encoder Tolerance (in inches) */
 	public static double ENCODER_TOLERANCE = 0.5;
@@ -323,8 +325,22 @@ public abstract class RobotDrive extends RobotBehavior {
 	 * Switches gear.
 	 * @param servoPosition used to set transmissionLeft position
 	 */
-	public static void switchGear( double servoPosition ) {
+	public static void shift( double servoPosition ) {
 		RobotActuators.transmissionLeft.set(servoPosition);
 		RobotActuators.transmissionRight.set(servoPosition);
 	}
+        
+        public static void shiftNeutral() {
+            RobotActuators.transmissionLeft.set(SHIFTER_NEUTRAL);
+            RobotActuators.transmissionRight.set(SHIFTER_NEUTRAL);
+        }
+        
+        public static void shiftHigh() {
+            RobotActuators.transmissionLeft.set(SHIFTER_HIGH_LEFT);
+            RobotActuators.transmissionRight.set(SHIFTER_HIGH_RIGHT);
+        }
+        public static void shiftLow() {
+            RobotActuators.transmissionLeft.set(SHIFTER_LOW_LEFT);
+            RobotActuators.transmissionRight.set(SHIFTER_LOW_RIGHT);
+        }
 }

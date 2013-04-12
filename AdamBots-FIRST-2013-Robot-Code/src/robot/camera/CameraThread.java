@@ -4,6 +4,9 @@
  */
 package robot.camera;
 
+import robot.RobotMain;
+import robot.control.MagicBox;
+
 
 
 /**
@@ -16,8 +19,9 @@ public class CameraThread implements Runnable
 	{
 		while (true)
 		{
-			RobotCamera.work();
-			
+			if (!RobotMain.getInstance().isAutonomous() && MagicBox.getDigitalIn(7)) {
+				RobotCamera.work();
+			}
 			try {
 				Thread.sleep(20);
 			} catch (Exception e) {

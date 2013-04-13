@@ -225,7 +225,7 @@ public class TeleopLogic extends LogicPhase {
 		_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_LEFT_Y];
 
 		if (_shooterAngleChangerDrive == 0) {
-			_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS] / 6;
+			_shooterAngleChangerDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS] / 5;
 		}
 		
 		// If the secondary driver requests auto targeting...Else keep speed at a constant.

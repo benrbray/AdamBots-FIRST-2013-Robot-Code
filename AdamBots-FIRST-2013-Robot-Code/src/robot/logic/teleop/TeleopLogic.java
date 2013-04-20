@@ -144,6 +144,13 @@ public class TeleopLogic extends LogicPhase {
                                 RobotDrive.shiftHigh();
 			}
 		}
+		
+		// Kickstand control
+		if (_primaryButtons[FancyJoystick.BUTTON_B]) {
+			RobotActuators.kickstandSolenoid.set(true);
+		} else {
+			RobotActuators.kickstandSolenoid.set(true);
+		}
 
 		//SmartDashboard.putBoolean("highGear", _highGear);
 

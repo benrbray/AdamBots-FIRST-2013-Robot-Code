@@ -147,19 +147,6 @@ public class TeleopLogic extends LogicPhase {
 
 		//SmartDashboard.putBoolean("highGear", _highGear);
 
-		// Infeed roller for pickup mechanism
-		//TODO: Enable infeed roller logic
-		/*if (_primaryButtons[FancyJoystick.BUTTON_X]) {
-			RobotPickup.intakeRoller(Relay.Value.kForward);
-			SmartDashboard.putString("intakeRoller", "forward");
-		} else if (_primaryButtons[FancyJoystick.BUTTON_B]) {
-			RobotPickup.intakeRoller(Relay.Value.kReverse);
-			SmartDashboard.putString("intakeRoller", "reverse");
-		} else {
-			RobotPickup.intakeRoller(Relay.Value.kOff);
-			SmartDashboard.putString("intakeRoller", "off");
-		}*/
-
 		// Winch Safety
 		if (_primaryButtons[FancyJoystick.BUTTON_START] && _primaryButtons[FancyJoystick.BUTTON_BACK] && _winchEnabledToggleReleased) {
 			_winchEnabled = !_winchEnabled;

@@ -16,7 +16,6 @@ import robot.actuators.FancyMotor;
 import robot.actuators.RobotActuators;
 import robot.behavior.RobotClimb;
 import robot.behavior.RobotDrive;
-import robot.behavior.RobotPickup;
 import robot.behavior.RobotShoot;
 import robot.camera.RobotCamera;
 import robot.control.FancyJoystick;
@@ -103,7 +102,6 @@ public final class RobotMain extends IterativeRobot {
 		// Initialize Static Behavior Classes
 		RobotDrive.init();
 		RobotShoot.init();
-		RobotPickup.init();
 
 		//Initialize Static Logic Classes
 		TargetShooterAngleLogic.init();
@@ -113,7 +111,6 @@ public final class RobotMain extends IterativeRobot {
 		// Output Filtering
 		RobotClimb.verboseOutput = VERBOSE_ROBOTCLIMB;
 		RobotDrive.verboseOutput = VERBOSE_ROBOTDRIVE;
-		RobotPickup.verboseOutput = VERBOSE_ROBOTPICKUP;
 		RobotShoot.verboseOutput = VERBOSE_ROBOTSHOOT;
 		RobotCamera.verboseOutput = VERBOSE_ROBOTCAMERA;
 		TargetShooterAngleLogic.verboseOutput = VERBOSE_TARGETLOGIC;
@@ -223,7 +220,6 @@ public final class RobotMain extends IterativeRobot {
 		TargetSpinLogic.update();
 		RobotShoot.update();
 		RobotCamera.update();
-		RobotPickup.update();
 		RobotClimb.update();
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		

@@ -51,7 +51,6 @@ public class TeleopLogic extends LogicPhase {
     // Secondary drive
     private double _shooterAngleChangerDrive;
     private double _elevatorDrive;
-	private double _secondaryBCount;
     private int _numShots;
     private boolean _numShotsReleased;
 	private boolean _shooterEnabled;
@@ -96,7 +95,6 @@ public class TeleopLogic extends LogicPhase {
 		_shooterAngleChangerDrive = 0;
 		_elevatorDrive = 0;
 		_numShots = 0;
-		_secondaryBCount = 0;
 		_numShotsReleased = true;
 		_shooterEnabled = true;
 		_shooterEnabledToggleReleased = false;
@@ -105,7 +103,7 @@ public class TeleopLogic extends LogicPhase {
 		_winchEnabled = false;
 		_winchEnabledToggleReleased = false;
 		
-                RobotDrive.shiftHigh();
+		RobotDrive.shiftHigh();
 
 		println("Completed.");
     }
@@ -328,12 +326,9 @@ public class TeleopLogic extends LogicPhase {
 		SmartDashboard.putNumber("numShots", _numShots);
 		
 		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
-			_secondaryBCount++;
-			if (_secondaryBCount > 15 ) {
-				RobotSensors.counterShooterAngle.reset();
-			}
+
 		} else {
-			_secondaryBCount = 0;
+			
 		}
 		
 		// TODO: Remove this to disable pid updates from smartdashboard

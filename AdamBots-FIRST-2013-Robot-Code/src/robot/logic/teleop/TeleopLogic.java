@@ -149,7 +149,7 @@ public class TeleopLogic extends LogicPhase {
 		if (_primaryButtons[FancyJoystick.BUTTON_B]) {
 			RobotActuators.kickstandSolenoid.set(true);
 		} else {
-			RobotActuators.kickstandSolenoid.set(true);
+			RobotActuators.kickstandSolenoid.set(false);
 		}
 
 		//SmartDashboard.putBoolean("highGear", _highGear);

@@ -36,8 +36,8 @@ public class RobotActuators extends RobotObject {
 			public static final int RIGHT_DRIVE_VICTOR = 2;
 			public static final int SHOOTER_VICTOR = 3;
 			public static final int SHOOTER_ANGLE_TALON = 4;
-			public static final int ELEVATOR_TALON = 5;
-			public static final int WINCH_TALON = 6;
+			public static final int DISC_INTAKE_TALON = 5;
+			public static final int CLIMB_WINCH_TALON = 6;
 			public static final int LEFT_SHIFTER_SERVO = 7;
 			public static final int RIGHT_SHIFTER_SERVO = 8;
 			
@@ -47,7 +47,7 @@ public class RobotActuators extends RobotObject {
 		
 		/** Digital Relay Constants. */
 		public static final class DigitalRelay1 {
-			public static final int INTAKE_MOTOR = 1;
+			public static final int UNUSED = 1;
 			public static final int COMPRESSOR = 2;
 			public static final int WINCH_SOLENOID = 3;
 		}
@@ -84,11 +84,9 @@ public class RobotActuators extends RobotObject {
     public static Relay climbWinchSolenoid;
     
     //// DISC ACQUISITION ------------------------------------------------------
-    
-    /** Disc pickup elevator winch. */
-    public static Talon discElevator;
-    /** Spike to control the intake roller. */
-    public static Relay discIntake;
+
+	/** Intake roller on hopper. */
+	public static Talon discIntakeRoller;
     
     //// SHOOTER ---------------------------------------------------------------
     
@@ -129,14 +127,13 @@ public class RobotActuators extends RobotObject {
 		driveRight			= new Victor(CompetitionBot.DigitalOut1.RIGHT_DRIVE_VICTOR);
 		shooterWheelMotor   = new Victor(CompetitionBot.DigitalOut1.SHOOTER_VICTOR);
 		shooterAngleMotor   = FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.SHOOTER_ANGLE_TALON);
-		discElevator	    = new Talon(CompetitionBot.DigitalOut1.ELEVATOR_TALON);
-		climbWinch			= FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.WINCH_TALON);
+		discIntakeRoller    = new Talon(CompetitionBot.DigitalOut1.DISC_INTAKE_TALON);
+		climbWinch			= FancyMotor.createFancyTalon(CompetitionBot.DigitalOut1.CLIMB_WINCH_TALON);
 		transmissionLeft    = new Servo(CompetitionBot.DigitalOut1.LEFT_SHIFTER_SERVO);
 		transmissionRight   = new Servo(CompetitionBot.DigitalOut1.RIGHT_SHIFTER_SERVO);
 		
 		//// DIGITAL RELAY 1 ---------------------------------------------------
 		
-		discIntake			= new Relay(CompetitionBot.DigitalRelay1.INTAKE_MOTOR);
 		compressor			= new Relay(CompetitionBot.DigitalRelay1.COMPRESSOR);
 		climbWinchSolenoid	= new Relay(CompetitionBot.DigitalRelay1.WINCH_SOLENOID);
 
@@ -164,7 +161,6 @@ public class RobotActuators extends RobotObject {
 		climbWinch.setPositiveLimit(RobotSensors.limitWinchA);
 		
 		// Relays
-		discIntake.setDirection(Relay.Direction.kBoth);
 		compressor.setDirection(Relay.Direction.kForward);
 		climbWinchSolenoid.setDirection(Relay.Direction.kForward);
 

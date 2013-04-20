@@ -58,7 +58,7 @@ public class RobotActuators extends RobotObject {
 			public static final int CAMERA_LED = 2;
 			public static final int LED_GROUND_EFFECT = 3;
 			public static final int LED_ARM_EFFECT = 4;
-			public static final int LED_GREEN = 5;
+			public static final int KICKSTAND = 5;
 		}
 	}
 	
@@ -75,6 +75,9 @@ public class RobotActuators extends RobotObject {
     public static Servo transmissionLeft;
     /** Right transmission Servo. */
     public static Servo transmissionRight;
+	
+	/** Controls the kickstand. */
+    public static Solenoid kickstandSolenoid;
     
     //// CLIMBING --------------------------------------------------------------
     
@@ -110,8 +113,6 @@ public class RobotActuators extends RobotObject {
     public static Solenoid ledGroundEffect;
     /** Controls the red led strips on the robot */
     public static Solenoid ledArmEffect;
-    /** Controls the yellow underglow lights. */
-    public static Solenoid ledGreenEffect;
     
     //// INITIALIZATION --------------------------------------------------------
     
@@ -143,7 +144,7 @@ public class RobotActuators extends RobotObject {
 		cameraLED = new Solenoid(CompetitionBot.Solenoid.CAMERA_LED);
 		ledGroundEffect = new Solenoid(CompetitionBot.Solenoid.LED_GROUND_EFFECT);
 		ledArmEffect = new Solenoid(CompetitionBot.Solenoid.LED_ARM_EFFECT);
-		ledGreenEffect = new Solenoid(CompetitionBot.Solenoid.LED_GREEN);
+		kickstandSolenoid = new Solenoid(CompetitionBot.Solenoid.KICKSTAND);
 
 		println("RobotActuators.init() finished");
     }
@@ -166,6 +167,7 @@ public class RobotActuators extends RobotObject {
 
 		// Solenoids
 		shooterFeederSolenoid.set(false);
+		kickstandSolenoid.set(false);
 		
 		// Turn off LEDs
 		killAllLEDs();
@@ -178,7 +180,6 @@ public class RobotActuators extends RobotObject {
 		cameraLED.set(false);
 		ledGroundEffect.set(false);
 		ledArmEffect.set(false);
-		ledGreenEffect.set(false);
     }
     
 }

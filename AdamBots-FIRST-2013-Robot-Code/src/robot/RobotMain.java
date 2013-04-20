@@ -175,7 +175,6 @@ public final class RobotMain extends IterativeRobot {
 		RobotActuators.cameraLED.set(true);
 		RobotActuators.ledGroundEffect.set(true);
 		RobotActuators.ledArmEffect.set(true);
-		RobotActuators.ledGreenEffect.set(true);
 
 		// Destroy Autonomous if it Exists
 		if (_autonLogic != null) {
@@ -259,7 +258,6 @@ public final class RobotMain extends IterativeRobot {
 		}
 		else
 		{
-			RobotActuators.ledGreenEffect.set(true);
 			RobotActuators.ledArmEffect.set(true);
 			RobotActuators.ledGroundEffect.set(true);
 		}

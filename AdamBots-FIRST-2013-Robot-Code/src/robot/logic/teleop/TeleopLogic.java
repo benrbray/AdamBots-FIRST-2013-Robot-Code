@@ -51,8 +51,6 @@ public class TeleopLogic extends LogicPhase {
     // Secondary drive
     private double _shooterAngleChangerDrive;
     private double _elevatorDrive;
-    private int _numShots;
-    private boolean _numShotsReleased;
 	private boolean _shooterEnabled;
 	private boolean _shooterEnabledToggleReleased;
 
@@ -94,8 +92,6 @@ public class TeleopLogic extends LogicPhase {
 
 		_shooterAngleChangerDrive = 0;
 		_elevatorDrive = 0;
-		_numShots = 0;
-		_numShotsReleased = true;
 		_shooterEnabled = true;
 		_shooterEnabledToggleReleased = false;
 
@@ -306,29 +302,20 @@ public class TeleopLogic extends LogicPhase {
 		//_elevatorDrive = _secondaryAxis[FancyJoystick.AXIS_TRIGGERS];
 		//RobotActuators.discElevator.set(_elevatorDrive);
 
-		// Disk fire control
+		// Disc fire control
 		if (_secondaryButtons[FancyJoystick.BUTTON_A]) {
 			//RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOn);
 			RobotActuators.shooterFeederSolenoid.set(true);
-
-			if (_numShotsReleased) {
-				_numShots++;
-				_numShotsReleased = false;
-				DataIO.storeShot();
-			}
 		} else {
 			//RobotActuators.shooterFeederSolenoid.set(Relay.Value.kOff);
 			RobotActuators.shooterFeederSolenoid.set(false);
-
-			_numShotsReleased = true;
 		}
-
-		SmartDashboard.putNumber("numShots", _numShots);
 		
+		// Disc intake control
 		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
-
+			RobotActuators.discIntakeRoller.set(1.0);
 		} else {
-			
+			RobotActuators.discIntakeRoller.set(0.0);
 		}
 		
 		// TODO: Remove this to disable pid updates from smartdashboard

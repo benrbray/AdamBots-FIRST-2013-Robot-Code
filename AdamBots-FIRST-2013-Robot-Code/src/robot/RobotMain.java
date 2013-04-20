@@ -218,7 +218,7 @@ public final class RobotMain extends IterativeRobot {
 		TargetShooterAngleLogic.update();
 		TargetSpinLogic.update();
 		RobotShoot.update();
-		RobotCamera.update();
+		//TODO: Add robotcamera back in RobotCamera.update();
 		RobotClimb.update();
 		FancyMotor.update();	// Checks Limit Switches for each FancyMotor
 		

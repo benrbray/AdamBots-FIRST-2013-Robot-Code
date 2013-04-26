@@ -172,7 +172,7 @@ public class TeleopLogic extends LogicPhase {
 			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]; // * MagicBox.getClimbWinchMultiplier();
 			//SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
 			
-			if (_setWinch < 0) {
+			if (_setWinch < 0 && !RobotSensors.limitWinchB.get()) {
 		//// DANGER DANGER DANGER DANGER DANGER SET IGNORE LIMIT IS DANGEROUS, ROBOT DESTRUCTION CAN RESULT
 				RobotActuators.climbWinch.setIgnoreLimit(_setWinch);
 				

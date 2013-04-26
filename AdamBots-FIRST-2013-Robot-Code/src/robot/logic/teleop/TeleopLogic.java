@@ -307,7 +307,7 @@ public class TeleopLogic extends LogicPhase {
 		
 		// Disc intake control
 		if (_secondaryButtons[FancyJoystick.BUTTON_B]) {
-			RobotActuators.discIntakeRoller.set(1.0);
+			RobotActuators.discIntakeRoller.set(0.55);
 		} else {
 			RobotActuators.discIntakeRoller.set(0.0);
 		}

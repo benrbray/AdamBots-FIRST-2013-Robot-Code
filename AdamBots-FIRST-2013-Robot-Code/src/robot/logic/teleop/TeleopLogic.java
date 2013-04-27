@@ -172,7 +172,7 @@ public class TeleopLogic extends LogicPhase {
 			_setWinch = -_primaryAxis[FancyJoystick.AXIS_RIGHT_Y]; // * MagicBox.getClimbWinchMultiplier();
 			//SmartDashboard.putNumber("climbWinchMultiplier", MagicBox.getClimbWinchMultiplier());
 			
-			if (_setWinch < 0 && !RobotSensors.limitWinchB.get()) {
+			if (_setWinch < 0) {
 		//// DANGER DANGER DANGER DANGER DANGER SET IGNORE LIMIT IS DANGEROUS, ROBOT DESTRUCTION CAN RESULT
 				RobotActuators.climbWinch.setIgnoreLimit(_setWinch);
 				
@@ -184,11 +184,17 @@ public class TeleopLogic extends LogicPhase {
 				RobotActuators.climbWinch.set(_setWinch);
 				
 				//RobotActuators.climbWinch2.set(RobotActuators.climbWinch.get());
+			} else if (_secondaryButtons[FancyJoystick.BUTTON_LB]) {
+				RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
+				RobotActuators.climbWinch.set(-_secondaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 			} else {
 				RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
 				RobotActuators.climbWinch.set(0);
 				//RobotActuators.climbWinch2.set(0);
 			}
+		} else if (_secondaryButtons[FancyJoystick.BUTTON_LB]) {
+			RobotActuators.climbWinchSolenoid.set(Relay.Value.kForward);
+			RobotActuators.climbWinch.set(-_secondaryAxis[FancyJoystick.AXIS_RIGHT_Y]);
 		} else {
 			//TODO: Set winch drive to 0
 			RobotActuators.climbWinchSolenoid.set(Relay.Value.kOff);
